@@ -1,0 +1,17 @@
+session_name: r1_stop_planning_pc
+
+# Add commands to bash history
+suppress_history: true
+
+start_directory: /home/$USER/deploy_ws/src/
+
+# This is where we list all the stuff we want to run
+windows:
+  - window_name: r1 stop
+    focus: false
+    layout: main-horizontal
+    panes:
+      - shell_command:
+        - ./deployer -s r1.planning-pc.launch.stop
+        - tmux kill-session -t r1_planning_pc_start
+        - tmux kill-session -t r1_stop_planning_pc

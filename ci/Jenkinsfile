@@ -1,0 +1,56 @@
+// /////////////////////////////////////////////////////////////////////////////
+/// @brief Entry point for Jenkins continuous integration
+/// Jenkinsfile must be present in any repo that uses Jenkins
+// /////////////////////////////////////////////////////////////////////////////
+
+import groovy.transform.Field
+/// configurations to overlay
+@Field def config_overlay = [
+  "planning" : ["ci/jenkins/default.yaml", "ci/jenkins/planning.yaml"],
+  "perception" : ["ci/jenkins/default.yaml", "ci/jenkins/perception.yaml"]
+]
+
+// /////////////////////////////////////////////////////////////////////////////
+/// @brief jenkin ci entrypoint script
+node("perceptron") {  // run on master jenkins node -- perceptron server
+  try {
+    stage("entrypoint") {
+      /// repo repo suffix -- modify as you wish
+      repo_suffix = "/src/"
+
+      // ///////////////////////////////////////////////////////////////////////
+      /// do not modify
+
+      // repo workspace directory
+      workspace_dir = pwd() + "/repo-ws/"
+      // checkout repo directory
+      repo_dir = workspace_dir + repo_suffix
+      // jenkins ci scripts directory
+      jenkins_dir = repo_dir + "/ci/ci_jenkins/"
+      
+      /// clone the repository that triggered the build
+      withCredentials([sshUserPrivateKey(credentialsId: "3804e731-d70a-425f-ad95-0ba55e58df61", keyFileVariable: 'keyfile')]) {
+        dir(repo_dir) {
+          checkout([
+	          $class: 'GitSCM',
+            branches: scm.branches,
+            doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+            extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: false, recursiveSubmodules: true]],
+            userRemoteConfigs: scm.userRemoteConfigs
+          ])
+        }
+      }
+      /// load `main` groovy -- entry point script
+      run_ = fileLoader.load(jenkins_dir + "/jenkins/pipeline/run")
+    }
+    /// run main. Done bootstrapping now.
+    run_.main(config_overlay, workspace_dir, repo_dir, jenkins_dir, repo_suffix)
+  } catch (any) {
+    println "Something went very wrong calling the jenkins pipeline."
+    throw any
+  } finally {
+    // delete the repo directory -- clean up
+    dir(repo_dir) { deleteDir() }
+  }
+}
+

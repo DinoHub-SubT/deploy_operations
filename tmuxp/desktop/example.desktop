@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=r2.planning.start
+Exec=bash -c 'tmuxp load /home/$USER/deploy_ws/src/tmuxp/r2/planning-pc.start.yaml'
+Icon=utilities-terminal
+Terminal=true
+Categories=Application;
+Type=Application
+Name[en_US]=r2.planning.start.desktop

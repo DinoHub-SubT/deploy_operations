@@ -1,0 +1,25 @@
+session_name: r3_detach_planning_pc
+
+# Add commands to bash history
+suppress_history: true
+
+start_directory: /home/$USER/deploy_ws/src/
+
+# This is where we list all the stuff we want to run
+windows:
+  - window_name: r3 stop
+    focus: false
+    layout: main-horizontal
+    panes:
+      - shell_command:
+        - ssh ugv2@ugv2
+        - docker-join
+        - tmux detach -s ros_shell
+        - tmux detach -s launch_planning
+        - tmux detach -s launch_hardware
+        - tmux detach -s launch_rosbag
+      - shell_command:
+        - sleep 3
+        - tmux kill-session -t r3_planning_pc_start
+        - tmux kill-session -t r3_detach_planning_pc
+        
