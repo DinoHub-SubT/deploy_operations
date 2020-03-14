@@ -1,0 +1,14 @@
+# export robot & build types
+- 'export robot_type=ugv'
+- 'export profile_type_t=ugv'
+
+# //////////////////////////////////////////////////////////////////////////////
+- r1:
+# //////////////////////////////////////////////////////////////////////////////
+  - 'export robot_id=r1'
+  
+  # TODO: ssh into r1
+
+  # extend all the computers that run on a ugv
+  - +extend: subt/ugv/computers
+

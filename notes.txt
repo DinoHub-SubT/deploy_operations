@@ -1,0 +1,20 @@
+docker
+  dockerfiles
+    
+    [system] -> robots, basestation
+      [computer]
+        params
+        services
+          base.dockerfile
+          algo1.dockerfile
+          algo2.dockerfile
+
+    basestation
+      system76-pc
+    ugv
+      planning-pc
+      nuc
+      xavier
+    uav
+
+--------------------------------------------------------------------------------

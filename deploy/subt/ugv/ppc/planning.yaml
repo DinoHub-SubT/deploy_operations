@@ -1,0 +1,19 @@
+# common compose arguments -- env that compose files use (not in the container)
+- export compose_args=" --env arch=${arch}
+                        --env robot=${robot}
+                        --env robot_type=${robot_type}
+                        --env computer=${computer}
+                        --env computer_type=${computer_type}
+                        --env ws=${ws}
+                        --env launch=${launch}
+                        --env deploy=${deploy}
+                        --env ver=${ver}"
+
+# //////////////////////////////////////////////////////////////////////////
+- compose:
+# //////////////////////////////////////////////////////////////////////////  
+  # local system perception docker images
+  - image:  
+    - planning:
+      - export compose_args=" $compose_args -f dockerfiles/planning/${arch}/docker-compose.yml"
+      - docker-compose-wrapper $compose_args build planning

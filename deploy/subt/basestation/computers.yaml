@@ -1,0 +1,55 @@
+# export robot & build types
+- 'export profile_type=basestation'
+- 'export computer_type=basestation'
+
+# //////////////////////////////////////////////////////////////////////////////
+- desktop:
+# //////////////////////////////////////////////////////////////////////////////
+  # 'robot' type
+  - 'export robot_type=desktop'
+
+  # compose setup
+  - 'export robot_id=desktop'
+  - 'export arch=x86'
+  - 'export computer=desktop'
+  # compose param file
+  - 'export robot=desktop'
+
+  ### compose setup ###
+
+  # extend compose image build
+  - +extend: subt/compose/compose
+
+  # extend different compose projects
+  - compose:
+    - project:
+      - +extend: subt/compose/project/basestation
+      - +extend: subt/compose/project/planning
+      - +extend: subt/compose/project/state-est
+      - +extend: subt/compose/project/perception
+
+# //////////////////////////////////////////////////////////////////////////////
+- system-76:
+# //////////////////////////////////////////////////////////////////////////////
+  # 'robot' type
+  - 'export robot_type=basestation'
+
+  # compose setup
+  - 'export robot_id=basestation'
+  - 'export arch=x86'
+  - 'export computer=basestation'
+  # compose param file
+  - 'export robot=system-76'
+
+  ### compose setup ###
+
+  # extend compose image build
+  - +extend: subt/compose/compose
+
+  # extend different compose projects
+  - compose:
+    - project:
+      - +extend: subt/compose/project/basestation
+      - +extend: subt/compose/project/planning
+      - +extend: subt/compose/project/state-est
+      - +extend: subt/compose/project/perception
