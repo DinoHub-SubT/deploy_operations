@@ -6,5 +6,3 @@
   # extend compose image build
   - +extend: subt/ugv/ppc/compose/planning
 
-
-
