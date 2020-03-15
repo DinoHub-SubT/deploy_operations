@@ -1,0 +1,65 @@
+# ////////////////////////////////////////////////////////////////////////////
+- deploy:
+# ////////////////////////////////////////////////////////////////////////////
+
+  - planning:
+    - cd $DEPLOY_SRC/ugv/
+    
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involve 'building'
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+      - common:
+        - cd common/
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${profile_type_t}
+        - catkin build --force-cmake
+      - planning:
+        - cd planning-pc/
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${profile_type_t}
+        - catkin build --force-cmake
+      - launch:
+        - cd $DEPLOY_SRC/operations/launch/
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${computer_type_t}-planning
+        - catkin build --force-cmake
+        - catkin clean -b --yes
+      
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involve 'cleaning'
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - launch:
+        - cd $DEPLOY_SRC/operations/launch/
+        - catkin clean -y
+      - planning:
+        - cd planning-pc/
+        - catkin clean -y
+      - thirdparty:
+        - cd common/
+        - catkin clean -y
+
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involve 'launch'
+    - launch:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      # ////////////////////////////////////////////////////////////////////////////
+      # start the launch scripts
+      - start:
+      # ////////////////////////////////////////////////////////////////////////////
+      
+        - comms:
+          # start the tmux session
+          - tmux new -s comms -d
+          # launch
+          - tmux send -t comms 'mon launch launch_subt ${launch_prefix}_comms.launch' ENTER
+
+      # ////////////////////////////////////////////////////////////////////////////
+      # stop the launch scripts
+      - stop:
+      # ////////////////////////////////////////////////////////////////////////////
+      
+        - comms:
+          - tmux kill-session -t comms

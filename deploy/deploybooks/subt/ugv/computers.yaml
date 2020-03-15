@@ -4,7 +4,7 @@
   - 'export computer_type=ppc'
   
   # extend compose image build
-  - +extend: subt/ugv/ppc/planning
+  - +extend: subt/ugv/ppc/compose/planning
 
 
 
