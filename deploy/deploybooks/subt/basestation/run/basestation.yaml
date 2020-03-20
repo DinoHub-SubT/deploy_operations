@@ -1,116 +1,95 @@
-- cd $DEPLOY_SRC/basestation/
-
 # ////////////////////////////////////////////////////////////////////////////
-# perform all tasks that involve 'cloning'
-- clone:
-# ////////////////////////////////////////////////////////////////////////////
-  # setup the rosinstalls
-  - rosinstall:
-    - thirdparty:
-      - cd thirdparty/catkin
-      - rm -f .rosinstall
-      - ln -s $DEPLOY_SRC/rosinstall/basestation/thirdparty.rosinstall .rosinstall
-    - basestation:
-      - rm -f .rosinstall
-      - ln -s $DEPLOY_SRC/rosinstall/basestation/basestation.rosinstall .rosinstall
-
-  # wstool update the workspaces
-  - up:
-    - thirdparty:
-      - cd thirdparty/catkin
-      - wstool info
-      - wstool update
-    - basestation:
-      - wstool info
-      - wstool update
-
-# ////////////////////////////////////////////////////////////////////////////
-# perform all tasks that involve 'cleaning'
-- remove:
-# ////////////////////////////////////////////////////////////////////////////
+- subt:
   - basestation:
-    - find . -maxdepth 1 \! \( -name thirdparty -o -name .catkin_tools \) -exec rm -rf '{}' \;
-  - thirdparty:
-    - cd thirdparty/catkin
-    - find . -maxdepth 1 \! \( -name .catkin_tools \) -exec rm -rf '{}' \;
+# ////////////////////////////////////////////////////////////////////////////    
+    - cd $DEPLOY_SRC/basestation/
 
-# ////////////////////////////////////////////////////////////////////////////
-# perform all tasks that involve 'building'
-- build:
-# ////////////////////////////////////////////////////////////////////////////
-  - thirdparty:
-    - cd thirdparty/catkin
-    - rm -f .catkin_tools/profiles/profiles.yaml
-    - catkin profile set ${profile_type_t}
-    - catkin build --force-cmake
-  - basestation:
-    - rm -f .catkin_tools/profiles/profiles.yaml
-    - catkin profile set ${profile_type_t}
-    - catkin build --force-cmake
-  - launch:
-    - cd $DEPLOY_SRC/operations/launch/
-    - rm -f .catkin_tools/profiles/profiles.yaml
-    - catkin profile set ${computer_type_t}-basestation
-    - catkin build --force-cmake
-    - catkin clean -b --yes
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involve 'cloning'
+    # ////////////////////////////////////////////////////////////////////////////
+    - clone:
+      - git submodule update --init --recursive basestation
 
-# ////////////////////////////////////////////////////////////////////////////
-# perform all tasks that involves 'launch'
-- launch:
-# ////////////////////////////////////////////////////////////////////////////
-  - export launch_prefix="basestation"
+    - remove:
+      - git submodule deinit --all -f basestation
 
-  # //////////////////////////////////////////////////////////////////////////
-  - start:
-  # //////////////////////////////////////////////////////////////////////////
-    - roscore:
-      # start the tmux session
-      - tmux new -s roscore -d
-      # launch
-      - tmux send -t roscore 'roscore' ENTER
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involve 'building'
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+      - thirdparty:
+        - cd thirdparty/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${profile_type_t}
+        - catkin build --force-cmake
+      - basestation:
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${profile_type_t}
+        - catkin build --force-cmake
+      - launch:
+        - cd $DEPLOY_SRC/operations/launch/
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile set ${computer_type_t}-basestation
+        - catkin build --force-cmake
+        - catkin clean -b --yes
 
-    - gui:
-      # start the tmux session
-      - tmux new -s gui -d
-      # launch
-      - tmux send -t gui 'mon launch launch_subt ${launch_prefix}_gui.launch' ENTER
+    # ////////////////////////////////////////////////////////////////////////////
+    # perform all tasks that involves 'launch'
+    - launch:
+    # ////////////////////////////////////////////////////////////////////////////
+      - export launch_prefix="basestation"
 
-    - rosbag:
-      # start the tmux session
-      - tmux new -s rosbag -d
-      # launch
-      - tmux send -t rosbag 'cd $DEPLOY_SRC/operations/launch/ugv_setup/logging/base_station/scripts && ./basestation.bash' ENTER
-      
-    - relay_ugv1_agg:
-      - tmux new -s relay_ugv1_agg -d
-      - tmux send -t relay_ugv1_agg 'rosrun topic_tools relay /cm_rel/ugv1/bs/diagnostics_agg /diagnostics_agg' ENTER
+      # //////////////////////////////////////////////////////////////////////////
+      - start:
+      # //////////////////////////////////////////////////////////////////////////
+        - roscore:
+          # start the tmux session
+          - tmux new -s roscore -d
+          # launch
+          - tmux send -t roscore 'roscore' ENTER
 
-    - relay_ugv2_agg:
-      - tmux new -s relay_ugv2_agg -d
-      - tmux send -t relay_ugv2_agg 'rosrun topic_tools relay /cm_rel/ugv2/bs/diagnostics_agg /diagnostics_agg' ENTER
+        - gui:
+          # start the tmux session
+          - tmux new -s gui -d
+          # launch
+          - tmux send -t gui 'mon launch launch_subt ${launch_prefix}_gui.launch' ENTER
 
-  # //////////////////////////////////////////////////////////////////////////
-  - stop:
-  # //////////////////////////////////////////////////////////////////////////
-    - rosbag:
+        - rosbag:
+          # start the tmux session
+          - tmux new -s rosbag -d
+          # launch
+          - tmux send -t rosbag 'cd $DEPLOY_SRC/operations/launch/ugv_setup/logging/base_station/scripts && ./basestation.bash' ENTER
+          
+        - relay_ugv1_agg:
+          - tmux new -s relay_ugv1_agg -d
+          - tmux send -t relay_ugv1_agg 'rosrun topic_tools relay /cm_rel/ugv1/bs/diagnostics_agg /diagnostics_agg' ENTER
+
+        - relay_ugv2_agg:
+          - tmux new -s relay_ugv2_agg -d
+          - tmux send -t relay_ugv2_agg 'rosrun topic_tools relay /cm_rel/ugv2/bs/diagnostics_agg /diagnostics_agg' ENTER
+
+      # //////////////////////////////////////////////////////////////////////////
       - stop:
-        # start stop record
-        - tmux new -s launch_rosbag_stop -d
-        - tmux send -t launch_rosbag_stop 'source $DEPLOY_WS/devel/basestation/launch/setup.bash' ENTER  
-        # stop record node
-        - tmux send -t launch_rosbag_stop 'rosnode kill /rosbag_recording_base_station' ENTER
-        - sleep 3
-      - sessions:
-        # stop the sessions
-        # - until rostopic list ; do sleep 1; done
-        - tmux kill-session -t launch_rosbag_stop
-        - tmux kill-session -t launch_rosbag
-    - roscore:
-      - tmux kill-session -t roscore
-    - gui:
-      - tmux kill-session -t gui
-    - relay_ugv1_agg:
-      - tmux kill-session -t relay_ugv1_agg
-    - relay_ugv2_agg:
-      - tmux kill-session -t relay_ugv2_agg
-    
+      # //////////////////////////////////////////////////////////////////////////
+        - rosbag:
+          - stop:
+            # start stop record
+            - tmux new -s launch_rosbag_stop -d
+            - tmux send -t launch_rosbag_stop 'source $DEPLOY_WS/devel/basestation/launch/setup.bash' ENTER  
+            # stop record node
+            - tmux send -t launch_rosbag_stop 'rosnode kill /rosbag_recording_base_station' ENTER
+            - sleep 3
+          - sessions:
+            # stop the sessions
+            # - until rostopic list ; do sleep 1; done
+            - tmux kill-session -t launch_rosbag_stop
+            - tmux kill-session -t launch_rosbag
+        - roscore:
+          - tmux kill-session -t roscore
+        - gui:
+          - tmux kill-session -t gui
+        - relay_ugv1_agg:
+          - tmux kill-session -t relay_ugv1_agg
+        - relay_ugv2_agg:
+          - tmux kill-session -t relay_ugv2_agg
+        
