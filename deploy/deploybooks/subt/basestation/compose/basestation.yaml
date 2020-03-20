@@ -14,13 +14,15 @@
 # //////////////////////////////////////////////////////////////////////////
 # local system basestation docker images
 # //////////////////////////////////////////////////////////////////////////
-- image:    
-  - docker-compose-wrapper $compose_args build basestation
+- image:
+  - docker-compose-wrapper $compose_args build ros
+  - docker-compose-wrapper $compose_args build gui
+  - docker-compose-wrapper $compose_args build perception
 
 # //////////////////////////////////////////////////////////////////////////
 # local system basestation docker containers
 # //////////////////////////////////////////////////////////////////////////
-- build:  
+- build:
   - docker-compose-wrapper $compose_args launch build-gui
   - docker-compose-wrapper $compose_args launch build-perception
 
@@ -31,3 +33,8 @@
   - docker-compose-wrapper $compose_args launch launch-gui
   - docker-compose-wrapper $compose_args launch launch-perception
 
+# //////////////////////////////////////////////////////////////////////////
+# any compose command -- user can add '-e arg="launch build-gui"' to specify command
+# //////////////////////////////////////////////////////////////////////////
+- compose:
+  - docker-compose-wrapper $compose_args $arg
