@@ -1,40 +1,29 @@
-# common compose arguments -- env that compose files use (not in the container)
-- export compose_args=" --env arch=${arch}
-                        --env robot=${robot}
-                        --env robot_type=${robot_type}
-                        --env computer=${computer}
-                        --env computer_type=${computer_type}
-                        --env ws=${ws}
-                        --env launch=${launch}
-                        --env deploy=${deploy}
-                        --env ver=${ver}"
-
-- export compose_args=" $compose_args -f dockerfiles/basestation/${arch}/docker-compose.yml"
-
 # //////////////////////////////////////////////////////////////////////////
 # local system basestation docker images
 # //////////////////////////////////////////////////////////////////////////
 - image:
-  - docker-compose-wrapper $compose_args build ros
-  - docker-compose-wrapper $compose_args build gui
-  - docker-compose-wrapper $compose_args build perception
+  - docker-compose-wrapper $scenario build --force-rm ros-image
+  - docker-compose-wrapper $scenario build --force-rm gui-image
+  # - docker-compose-wrapper $scenario build perception
 
 # //////////////////////////////////////////////////////////////////////////
 # local system basestation docker containers
 # //////////////////////////////////////////////////////////////////////////
 - build:
-  - docker-compose-wrapper $compose_args launch build-gui
-  - docker-compose-wrapper $compose_args launch build-perception
+  # TODO: for now its detached, fix the deploy scripts to run resulting commands directly.
+  # for now, to view use docker logs -f [container name]
+  - docker-compose-wrapper $scenario up -d gui-build
+  # - docker-compose-wrapper $scenario up build-perception
 
 - shell:
-  - docker-compose-wrapper $compose_args launch shell
+  - docker-compose-wrapper $scenario launch gui-shell
 
 - launch:
-  - docker-compose-wrapper $compose_args launch launch-gui
-  - docker-compose-wrapper $compose_args launch launch-perception
+  - docker-compose-wrapper $scenario launch launch-gui
+  - docker-compose-wrapper $scenario launch launch-perception
 
 # //////////////////////////////////////////////////////////////////////////
 # any compose command -- user can add '-e arg="launch build-gui"' to specify command
 # //////////////////////////////////////////////////////////////////////////
 - compose:
-  - docker-compose-wrapper $compose_args $arg
+  - docker-compose-wrapper $scenario $arg

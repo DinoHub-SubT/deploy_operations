@@ -2,36 +2,32 @@
 - subt:
   - basestation:
 # ////////////////////////////////////////////////////////////////////////////    
-    - cd $DEPLOY_SRC/basestation/
-
-    # ////////////////////////////////////////////////////////////////////////////
-    # perform all tasks that involve 'cloning'
-    # ////////////////////////////////////////////////////////////////////////////
-    - clone:
-      - git submodule update --init --recursive basestation
-
-    - remove:
-      - git submodule deinit --all -f basestation
+    - pwd
+    - ls -all
+    - cd $SUBT_PATH/
+    - pwd
 
     # ////////////////////////////////////////////////////////////////////////////
     # perform all tasks that involve 'building'
     - build:
     # ////////////////////////////////////////////////////////////////////////////
-      - thirdparty:
-        - cd thirdparty/catkin
+      - common:
+        - cd common/
         - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${profile_type_t}
+        - catkin profile set ${deploybook_build_param}
         - catkin build --force-cmake
       - basestation:
+        - cd basestation/
         - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${profile_type_t}
+        - catkin profile set ${deploybook_build_param}
         - catkin build --force-cmake
-      - launch:
-        - cd $DEPLOY_SRC/operations/launch/
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${computer_type_t}-basestation
-        - catkin build --force-cmake
-        - catkin clean -b --yes
+      # TODO:
+      # - launch:
+      #   - cd $DEPLOY_SRC/operations/launch/
+      #   - rm -f .catkin_tools/profiles/profiles.yaml
+      #   - catkin profile set ${computer_type_t}-basestation
+      #   - catkin build --force-cmake
+      #   - catkin clean -b --yes
 
     # ////////////////////////////////////////////////////////////////////////////
     # perform all tasks that involves 'launch'

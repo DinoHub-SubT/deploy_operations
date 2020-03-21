@@ -1,45 +1,7 @@
-# common compose arguments -- env that compose files use (not in the container)
-- export compose_args=" --env arch=${arch}
-                        --env robot=${robot}
-                        --env robot_type=${robot_type}
-                        --env computer=${computer}
-                        --env computer_type=${computer_type}
-                        --env ws=${ws}
-                        --env launch=${launch}
-                        --env deploy=${deploy}
-                        --env ver=${ver}"
-
 # //////////////////////////////////////////////////////////////////////////
 # local system basestation docker images
 # //////////////////////////////////////////////////////////////////////////
-- image:
-  - basestation:
-    # create the basestation specific images
-    - export compose_args=" $compose_args -f dockerfiles/basestation/${arch}/docker-compose.yml"
-    - docker-compose-wrapper $compose_args build basestation
-  
-  - ugv:
-    - ppc:
-      # create the {ugv:planning} specific images
-      - export compose_args=" $compose_args -f dockerfiles/ugv/planning-pc/docker-compose.yml"
-      - docker-compose-wrapper $compose_args build planning
-    - nuc:
-      # create the {ugv:nuc} specific images
-      - export compose_args=" $compose_args -f dockerfiles/ugv/nuc/docker-compose.yml"
-      - docker-compose-wrapper $compose_args build loam
 
-# //////////////////////////////////////////////////////////////////////////
-# local system basestation docker containers
-# //////////////////////////////////////////////////////////////////////////
-- build:
-  - basestation:
-    # create the basestation specific images
-    - export compose_args=" $compose_args -f dockerfiles/basestation/${arch}/docker-compose.yml"
-    - docker-compose-wrapper $compose_args launch build-gui
-    - docker-compose-wrapper $compose_args launch build-perception
+# extend compose image build
+- +extend: subt/basestation/compose/basestation
 
-  - ugv:
-    - ppc:
-      # create the {ugv:planning} specific images
-      - export compose_args=" $compose_args -f dockerfiles/ugv/planning-pc/docker-compose.yml"
-      - docker-compose-wrapper $compose_args launch build-planning

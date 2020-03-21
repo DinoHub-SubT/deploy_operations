@@ -1,37 +1,17 @@
-# export robot & build types
-- 'export profile_type=basestation'
-- 'export computer_type=basestation'
-
 # //////////////////////////////////////////////////////////////////////////////
 - system-76:
 # //////////////////////////////////////////////////////////////////////////////
-  # 'robot' type
-  - 'export robot_type=basestation'
-
-  # compose setup
-  - 'export robot_id=basestation'
-  - 'export computer=basestation'
-  # compose param file
-  - 'export robot=system-76'
-
-  ### compose setup ###
+  # compose environment scenario
+  - 'export scenario=" --scenario basestation"'
 
   # extend compose image build
   - +extend: subt/basestation/compose/basestation
   
 # //////////////////////////////////////////////////////////////////////////////
-- desktop:
+- sim:
 # //////////////////////////////////////////////////////////////////////////////
-  # 'robot' type
-  - 'export robot_type=desktop'
-
-  # compose setup
-  - 'export robot_id=desktop'
-  - 'export computer=desktop'
-  # compose param file
-  - 'export robot=desktop'
-
-  ### compose setup ###
+  # compose environment scenario
+  - 'export scenario=" --scenario desktop"'
 
   # extend compose image build
   - +extend: subt/basestation/compose/desktop
