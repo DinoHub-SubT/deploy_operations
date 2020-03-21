@@ -88,4 +88,3 @@
           - tmux kill-session -t relay_ugv1_agg
         - relay_ugv2_agg:
           - tmux kill-session -t relay_ugv2_agg
-        

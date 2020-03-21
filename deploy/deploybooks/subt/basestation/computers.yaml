@@ -1,5 +1,5 @@
 # //////////////////////////////////////////////////////////////////////////////
-- system-76:
+- system76-pc:
 # //////////////////////////////////////////////////////////////////////////////
   # compose environment scenario
   - 'export scenario=" --scenario basestation"'
@@ -15,4 +15,3 @@
 
   # extend compose image build
   - +extend: subt/basestation/compose/desktop
-    
