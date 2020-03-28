@@ -5,7 +5,7 @@
   - 'export scenario=" --scenario basestation"'
 
   # extend compose image build
-  - +extend: subt/basestation/compose/basestation
+  - +extend: robot/basestation/compose/basestation
   
 # //////////////////////////////////////////////////////////////////////////////
 - sim:
@@ -14,4 +14,4 @@
   - 'export scenario=" --scenario desktop"'
 
   # extend compose image build
-  - +extend: subt/basestation/compose/desktop
+  - +extend: robot/basestation/compose/desktop

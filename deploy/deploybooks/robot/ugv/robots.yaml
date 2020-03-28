@@ -11,5 +11,5 @@
   # TODO: ssh into r1
 
   # extend all the computers that run on a ugv
-  - +extend: subt/ugv/computers
+  - +extend: robot/ugv/computers
 

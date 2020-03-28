@@ -3,5 +3,5 @@
 # //////////////////////////////////////////////////////////////////////////
 
 # extend compose image build
-- +extend: subt/basestation/compose/basestation
+- +extend: robot/basestation/compose/basestation
 

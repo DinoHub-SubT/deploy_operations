@@ -3,5 +3,5 @@
 # //////////////////////////////////////////////////////////////////////////////
 
   # extend the workspaces to run
-  - +extend: subt/ugv/ppc/compose/planning
+  - +extend: robot/ugv/compose/ppc
 
