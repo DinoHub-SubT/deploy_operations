@@ -13,14 +13,14 @@
   # TODO: for now its detached, fix the deploy scripts to run resulting commands directly.
   # for now, to view use docker logs -f [container name]
   - docker-compose-wrapper $scenario up -d gui-build
-  # - docker-compose-wrapper $scenario up build-perception
 
 - shell:
-  - docker-compose-wrapper $scenario launch gui-shell
+  - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
+  - docker-compose-wrapper $scenario up --force-recreate -d gui-shell
 
 - launch:
-  - docker-compose-wrapper $scenario launch launch-gui
-  - docker-compose-wrapper $scenario launch launch-perception
+  - docker-compose-wrapper $scenario up --force-recreate -d launch-gui
+  - docker-compose-wrapper $scenario up --force-recreate -d launch-perception
 
 # //////////////////////////////////////////////////////////////////////////
 # any compose command -- user can add '-e arg="launch build-gui"' to specify command
