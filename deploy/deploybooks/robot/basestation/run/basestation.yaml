@@ -1,9 +1,8 @@
 # ////////////////////////////////////////////////////////////////////////////
 - robot:
   - basestation:
-# ////////////////////////////////////////////////////////////////////////////    
-    - pwd
-    - ls -all
+# ////////////////////////////////////////////////////////////////////////////
+
     - cd $SUBT_PATH/
     - pwd
 
@@ -11,23 +10,32 @@
     # perform all tasks that involve 'building'
     - build:
     # ////////////////////////////////////////////////////////////////////////////
-      - common:
-        - cd common/
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_catkin_profile}
-        - catkin build --force-cmake
-      - basestation:
-        - cd basestation/
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_catkin_profile}
-        - catkin build --force-cmake
-      # TODO:
-      # - launch:
-      #   - cd $DEPLOY_SRC/operations/launch/
-      #   - rm -f .catkin_tools/profiles/profiles.yaml
-      #   - catkin profile set ${computer_type_t}-basestation
-      #   - catkin build --force-cmake
-      #   - catkin clean -b --yes
+
+      # //////////////////////////////////////////////////////////////////////////
+      - start:
+      # //////////////////////////////////////////////////////////////////////////
+        - common:
+          - cd common/
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile set ${deploybook_catkin_profile}
+          - catkin build --force-cmake
+        - basestation:
+          - cd basestation/
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile set ${deploybook_catkin_profile}
+          - catkin build --force-cmake
+        # TODO:
+        # - launch:
+        #   - cd $DEPLOY_SRC/operations/launch/
+        #   - rm -f .catkin_tools/profiles/profiles.yaml
+        #   - catkin profile set ${computer_type_t}-basestation
+        #   - catkin build --force-cmake
+        #   - catkin clean -b --yes
+
+      # //////////////////////////////////////////////////////////////////////////
+      - stop:
+      # //////////////////////////////////////////////////////////////////////////
+        - echo "Nothing to stop, everything is done."
 
     # ////////////////////////////////////////////////////////////////////////////
     # perform all tasks that involves 'launch'
@@ -88,3 +96,11 @@
           - tmux kill-session -t relay_ugv1_agg
         - relay_ugv2_agg:
           - tmux kill-session -t relay_ugv2_agg
+
+
+    # ////////////////////////////////////////////////////////////////////////////
+    # helpful cleanup commands
+    # ////////////////////////////////////////////////////////////////////////////
+    - docker:
+      - dangling:
+        - docker rmi -f $(docker images -f "dangling=true" -q)
