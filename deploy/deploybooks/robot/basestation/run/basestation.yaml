@@ -14,12 +14,12 @@
       - common:
         - cd common/
         - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_build_param}
+        - catkin profile set ${deploybook_catkin_profile}
         - catkin build --force-cmake
       - basestation:
         - cd basestation/
         - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_build_param}
+        - catkin profile set ${deploybook_catkin_profile}
         - catkin build --force-cmake
       # TODO:
       # - launch:
