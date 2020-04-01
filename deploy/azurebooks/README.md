@@ -63,4 +63,90 @@ After `plan`, apply the changes to the cloud
 
         terraform apply
 
-## VPN Connection To Private Resources
+* * *
+
+## VPN Connection
+
+### Ubuntu
+
+The below instructions can be found on [azure tutorials](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert)
+
+**Install Dependency Libraries**
+
+      sudo apt-get update
+      sudo apt-get install strongswan strongswan-pki libstrongswan-extra-plugins network-manager-strongswan
+
+**Create the Root & User Certificates**
+
+      # create the cert path
+      mkdir -p ~/.ssh/azure/vpn
+      cd ~/.ssh/azure/vpn
+
+      # Create the Root CA cert
+      ipsec pki --gen --outform pem > caKey.pem
+      ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
+      
+      # Copy the output to the 'vpn_ca_cert' variable in 'example/main.tf'
+      openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
+
+      # == Create the user certificate ==
+
+      # Please change 'password' to something more secure 
+      export PASSWORD="password"
+      # Please change 'username' to your username
+      export USERNAME="client"
+
+      # generate the user certificate
+      ipsec pki --gen --outform pem > "${USERNAME}Key.pem"
+      ipsec pki --pub --in "${USERNAME}Key.pem" | ipsec pki --issue --cacert caCert.pem --cakey caKey.pem --dn "CN=${USERNAME}" --san "${USERNAME}" --flag clientAuth --outform pem > "${USERNAME}Cert.pem"
+
+      # generate the p12 bunder
+      openssl pkcs12 -in "${USERNAME}Cert.pem" -inkey "${USERNAME}Key.pem" -certfile caCert.pem -export -out "${USERNAME}.p12" -password "pass:${PASSWORD}"
+
+      # == Apply Change to Azure ==
+
+      # apply the VPN gateway, this can take up to 30 minutes
+      cd ~/deploy_ws/operations/deploy/azurebooks/example/
+      terraform plan
+      terraform apply
+
+      # == Download the VPN Client ==
+
+      # get the vpn client, this will output a https link, please remember it
+      cd ~/.ssh/azure/vpn
+      az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group [resource group name]
+
+      # download the client
+      wget [https path from previous command]
+
+      # unzip the vpn client package
+      sudo unzip -j -d client-download [downloaded.zip]
+
+      # == Connect to the VPN ==
+
+      # Get the VPN server DNS, copy the name between '<VpnServer>' tags
+      cd client-download
+      grep -rni VpnServer
+
+
+**Setup Networking GUI Plugin**
+
+To setup the GUI, follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
+
+Summary:
+- Open the Network Manager Ubuntu GUI
+- Add a new `VPN` connection, make sure it is the `IPsec/IKEv2 (strongswan)` connection
+- Add the `[client]Cert.pem`, `[client]Key.pem` and the VPN server DNS name between `<VpnServer>` tags (from the previous step).
+- Select `Request an inner IP address`
+- Select the VPN connection
+
+Verify:
+
+        # you should see an IP that is in the range of the VPN subnet
+        ifconfig
+
+
+**Connect to your VM using VPN**
+
+        # ssh into your VM
+        ssh [username]@[private IP]

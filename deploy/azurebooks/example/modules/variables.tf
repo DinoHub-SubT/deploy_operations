@@ -29,6 +29,22 @@ variable "ip_alloc" {
   default = "Dynamic"
 }
 
+variable "gateway_address_subnet" {
+  description = "address space for gateway subnet"
+  type = string
+}
+
+variable "vpn_address_space" {
+  description = "address space for virtual network gateway vpn"
+  type = string
+}
+
+variable "vpn_ca_cert" {
+  description = "vpn root ca certificate"
+  type = string
+}
+
+
 # // /////////////////////////////////////////////////////////////////////////////
 # VM Variables
 # // /////////////////////////////////////////////////////////////////////////////
@@ -47,7 +63,6 @@ variable "vm_pub_ssh_key" {
   description = "location of the public ssh key on the local computer to connect to remote VM "
   type = string
 }
-
 
 # // /////////////////////////////////////////////////////////////////////////////
 # terraform tags

@@ -45,7 +45,6 @@ resource "azurerm_virtual_network" "example" {
   }
 }
 
-
 # Setup the subnet in the VNET
 resource "azurerm_subnet" "example" {
     
@@ -60,6 +59,22 @@ resource "azurerm_subnet" "example" {
 
   # subnet address space
   address_prefix       = var.subnet_address_space
+}
+
+# Setup the gateway subnet -- has to have name "GatewaySubnet" ?
+resource "azurerm_subnet" "example_gateway_subnet" {
+
+  # name of gateway subnet
+  name                 = "GatewaySubnet"
+
+  # resource group
+  resource_group_name  = azurerm_resource_group.example.name
+
+  # vnet associated wtih this gateway subnet
+  virtual_network_name = azurerm_virtual_network.example.name
+
+  # address range for gateway subnet
+  address_prefix       = var.gateway_address_subnet
 }
 
 # public IP to access the VMs
@@ -108,4 +123,60 @@ resource "azurerm_network_security_group" "example_ssh" {
   tags = {
     environment = var.tag_name_prefix
   }
+}
+
+# Virtual Network Gateway
+resource "azurerm_virtual_network_gateway" "example" {
+  
+  # name of virtual network gateway
+  name                = "${var.resource_name_prefix}-vnet-gateway"
+
+  # region location
+  location            = var.resource_location
+
+  # resource group
+  resource_group_name = azurerm_resource_group.example.name
+
+  # == VPN Setings == 
+
+  # vpn default settings
+  type     = "Vpn"
+  vpn_type = "RouteBased"
+  active_active = false
+  enable_bgp    = false
+  sku           = "VpnGw1"
+
+  # vpn ip configuration
+  ip_configuration {
+    # name of the gateway config
+    name                          = "${var.resource_name_prefix}-vnet-gateway-config"
+
+    # public ip
+    public_ip_address_id          = azurerm_public_ip.example.id
+
+    # public ip allocation method
+    private_ip_address_allocation = var.ip_alloc
+
+    # subnet to be used
+    subnet_id                     = azurerm_subnet.example_gateway_subnet.id
+  }
+
+  # VPN certificate settings
+  vpn_client_configuration {
+
+    # vpn address range
+    address_space = [ var.vpn_address_space ]
+
+    # vpn client tunnel type
+    vpn_client_protocols = [ "SSTP", "IkeV2"]
+
+    # setup root certificate in vpn point-to-site configuration
+    root_certificate {
+      # name of the root certificate
+      name = "${var.resource_name_prefix}-root-ca"
+      # root ca certificate
+      public_cert_data = var.vpn_ca_cert
+    }
+  }
+
 }

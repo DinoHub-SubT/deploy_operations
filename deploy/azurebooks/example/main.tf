@@ -25,27 +25,36 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
   
   # name prefix to be used for all resources
-  resource_name_prefix = "kat-example"
+  resource_name_prefix    = "kat-example"
   # tag prefix
-  tag_name_prefix="tag-kat-example"
+  tag_name_prefix         = "tag-kat-example"
 
   # resource VNET, address space
-  vnet_address_space = "10.0.0.0/16"
+  vnet_address_space      = "10.0.0.0/16"
 
   # resource SUBNET, example subnet address space with above VNET
-  subnet_address_space = "10.0.2.0/24"
+  subnet_address_space    = "10.0.2.0/24"
+
+  # rsource SUBNET, gateway
+  gateway_address_subnet  = "10.0.1.0/24"
+
+  # vpn settings
+  vpn_address_space       = "10.2.0.0/24"
+
+  # vpn ca certificate
+  vpn_ca_cert             = "some string"
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Settings
   # // /////////////////////////////////////////////////////////////////////////////
   
   # hostname of example VM
-  hostname = "kat-computer"
+  hostname                = "kat-computer"
 
   # username of example VM
-  username = "kat"
+  username                = "kat"
 
   # location of local ssh key to connect to remove VM
-  vm_pub_ssh_key = "/home/katarina/.ssh/azure_id_rsa.pub"
-  
+  vm_pub_ssh_key          = "/some/path/id_rsa.pub"
+
 }
