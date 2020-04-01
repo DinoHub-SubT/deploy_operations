@@ -1,6 +1,6 @@
 # Cloud Operation Tools
 
-## Example Walkthrough
+## Terraforn Example Project Walkthrough
 
 **Azure CLI Initial Login**
 
@@ -49,6 +49,8 @@ All terraform commands must be done in the directory workspace
 
         # will create all the resources on azure
         terraform apply
+
+    - Please complete the **VPN Connection Steps** shown below (if you want VPN connection), before doing this step.
 
 You should now have an example resources deployed on azure.
 
@@ -150,3 +152,10 @@ Verify:
 
         # ssh into your VM
         ssh [username]@[private IP]
+
+## Remove Example Terraform Project from Azure
+
+        cd ~/deploy_ws/operations/deploy/azurebooks/example/
+
+        # this will destroy everything create  in the example terraform workspace
+        terraform destroy
