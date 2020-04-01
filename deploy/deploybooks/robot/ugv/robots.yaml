@@ -8,8 +8,6 @@
   # compose environment scenario
   - 'export scenario=" --scenario r1"'
   
-  # TODO: ssh into r1
-
   # extend all the computers that run on a ugv
   - +extend: robot/ugv/computers
 

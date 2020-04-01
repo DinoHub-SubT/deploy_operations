@@ -1,32 +1,24 @@
-# common compose arguments -- env that compose files use (not in the container)
-- export compose_args=" --env arch=${arch}
-                        --env robot=${robot}
-                        --env robot_type=${robot_type}
-                        --env computer=${computer}
-                        --env computer_type=${computer_type}
-                        --env ws=${ws}
-                        --env launch=${launch}
-                        --env deploy=${deploy}
-                        --env ver=${ver}"
-
-- export compose_args=" $compose_args -f dockerfiles/planning/${arch}/docker-compose.yml"
+# //////////////////////////////////////////////////////////////////////////
+# local system interface to deployer commander run commands
+# //////////////////////////////////////////////////////////////////////////
+- host:
+  - container-run-any:
+    - +extend: robot/ugv/run/ppc
 
 # //////////////////////////////////////////////////////////////////////////
-# local system planning docker images
+# docker container interface to deployer commander run commands
 # //////////////////////////////////////////////////////////////////////////
-- image:    
-  - docker-compose-wrapper $compose_args build planning
-
-# //////////////////////////////////////////////////////////////////////////
-# local system planning docker containers
-# //////////////////////////////////////////////////////////////////////////
-- build:  
-  - docker-compose-wrapper $compose_args launch build
-
-- shell:
-  - docker-compose-wrapper $compose_args launch shell
-
-- launch:
-  - docker-compose-wrapper $compose_args launch launch-roscore
-  - docker-compose-wrapper $compose_args launch launch-planning
+- docker:
+  # add '--force-rm '
+  - image:
+    - docker-compose-wrapper $scenario build ros-image
+    - docker-compose-wrapper $scenario build ppc-image
+    # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+  - container:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d gui-commander-run
+  - container-run-any:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d gui-commander-run-any
+  - shell:
+    - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
+    - docker-compose-wrapper $scenario up --force-recreate -d ppc-shell
 

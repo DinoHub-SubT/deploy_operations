@@ -1,6 +1,6 @@
 # ////////////////////////////////////////////////////////////////////////////
 - robot:
-  - ppc:
+  - nuc:
 # ////////////////////////////////////////////////////////////////////////////
 
     - cd $SUBT_PATH/
@@ -19,8 +19,8 @@
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile set ${deploybook_catkin_profile}
           - catkin build --force-cmake
-        - ppc:
-          - cd ugv/planning-pc/
+        - nuc:
+          - cd ugv/nuc/
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile set ${deploybook_catkin_profile}
           - catkin build --force-cmake
