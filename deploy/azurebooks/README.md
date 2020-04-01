@@ -147,15 +147,29 @@ Verify:
         # you should see an IP that is in the range of the VPN subnet
         ifconfig
 
-
 **Connect to your VM using VPN**
 
         # ssh into your VM
         ssh [username]@[private IP]
 
+**Error: Permision denined**
+
+        # ssh into your VM with the identify file specified
+        ssh -i /home/$USER/.ssh/path/to/id_rsa [username]@[private IP]
+
+**Error: Too many authentication failures**
+
+        ssh -o IdentitiesOnly=yes [username]@[private IP]
+
 ## Remove Example Terraform Project from Azure
+
+- **WARNING:** Be careful on what resource group you are destroying!! Do not destroy something shared by other.
 
         cd ~/deploy_ws/operations/deploy/azurebooks/example/
 
         # this will destroy everything create  in the example terraform workspace
         terraform destroy
+
+        # remove all the terraform state files
+        rm -rf .terraform
+        rm terraform.tfstate terraform.tfstate.backup
