@@ -77,25 +77,6 @@ resource "azurerm_subnet" "example_gateway_subnet" {
   address_prefix       = var.gateway_address_subnet
 }
 
-# public IP to access the VMs
-resource "azurerm_public_ip" "example" {
-  # name identifier of pub IP
-  name                         = "${var.resource_name_prefix}-PUB-IP"
-  
-  # resource group
-  resource_group_name          = azurerm_resource_group.example.name
-
-  # region location
-  location                     = var.resource_location
-  
-  # how to allocate the public IP (dynamic, static)
-  allocation_method            = var.ip_alloc
-
-  tags = {
-    environment = var.tag_name_prefix
-  }
-}
-
 # network security setup, rules: enable ssh
 resource "azurerm_network_security_group" "example_ssh" {
   # name of network security group (ssh)
@@ -125,6 +106,24 @@ resource "azurerm_network_security_group" "example_ssh" {
   }
 }
 
+# public IP to access the VMs
+resource "azurerm_public_ip" "example" {
+  # name identifier of pub IP
+  name                         = "${var.resource_name_prefix}-PUB-IP"
+  
+  # resource group
+  resource_group_name          = azurerm_resource_group.example.name
+
+  # region location
+  location                     = var.resource_location
+  
+  # how to allocate the public IP (dynamic, static)
+  allocation_method            = var.ip_alloc
+
+  tags = {
+    environment = var.tag_name_prefix
+  }
+}
 # Virtual Network Gateway
 resource "azurerm_virtual_network_gateway" "example" {
   
@@ -178,5 +177,4 @@ resource "azurerm_virtual_network_gateway" "example" {
       public_cert_data = var.vpn_ca_cert
     }
   }
-
 }

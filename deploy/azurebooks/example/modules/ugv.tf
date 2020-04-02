@@ -1,7 +1,7 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "example" {
+resource "azurerm_network_interface" "ugv" {
   # name of NIC
-  name                        = "${var.resource_name_prefix}-NIC"
+  name                        = "${var.resource_name_prefix}-NIC-ugv"
 
   # resource group
   resource_group_name         = azurerm_resource_group.example.name
@@ -11,7 +11,7 @@ resource "azurerm_network_interface" "example" {
 
   ip_configuration {
     # name of NIC configuration
-    name                          = "${var.resource_name_prefix}-NIC-configuration"
+    name                          = "${var.resource_name_prefix}-NIC-ugv-configuration"
 
     # subnet configuration for this NIC
     subnet_id                     = azurerm_subnet.example.id
@@ -29,19 +29,19 @@ resource "azurerm_network_interface" "example" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "example" {
+resource "azurerm_network_interface_security_group_association" "ugv" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.example.id
+  network_interface_id      = azurerm_network_interface.ugv.id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 }
 
-# Create virtual machine
-resource "azurerm_linux_virtual_machine" "example" {
+# Create virtual machine -- UGV
+resource "azurerm_linux_virtual_machine" "ugv" {
 
   # name of vm
-  name                  = "${var.resource_name_prefix}-VM-example"
+  name                  = "${var.resource_name_prefix}-ugv"
 
   # resource group
   resource_group_name   = azurerm_resource_group.example.name
@@ -49,15 +49,18 @@ resource "azurerm_linux_virtual_machine" "example" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.example.id]
+  network_interface_ids = [azurerm_network_interface.ugv.id]
 
-  # == OS Settings ==
-  size                  = "Standard_DS1_v2"
-
+  # == VM instance Settings ==
+  
+  # instance type
+  size                  = "Standard_F8s_v2"
+  
   os_disk {
-    name              = "myOsDisk"
-    caching           = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    name                    = "${var.resource_name_prefix}-ugv-os-disk"
+    caching                 = "ReadWrite"
+    storage_account_type    = "Standard_LRS"
+    disk_size_gb            = "30"
   }
 
   source_image_reference {
