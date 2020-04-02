@@ -42,7 +42,7 @@ module "example" {
   vpn_address_space       = "10.2.0.0/24"
 
   # vpn ca certificate
-  vpn_ca_cert             = "some string"
+  vpn_ca_cert             = "MIIC5jCCAc6gAwIBAgIIHE7Ugy9ttNwwDQYJKoZIhvcNAQELBQAwETEPMA0GA1UEAxMGVlBOIENBMB4XDTIwMDQwMTA4MTkxOFoXDTIzMDQwMTA4MTkxOFowETEPMA0GA1UEAxMGVlBOIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv20Cvw6rt1PVznKVZH+aY0pzlYAXsf149oH79vop+nCcsl8wgoUYfnopBKjh7tfwFroJVPpi8ngTA4ZU5+yv0AWXAJcPqf69HtNSoI1ZMc0tamoEO63MEm8jsIZFD3COLCvnNkt85q/09WzBAKf+HcdMSqVBvEqlzZ4rxcZAEc2zccIwY5VUyEO9bqZG+hoOl3f7lg/Xf3dg1X3e16iuv6e/Gn6W2PedDhcUoODLaP1FT82N8/pD2YNqRPie4EK0kBzbNUFrB72sPG79HP8O6tzwu8C9QGjRi56WGCMZUM0vOxuOKi4yO3r+pbLJzGV7xkZKjstH6qtGbLzwaAS8OQIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUIkhjZfxcZs2BxPa4e/4GBSsbHm8wDQYJKoZIhvcNAQELBQADggEBAH41DzZbiB+VnVy84x7Ca3TeVvhScRtrLpw7/M8qKDtvrnwOlyiZSm26FVe+hiNWDbwSpQtlK1EVnvG7dOoUGiiJYUQl2rqzw4qydy3DDJrHy1gHIt3jrrmRcvKGZoRSBOZoFyw482QAutylaqNZtYzIMihcWrwuZchOrwsOSRFhtTTFVjbMJzJeBb6vuOuc+NtJ42ZWj86SOLA4u68FIu4xrPkG8Ox42le96Rq4A2UBLHP6v49EjlPHkwOag18KZTsxy7oEdfyhVMSLlLzW4bg1YvtH6iT+95zh2mWf31YFHWBVVi1cbGDo3Feuwyqk6ePFxV9qsou6Gcu7vVdEFyI="
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Settings
@@ -55,6 +55,6 @@ module "example" {
   username                = "kat"
 
   # location of local ssh key to connect to remove VM
-  vm_pub_ssh_key          = "/some/path/id_rsa.pub"
+  vm_pub_ssh_key          = "/home/katarina/.ssh/azure/vm-keys/example_id_rsa.pub"
 
 }
