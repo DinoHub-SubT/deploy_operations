@@ -88,7 +88,9 @@ resource "azurerm_network_security_group" "example_ssh" {
   # region location
   location            = var.resource_location
   
-  # security rule (ssh enable)
+  # == security rules ==
+  
+  # ssh enable
   security_rule {
     name                       = "SSH"
     priority                   = 1001
@@ -99,6 +101,66 @@ resource "azurerm_network_security_group" "example_ssh" {
     destination_port_range     = "22"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
+  }
+  # Allow all web ports (inbound) - http, https
+  security_rule {
+    name                       = "Allow-Web-All-In"
+    priority                   = 1002
+    direction                  = "Inbound"  
+    access                     = "Allow"  
+    protocol                   = "TCP"  
+    source_port_range          = "*"  
+    destination_port_ranges    = ["80","443", "8080"]
+    source_address_prefix      = "*"  
+    destination_address_prefix = "*"  
+  }
+  # Allow all web ports (outbound) - http, https
+  security_rule {
+    name                       = "Allow-Web-All-Out"
+    priority                   = 1002
+    direction                  = "Outbound"
+    access                     = "Allow"  
+    protocol                   = "TCP"  
+    source_port_range          = "*"  
+    destination_port_ranges    = ["80","443", "8080"]
+    source_address_prefix      = "*"  
+    destination_address_prefix = "*"  
+  }
+  # remote desktop
+  security_rule {
+    name                       = "RDP"  
+    priority                   = 1003  
+    direction                  = "Inbound"  
+    access                     = "Allow"  
+    protocol                   = "Tcp"  
+    source_port_range          = "*"  
+    destination_port_range     = "3389"  
+    source_address_prefix      = "*"  
+    destination_address_prefix = "*"  
+  }
+  # ping (inbound)
+  security_rule {
+    name                       = "ICMP-Ping-In"
+    priority                   = 1004
+    direction                  = "Inbound"  
+    access                     = "Allow"  
+    protocol                   = "ICMP"  
+    source_port_range          = "*"  
+    destination_port_range     = "*"  
+    source_address_prefix      = "*"  
+    destination_address_prefix = "*"  
+  }
+  # ping (outbound)
+  security_rule {
+    name                       = "ICMP-Ping-Out"
+    priority                   = 1005
+    direction                  = "Outbound"
+    access                     = "Allow"  
+    protocol                   = "ICMP"  
+    source_port_range          = "*"  
+    destination_port_range     = "*"  
+    source_address_prefix      = "*"  
+    destination_address_prefix = "*"  
   }
 
   tags = {
