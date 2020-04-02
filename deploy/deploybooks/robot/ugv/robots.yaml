@@ -11,8 +11,8 @@
   - +extend: robot/ugv/compose/ppc
 
   # nuc
-  # - export deploybook_robot=desktop.nuc
-  # - +extend: robot/ugv/compose/nuc
+  - export deploybook_robot=desktop.nuc
+  - +extend: robot/ugv/compose/nuc
 
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
@@ -32,11 +32,15 @@
   # bug: make it use env variable
   - +ssh:{ kat:azure-r1:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
 
-  # extend all the computers that run on a ugv
-  # name of the 'robot' group
+  # == extend all the computers that run on a ugv ==
+
+  # planning-pc
+  - export deploybook_robot=desktop.ppc
   - +extend: robot/ugv/compose/ppc
-  # - +extend: robot/ugv/compose/nuc
-  # - +extend: robot/ugv/compose/xavier
+
+  # nuc
+  - export deploybook_robot=desktop.nuc
+  - +extend: robot/ugv/compose/nuc
   
 # //////////////////////////////////////////////////////////////////////////////
 - r1:
