@@ -18,6 +18,6 @@
   - container-run-any:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d gui-commander-run-any
   - shell:
-    - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
+    # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
     - docker-compose-wrapper $scenario up --force-recreate -d gui-shell
 
