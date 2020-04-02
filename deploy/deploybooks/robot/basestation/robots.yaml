@@ -4,7 +4,11 @@
   # scenario file
   - 'export scenario=" --scenario basestation"'
 
-  # extend compose image build
+  # type of catkin workspace to export
+  - 'export deploybook_catkin_profile="system76-pc"'
+
+  # basestation
+  - export deploybook_robot=desktop.basestation
   - +extend: robot/basestation/compose/basestation
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -13,7 +17,11 @@
   # scenario file
   - 'export scenario=" --scenario basestation"'
 
-  # extend compose image build
+  # type of catkin workspace to export
+  - 'export deploybook_catkin_profile="system76-pc"'
+
+  # basestation
+  - export deploybook_robot=system76-pc.basestation
   - +extend: robot/basestation/compose/basestation
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -22,6 +30,9 @@
   
   # scenario file
   - 'export scenario=" --scenario azure-basestation"'
+
+  # type of catkin workspace to export
+  - 'export deploybook_catkin_profile="system76-pc"'
 
   # TODO: move to scenario file
   # azure computer setup
@@ -35,5 +46,6 @@
   # bug: make it use env variable
   - +ssh:{ kat:azure-basestation:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
 
-  # extend compose image build
+  # basestation
+  - export deploybook_robot=azure.basestation
   - +extend: robot/basestation/compose/basestation
