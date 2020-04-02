@@ -2,8 +2,7 @@
 # local system interface to deployer commander run commands
 # //////////////////////////////////////////////////////////////////////////
 - host:
-  - container-run-any:
-    - +extend: robot/basestation/run/basestation
+  - +extend: robot/basestation/run/basestation
 
 # //////////////////////////////////////////////////////////////////////////
 # docker container interface to deployer commander run commands

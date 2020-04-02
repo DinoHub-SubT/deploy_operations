@@ -1,0 +1,39 @@
+# //////////////////////////////////////////////////////////////////////////////
+- desktop:
+# //////////////////////////////////////////////////////////////////////////////
+  # scenario file
+  - 'export scenario=" --scenario basestation"'
+
+  # extend compose image build
+  - +extend: robot/basestation/compose/basestation
+
+# //////////////////////////////////////////////////////////////////////////////
+- system76-pc:
+# //////////////////////////////////////////////////////////////////////////////
+  # scenario file
+  - 'export scenario=" --scenario basestation"'
+
+  # extend compose image build
+  - +extend: robot/basestation/compose/basestation
+
+# //////////////////////////////////////////////////////////////////////////////
+- azure:
+# //////////////////////////////////////////////////////////////////////////////
+  
+  # scenario file
+  - 'export scenario=" --scenario azure-basestation"'
+
+  # TODO: move to scenario file
+  # azure computer setup
+  - 'export user=kat'
+  - 'export host=azure-basestation'
+
+  # extend all the computers that run on a ugv
+  # - +extend: robot/ugv/transfer
+
+  # go to the remote computer, execute the steps
+  # bug: make it use env variable
+  - +ssh:{ kat:azure-basestation:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
+
+  # extend compose image build
+  - +extend: robot/basestation/compose/basestation

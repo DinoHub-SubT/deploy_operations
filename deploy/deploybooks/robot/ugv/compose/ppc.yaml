@@ -2,8 +2,7 @@
 # local system interface to deployer commander run commands
 # //////////////////////////////////////////////////////////////////////////
 - host:
-  - container-run-any:
-    - +extend: robot/ugv/run/ppc
+  - +extend: robot/ugv/run/ppc
 
 # //////////////////////////////////////////////////////////////////////////
 # docker container interface to deployer commander run commands
@@ -15,9 +14,9 @@
     - docker-compose-wrapper $scenario build ppc-image
     # any compose command -- user can add '-e arg="launch build-gui"' to specify command
   - container:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d gui-commander-run
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d ppc-commander-run
   - container-run-any:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d gui-commander-run-any
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d ppc-commander-run-any
   - shell:
     - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
     - docker-compose-wrapper $scenario up --force-recreate -d ppc-shell

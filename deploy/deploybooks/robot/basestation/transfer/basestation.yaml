@@ -1,0 +1,24 @@
+# //////////////////////////////////////////////////////////////////////////////
+- azure:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # export local and remote workspaces
+  - 'export LOCAL_DEPLOY_PATH=/home/katarina/airlab/infrastructure/deploy-restructure/deploy-new/src'
+  - 'export REMOTE_DEPLOY_PATH=/home/$user/deploy_ws/'
+
+  # TODO: for now
+  - transfer:
+    - 'export copy_opts="-avzh --delete --exclude=src/perception/object_detection/inference/data/models/" '
+    - 'export copy_to="rsync $copy_opts $LOCAL_DEPLOY_PATH $user@$host:$REMOTE_DEPLOY_PATH "'
+    
+    - to:
+      # create the remote directory
+      - ssh $user@$host -i ~/.ssh/azure/vm-keys/example_id_rsa "mkdir -p $REMOTE_DEPLOY_PATH"
+      
+      # copy command
+      - 'export copy_cmd=$copy_to'
+
+    # evaluate copy
+    - echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
+    - eval $copy_cmd
+
