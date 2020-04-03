@@ -47,7 +47,7 @@ resource "azurerm_subnet" "example" {
 resource "azurerm_subnet" "example_gateway_subnet" {
 
   # name of gateway subnet
-  name                 = "GatewaySubnet"
+  name                 = "${var.resource_name_prefix}-GatewaySubnet"
 
   # resource group
   resource_group_name  = var.user_defined_resource_group_name
