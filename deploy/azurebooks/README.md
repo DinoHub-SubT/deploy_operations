@@ -188,7 +188,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
-Apply Change to Azure
+**Apply Change to Azure**
 
       # apply the VPN gateway, this can take up to 30 minutes, just for the VPN. It can be longer if setting up more resources
       cd ~/deploy_ws/operations/deploy/azurebooks/example/
@@ -218,13 +218,18 @@ Apply Change to Azure
 
 **Setup Networking GUI Plugin**
 
-To setup the GUI, follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
+To setup the GUI, please follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
 
-Summary:
+Summary of above link (please use the link):
+
 - Open the Network Manager Ubuntu GUI
+
 - Add a new `VPN` connection, make sure it is the `IPsec/IKEv2 (strongswan)` connection
+
 - Add the `[client]Cert.pem`, `[client]Key.pem` and the VPN server DNS name between `<VpnServer>` tags (from the previous step).
+
 - Select `Request an inner IP address`
+
 - Select the VPN connection
 
 **Connect to your VM using VPN**
