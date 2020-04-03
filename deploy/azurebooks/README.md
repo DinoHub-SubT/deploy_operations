@@ -173,3 +173,51 @@ Verify:
         # remove all the terraform state files
         rm -rf .terraform
         rm terraform.tfstate terraform.tfstate.backup
+
+## Remote Desktop
+
+The given terraform example setup already has remote desktop port enabled. The user only needs to install rdp package dependencies on the remote server and local client.
+
+**Connect to your VM using VPN**
+
+        # ssh into your VM
+        ssh [username]@[private IP]
+
+**Install desktop enviornment on remote host**
+
+        sudo apt-get update
+        sudo apt-get -y install xfce4
+        sudo apt-get -y install xrdp
+        sudo systemctl enable xrdp
+        echo xfce4-session >~/.xsession
+        sudo service xrdp restart
+
+**Create the RDP client script**
+
+        # install rdp client dependency
+        sudo apt-get install rdesktop
+
+        # create a bash script
+        vim my-rdp-client.bash
+
+        # creates a rdp call
+        
+        #!/bin/sh
+        rdesktop \
+            -u [remote-user-name] \
+            -p [remote-password] \
+            -k pt \
+            -g 1440x900 \
+            -T "MY REMOTE SERVER" \
+            -N \
+            -a 16 \
+            -z \
+            -xl \
+            -r clipboard:CLIPBOARD \
+            [remote IP address]
+
+        # close the script & make it executable
+        chmod +x my-rdp-client.bash
+
+        # connect to rdp server
+        ./my-rdp-client.bash
