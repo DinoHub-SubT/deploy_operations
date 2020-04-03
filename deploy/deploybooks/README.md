@@ -150,6 +150,8 @@ To launch the system, please refer to the repository's readme to launch.
 
 Deploying dockerfiles on azure is a similar process as on a localhost.
 
+Recommended way to do things is to go directly on the vm and apply the *Localhost Deployment Operation Tools* steps directly on the VM.
+
 ## Install System Dependencies
 
 You will need to install some dependencies directly on the VM.
