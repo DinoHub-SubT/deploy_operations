@@ -197,24 +197,8 @@ The given terraform example setup already has remote desktop port enabled. The u
         # install rdp client dependency
         sudo apt-get install rdesktop
 
-        # create a bash script
-        vim my-rdp-client.bash
-
-        # creates a rdp call
-        
-        #!/bin/sh
-        rdesktop \
-            -u [remote-user-name] \
-            -p [remote-password] \
-            -k pt \
-            -g 1440x900 \
-            -T "MY REMOTE SERVER" \
-            -N \
-            -a 16 \
-            -z \
-            -xl \
-            -r clipboard:CLIPBOARD \
-            [remote IP address]
+        # edit the params here:
+        vim operations/deploy/scripts/example-remote-desktop.bash
 
         # close the script & make it executable
         chmod +x my-rdp-client.bash
