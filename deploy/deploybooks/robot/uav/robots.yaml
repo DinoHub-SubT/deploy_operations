@@ -1,0 +1,16 @@
+# //////////////////////////////////////////////////////////////////////////////
+- desktop:
+# //////////////////////////////////////////////////////////////////////////////
+  # scenario file
+  - 'export scenario=" --scenario desktop-uav"'
+  # source the scenario file
+  - source operations/deploy/docker/scenarios/desktop-uav.env
+  
+  # == extend all the computers that run on a uav ==
+
+  # planning-pc
+  - export deploybook_catkin_profile=uav
+  - export deploybook_robot=desktop.uav
+  - +extend: robot/uav/compose/uav
+
+  
