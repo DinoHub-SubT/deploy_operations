@@ -8,9 +8,54 @@
   
   # == extend all the computers that run on a uav ==
 
-  # planning-pc
+  # uav
   - export deploybook_catkin_profile=uav
   - export deploybook_robot=desktop.uav
   - +extend: robot/uav/compose/uav
 
+# //////////////////////////////////////////////////////////////////////////////
+- azure:
+# //////////////////////////////////////////////////////////////////////////////
+  # scenario file
+  - 'export scenario=" --scenario azure-uav"'
+  # source the scenario file
+  - source operations/deploy/docker/scenarios/azure-uav.env
   
+  # type of catkin workspace to export
+  - 'export deploybook_catkin_profile="sim"'
+
+  # extend all the computers that run on a sim
+  - +extend: robot/uav/transfer/azure
+
+  - uav:
+    # go to the remote computer, execute the steps
+    # bug: make it use env variable
+    - +ssh:{ kat:azure-uav:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
+
+    # == extend all the computers that run on a ugv ==
+
+    # uav
+    - export deploybook_catkin_profile=uav
+    - export deploybook_robot=azure.uav
+    - +extend: robot/uav/compose/uav
+
+# //////////////////////////////////////////////////////////////////////////////
+- ds1:
+# //////////////////////////////////////////////////////////////////////////////
+  # scenario file
+  - 'export scenario=" --scenario uav-ds1"'
+  # source the scenario file
+  - source operations/deploy/docker/scenarios/uav-ds1.env
+  
+  - uav:
+    # go to the remote computer, execute the steps
+    # bug: make it use env variable
+    - +ssh:{ robot:ds1:/home/$USER/.ssh/drone/id_rsa }
+
+    # == extend all the computers that run on a ugv ==
+
+    # uav
+    - export deploybook_catkin_profile=uav
+    - export deploybook_robot=desktop.uav
+    - +extend: robot/uav/compose/uav
+

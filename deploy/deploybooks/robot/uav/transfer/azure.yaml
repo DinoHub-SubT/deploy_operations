@@ -1,4 +1,4 @@
-- ugv:
+- uav:
   - transfer:
     # export local and remote workspaces
     - 'export copy_opts="-avzh --delete --exclude=src/perception/object_detection/inference/data/models/" '

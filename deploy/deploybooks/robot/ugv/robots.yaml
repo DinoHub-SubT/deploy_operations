@@ -48,18 +48,32 @@
 # //////////////////////////////////////////////////////////////////////////////
 - r1:
 # //////////////////////////////////////////////////////////////////////////////
-  # compose environment scenario
-  - 'export scenario=" --scenario r1"'
+  # scenario file
+  - 'export scenario=" --scenario azure-ugv"'
+  # source the scenario file
+  - source operations/deploy/docker/scenarios/azure-ugv.env
+
+  # type of catkin workspace to export
+  - 'export deploybook_catkin_profile="ugv"'
 
   # extend all the computers that run on a ugv
-  # - +extend: robot/ugv/transfer
+  - +extend: robot/ugv/transfer/ugv
 
-  # go to the remote computer, execute the steps
-  # bug: make it use env variable
-  - +ssh:{ subt:ugv1:/home/$USER/.ssh/deploy }
+  - ugv:
+    # go to the remote computer, execute the steps
+    # bug: make it use env variable
+    - +ssh:{ ugv1:ugv1:/home/$USER/.ssh/ugv/example_id_rsa }
   
-  # extend all the computers that run on a ugv
-  - +extend: robot/ugv/compose/ppc
-  # - +extend: robot/ugv/compose/nuc
-  # - +extend: robot/ugv/compose/xavier
+    # == extend all the computers that run on a ugv ==
 
+    # planning-pc
+    - export deploybook_robot=ugv.ppc
+    - +extend: robot/ugv/compose/ppc
+
+    # nuc
+    - export deploybook_robot=ugv.nuc
+    - +extend: robot/ugv/compose/nuc
+
+    # xavier
+    - export deploybook_robot=ugv.xavier
+    - +extend: robot/ugv/compose/xavier
