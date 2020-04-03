@@ -2,20 +2,22 @@
 - desktop:
 # //////////////////////////////////////////////////////////////////////////////
   # scenario file
-  - 'export scenario=" --scenario desktop-r1"'
-  
-  # type of catkin workspace to export
-  - 'export deploybook_catkin_profile="ugv"'
+  - 'export scenario=" --scenario desktop-ugv"'
+  # source the scenario file
+  - source operations/deploy/docker/scenarios/desktop-ugv.env
+
+  # catkin profile for all workspace
+  - export deploybook_catkin_profile=ugv
 
   # == extend all the computers that run on a ugv ==
+  - ugv:
+    # planning-pc
+    - export deploybook_robot=desktop.ppc
+    - +extend: robot/ugv/compose/ppc
 
-  # planning-pc
-  - export deploybook_robot=desktop.ppc
-  - +extend: robot/ugv/compose/ppc
-
-  # nuc
-  - export deploybook_robot=desktop.nuc
-  - +extend: robot/ugv/compose/nuc
+    # nuc
+    - export deploybook_robot=desktop.nuc
+    - +extend: robot/ugv/compose/nuc
 
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
@@ -24,19 +26,17 @@
   - 'export scenario=" --scenario azure-ugv"'
   # source the scenario file
   - source operations/deploy/docker/scenarios/azure-ugv.env
-
   # type of catkin workspace to export
-  - 'export deploybook_catkin_profile="ugv"'
+  - export deploybook_catkin_profile=ugv
 
   # extend all the computers that run on a ugv
-  - +extend: robot/ugv/transfer/azure
+  - +extend: robot/ugv/transfer/ugv
 
+  # == extend all the computers that run on a ugv ==
   - ugv:
     # go to the remote computer, execute the steps
     # bug: make it use env variable
     - +ssh:{ kat:azure-ugv:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
-
-    # == extend all the computers that run on a ugv ==
 
     # planning-pc
     - export deploybook_robot=desktop.ppc
@@ -57,15 +57,16 @@
   - 'export deploybook_catkin_profile="ugv"'
 
   # extend all the computers that run on a ugv
-  - +extend: robot/ugv/transfer/ugv
+  - +extend: robot/ugv/transfer/ppc
+  - +extend: robot/ugv/transfer/nuc
+  - +extend: robot/ugv/transfer/xavier
 
+  # == extend all the computers that run on a ugv ==
   - ugv:
     # go to the remote computer, execute the steps
     # bug: make it use env variable
     - +ssh:{ ugv1:ugv1:/home/$USER/.ssh/ugv/example_id_rsa }
   
-    # == extend all the computers that run on a ugv ==
-
     # planning-pc
     - export deploybook_robot=ugv.ppc
     - +extend: robot/ugv/compose/ppc

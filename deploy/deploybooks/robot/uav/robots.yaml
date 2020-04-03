@@ -27,6 +27,7 @@
   # extend all the computers that run on a sim
   - +extend: robot/uav/transfer/azure
 
+  # == extend all the computers that run on a uav ==
   - uav:
     # go to the remote computer, execute the steps
     # bug: make it use env variable
@@ -47,6 +48,7 @@
   # source the scenario file
   - source operations/deploy/docker/scenarios/uav-ds1.env
   
+  # == extend all the computers that run on a uav ==
   - uav:
     # go to the remote computer, execute the steps
     # bug: make it use env variable
@@ -58,4 +60,3 @@
     - export deploybook_catkin_profile=uav
     - export deploybook_robot=desktop.uav
     - +extend: robot/uav/compose/uav
-

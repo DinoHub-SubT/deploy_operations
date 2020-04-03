@@ -31,7 +31,7 @@
   - source operations/deploy/docker/scenarios/azure-basestation.env  
 
   # extend all the computers that run on a sim
-  - +extend: robot/uav/transfer/azure
+  - +extend: robot/basestation/transfer/azure
 
   - basestation:
     # go to the remote computer, execute the steps
