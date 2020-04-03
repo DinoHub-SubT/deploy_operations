@@ -74,6 +74,6 @@
     - export deploybook_robot=ugv.nuc
     - +extend: robot/ugv/compose/nuc
 
-    # xavier
-    - export deploybook_robot=ugv.xavier
-    - +extend: robot/ugv/compose/xavier
+    # # xavier
+    # - export deploybook_robot=ugv.xavier
+    # - +extend: robot/ugv/compose/xavier

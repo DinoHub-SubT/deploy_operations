@@ -11,13 +11,13 @@
   # add '--force-rm '
   - image:
     - docker-compose-wrapper $scenario build ros-image
-    - docker-compose-wrapper $scenario build sim-image
+    - docker-compose-wrapper $scenario build uav-sim-image
     # any compose command -- user can add '-e arg="launch build-gui"' to specify command
   - container:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d sim-commander-run
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d uav-sim-commander-run
   - container-run-any:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d sim-commander-run-any
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d uav-sim-commander-run-any
   - shell:
     # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
-    - docker-compose-wrapper $scenario up --force-recreate -d sim-shell
+    - docker-compose-wrapper $scenario up --force-recreate -d uav-sim-shell
 

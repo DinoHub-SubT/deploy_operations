@@ -1,5 +1,5 @@
 # ////////////////////////////////////////////////////////////////////////////
-- uav:
+- robot:
   - sim:
 # ////////////////////////////////////////////////////////////////////////////
     - cd $SUBT_PATH/
@@ -18,7 +18,7 @@
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile set ${deploybook_catkin_profile}
           - catkin build --force-cmake
-        - uav:
+        - sim:
           - cd uav/sim
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile set ${deploybook_catkin_profile}

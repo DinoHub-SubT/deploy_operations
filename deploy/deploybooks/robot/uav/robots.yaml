@@ -8,10 +8,11 @@
   
   # == extend all the computers that run on a uav ==
 
-  # uav
-  - export deploybook_catkin_profile=uav
-  - export deploybook_robot=desktop.uav
-  - +extend: robot/uav/compose/uav
+  - uav:
+    # uav simulation
+    - export deploybook_catkin_profile=uav
+    - export deploybook_robot=desktop.sim
+    - +extend: robot/uav/compose/sim
 
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
@@ -37,7 +38,7 @@
     # uav
     - export deploybook_catkin_profile=uav
     - export deploybook_robot=azure.uav
-    - +extend: robot/uav/compose/uav
+    - +extend: robot/uav/compose/sim
 
 # //////////////////////////////////////////////////////////////////////////////
 - ds1:
