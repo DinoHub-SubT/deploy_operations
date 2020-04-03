@@ -53,51 +53,41 @@
           - tmux send -t roscore 'roscore' ENTER
 
         - gui:
+          
+          # ////////////////////////////////////////////////////////////////////
+          # == OLD CODE, will go away ==
+          # ////////////////////////////////////////////////////////////////////
+
+          # # get launch configuration data
+          # - export CONFIG_PATH="$SUBT_PATH/operations/launch/robot_launch_scripting/config/"
+          # # parse config file for roslaunch params
+          # - get_config_data() {
+          #     CONFIG_FILE=$CONFIG_PATH/${1}.config;
+          #     while IFS='' read -r line || [[ -n "$line" ]]; do
+          #       if [ ! "${line:0:1}" == "#" ]; then
+          #         config_data="$config_data $line ";
+          #       fi
+          #     done < "$CONFIG_FILE";
+          #     echo ${config_data};
+          #   }
+          # - export -f get_config_data
+          # - export config=robots/basestation/gui
+          # - export config_data=$(get_config_data "$config")
+
           # start the tmux session
           - tmux new -s gui -d
+          - tmux send -t launch_gui 'source $SUBT_PATH/../devel/basestation/setup.bash' ENTER
           # launch
-          - tmux send -t gui 'mon launch launch_subt ${launch_prefix}_gui.launch' ENTER
-
-        - rosbag:
-          # start the tmux session
-          - tmux new -s rosbag -d
-          # launch
-          - tmux send -t rosbag 'cd $DEPLOY_SRC/operations/launch/ugv_setup/logging/base_station/scripts && ./basestation.bash' ENTER
-          
-        - relay_ugv1_agg:
-          - tmux new -s relay_ugv1_agg -d
-          - tmux send -t relay_ugv1_agg 'rosrun topic_tools relay /cm_rel/ugv1/bs/diagnostics_agg /diagnostics_agg' ENTER
-
-        - relay_ugv2_agg:
-          - tmux new -s relay_ugv2_agg -d
-          - tmux send -t relay_ugv2_agg 'rosrun topic_tools relay /cm_rel/ugv2/bs/diagnostics_agg /diagnostics_agg' ENTER
-
+          # - tmux send -t gui 'mon launch launch_subt ${launch_prefix}_gui.launch' ENTER
+        
       # //////////////////////////////////////////////////////////////////////////
       - stop:
       # //////////////////////////////////////////////////////////////////////////
-        - rosbag:
-          - stop:
-            # start stop record
-            - tmux new -s launch_rosbag_stop -d
-            - tmux send -t launch_rosbag_stop 'source $DEPLOY_WS/devel/basestation/launch/setup.bash' ENTER  
-            # stop record node
-            - tmux send -t launch_rosbag_stop 'rosnode kill /rosbag_recording_base_station' ENTER
-            - sleep 3
-          - sessions:
-            # stop the sessions
-            # - until rostopic list ; do sleep 1; done
-            - tmux kill-session -t launch_rosbag_stop
-            - tmux kill-session -t launch_rosbag
         - roscore:
           - tmux kill-session -t roscore
         - gui:
           - tmux kill-session -t gui
-        - relay_ugv1_agg:
-          - tmux kill-session -t relay_ugv1_agg
-        - relay_ugv2_agg:
-          - tmux kill-session -t relay_ugv2_agg
-
-
+        
     # ////////////////////////////////////////////////////////////////////////////
     # helpful cleanup commands
     # ////////////////////////////////////////////////////////////////////////////
