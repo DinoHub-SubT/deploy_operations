@@ -21,7 +21,7 @@
         - sim:
           - cd uav/sim
           - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
+          - catkin profile set sim
           - catkin build --force-cmake
         # TODO:
         # - launch:

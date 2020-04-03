@@ -7,7 +7,6 @@
   - source operations/deploy/docker/scenarios/desktop-uav.env
   
   # == extend all the computers that run on a uav ==
-
   - uav:
     # uav simulation
     - export deploybook_catkin_profile=uav

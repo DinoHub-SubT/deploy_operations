@@ -19,7 +19,7 @@
           - catkin profile set ${deploybook_catkin_profile}
           - catkin build --force-cmake
         - uav:
-          - cd uav/ds
+          - cd uav/robot
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile set ${deploybook_catkin_profile}
           - catkin build --force-cmake
