@@ -1,8 +1,8 @@
 # Cloud Operation Tools
 
 There are two operational tools available to use: `az` or `terraform`
-- `az` is azure's commandline interface.
-- `terraform` is the command line interface to interact with `terraform` files: `operations/deploy/azurebooks`
+- `az` is the [azure commandline interface](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+- `terraform` is the [terraform command line interface](https://learn.hashicorp.com/terraform) to interact with `terraform` files found in `operations/deploy/azurebooks`
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ There are two operational tools available to use: `az` or `terraform`
 
 ## Terraform Example Project Walkthrough
 
-This example setup will create a single *ugv* Virtual Machine, networking and VPN setup all on Azure.
+This terraform example will create a single *ugv* Virtual Machine, networking and VPN setup on Azure.
 - You will be able to ssh into the VM (using the private IP) over VPN.
 - There are instructions below to setup VM remote desktop access.
 
@@ -50,7 +50,7 @@ This example setup will create a single *ugv* Virtual Machine, networking and VP
         # write the tenant id (without the brackets)
         export TF_VAR_tenant_id=[ 'tenantId' field in 'az account list' output]
 
-**Export your subscription and tenant ids as environment variables**
+**Export your subscription and tenant ids as environment variables in your current terminal**
 
 Source your `bashrc` or `zshrc` directly:
 
@@ -134,7 +134,7 @@ Source your `bashrc` or `zshrc` directly:
         # Shows the user the azure deployment
         terraform plan
 
-- Apply the terraform deployment
+- Apply the terraform deployment to azure
 
         # will create all the resources on azure
         terraform apply
@@ -145,21 +145,6 @@ Source your `bashrc` or `zshrc` directly:
 
 You should now have a example resources deployed on azure.
 
-### Changing Terraform Files
-
-You should become comfortable in creating new or updating terraform files.
-- A simple example you can try out is adding another VM terraform file with username/password setup.
-
-Any changes to the terraform files, requires updating the terraform workspace
-
-        # Dry-run: shows the user the azure deployment
-        terraform plan
-
-
-Apply the changes to the cloud
-
-        # Apply the terraform setup to azure
-        terraform apply
 
 * * *
 
@@ -276,18 +261,20 @@ Summary of above link (please use the link):
 
 - For ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
 
+
 * * *
 
 ## Remote Desktop
 
-The given terraform example setup already has remote desktop port enabled. The user only needs to install rdp package dependencies on the remote server and local client.
+The subt terraform example has remote desktop port enabled.
+  - The user needs to install `rdp` package dependencies on the VM and on the localhost client
 
 **Connect to your VM using VPN**
 
         # ssh into your VM
         ssh [username]@[private IP]
 
-**Install desktop enviornment on remote host**
+**Install desktop enviornment (remote host VM)**
 
         sudo apt-get update
         sudo apt-get -y install xfce4
@@ -296,7 +283,7 @@ The given terraform example setup already has remote desktop port enabled. The u
         echo xfce4-session >~/.xsession
         sudo service xrdp restart
 
-**Create the RDP client script**
+**Create the RDP client script (localhost)**
 
         # install rdp client dependency
         sudo apt-get install rdesktop
@@ -309,6 +296,24 @@ The given terraform example setup already has remote desktop port enabled. The u
 
         # connect to rdp server
         ./my-rdp-client.bash
+
+* * *
+
+## Changing Terraform Files
+
+You should become comfortable creating or updating terraform files.
+- A simple next example you can try out is adding another VM terraform file with username/password setup.
+
+Any changes to the terraform files, requires updating the terraform workspace
+
+        # Dry-run: shows the user the azure deployment
+        terraform plan
+
+
+Apply the changes to the cloud
+
+        # Apply the terraform setup to azure
+        terraform apply
 
 * * *
 
