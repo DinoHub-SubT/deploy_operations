@@ -1,5 +1,9 @@
 # Cloud Operation Tools
 
+There are two operational tools available to use: `az` or `terraform`
+- `az` is azure's commandline interface.
+- `terraform` is the command line interface to interact with `terraform` files: `operations/deploy/azurebooks`
+
 ## Prerequisites
 
 **Bitbucket SSH Keys**
@@ -18,15 +22,22 @@
     - **DO NOT ENTER A PASSPHRASE on `ssh-keygen`! LEAVE IT BLANK.**
     - Please replace `<USER-NAME>` with your actual username
 
+* * *
 
-## Terraforn Example Project Walkthrough
+## Terraform Example Project Walkthrough
+
+This example setup will create a single *ugv* Virtual Machine, networking and VPN setup all on Azure.
+- You will be able to ssh into the VM (using the private IP) over VPN.
+- There are instructions below to setup VM remote desktop access.
+
+### Terraform Subt Project Prerequisites
 
 **Azure CLI Initial Login**
 
         # az login will prompt a browser window. Enter your user credentials to login.
         az login
 
-**Export your subscription and tenant ids as env variables**
+**Aad you subscription and tenant ids as environment variables**
 
         # List the ids
         az account list
@@ -34,18 +45,28 @@
         # Open bashrc or zshrc
         gedit ~/.bashrc
 
-        # write the subscription id
+        # write the subscription id (without the brackets)
         export TF_VAR_subscription_id=[ 'id' field in 'az account list' output]
-        # write the tenant id
+        # write the tenant id (without the brackets)
         export TF_VAR_tenant_id=[ 'tenantId' field in 'az account list' output]
 
-**Terraform Workspace (example)**
+**Export your subscription and tenant ids as environment variables**
 
-All terraform commands must be done in the `azurebooks/example` directory workspace
+Source your `bashrc` or `zshrc` directly:
+
+        # source bashrc directly
+        source ~/.bashrc
+
+        # source zshrc directly
+        source ~/.zshrc
+
+### Deploy Terraform Subt Project
+
+**All terraform commands must be done in the `azurebooks/subt` directory workspace**.
 
 - Go to the terraform workspace
 
-        cd ~/deploy_ws/operations/deploy/azurebooks/example
+        cd ~/deploy_ws/operations/deploy/azurebooks/subt
     
 - Initialize the terraform workspace
 
@@ -67,14 +88,14 @@ All terraform commands must be done in the `azurebooks/example` directory worksp
         ipsec pki --gen --outform pem > caKey.pem
         ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
         
-        # Copy the output to the 'vpn_ca_cert' variable in 'example/main.tf'
+        # Copy the output to the 'vpn_ca_cert' variable in 'subt/main.tf'
         openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
 
         # == Create the user certificate ==
 
         # Please change 'password' to something more secure 
         export PASSWORD="password"
-        # Please change 'username' to your username
+        # Please change 'username' to your username (please change to your azure username)
         export USERNAME="client"
 
         # generate the user certificate
@@ -87,10 +108,10 @@ All terraform commands must be done in the `azurebooks/example` directory worksp
 - Personalize the variables
 
         # Go back to the deploy repo azurebooks
-        cd ~/deploy_ws/operations/deploy/azurebooks/example
+        cd ~/deploy_ws/operations/deploy/azurebooks/subt
 
         # Edit the main entrypoint terraform configuration file
-        gedit ~/deploy_ws/src/operations/deploy/azurebooks/example/main.tf
+        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
     - Change `resource_name_prefix` to your preference
 
@@ -122,9 +143,12 @@ All terraform commands must be done in the `azurebooks/example` directory worksp
 
     - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to *Download the VPN Client* step and continue from there.
 
-You should now have an example resources deployed on azure.
+You should now have a example resources deployed on azure.
 
 ### Changing Terraform Files
+
+You should become comfortable in creating new or updating terraform files.
+- A simple example you can try out is adding another VM terraform file with username/password setup.
 
 Any changes to the terraform files, requires updating the terraform workspace
 
@@ -132,7 +156,7 @@ Any changes to the terraform files, requires updating the terraform workspace
         terraform plan
 
 
-After `plan`, apply the changes to the cloud
+Apply the changes to the cloud
 
         # Apply the terraform setup to azure
         terraform apply
@@ -184,14 +208,14 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
 
 Change the personalized cert key variable in the `main.tf` terraform:
 
-        gedit ~/deploy_ws/operations/deploy/azurebooks/example/main.tf
+        gedit ~/deploy_ws/operations/deploy/azurebooks/subt/main.tf
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
 **Apply Change to Azure**
 
       # apply the VPN gateway, this can take up to 30 minutes, just for the VPN. It can be longer if setting up more resources
-      cd ~/deploy_ws/operations/deploy/azurebooks/example/
+      cd ~/deploy_ws/operations/deploy/azurebooks/subt/
       # Dry-run: shows the user the azure deployment
       terraform plan
       # Apply the terraform setup to azure
@@ -203,7 +227,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
       cd ~/.ssh/azure/vpn
       az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group [resource group name]
 
-      # download the client
+      # download the client (without brackets)
       wget [https path from previous command]
 
       # unzip the vpn client package
@@ -232,6 +256,8 @@ Summary of above link (please use the link):
 
 - Select the VPN connection
 
+- Select the folder icon at the end of the Certificate field, browse to the Generic folder, and select the VpnServerRoot file.
+
 **Connect to your VM using VPN**
 
         # ssh into your VM
@@ -249,21 +275,6 @@ Summary of above link (please use the link):
         ssh -o IdentitiesOnly=yes [username]@[private IP]
 
 - For ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
-
-* * *
-
-## Remove Terraform Project from Azure
-
-- **WARNING:** Be careful on what resource group you are destroying!! Be carefult not destroy other user resources (always check command line variable names or nested resource links).
-
-        cd ~/deploy_ws/operations/deploy/azurebooks/example/
-
-        # this will destroy everything create  in the example terraform workspace
-        terraform destroy
-
-        # remove all the terraform state files
-        rm -rf .terraform
-        rm terraform.tfstate terraform.tfstate.backup
 
 * * *
 
@@ -298,3 +309,19 @@ The given terraform example setup already has remote desktop port enabled. The u
 
         # connect to rdp server
         ./my-rdp-client.bash
+
+* * *
+
+## Remove Terraform Project from Azure
+
+- **WARNING: Be careful on what resource group or resources you are destroying!!**
+- Be careful not destroy other user resources (**always check** command line variable names or nested resource links).
+
+        cd ~/deploy_ws/operations/deploy/azurebooks/subt/
+
+        # this will destroy everything create  in the example terraform workspace
+        terraform destroy
+
+        # remove all the terraform state files
+        rm -rf .terraform
+        rm terraform.tfstate terraform.tfstate.backup
