@@ -4,7 +4,7 @@
   # scenario file
   - 'export scenario=" --scenario desktop-uav"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/desktop-uav.env
+  - source operations/deploy/scenarios/desktop-uav.env
   
   # == extend all the computers that run on a uav ==
   - uav:
@@ -19,7 +19,7 @@
   # scenario file
   - 'export scenario=" --scenario azure-uav"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/azure-uav.env
+  - source operations/deploy/scenarios/azure-uav.env
   
   # type of catkin workspace to export
   - 'export deploybook_catkin_profile="sim"'
@@ -46,7 +46,7 @@
   # scenario file
   - 'export scenario=" --scenario uav-ds1"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/uav-ds1.env
+  - source operations/deploy/scenarios/uav-ds1.env
   
   # == extend all the computers that run on a uav ==
   - uav:

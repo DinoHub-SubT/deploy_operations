@@ -4,7 +4,7 @@
   # scenario file
   - 'export scenario=" --scenario desktop-basestation"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/desktop-basestation.env
+  - source operations/deploy/scenarios/desktop-basestation.env
 
   # basestation
   - export deploybook_robot=desktop.basestation
@@ -16,7 +16,7 @@
   # scenario file
   - 'export scenario=" --scenario system76-pc-basestation"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/system76-pc-basestation.env  
+  - source operations/deploy/scenarios/system76-pc-basestation.env  
 
   # basestation
   - export deploybook_robot=system76-pc.basestation
@@ -28,7 +28,7 @@
   # scenario file
   - 'export scenario=" --scenario azure-basestation"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/azure-basestation.env  
+  - source operations/deploy/scenarios/azure-basestation.env  
 
   # extend all the computers that run on a sim
   - +extend: robot/basestation/transfer/azure

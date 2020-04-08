@@ -4,7 +4,7 @@
   # scenario file
   - 'export scenario=" --scenario desktop-ugv"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/desktop-ugv.env
+  - source operations/deploy/scenarios/desktop-ugv.env
 
   # catkin profile for all workspace
   - export deploybook_catkin_profile=ugv
@@ -25,7 +25,7 @@
   # scenario file
   - 'export scenario=" --scenario azure-ugv"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/azure-ugv.env
+  - source operations/deploy/scenarios/azure-ugv.env
   # type of catkin workspace to export
   - export deploybook_catkin_profile=ugv
 
@@ -51,7 +51,7 @@
   # scenario file
   - 'export scenario=" --scenario azure-ugv"'
   # source the scenario file
-  - source operations/deploy/docker/scenarios/azure-ugv.env
+  - source operations/deploy/scenarios/azure-ugv.env
 
   # type of catkin workspace to export
   - 'export deploybook_catkin_profile="ugv"'
