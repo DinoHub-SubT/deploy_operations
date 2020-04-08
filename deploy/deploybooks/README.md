@@ -263,7 +263,7 @@ Please see [sshfs](https://github.com/libfuse/sshfs) on how to remote mount a di
 
 **Edit the scenario configuration files**
 
-Change all the appropriate params in `operations/deploy/docker/scenarios/azure-[robot].env`
+Change all the appropriate params in `operations/deploy/scenarios/azure-[robot].env`
 
 - example params: `user`, `host`, `ssh_config`, `LOCAL_DEPLOY_PATH`, `REMOTE_DEPLOY_PATH`
 

@@ -1,7 +1,9 @@
 # Cloud Operation Tools
 
 There are two operational tools available to use: `az` or `terraform`
+
 - `az` is the [azure commandline interface](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+
 - `terraform` is the [terraform command line interface](https://learn.hashicorp.com/terraform) to interact with `terraform` files found in `operations/deploy/azurebooks`
 
 ## Prerequisites
@@ -26,8 +28,10 @@ There are two operational tools available to use: `az` or `terraform`
 
 ## Terraform Example Project Walkthrough
 
-This terraform example will create a single *ugv* Virtual Machine, networking and VPN setup on Azure.
+This terraform example will create Virtual Machines, Networking and VPN setup on Azure.
+
 - You will be able to ssh into the VM (using the private IP) over VPN.
+
 - There are instructions below to setup VM remote desktop access.
 
 ### Terraform Subt Project Prerequisites
