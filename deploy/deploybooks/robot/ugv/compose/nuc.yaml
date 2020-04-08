@@ -19,5 +19,5 @@
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d nuc-commander-run-any
   - shell:
     # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
-    - docker-compose-wrapper $scenario up --force-recreate -d nuc-shell
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-shell up --force-recreate -d nuc-shell
 
