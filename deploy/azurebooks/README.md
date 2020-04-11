@@ -220,7 +220,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
       wget [https path from previous command WITHOUT QUOTES ]
 
       # unzip the vpn client package
-      sudo unzip -j -d client-download [downloaded.zip]
+      unzip -j -d client-download [downloaded.zip]
 
       # == Connect to the VPN ==
 
