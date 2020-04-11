@@ -49,10 +49,10 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
         # Open bashrc or zshrc
         gedit ~/.bashrc
 
-        # write the subscription id (without the brackets)
-        export TF_VAR_subscription_id=[ 'id' field in 'az account list' output]
-        # write the tenant id (without the brackets)
-        export TF_VAR_tenant_id=[ 'tenantId' field in 'az account list' output]
+        # write the subscription id
+        export TF_VAR_subscription_id=SUBSCRIPTION_ID_GOES_HERE
+        # write the tenant id
+        export TF_VAR_tenant_id=TENANT_ID_GOES_HERE
 
 **Export your subscription and tenant ids as environment variables in your current terminal**
 
@@ -70,7 +70,7 @@ Source your `bashrc` or `zshrc` directly:
 
 - Go to the terraform workspace
 
-        cd ~/deploy_ws/operations/deploy/azurebooks/subt
+        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
     
 - Initialize the terraform workspace
 
@@ -112,10 +112,10 @@ Source your `bashrc` or `zshrc` directly:
 - Personalize the variables
 
         # Go back to the deploy repo azurebooks
-        cd ~/deploy_ws/operations/deploy/azurebooks/subt
+        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
 
         # Edit the main entrypoint terraform configuration file
-        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
+        gedit ~/deploy_ws/src/src/operations/deploy/azurebooks/subt/main.tf
 
     - Change `resource_name_prefix` to your preference
 
@@ -197,14 +197,14 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
 
 Change the personalized cert key variable in the `main.tf` terraform:
 
-        gedit ~/deploy_ws/operations/deploy/azurebooks/subt/main.tf
+        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
 **Apply Change to Azure**
 
       # apply the VPN gateway, this can take up to 30 minutes, just for the VPN. It can be longer if setting up more resources
-      cd ~/deploy_ws/operations/deploy/azurebooks/subt/
+      cd ~/deploy_ws/src/operations/deploy/azurebooks/subt/
       # Dry-run: shows the user the azure deployment
       terraform plan
       # Apply the terraform setup to azure
@@ -217,7 +217,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
       az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group [resource group name]
 
       # download the client (without brackets)
-      wget [https path from previous command]
+      wget [https path from previous command WITHOUT QUOTES ]
 
       # unzip the vpn client package
       sudo unzip -j -d client-download [downloaded.zip]
@@ -326,7 +326,7 @@ Apply the changes to the cloud
 - **WARNING: Be careful on what resource group or resources you are destroying!!**
 - Be careful not destroy other user resources (**always check** command line variable names or nested resource links).
 
-        cd ~/deploy_ws/operations/deploy/azurebooks/subt/
+        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt/
 
         # this will destroy everything create  in the example terraform workspace
         terraform destroy
