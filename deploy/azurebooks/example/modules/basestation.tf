@@ -4,7 +4,7 @@ resource "azurerm_network_interface" "basestation" {
   name                        = "${var.resource_name_prefix}-NIC-basestation"
 
   # resource group
-  resource_group_name         = azurerm_resource_group.example.name
+  resource_group_name         = var.user_defined_resource_group_name
 
   # region location
   location                    = var.resource_location
@@ -44,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   name                  = "${var.resource_name_prefix}-basestation"
 
   # resource group
-  resource_group_name   = azurerm_resource_group.example.name
+  resource_group_name   = var.user_defined_resource_group_name
 
   # region location
   location              = var.resource_location
@@ -72,13 +72,14 @@ resource "azurerm_linux_virtual_machine" "basestation" {
 
   # == User Access Settings ==
   
-  computer_name  = var.hostname
-  admin_username = var.username
+  computer_name  = var.basestation-hostname
+  admin_username = var.basestation-username
+  admin_password = var.vm_default_password
 
   # only allow ssh key connection
   disable_password_authentication = true    
   admin_ssh_key {
-    username       = var.username
+    username       = var.basestation-username
     public_key     = file(var.vm_pub_ssh_key)
   }
 

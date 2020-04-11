@@ -12,18 +12,19 @@ terraform {
 # // /////////////////////////////////////////////////////////////////////////////
 
 # Setup an azure resource group
-resource "azurerm_resource_group" "example" {
-  
-  # name of resourec group
-  name     = var.resource_name_prefix
-
-  # region location for resource group
-  location = var.resource_location
-
-  tags = {
-    environment = var.tag_name_prefix
-  }
-}
+# --> enable if you have the permissions to craete a new resource group (only admins?)
+# resource "azurerm_resource_group" "example" {
+#   
+#   # name of resourec group
+#   name     = var.resource_name_prefix
+# 
+#   # region location for resource group
+#   location = var.resource_location
+# 
+#   tags = {
+#     environment = var.tag_name_prefix
+#   }
+# }
 
 # Setup the virtual network (VNET)
 resource "azurerm_virtual_network" "example" {
@@ -32,7 +33,7 @@ resource "azurerm_virtual_network" "example" {
   name                = "${var.resource_name_prefix}-vnet"
   
   # resource group
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = var.user_defined_resource_group_name
 
   # region location
   location            = var.resource_location
@@ -52,7 +53,7 @@ resource "azurerm_subnet" "example" {
   name                 = "${var.resource_name_prefix}-subnet"
   
   # resource group
-  resource_group_name  = azurerm_resource_group.example.name
+  resource_group_name  = var.user_defined_resource_group_name
   
   # VNET for this subnet
   virtual_network_name = azurerm_virtual_network.example.name
@@ -68,7 +69,7 @@ resource "azurerm_subnet" "example_gateway_subnet" {
   name                 = "GatewaySubnet"
 
   # resource group
-  resource_group_name  = azurerm_resource_group.example.name
+  resource_group_name  = var.user_defined_resource_group_name
 
   # vnet associated wtih this gateway subnet
   virtual_network_name = azurerm_virtual_network.example.name
@@ -83,7 +84,7 @@ resource "azurerm_network_security_group" "example_ssh" {
   name                = "${var.resource_name_prefix}-security-group"
   
   # resource group
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = var.user_defined_resource_group_name
 
   # region location
   location            = var.resource_location
@@ -174,7 +175,7 @@ resource "azurerm_public_ip" "example" {
   name                         = "${var.resource_name_prefix}-PUB-IP"
   
   # resource group
-  resource_group_name          = azurerm_resource_group.example.name
+  resource_group_name          = var.user_defined_resource_group_name
 
   # region location
   location                     = var.resource_location
@@ -196,7 +197,7 @@ resource "azurerm_virtual_network_gateway" "example" {
   location            = var.resource_location
 
   # resource group
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = var.user_defined_resource_group_name
 
   # == VPN Setings == 
 

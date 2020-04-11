@@ -2,72 +2,104 @@
 # resource & network varibles
 # // /////////////////////////////////////////////////////////////////////////////
 
+variable "user_defined_resource_group_name" {
+  description = "Default name prefix for resources"
+  type = string
+}
+
 variable "resource_name_prefix" {
-  description = "default name prefix for resources"
+  description = "Default name prefix for resources"
   type = string
 }
 
 variable "resource_location" {
-  description = "default location of azure resources"
+  description = "Default location of azure resources"
   type = string
   default = "eastus"
 }
 
 variable "vnet_address_space" {
-  description = "address space for azure virtual network"
+  description = "Address space for azure virtual network"
   type = string
 }
 
 variable "subnet_address_space" {
-  description = "address space for subnet with VNET "
+  description = "Address space for subnet with VNET "
   type = string
 }
 
 variable "ip_alloc" {
-  description = "compute allocation method for public IP "
+  description = "Compute allocation method for public IP "
   type = string
   default = "Dynamic"
 }
 
 variable "gateway_address_subnet" {
-  description = "address space for gateway subnet"
+  description = "Address space for gateway subnet"
   type = string
 }
 
 variable "vpn_address_space" {
-  description = "address space for virtual network gateway vpn"
+  description = "Address space for virtual network gateway vpn"
   type = string
 }
 
 variable "vpn_ca_cert" {
-  description = "vpn root ca certificate"
+  description = "Vpn root ca certificate"
   type = string
 }
 
 
 # // /////////////////////////////////////////////////////////////////////////////
-# VM Variables
+# SubT VM Variables
 # // /////////////////////////////////////////////////////////////////////////////
-
-variable "hostname" {
-  description = "computer name of example VM "
-  type = string
-}
-
-variable "username" {
-  description = "computer name of example VM "
-  type = string
-}
 
 variable "vm_pub_ssh_key" {
-  description = "location of the public ssh key on the local computer to connect to remote VM "
+  description = "Location of the public ssh key on the local computer to connect to remote VM "
   type = string
 }
 
+variable "vm_default_password" {
+  description = "Default password of a VM, please change on entry!"
+  type = string
+  default = "Password1234!"
+}
+
+variable "basestation-hostname" {
+  description = "Hostname of basestation VM"
+  type = string
+}
+
+variable "basestation-username" {
+  description = "Username of basestation VM"
+  type = string
+}
+
+variable "uav-hostname" {
+  description = "Hostname of UAV VM"
+  type = string
+}
+
+variable "uav-username" {
+  description = "Username of UAV VM"
+  type = string
+}
+
+variable "ugv-hostname" {
+  description = "Hostname of UGV VM"
+  type = string
+}
+
+variable "ugv-username" {
+  description = "Username of UGV VM"
+  type = string
+}
+
+
 # // /////////////////////////////////////////////////////////////////////////////
-# terraform tags
+# other terraform variables
 # // /////////////////////////////////////////////////////////////////////////////
 variable "tag_name_prefix" {
-  description = "example tag name"
+  description = "Example tag name"
   type = string
 }

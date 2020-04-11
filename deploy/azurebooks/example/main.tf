@@ -9,8 +9,6 @@ provider "azurerm" {
   
   # setup credentials
   subscription_id = var.subscription_id
-  # client_id = var.client_id
-  # client_secret = var.client_secret
   tenant_id = var.tenant_id
 }
 
@@ -24,10 +22,14 @@ module "example" {
   # Resource & Network Settings
   # // /////////////////////////////////////////////////////////////////////////////
   
+  # use existing resource group name
+  user_defined_resource_group_name = "kat-example"
+
   # name prefix to be used for all resources
-  resource_name_prefix    = "kat-example"
+  resource_name_prefix    = "subt-sim"
+
   # tag prefix
-  tag_name_prefix         = "tag-kat-example"
+  tag_name_prefix         = "tag-subt-sim"
 
   # resource VNET, address space
   vnet_address_space      = "10.0.0.0/16"
@@ -48,12 +50,18 @@ module "example" {
   # VM Settings
   # // /////////////////////////////////////////////////////////////////////////////
   
-  # hostname of example VM
-  hostname                = "kat-computer"
+  # basestation VM
+  basestation-username    = "subt"
+  basestation-hostname    = "az-basestation"
 
-  # username of example VM
-  username                = "kat"
+  # uav VM
+  uav-username            = "subt"
+  uav-hostname            = "az-uav"
+  
+  # ugv VM
+  ugv-hostname            = "az-ugv"
+  ugv-username            = "subt"
 
   # location of local ssh key to connect to remove VM
-  vm_pub_ssh_key          = "/home/katarina/.ssh/azure/vm-keys/example_id_rsa.pub"
+  vm_pub_ssh_key          = "/home/katarina/.ssh/azure/subt-sim-vpn/id_rsa.pub"
 }
