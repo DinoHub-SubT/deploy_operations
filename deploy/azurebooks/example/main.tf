@@ -59,8 +59,8 @@ module "example" {
   uav-hostname            = "az-uav"
   
   # ugv VM
-  ugv-hostname            = "az-ugv"
   ugv-username            = "subt"
+  ugv-hostname            = "az-ugv"
 
   # location of local ssh key to connect to remove VM
   vm_pub_ssh_key          = "/home/katarina/.ssh/azure/subt-sim-vpn/id_rsa.pub"
