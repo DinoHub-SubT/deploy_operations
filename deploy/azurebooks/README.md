@@ -1,5 +1,7 @@
 # Cloud Operation Tools
 
+[TOC]
+
 There are two operational tools available to use: `az` or `terraform`
 
 - `az` is the [azure commandline interface](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
