@@ -1,6 +1,12 @@
 - transfer:
   # export local and remote workspaces
-  - 'export copy_opts="-avzh --delete --exclude=src/perception/object_detection/inference/data/models/" '
+  - 'export copy_opts="-avzh --delete
+      --exclude=src/perception/object_detection/inference/data/models/
+      --exclude=src/ugv
+      --exclude=src/basestation
+      --exclude=*.git/
+      --exclude=*.terraform/
+    " '
   - 'export copy_to="rsync $copy_opts $LOCAL_DEPLOY_PATH $ssh_config:$REMOTE_DEPLOY_PATH "'
   
   - to:
