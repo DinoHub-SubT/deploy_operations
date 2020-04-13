@@ -34,7 +34,7 @@
   - export deploybook_catkin_profile=ugv
 
   # extend all the computers that run on a ugv
-  - +extend: robot/ugv/transfer/azure
+  - +extend: robot/ugv/transfer/ugv
 
   # == extend all the computers that run on a ugv ==
   - ugv:

@@ -1,14 +1,14 @@
 #!/bin/sh
 
 rdesktop \
-    -u [AZURE VM USERNAME] \
-    -p [AZURE VM PASSWORD] \
+    -u subt \
+    -p Password1234! \
     -k pt \
     -g 1440x900 \
-    -T "[WINDOW TITLE]" \
+    -T "uav1" \
     -N \
     -a 16 \
     -z \
     -xl \
     -r clipboard:CLIPBOARD \
-    [AZURE VM IP]
+    azure-uav
