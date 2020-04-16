@@ -46,4 +46,3 @@ variable "tag_name_prefix" {
   description = "Prefix for tag names, for tagging different resources"
   type = string
 }
-

@@ -21,11 +21,11 @@ terraform {
   
   backend "azurerm" {
 
-    # existing storage account
-    storage_account_name = "katexampleterrastate"
+    # existing storage account (make sure exists on azure)
+    storage_account_name = "katdeployterrastate"
 
     # existing storage container
-    container_name       = "katexample-statefile-container"
+    container_name       = "kat-example-statefile-container"
 
     # resource group, for the storage account
     resource_group_name  = "kat-example"
@@ -61,7 +61,7 @@ module "admin" {
   state_resource_group              = "kat-example"
 
   # storage account name for terraform state files (only lower case allowed)
-  state_storage_name_prefix         = "subtdeploy"
+  state_storage_name_prefix         = "katdeploy"
 
   # tag prefix
   tag_name_prefix                   = "kat-example"
