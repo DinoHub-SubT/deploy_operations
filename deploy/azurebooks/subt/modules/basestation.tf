@@ -17,7 +17,11 @@ resource "azurerm_network_interface" "basestation" {
     subnet_id                     = azurerm_subnet.example.id
 
     # private ip allocation method
-    private_ip_address_allocation = var.ip_alloc
+    private_ip_address_allocation = "Static"
+    #var.ip_alloc
+    
+    # private ip address
+    private_ip_address = "10.3.1.1"
     
     # public IP resource connection
     # public_ip_address_id          = azurerm_public_ip.example.id

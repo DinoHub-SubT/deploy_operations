@@ -1,7 +1,7 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "uav" {
+resource "azurerm_network_interface" "perception" {
   # name of NIC
-  name                        = "${var.resource_name_prefix}-NIC-uav"
+  name                        = "${var.resource_name_prefix}-NIC-perception"
 
   # resource group
   resource_group_name         = var.user_defined_resource_group_name
@@ -11,17 +11,16 @@ resource "azurerm_network_interface" "uav" {
 
   ip_configuration {
     # name of NIC configuration
-    name                          = "${var.resource_name_prefix}-NIC-uav-configuration"
+    name                          = "${var.resource_name_prefix}-NIC-perception-configuration"
 
     # subnet configuration for this NIC
     subnet_id                     = azurerm_subnet.example.id
 
     # private ip allocation method
-    private_ip_address_allocation = "Static"
-    #var.ip_alloc
-
-    # private ip address (UAV1)
-    private_ip_address = "10.3.1.51"
+    private_ip_address_allocation = "static"
+    
+    # private ip address
+    private_ip_address = "10.3.1.14"
     
     # public IP resource connection
     # public_ip_address_id          = azurerm_public_ip.example.id
@@ -33,19 +32,19 @@ resource "azurerm_network_interface" "uav" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "uav" {
+resource "azurerm_network_interface_security_group_association" "perception" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.uav.id
+  network_interface_id      = azurerm_network_interface.perception.id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 }
 
-# Create virtual machine -- UAV
-resource "azurerm_linux_virtual_machine" "uav" {
+# Create virtual machine -- perception
+resource "azurerm_linux_virtual_machine" "perception" {
 
   # name of vm
-  name                  = "${var.resource_name_prefix}-uav"
+  name                  = "${var.resource_name_prefix}-perception"
 
   # resource group
   resource_group_name   = var.user_defined_resource_group_name
@@ -53,7 +52,7 @@ resource "azurerm_linux_virtual_machine" "uav" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.uav.id]
+  network_interface_ids = [azurerm_network_interface.perception.id]
 
   # == VM instance Settings ==
   
@@ -61,7 +60,7 @@ resource "azurerm_linux_virtual_machine" "uav" {
   size                  = "Standard_F8s_v2"
   
   os_disk {
-    name                    = "${var.resource_name_prefix}-uav-os-disk"
+    name                    = "${var.resource_name_prefix}-perception-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
     disk_size_gb            = "30"
