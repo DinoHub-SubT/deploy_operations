@@ -1,0 +1,49 @@
+# // /////////////////////////////////////////////////////////////////////////////
+# Global Variables
+# // /////////////////////////////////////////////////////////////////////////////
+
+variable "resource_location" {
+  description = "default location of azure resources"
+  type = string
+  default = "eastus"
+}
+
+# // /////////////////////////////////////////////////////////////////////////////
+# Resource Group Variables
+# // /////////////////////////////////////////////////////////////////////////////
+
+variable "new_project_resource_group_name" {
+  description = "new project resource group name"
+  type = string
+}
+
+variable "resource_group_toggle_creation" {
+  description = "enable or disable creating a resource group"
+  type = number
+  default = 0
+}
+
+
+# // /////////////////////////////////////////////////////////////////////////////
+# State Storage
+# // /////////////////////////////////////////////////////////////////////////////
+
+variable "state_resource_group" {
+  description = "resource group name that manages the state variables"
+  type = string
+}
+
+variable "state_storage_name_prefix" {
+  description = "storage resources for state files prefix name"
+  type = string
+}
+
+# // /////////////////////////////////////////////////////////////////////////////
+# other terraform variables
+# // /////////////////////////////////////////////////////////////////////////////
+
+variable "tag_name_prefix" {
+  description = "Prefix for tag names, for tagging different resources"
+  type = string
+}
+
