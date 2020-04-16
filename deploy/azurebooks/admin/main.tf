@@ -25,7 +25,7 @@ terraform {
     storage_account_name = "katdeployterrastate"
 
     # existing storage container
-    container_name       = "kat-example-statefile-container"
+    container_name       = "katdeploy-statefile-container"
 
     # resource group, for the storage account
     resource_group_name  = "kat-example"
@@ -64,5 +64,5 @@ module "admin" {
   state_storage_name_prefix         = "katdeploy"
 
   # tag prefix
-  tag_name_prefix                   = "kat-example"
+  tag_name_prefix                   = "kat-deploy"
 }
