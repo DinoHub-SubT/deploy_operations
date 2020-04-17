@@ -17,10 +17,10 @@ resource "azurerm_network_interface" "basestation" {
     subnet_id                     = azurerm_subnet.example.id
 
     # private ip allocation method
-    private_ip_address_allocation = var.ip_alloc
+    private_ip_address_allocation = "Static"
     
-    # public IP resource connection
-    # public_ip_address_id          = azurerm_public_ip.example.id
+    # private ip address
+    private_ip_address            = "10.3.1.1"
   }
 
   tags = {
@@ -72,14 +72,16 @@ resource "azurerm_linux_virtual_machine" "basestation" {
 
   # == User Access Settings ==
   
-  computer_name  = var.basestation-hostname
-  admin_username = var.basestation-username
-  admin_password = var.vm_default_password
+  computer_name  = var.basestation_hostname
+  admin_username = var.basestation_username
+  # admin_password = var.vm_default_password
 
   # only allow ssh key connection
-  disable_password_authentication = true    
+  disable_password_authentication = true
+  
+  # ssh connection configurations
   admin_ssh_key {
-    username       = var.basestation-username
+    username       = var.basestation_username
     public_key     = file(var.vm_pub_ssh_key)
   }
 

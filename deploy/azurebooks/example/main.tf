@@ -31,7 +31,6 @@ terraform {
     resource_group_name  = "kat-example"
 
     # path to the statefiles on the remote backend storage container
-    # PLEASE CHANGE THE USERNAME
     key                  = "workspaces/kat/terraform.tfstate"
   }
 }
@@ -56,36 +55,24 @@ module "example" {
   tag_name_prefix         = "tag-subt-sim"
 
   # resource VNET, address space
-  vnet_address_space      = "10.0.0.0/16"
+  vnet_address_space      = "10.3.0.0/16"
 
   # resource SUBNET, example subnet address space with above VNET
-  subnet_address_space    = "10.0.2.0/24"
+  subnet_address_space    = "10.3.0.0/22"
 
   # rsource SUBNET, gateway
-  gateway_address_subnet  = "10.0.1.0/24"
+  gateway_address_subnet  = "10.3.10.0/24"
 
   # vpn settings
   vpn_address_space       = "10.2.0.0/24"
 
   # vpn ca certificate
-  vpn_ca_cert             = "MIIC5jCCAc6gAwIBAgIIDjS6v+UwRS0wDQYJKoZIhvcNAQELBQAwETEPMA0GA1UEAxMGVlBOIENBMB4XDTIwMDQwMTA2NTgyOFoXDTIzMDQwMTA2NTgyOFowETEPMA0GA1UEAxMGVlBOIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzEJY8vH3S8Bc5ooiUVQTYof0hwJJUgdABU3BBkUXop8g3k25YcnVY0PFBirjS/3kMNmWZMjyzA/QEFEHn2K24KKVonyJCzeFinWIJ5R33pvwYwMk62p3PTr1UWYEuaZxiwRbs8vhebRtZUgsia/tWxW7z9QuCxDfqIgohCVkpoNbQMLMMJkwzYOyVYpv1KqHfJYDdcclK6IsbgkmVS3WeFSSpJ71IbBbGnbmlXb5NSv1eSWG91Ky7a6Bay18oxajHJ7r1kZrdhWVOhiQ06Q9RG8HFTGhwHCVSciSAOInBYVnM5Poq18zvWRXNbReHBmzRbxOCk70bMZje4yeAG7UdwIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUd2ESPfEKTTMLucbb38aNh+yhVFkwDQYJKoZIhvcNAQELBQADggEBAEAYkoc2M6wwlUhyjZAfs06Vs8+0pTewcIF5RtacPyioMELT+BI68CFhVd1K0MyQ2SeX6FqZtqnhx6x2qtGTYFVpmbYEdS1il1Ebg9bqMx5RE/IqVV64dBBdEOnmSX/1WxijrlLhnKFiWGy8Odnp6vA4TyaQOzNCzYW1tgFXO2znPdzBw3XGl3MLpK2MLeuOzY012lfEETcl2iQkg+zsMPdr6//biAIum+Q9d+v946T10oJmorGWPL2iUKiiLXFCkwMpiYj60mF6GpaEyKVYAv8RWepYAM2oMMlxi+1FCKpuZUAzXsd3GpKh2Oryapih9mcxPDbpHmxyPZoUvXAwGE4="
+  vpn_ca_cert             = "MIIC5jCCAc6gAwIBAgIIfJwMCWXJ/iAwDQYJKoZIhvcNAQELBQAwETEPMA0GA1UEAxMGVlBOIENBMB4XDTIwMDQwMjA4MjAwMloXDTIzMDQwMjA4MjAwMlowETEPMA0GA1UEAxMGVlBOIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtrPGLzHE1HdffPpK73PhTi6MP8l8V8QWIHVbRFNEszuWm1YwDRKkbgsId8NKewnKuBvPgMdWwobdc98dt/OZN3yGaHSJdgkyNawxdNudpnmoE90KQh+ze9B9WB/r7w82jTRHHK2FxJjFay10Z297YcDqmSF0o2yN9t2PTtMzlLyPoR5gEsp3PHXlCHQc3kGLr3Vyp9fy3FdDfTVfUFyIvo4zqZdiLGkh5ql5CrWS3KiL7SF/ZQZktfzMbhR7gZPpDPewXN54AeYNWHEp8JWBSs+cbKYL+OBEifha/WOzx+pcRphvr6o5FeBLhRsBw9Xg3uCipEnXUbJUOwz/XncBpQIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUiBgkY+JrY1Ez/q//YVDG303sVuswDQYJKoZIhvcNAQELBQADggEBAFTRoBnAGwcNSSDIOdqNkqogoMN6Jq/6PQto8c7SkIYveuuj1DIf3IMvBDfh8yShE+xoGByoo4bD336cS1wIMANtCn8wfXhJXHYfNYp1nZ01GAQdkCdOBLnJRGFdC+D8cu47JxMBuRq3L64l+oDu+u/zZJwWV4CBp+xbzM81pwaKxX0z4R+ev1RnheE+4n99p7R5zWKHXo9Tpu6QYbo9asUXf1JuP3KjaVDS+2a5LX+9xjRPKo9UhpAJmQ/DHXdH3V6tj7zaqZtNC53lP1/wavGRMCpYj+RGVLsAWZFt73CrkIukB7lqH0WXhWNAlaRgGnoH14ob0ePHxQ0ecD1/eSw="
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Settings
   # // /////////////////////////////////////////////////////////////////////////////
-  
-  # basestation VM
-  basestation-username    = "subt"
-  basestation-hostname    = "az-basestation"
 
-  # uav VM
-  uav-username            = "subt"
-  uav-hostname            = "az-uav"
-  
-  # ugv VM
-  ugv-username            = "subt"
-  ugv-hostname            = "az-ugv"
-
-  # location of local ssh key to connect to remove VM
+  # location of local ssh key to connect to remove VM  
   vm_pub_ssh_key          = "/home/katarina/.ssh/azure/subt-sim-vpn/id_rsa.pub"
 }

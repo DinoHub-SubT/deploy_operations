@@ -65,34 +65,40 @@ variable "vm_default_password" {
   default = "Password1234!"
 }
 
-variable "basestation-hostname" {
+variable "basestation_hostname" {
   description = "Hostname of basestation VM"
   type = string
+  default = "az-basestation"
 }
 
-variable "basestation-username" {
+variable "basestation_username" {
   description = "Username of basestation VM"
   type = string
+  default = "subt"
 }
 
-variable "uav-hostname" {
-  description = "Hostname of UAV VM"
-  type = string
-}
-
-variable "uav-username" {
-  description = "Username of UAV VM"
-  type = string
-}
-
-variable "ugv-hostname" {
+variable "ugv_hostname" {
   description = "Hostname of UGV VM"
   type = string
+  default = "az-ugv"
 }
 
-variable "ugv-username" {
+variable "ugv_username" {
   description = "Username of UGV VM"
   type = string
+  default = "subt"
+}
+
+variable "uav_hostname" {
+  description = "Hostname of UAV VM"
+  type = string
+  default = "az-uav"
+}
+
+variable "uav_username" {
+  description = "Username of UAV VM"
+  type = string
+  default = "subt"
 }
 
 
