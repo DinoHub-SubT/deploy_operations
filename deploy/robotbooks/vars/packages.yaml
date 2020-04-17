@@ -1,0 +1,57 @@
+# Prerequisites Ubuntu Packages
+prereq_packages:
+  - python2.7
+  - python-setuptools
+  - python-pip
+  - python-requests
+  - build-essential
+  - cmake
+  - cppcheck
+  - gdb
+  - git
+  - lsb-release
+  - software-properties-common
+  - sudo
+  - vim
+  - nano
+  - emacs
+  - wget
+  - curl
+  - less
+  - net-tools
+  - tmux
+  - byobu
+  - iputils-ping
+  - locales
+  - xvfb
+  - tzdata
+
+# Prerequisites Ubuntu Packages
+pip_packages:
+  - wheel
+  - setuptools
+  - PyYAML
+  - pexpect
+
+docker:
+  - machine_version: 0.16.0
+
+ # docker package dependencies
+docker_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common  
+
+# azure cli tool dependencies
+azure_cli_packages:
+  - ca-certificates
+  - curl
+  - apt-transport-https
+  - lsb-release
+  - gnupg
+  - unzip
+  - wget
+
+terraform:
+  - version: 0.12.24

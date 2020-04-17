@@ -1,0 +1,37 @@
+---
+  # ////////////////////////////////////////////////////////////////////////
+  # setup localhost
+  # ////////////////////////////////////////////////////////////////////////
+  - name: Localhost Setup
+    hosts: localhost
+    connection: local
+    become_method: sudo
+    become_user: root
+
+    # ////////////////////////////////////////////////////////////////////////
+    # setup variables to be shared in tasks
+    # ////////////////////////////////////////////////////////////////////////
+    vars_files:
+      vars/packages.yaml
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Tasks to execute
+    # ////////////////////////////////////////////////////////////////////////
+    tasks:
+      
+      - name: Update get apt packages
+        become: true
+        apt:
+          update_cache: yes
+
+      - name: Install Ubuntu Prerequisite Packages
+        become: true
+        apt:
+          name: "{{ prereq_packages }}"
+          state: present
+          force_apt_get: yes
+      
+      - name: Install Python Prerequisite Packages
+        pip:
+          name: "{{ pip_packages }}"
+          extra_args: --user

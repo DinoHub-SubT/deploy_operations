@@ -1,0 +1,103 @@
+---
+  # ////////////////////////////////////////////////////////////////////////
+  # setup localhost
+  # ////////////////////////////////////////////////////////////////////////
+  - name: Localhost Setup
+    hosts: localhost
+    connection: local
+    become_method: sudo
+    become_user: root
+
+    # ////////////////////////////////////////////////////////////////////////
+    # setup variables to be shared in tasks
+    # ////////////////////////////////////////////////////////////////////////
+    vars_files:
+      vars/packages.yaml
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Tasks to execute
+    # ////////////////////////////////////////////////////////////////////////
+    tasks:
+      
+      # ////////////////////////////////////////////////////////////////////////
+      # Azure CLI Tool
+      # ////////////////////////////////////////////////////////////////////////
+      - name: Update get apt packages
+        become: true
+        apt:
+          update_cache: yes
+
+      - name: Install Ubuntu Prerequisite Packages
+        become: true
+        apt:
+          name: "{{ azure_cli_packages }}"
+          state: present
+          force_apt_get: yes
+      
+      - name: Add official GPG key of Azure CLI
+        shell: curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+      
+      - name: Save the current Ubuntu release version
+        shell: lsb_release -cs
+        register: ubuntu_version
+      
+      - name: Set right Azure CLI directory
+        become: true
+        shell: add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ubuntu_version.stdout }} main"
+      
+      - name: Update get apt packages
+        become: true
+        apt:
+          update_cache: yes
+
+      - name: Install Azure CLI
+        become: true
+        apt:
+          name: azure-cli
+          state: present
+          force_apt_get: yes
+      
+      - name: Validate Azure CLI Version
+        become: true
+        shell: az --version
+        register: az_version_out
+
+      - name: Output Validate Azure CLI Version
+        debug:
+          msg: "Azure CLI Version: {{az_version_out.stdout}}"
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Terraform Tool
+      # ////////////////////////////////////////////////////////////////////////
+      - name: Update get apt packages
+        become: true
+        apt:
+          update_cache: yes
+      
+      - name: Download Terraform Package File To Tmp
+        get_url:
+          url: https://releases.hashicorp.com/terraform/{{ item.version }}/terraform_{{ item.version }}_linux_amd64.zip
+          dest: /tmp/
+          mode: 0755
+        with_items: " {{ terraform }} "
+
+      - name: Extract Terraform Package
+        unarchive:
+          src: /tmp/terraform_{{ item.version }}_linux_amd64.zip
+          dest: /tmp/
+        with_items: " {{ terraform }} "
+
+      - name: stat terraform
+        stat: path=/tmp/terraform
+        register: terraform_stat
+        
+      - name: Move Terraform To Bin
+        command: mv /tmp/terraform /usr/local/bin/
+        when: terraform_stat.stat.exists
+        become: true
+      
+      - name: Remove file (delete file)
+        file:
+          path: /tmp/terraform_{{ item.version }}_linux_amd64.zip
+          state: absent
+        with_items: " {{ terraform }} "
