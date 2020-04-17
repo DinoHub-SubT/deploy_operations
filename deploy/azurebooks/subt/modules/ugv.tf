@@ -1,7 +1,7 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "ugv" {
+resource "azurerm_network_interface" "ugv1" {
   # name of NIC
-  name                        = "${var.resource_name_prefix}-NIC-ugv"
+  name                        = "${var.resource_name_prefix}-NIC-ugv1"
 
   # resource group
   resource_group_name         = var.user_defined_resource_group_name
@@ -11,7 +11,7 @@ resource "azurerm_network_interface" "ugv" {
 
   ip_configuration {
     # name of NIC configuration
-    name                          = "${var.resource_name_prefix}-NIC-ugv-configuration"
+    name                          = "${var.resource_name_prefix}-NIC-ugv1-configuration"
 
     # subnet configuration for this NIC
     subnet_id                     = azurerm_subnet.example.id
@@ -29,19 +29,19 @@ resource "azurerm_network_interface" "ugv" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "ugv" {
+resource "azurerm_network_interface_security_group_association" "ugv1" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.ugv.id
+  network_interface_id      = azurerm_network_interface.ugv1.id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 }
 
-# Create virtual machine -- UGV
-resource "azurerm_linux_virtual_machine" "ugv" {
+# Create virtual machine -- UGV1
+resource "azurerm_linux_virtual_machine" "ugv1" {
 
   # name of vm
-  name                  = "${var.resource_name_prefix}-ugv-1"
+  name                  = "${var.resource_name_prefix}-ugv1"
 
   # resource group
   resource_group_name   = var.user_defined_resource_group_name
@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "ugv" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.ugv.id]
+  network_interface_ids = [azurerm_network_interface.ugv1.id]
 
   # == VM instance Settings ==
   
@@ -57,7 +57,7 @@ resource "azurerm_linux_virtual_machine" "ugv" {
   size                  = "Standard_F8s_v2"
   
   os_disk {
-    name                    = "${var.resource_name_prefix}-ugv-os-disk"
+    name                    = "${var.resource_name_prefix}-ugv1-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
     disk_size_gb            = "30"
@@ -72,7 +72,7 @@ resource "azurerm_linux_virtual_machine" "ugv" {
 
   # == User Access Settings ==
   
-  computer_name  = "${var.ugv_hostname}-1"
+  computer_name  = "${var.ugv_hostname}1"
   admin_username = var.ugv_username
   # admin_password = var.vm_default_password
 

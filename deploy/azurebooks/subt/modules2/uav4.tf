@@ -18,13 +18,9 @@ resource "azurerm_network_interface" "uav4" {
 
     # private ip allocation method
     private_ip_address_allocation = "static"
-    # var.ip_alloc
     
     # private ip address
     private_ip_address = "10.3.1.54"
-    
-    # public IP resource connection
-    # public_ip_address_id          = azurerm_public_ip.example.id
   }
 
   tags = {
@@ -76,11 +72,14 @@ resource "azurerm_linux_virtual_machine" "uav4" {
 
   # == User Access Settings ==
   
-  computer_name  = var.hostname
-  admin_username = var.username
+  computer_name  = "${var.uav_hostname}4"
+  admin_username = var.uav_username
+  # admin_password = var.vm_default_password
 
   # only allow ssh key connection
-  disable_password_authentication = true    
+  disable_password_authentication = true
+
+  # ssh connection configurations
   admin_ssh_key {
     username       = var.username
     public_key     = file(var.vm_pub_ssh_key)
