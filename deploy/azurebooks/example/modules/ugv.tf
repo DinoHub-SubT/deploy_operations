@@ -41,7 +41,7 @@ resource "azurerm_network_interface_security_group_association" "ugv1" {
 resource "azurerm_linux_virtual_machine" "ugv1" {
 
   # name of vm
-  name                  = "${var.resource_name_prefix}-ugv1"
+  name                  = "${var.resource_name_prefix}-ugv-1"
 
   # resource group
   resource_group_name   = var.user_defined_resource_group_name

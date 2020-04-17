@@ -44,6 +44,13 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
   # Resource & Network Settings
   # // /////////////////////////////////////////////////////////////////////////////
+
+  # Another  Example Setup
+  # vnet_address_space      = "10.0.0.0/16"
+  # subnet_address_space    = "10.0.2.0/24"
+  # gateway_address_subnet  = "10.0.1.0/24"
+  # vpn_address_space       = "10.2.0.0/24"
+
   
   # use existing resource group name
   user_defined_resource_group_name = "kat-example"
