@@ -49,24 +49,55 @@ variable "vpn_ca_cert" {
   type = string
 }
 
-
 # // /////////////////////////////////////////////////////////////////////////////
-# VM Variables
+# SubT VM Variables
 # // /////////////////////////////////////////////////////////////////////////////
-
-variable "hostname" {
-  description = "computer name of example VM "
-  type = string
-}
-
-variable "username" {
-  description = "computer name of example VM "
-  type = string
-}
 
 variable "vm_pub_ssh_key" {
-  description = "location of the public ssh key on the local computer to connect to remote VM "
+  description = "Location of the public ssh key on the local computer to connect to remote VM "
   type = string
+}
+
+variable "vm_default_password" {
+  description = "Default password of a VM, please change on entry!"
+  type = string
+  default = "Password1234!"
+}
+
+variable "basestation_hostname" {
+  description = "Hostname of basestation VM"
+  type = string
+  default = "az-basestation"
+}
+
+variable "basestation_username" {
+  description = "Username of basestation VM"
+  type = string
+  default = "subt"
+}
+
+variable "ugv_hostname" {
+  description = "Hostname of UGV VM"
+  type = string
+  default = "az-ugv"
+}
+
+variable "ugv_username" {
+  description = "Username of UGV VM"
+  type = string
+  default = "subt"
+}
+
+variable "uav_hostname" {
+  description = "Hostname of UAV VM"
+  type = string
+  default = "az-uav"
+}
+
+variable "uav_username" {
+  description = "Username of UAV VM"
+  type = string
+  default = "subt"
 }
 
 # // /////////////////////////////////////////////////////////////////////////////

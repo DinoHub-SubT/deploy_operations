@@ -76,11 +76,18 @@ resource "azurerm_linux_virtual_machine" "uav" {
 
   # == User Access Settings ==
   
-  computer_name  = var.hostname
-  admin_username = var.username
-
+  os_profile {
+    computer_name  = "${var.uav_hostname}-1"
+    admin_username = var.uav_username
+    # admin_password = var.vm_default_password
+  }
+  
   # only allow ssh key connection
-  disable_password_authentication = true    
+  os_profile_linux_config {
+    disable_password_authentication = true
+  }
+
+  # ssh connection configurations
   admin_ssh_key {
     username       = var.username
     public_key     = file(var.vm_pub_ssh_key)
