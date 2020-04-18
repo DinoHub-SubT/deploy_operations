@@ -41,7 +41,7 @@
   - vm:
       # go to the remote computer, execute the steps
       # bug: make it use env variable
-      - +ssh:{ subt:azure-basestation:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
+      - +ssh:{ subt:azure-basestation:/home/$USER/.ssh/azure_vpn }
 
       # basestation
       - export deploybook_robot=azure.basestation

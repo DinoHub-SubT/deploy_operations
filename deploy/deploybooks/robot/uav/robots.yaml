@@ -38,7 +38,7 @@
     - vm:
       # go to the remote computer, execute the steps
       # bug: make it use env variable
-      - +ssh:{ subt:azure-uav1:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
+      - +ssh:{ subt:azure-uav1:/home/$USER/.ssh/azure_vpn }
 
       - export deploybook_catkin_profile=uav
       - export deploybook_robot=azure.uav
@@ -63,7 +63,7 @@
     - vm:
       # go to the remote computer, execute the steps
       # bug: make it use env variable
-      - +ssh:{ subt:azure-uav2:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
+      - +ssh:{ subt:azure-uav2:/home/$USER/.ssh/azure_vpn }
 
       - export deploybook_catkin_profile=uav
       - export deploybook_robot=azure.uav
@@ -87,7 +87,7 @@
     - vm:
       # go to the remote computer, execute the steps
       # bug: make it use env variable
-      - +ssh:{ subt:azure-uav3:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
+      - +ssh:{ subt:azure-uav3:/home/$USER/.ssh/azure_vpn }
 
       - export deploybook_catkin_profile=uav
       - export deploybook_robot=azure.uav
@@ -111,7 +111,7 @@
     - vm:
       # go to the remote computer, execute the steps
       # bug: make it use env variable
-      - +ssh:{ subt:azure-uav4:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
+      - +ssh:{ subt:azure-uav4:/home/$USER/.ssh/azure_vpn }
 
       - export deploybook_catkin_profile=uav
       - export deploybook_robot=azure.uav
