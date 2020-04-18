@@ -63,9 +63,7 @@
   - name: Reset Docker Group
     become: true
     user: name=subt groups=docker append=yes
-    notify:
-      - Kill all ssh connections
-
+    
   - name: reset ssh connection to allow user changes to affect 'current login user'
     meta: reset_connection
 
