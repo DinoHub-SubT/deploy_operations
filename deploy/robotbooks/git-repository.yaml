@@ -85,7 +85,7 @@
         shell: 
           cmd: |
             git checkout {{ git.deploy.branch }}
-            rm -rf ci docker perception
+            rm -rf ci docker perception launch
           chdir: ~/deploy_ws/src
         
       - name: Install Deployer Script
@@ -112,6 +112,7 @@
         shell:
           cmd: git submodule update --recursive --init common
           chdir: ~/deploy_ws/src
+        ignore_errors: True
 
       - name: Validate Git Status
         shell:
@@ -129,6 +130,7 @@
           cmd: git submodule update --recursive --init basestation
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-basestation")
+        ignore_errors: True
 
       - name: Validate Git Status
         shell:
@@ -146,6 +148,7 @@
           cmd: git submodule update --recursive --init ugv
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-ugv*")
+        ignore_errors: True
 
       - name: Validate Git Status
         shell:
@@ -163,6 +166,7 @@
           cmd: git submodule update --recursive --init --remote uav
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-uav*")
+        ignore_errors: True
 
       - name: Validate Git Status
         shell:
