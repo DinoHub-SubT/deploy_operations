@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine" "ugv1" {
 
   # ssh connection configurations
   admin_ssh_key {
-    username       = var.username
+    username       = var.ugv_username
     public_key     = file(var.vm_pub_ssh_key)
   }
 

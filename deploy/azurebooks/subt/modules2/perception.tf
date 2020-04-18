@@ -75,13 +75,13 @@ resource "azurerm_linux_virtual_machine" "perception" {
 
   # == User Access Settings ==
   
-  computer_name  = var.hostname
-  admin_username = var.username
+  computer_name  = "${var.perception_hostname}1"
+  admin_username = var.perception_username
 
   # only allow ssh key connection
   disable_password_authentication = true    
   admin_ssh_key {
-    username       = var.username
+    username       = var.perception_username
     public_key     = file(var.vm_pub_ssh_key)
   }
 

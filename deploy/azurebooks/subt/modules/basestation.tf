@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
 
   # ssh connection configurations
   admin_ssh_key {
-    username       = var.username
+    username       = var.basestation_username
     public_key     = file(var.vm_pub_ssh_key)
   }
 

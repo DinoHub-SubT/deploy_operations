@@ -100,6 +100,18 @@ variable "uav_username" {
   default = "subt"
 }
 
+variable "perception_hostname" {
+  description = "Hostname of UAV VM"
+  type = string
+  default = "az-perception"
+}
+
+variable "perception_username" {
+  description = "Username of Perception VM"
+  type = string
+  default = "subt"
+}
+
 # // /////////////////////////////////////////////////////////////////////////////
 # terraform tags
 # // /////////////////////////////////////////////////////////////////////////////

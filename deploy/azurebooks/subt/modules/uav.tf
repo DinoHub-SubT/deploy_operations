@@ -1,5 +1,5 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "1" {
+resource "azurerm_network_interface" "uav1" {
   # name of NIC
   name                        = "${var.resource_name_prefix}-NIC-uav1"
 
@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine" "uav1" {
   
   # ssh connection configurations
   admin_ssh_key {
-    username       = var.username
+    username       = var.uav_username
     public_key     = file(var.vm_pub_ssh_key)
   }
 
