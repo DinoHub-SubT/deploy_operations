@@ -60,8 +60,16 @@
       state: present
       force_apt_get: yes
 
-  - name: Validate Docker
+  - name: Reset Docker Group
     become: true
+    user: name=subt groups=docker append=yes
+    notify:
+      - Kill all ssh connections
+
+  - name: reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
+  - name: Validate Docker
     shell: docker --version
     register: docker_version_out
 
@@ -70,7 +78,6 @@
       msg: "Container Output: {{docker_version_out.stdout}}"
 
   - name: Test Docker with hello world example
-    become: true
     shell: docker run hello-world
     register: hello_world_output
 
