@@ -47,7 +47,7 @@ resource "azurerm_subnet" "example" {
 resource "azurerm_subnet" "example_gateway_subnet" {
 
   # name of gateway subnet
-  name                 = "${var.resource_name_prefix}-subnet"
+  name                 = "GatewaySubnet"
 
   # resource group
   resource_group_name  = var.user_defined_resource_group_name
@@ -168,6 +168,7 @@ resource "azurerm_public_ip" "example" {
     environment = var.tag_name_prefix
   }
 }
+
 # Virtual Network Gateway
 resource "azurerm_virtual_network_gateway" "example" {
   

@@ -331,6 +331,5 @@ Apply the changes to the cloud
         # this will destroy everything create  in the example terraform workspace
         terraform destroy
 
-        # remove all the terraform state files
-        rm -rf .terraform
-        rm terraform.tfstate terraform.tfstate.backup
+        # remove a specific terraform resource (example)
+        terraform destroy -target module.example.azurerm_linux_virtual_machine.ugv1
