@@ -4,18 +4,18 @@
   # ////////////////////////////////////////////////////////////////////////
   - name: Docker Compose Setup
   
+    vars_files:
+      vars/packages.yaml
+  
     # run playbook on the localhost
-    hosts: localhost
-    connection: local
+    hosts:
+      - localhost
+      - basestation
+      - ugv
+      - uav
     become_method: sudo
     become_user: root
   
-    # ////////////////////////////////////////////////////////////////////////
-    # setup variables to be shared in tasks
-    # ////////////////////////////////////////////////////////////////////////
-    vars_files:
-      vars/packages.yaml
-     
     # ////////////////////////////////////////////////////////////////////////
     # Tasks to execute
     # ////////////////////////////////////////////////////////////////////////
@@ -39,12 +39,14 @@
       register: uname_machine
   
     - name: Download Docker Compose
+      become: true
       get_url:
-        url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
-        dest: /usr/local/bin/docker-compose
-        mode: a+x
+          url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
+          dest: /usr/local/bin/docker-compose
+          mode: a+x
   
     - name: Create Docker Compose Symbolic Link
+      become: true
       file:
         src: /usr/local/bin/docker-compose
         dest: /usr/bin/docker-compose
@@ -64,8 +66,9 @@
     # //////////////////////////////////////////////////////////////////////////
     
     - name: Download Docker Machine
+      become: true
       get_url:
-        url: https://github.com/docker/machine/releases/download/v0.16.0-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
+        url: https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
         dest: /tmp/docker-machine
         mode: a+x
     
@@ -74,6 +77,7 @@
       register: docker_machine_stat
       
     - name: Move Docker Machine To Bin
+      become: true
       command: mv /tmp/docker-machine /usr/local/bin/
       when: docker_machine_stat.stat.exists
-      become: true
+

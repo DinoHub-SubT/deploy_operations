@@ -10,6 +10,7 @@
   
     # setup hosts to run commands as
     hosts:
+      - localhost
       - basestation
       - ugv
       - uav
@@ -24,125 +25,59 @@
       # ////////////////////////////////////////////////////////////////////////
       # Install Base Packages
       # ////////////////////////////////////////////////////////////////////////
-#       - name: Update get apt packages
-#         become: true
-#         apt:
-#           update_cache: yes
-# 
-#       - name: Install Ubuntu Prerequisite Packages
-#         become: true
-#         apt:
-#           name: "{{ prereq_packages }}"
-#           state: present
-#           force_apt_get: yes
-#       
-#       - name: Install Python Prerequisite Packages
-#         pip:
-#           name: "{{ pip_packages }}"
-#           extra_args: --user
-# 
-#       # ////////////////////////////////////////////////////////////////////////
-#       # Install Remote Desktop
-#       # ////////////////////////////////////////////////////////////////////////
-#       
-#       - name: Install RDP Prerequisite Packages
-#         become: true
-#         apt:
-#           name: "{{ rdp_packages }}"
-#           state: present
-#           force_apt_get: yes
-#       
-#       - name: Enable service xrdp
-#         become: true
-#         systemd:
-#           name: xrdp
-#           state: started  # make sure service is running
-#           enabled: yes    # start service on boot
-#           masked: no
-#       
-#       - name: Add session to xsession
-#         shell: echo xfce4-session >~/.xsession
-# 
-#       - name: Restart service xrdp
-#         become: true
-#         systemd:
-#           name: xrdp
-#           state: restarted  # make sure service is running
-#           enabled: yes    # start service on boot
-#           masked: no
+      - name: Update get apt packages
+        become: true
+        apt:
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
+
+      - name: Install Ubuntu Prerequisite Packages
+        become: true
+        apt:
+          name: "{{ prereq_packages }}"
+          state: present
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
+      
+      - name: Install Python Prerequisite Packages
+        pip:
+          name: "{{ pip_packages }}"
+          extra_args: --user
 
       # ////////////////////////////////////////////////////////////////////////
-      # Install Git Repository
+      # Install Remote Desktop
       # ////////////////////////////////////////////////////////////////////////
       
-      # - name: Ensure GitHub deploy key is present on the server.
-      #   copy:
-      #     content: "{{ bitbucket_ssh_keys }}"
-      #     dest: ~/.ssh/
-      #     mode: 0600
-      #     owner: subt
-      #     group: subt
-
-      # TODO
-      # - name: Set up multiple authorized keys
-      #   authorized_key:
-      #     user: subt
-      #     state: present
-      #     key: '{{ item }}'
-      #   with_file:
-      #     "{{ node_auth_ssh_keys }}"
-
-      # - name: Evaluating the authentication agent & adding bitbucket key
-      #   shell: |
-      #     eval "$(ssh-agent)"
-      #     ssh-add ~/.ssh/bitbucket
-
+      - name: Install RDP Prerequisite Packages
+        become: true
+        ignore_errors: yes
+        apt:
+          name: "{{ rdp_packages }}"
+          state: present
+          force: yes  # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
       
-      - name: Remove Previously Added Bitbucket To Known Hosts
-        lineinfile:
-          path: $HOME/.ssh/known_hosts
-          regexp: '^bitbucket.org ssh-rsa'
-          state: absent
+      - name: Enable service xrdp
+        become: true
+        systemd:
+          name: xrdp
+          state: started  # make sure service is running
+          enabled: yes    # start service on boot
+          masked: no
       
-      - name: Add Bitbucket to Known Hosts
-        shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
-  
-      #- name: Clone a private repository into /opt.
-      #  git:
-      #    repo: git@github.com:geerlingguy/deploy.git
-      #    version: master
-      #    dest: ~/deploy_ws/src
-      #    accept_hostkey: yes
-      #  # ssh-agent doesn't allow key to pass through remote sudo commands.
-      #  become: no
+      - name: Add session to xsession
+        shell: echo xfce4-session >~/.xsession
 
-      - name: Create SSH Config File
-        file:
-          path: ~/.ssh/config
-          state: touch
-
-      - name: Add Bitubucket to the SSH config
-        lineinfile:
-          path: ~/.ssh/config
-          regexp: 'IdentityFile ~/.ssh/bitbucket'
-          line: IdentityFile ~/.ssh/bitbucket
-      
-      - name: Clone the deploy repository
-        git:
-          repo: "git@bitbucket.org:cmusubt/deploy.git"
-          dest: ~/deploy_ws/src
-          accept_hostkey: yes
-          key_file: ~/.ssh/bitbucket
-          version: "{{ git.deploy.branch }}"
-
-      # clone the deploy repo
-      # - name: Clone Deploy Repository
-      #   shell: |
-      #     eval "$(ssh-agent)"
-      #     ssh-add ~/.ssh/bitbucket
-      #     git clone git@bitbucket.org:cmusubt/deploy.git ~/deploy_ws/src
-      
-
-      # - name: Install this only for local dev machine
-      #   pip: name=pyramid
-      #   when: inventory_hostname == "basestation"
+      - name: Restart service xrdp
+        become: true
+        systemd:
+          name: xrdp
+          state: restarted  # make sure service is running
+          enabled: yes    # start service on boot
+          masked: no

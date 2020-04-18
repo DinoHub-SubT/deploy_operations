@@ -62,11 +62,12 @@ docker:
 terraform:
   - version: 0.12.24
 
-# TODO: Authorized SSH keys to add on the remote host
+# Authorized SSH keys to add on the remote host
 bitbucket_ssh_keys:
-  - ~/.ssh/bitbucket
-  - ~/.ssh/bitbucket.pub
+  - filepath: ~/.ssh/bitbucket
+  - filepath: ~/.ssh/bitbucket.pub
 
+# Git Deploy Repository Configuration
 git:
   deploy:
     branch: feature/launch-restructure
