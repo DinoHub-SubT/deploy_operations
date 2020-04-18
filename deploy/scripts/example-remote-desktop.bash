@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 rdesktop \
     -u [AZURE VM USERNAME] \
