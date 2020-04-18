@@ -25,19 +25,24 @@
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
 # //////////////////////////////////////////////////////////////////////////////
+
+  # source the base scenario file
+  - source operations/deploy/scenarios/.base.env
+
   # scenario file
-  - 'export scenario=" --scenario azure-basestation"'
+  - 'export scenario=" --scenario azure/basestation"'
   # source the scenario file
-  - source operations/deploy/scenarios/azure-basestation.env  
+  - source operations/deploy/scenarios/azure/basestation.env  
 
-  # extend all the computers that run on a sim
-  - +extend: robot/basestation/transfer/azure
+  # extend all the computers that run on a basestation
+  - export ssh_config=azure.basestation
+  - +extend: robot/basestation/transfer/vm-basestation
+  
+  - vm:
+      # go to the remote computer, execute the steps
+      # bug: make it use env variable
+      - +ssh:{ subt:azure-basestation:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
 
-  - basestation:
-    # go to the remote computer, execute the steps
-    # bug: make it use env variable
-    - +ssh:{ kat:azure-basestation:/home/$USER/.ssh/azure/vm-keys/example_id_rsa }
-
-    # basestation
-    - export deploybook_robot=azure.basestation
-    - +extend: robot/basestation/compose/basestation
+      # basestation
+      - export deploybook_robot=azure.basestation
+      - +extend: robot/basestation/compose/basestation
