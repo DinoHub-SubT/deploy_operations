@@ -50,12 +50,14 @@
       # bug: make it use env variable
       - +ssh:{ subt:azure-ugv1:/home/$USER/.ssh/azure/subt-sim-vpn/id_rsa }
 
-      # planning-pc
       - export deploybook_robot=desktop.ppc
       - +extend: robot/ugv/compose/ppc
 
       - export deploybook_robot=desktop.nuc
       - +extend: robot/ugv/compose/nuc
+
+      - export deploybook_robot=desktop.sim
+      - +extend: robot/ugv/compose/sim
 
   # ////////////////////////////////////////////////////////////////////////////
   - ugv2:
@@ -81,6 +83,9 @@
 
       - export deploybook_robot=desktop.nuc
       - +extend: robot/ugv/compose/nuc
+
+      - export deploybook_robot=desktop.sim
+      - +extend: robot/ugv/compose/sim
   
   # ////////////////////////////////////////////////////////////////////////////
   - ugv3:
@@ -106,11 +111,15 @@
 
       - export deploybook_robot=desktop.nuc
       - +extend: robot/ugv/compose/nuc
+
+      - export deploybook_robot=desktop.sim
+      - +extend: robot/ugv/compose/sim
   
 # //////////////////////////////////////////////////////////////////////////////
 - robots:
 # //////////////////////////////////////////////////////////////////////////////
-
+  # TODO: need to actually test the deploy on robot
+  
   # ////////////////////////////////////////////////////////////////////////////
   - ugv1:
   # ////////////////////////////////////////////////////////////////////////////
