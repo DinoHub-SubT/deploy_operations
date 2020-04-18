@@ -33,17 +33,14 @@ pip_packages:
   - PyYAML
   - pexpect
 
-docker:
-  - machine_version: 0.16.0
-
- # docker package dependencies
+# Prerequisites Docker Packages
 docker_packages:
   - apt-transport-https
   - ca-certificates
   - curl
   - software-properties-common  
 
-# azure cli tool dependencies
+# Prerequisites Azure CLI Tool packages
 azure_cli_packages:
   - ca-certificates
   - curl
@@ -53,6 +50,23 @@ azure_cli_packages:
   - unzip
   - wget
 
+# Prerequisites Remote Desktop Packages
+rdp_packages:  
+  - xfce4
+  - xrdp
+
+docker:
+  - machine_version: 0.16.0
+
+# terraform version validation
 terraform:
   - version: 0.12.24
 
+# TODO: Authorized SSH keys to add on the remote host
+bitbucket_ssh_keys:
+  - ~/.ssh/bitbucket
+  - ~/.ssh/bitbucket.pub
+
+git:
+  deploy:
+    branch: feature/launch-restructure
