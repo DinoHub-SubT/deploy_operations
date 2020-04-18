@@ -50,7 +50,8 @@ module "example" {
   user_defined_resource_group_name = "SubT"
 
   # name prefix to be used for all resources
-  resource_name_prefix    = "SubT"
+  # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
+  resource_name_prefix    = "USERNAME-example"
   
   # tag prefix
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
@@ -77,5 +78,6 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
 
   # location of local ssh key to connect to remove VM
+  # !! -- PLEASE CHANGE AZURE SSH KEY -- !!
   vm_pub_ssh_key          = "~/.ssh/azure_vpn.pub"
 }

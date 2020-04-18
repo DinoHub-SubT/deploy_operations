@@ -119,13 +119,11 @@ Source your `bashrc` or `zshrc` directly:
         # Edit the main entrypoint terraform configuration file
         gedit ~/deploy_ws/src/src/operations/deploy/azurebooks/subt/main.tf
 
+    - Change `terraform:key` to include your azure username
+
     - Change `resource_name_prefix` to your preference
 
     - Change `tag_name_prefix` to your preference
-
-    - Change `hostname` to your preference
-
-    - Change `username` to your preference
 
     - Change `vm_pub_ssh_key` to the the ssh key path generated in the *Bitbucket SSH Keys steps*
     
