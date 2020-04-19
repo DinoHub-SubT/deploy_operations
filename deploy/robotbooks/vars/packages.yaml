@@ -25,6 +25,9 @@ prereq_packages:
   - locales
   - xvfb
   - tzdata
+  - debian-archive-keyring
+  - apt-transport-https
+  - git-lfs
 
 # Prerequisites Ubuntu Packages
 pip_packages:
@@ -35,7 +38,6 @@ pip_packages:
 
 # Prerequisites Docker Packages
 docker_packages:
-  - apt-transport-https
   - ca-certificates
   - curl
   - software-properties-common  
@@ -44,7 +46,6 @@ docker_packages:
 azure_cli_packages:
   - ca-certificates
   - curl
-  - apt-transport-https
   - lsb-release
   - gnupg
   - unzip
@@ -55,6 +56,7 @@ rdp_packages:
   - xfce4
   - xrdp
 
+# docker version
 docker:
   - machine_version: 0.16.0
 

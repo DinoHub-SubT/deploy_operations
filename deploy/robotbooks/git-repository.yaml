@@ -123,6 +123,12 @@
       - name: Output Validate Git Status
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
+      
+      - name: Submodule Common Checkout LFS Files
+        shell:
+          cmd: git lfs fetch
+          chdir: ~/deploy_ws/src/common/communication_manager
+        ignore_errors: True
   
       # Basestation
       - name: Submodule Update Basestation
