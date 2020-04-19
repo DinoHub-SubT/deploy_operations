@@ -126,7 +126,9 @@
       
       - name: Submodule Common Checkout LFS Files
         shell:
-          cmd: git lfs fetch
+          cmd: |
+            git lfs fetch
+            git lfs pull
           chdir: ~/deploy_ws/src/common/communication_manager
         ignore_errors: True
   
