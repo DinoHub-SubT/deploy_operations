@@ -117,7 +117,7 @@ Source your `bashrc` or `zshrc` directly:
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
 
         # Edit the main entrypoint terraform configuration file
-        gedit ~/deploy_ws/src/src/operations/deploy/azurebooks/subt/main.tf
+        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
     - Change `terraform:key` to include your azure username
 
@@ -138,6 +138,9 @@ Source your `bashrc` or `zshrc` directly:
         # Shows the user the azure deployment
         terraform plan
 
+    - **Errors:** if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
+  
+
 - Apply the terraform deployment to azure
 
         # will create all the resources on azure
@@ -147,7 +150,8 @@ Source your `bashrc` or `zshrc` directly:
 
     - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to *Download the VPN Client* step and continue from there.
 
-You should now have a example resources deployed on azure.
+You should now have a example resources deployed on azure. You can verify by going on the Azure portal website, to your resource group and finding your created resources.
+- Please go to the Azure portal website to find the IPs of the VMs you have created.
 
 
 * * *

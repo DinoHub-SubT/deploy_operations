@@ -163,7 +163,7 @@
       # UAV
       - name: Submodule Update UAV
         shell:
-          cmd: git submodule update --recursive --init --remote uav
+          cmd: git submodule update --recursive --init uav
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
