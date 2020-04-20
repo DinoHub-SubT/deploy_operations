@@ -11,4 +11,4 @@ rdesktop \
     -z \
     -xl \
     -r clipboard:CLIPBOARD \
-    azure-ugv
+    azure-ugv1
