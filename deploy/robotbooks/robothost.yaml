@@ -81,3 +81,13 @@
           state: restarted  # make sure service is running
           enabled: yes    # start service on boot
           masked: no
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Update password for default VM user
+      # ////////////////////////////////////////////////////////////////////////
+      - name: Setup default 'subt' user password
+        become: true
+        user:
+          name: "{{ default_user.name }}"
+          update_password: always
+          password: "{{ default_user.password | password_hash('sha512') }}"

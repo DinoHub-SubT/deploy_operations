@@ -305,6 +305,21 @@ The subt terraform example has remote desktop port enabled.
         # connect to rdp server
         ./my-rdp-client.bash
 
+- `rdp` requires a password. There is no password setup for the default user.
+
+    - Continue with the build tutorials where the `ansible` scripts will set a default password in the VMs for you.
+    - Or, set the `subt` user's password manually in the VM.
+
+- `rdp` services needs to be restarted on VM reboot:
+
+    - Continue with the build tutorials where the `ansible` scripts will set the xrdp service to start on VM boot for you.
+
+    - Or restart the service manually in the VM:
+
+            sudo systemctl enable xrdp
+            echo xfce4-session >~/.xsession
+            sudo service xrdp restart
+
 * * *
 
 ## Changing Terraform Files

@@ -56,6 +56,18 @@ rdp_packages:
   - xfce4
   - xrdp
 
+# Authorized SSH keys to add on the remote host
+bitbucket_ssh_keys:
+  - filepath: ~/.ssh/bitbucket
+  - filepath: ~/.ssh/bitbucket.pub
+
+# == Versions ==
+
+# Git Deploy Repository Configuration
+git:
+  deploy:
+    branch: feature/launch-restructure
+
 # docker version
 docker:
   - machine_version: 0.16.0
@@ -64,12 +76,8 @@ docker:
 terraform:
   - version: 0.12.24
 
-# Authorized SSH keys to add on the remote host
-bitbucket_ssh_keys:
-  - filepath: ~/.ssh/bitbucket
-  - filepath: ~/.ssh/bitbucket.pub
+# terraform version validation
+default_user:
+  name: subt
+  password: Password1234!
 
-# Git Deploy Repository Configuration
-git:
-  deploy:
-    branch: feature/launch-restructure
