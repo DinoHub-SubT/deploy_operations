@@ -13,6 +13,7 @@
       - basestation
       - ugv
       - uav
+      - perception
     become_method: sudo
     become_user: root
   
