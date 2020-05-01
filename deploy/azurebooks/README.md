@@ -18,13 +18,13 @@ There are two operational tools available to use: `az` or `terraform`
         cd ~/.ssh/
         ssh-keygen
 
-    - Please answer the prompts from `ssh-keygen` as shown below:
+    - Answer the prompts from `ssh-keygen` as shown below:
         
             Enter file in which to save the key (/home/<USER-NAME>/.ssh/id_rsa): /home/<USER-NAME>/.ssh/azure_vpn
             Enter passphrase (empty for no passphrase):
 
     - **DO NOT ENTER A PASSPHRASE on `ssh-keygen`! LEAVE IT BLANK.**
-    - Please replace `<USER-NAME>` with your actual username
+    - Replace `<USER-NAME>` with your actual username
 
 * * *
 
@@ -34,7 +34,12 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 - You will be able to ssh into the VM (using the private IP) over VPN.
 
-- There are instructions below to setup VM remote desktop access.
+**Things to keep in mind:**
+
+- The `azure username` to be used in this tutorial, is the *user name* found before your `@...hotmail.onmicrosoft.com` account email.
+
+- The `azure resource group` that will be used in this tutorial is `SubT`.
+
 
 ### Terraform Subt Project Prerequisites
 
@@ -66,7 +71,7 @@ Source your `bashrc` or `zshrc` directly:
         # source zshrc directly
         source ~/.zshrc
 
-### Deploy Terraform Subt Project
+### Deploy Terraform SubT Project
 
 **All terraform commands must be done in the `azurebooks/subt` directory workspace**.
 
@@ -99,9 +104,9 @@ Source your `bashrc` or `zshrc` directly:
 
         # == Create the user certificate ==
 
-        # Please change 'password' to something more secure 
+        # Change 'password' to something more secure 
         export PASSWORD="password"
-        # Please change 'username' to your username (please change to your azure username)
+        # Change 'username' to your username (change to your azure username)
         export USERNAME="client"
 
         # generate the user certificate
@@ -140,19 +145,18 @@ Source your `bashrc` or `zshrc` directly:
 
     - **Errors:** if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
   
-
-- Apply the terraform deployment to azure
+- Apply the terraform infrastructure setup to Azure
 
         # will create all the resources on azure
         terraform apply
 
-- Please complete the **VPN Connection** steps shown below (if you want VPN connection).
+- Complete the **VPN Connection** steps shown below (if you want VPN connection).
 
-    - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to *Download the VPN Client* step and continue from there.
+    - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to the **Download the VPN Client** step and continue from there.
 
-You should now have a example resources deployed on azure. You can verify by going on the Azure portal website, to your resource group and finding your created resources.
-- Please go to the Azure portal website to find the IPs of the VMs you have created.
+You should now have an example resources deployed on azure. 
 
+- You can verify your setup by going on the [portal.azure.com](https://portal.azure.com/#home) website, navigate to the `SubT` resource group and finding your newly created resources.
 
 * * *
 
@@ -160,7 +164,7 @@ You should now have a example resources deployed on azure. You can verify by goi
 
 ### Ubuntu
 
-The below instructions can be found on [azure tutorials](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert)
+The below instructions can be found on [azure tutorials](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert) for reference.
   
   - Please follow the below instructions and use the *azure tutorials* only when running into issues or for more background information.
 
@@ -198,32 +202,40 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
 
 **Update personalized terraform variables**
 
-
 Change the personalized cert key variable in the `main.tf` terraform:
 
         gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
-**Apply Change to Azure**
+**Apply Changes to Azure**
 
       # apply the VPN gateway, this can take up to 30 minutes, just for the VPN. It can be longer if setting up more resources
       cd ~/deploy_ws/src/operations/deploy/azurebooks/subt/
+
       # Dry-run: shows the user the azure deployment
       terraform plan
+      
       # Apply the terraform setup to azure
       terraform apply
 
 **Download the VPN Client**
 
-      # get the vpn client, this will output a https link, please remember it
+      # go to a ssh folder to contain your vpn keys
       cd ~/.ssh/azure/vpn
-      az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group [resource group name]
+
+      # Get the vpn client, this will output a https link, please remember it!
+      #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
+      #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
+      #   - an example would be: kat-example-vnet-gateway
+      az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
       # download the client (without brackets)
-      wget [https path from previous command WITHOUT QUOTES ]
+      # if the wget command does not work, put the https link (from the previous step) in your browser and download it to '~/.ssh/azure/vpn' location
+      wget --directory-prefix=. [https path from previous command WITHOUT QUOTES ]
 
       # unzip the vpn client package
+      #   - its okay to ignore the warnings '1 archive had warnings but no fatal errors.'
       unzip -j -d client-download [downloaded.zip]
 
       # == Connect to the VPN ==
@@ -256,6 +268,14 @@ Summary of above link (please use the link):
         # ssh into your VM
         ssh [username]@[private IP]
 
+- **To find the IP:**
+
+    - Go to the Azure Portal Website
+    
+    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+
+            az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
+
 **Example Errors**
 
 - Permision denined
@@ -269,7 +289,6 @@ Summary of above link (please use the link):
 
 - For ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
 
-
 * * *
 
 ## Remote Desktop
@@ -281,6 +300,14 @@ The subt terraform example has remote desktop port enabled.
 
         # ssh into your VM
         ssh [username]@[private IP]
+
+- **To find the IP:**
+
+    - Go to the Azure Portal Website
+    
+    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+
+            az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
 **Install desktop enviornment (remote host VM)**
 
@@ -312,7 +339,7 @@ The subt terraform example has remote desktop port enabled.
 
 - `rdp` services needs to be restarted on VM reboot:
 
-    - Continue with the build tutorials where the `ansible` scripts will set the xrdp service to start on VM boot for you.
+    - Continue with the build tutorials where the `ansible` scripts will setup the `xrdp` service to start on VM boot for you.
 
     - Or restart the service manually in the VM:
 
@@ -322,9 +349,12 @@ The subt terraform example has remote desktop port enabled.
 
 * * *
 
+# Discussion
+
 ## Changing Terraform Files
 
 You should become comfortable creating or updating terraform files.
+
 - A simple next example you can try out is adding another VM terraform file with username/password setup.
 
 Any changes to the terraform files, requires updating the terraform workspace
@@ -338,12 +368,13 @@ Apply the changes to the cloud
         # Apply the terraform setup to azure
         terraform apply
 
-* * *
+## Remove Terraform Created Resources from Azure
 
-## Remove Terraform Project from Azure
+**WARNING: Be careful what resource group or resources you are destroying!!**
 
-- **WARNING: Be careful on what resource group or resources you are destroying!!**
-- Be careful not destroy other user resources (**always check** command line variable names or nested resource links).
+- Be careful not destroy another user's resources (**always check** the command line variable names or nested resource links).
+
+**Example:** Remove an existing Virtual Machine:
 
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt/
 
@@ -352,3 +383,50 @@ Apply the changes to the cloud
 
         # remove a specific terraform resource (example)
         terraform destroy -target module.example.azurerm_linux_virtual_machine.ugv1
+
+Always, verify on the Azure Portal that your resources have been destroyed.
+
+- Sometimes, the above steps can result in errors. Or it might not report any errors, but the resource might still exist on the portal.
+- Go to the Azure portal and directly remove the resource if its still exists.
+
+**WARNING:** Synchronization errors can occur when removing azure resources directly on the portal, but without removing using terraform.
+  
+- If terraform does not find those resources on Azure it might not be able to sync its `terraform state` files correctly.
+- Always remove the resources using terraform first. If there is a failure, then remove the resource on the azure portal website directly.
+
+
+## Useful Azure Command Line (az) Commands
+
+*Feel free to add more useful commands here.*
+
+List your user account information:
+
+      az account list
+
+List all resource groups available:
+    
+      az group list -o table
+
+List all resources for the `SubT` resource group:
+      
+      az resource list -g SubT -o table
+
+List all resources for the `SubT` resource group, matching pattern:
+
+      # template: az resource list -g SubT -o table | grep [pattern]
+      # example, with pattern:
+      az resource list -g SubT -o table | grep kat
+
+List the IPs Virtual Machines found in `SubT` resource group:
+
+      az vm list-ip-addresses -g SubT -o table
+
+List the IPs Virtual Machines found in `SubT` resource group, matching prefix:
+
+      az vm list-ip-addresses -g SubT -o table | grep [pattern]
+
+List the public IPs found in `SubT` resource group, matching prefix:
+
+      # template: az resource list -g SubT -o table | grep [pattern]
+      # example, with pattern:
+      az network public-ip list -g SubT -o table | grep kat
