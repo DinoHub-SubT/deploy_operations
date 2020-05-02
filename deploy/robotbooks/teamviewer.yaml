@@ -1,0 +1,89 @@
+---
+  # ////////////////////////////////////////////////////////////////////////
+  # setup localhost
+  # ////////////////////////////////////////////////////////////////////////
+  - name: Localhost Setup
+    
+    # setup variables to be shared in tasks
+    vars_files:
+      vars/packages.yaml
+  
+    # setup hosts to run commands as
+    hosts:
+      - localhost
+      - basestation
+      - ugv
+      - uav
+    become_method: sudo
+    become_user: root
+    
+    # ////////////////////////////////////////////////////////////////////////
+    # Tasks to execute
+    # ////////////////////////////////////////////////////////////////////////
+    tasks:
+      
+      # ////////////////////////////////////////////////////////////////////////
+      # Install GNOME Desktop
+      # ////////////////////////////////////////////////////////////////////////
+      - name: Update get apt packages
+        become: true
+        apt:
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
+
+      - name: Install GNOME Vanilla
+        become: true
+        apt:
+          name: "{{ gnome_vanilla_packages }}"
+          state: present
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
+      
+      - name: Install GNOME Prerequisite
+        become: true
+        apt:
+          name: "{{ gnome_prerequisite_packages }}"
+          state: present
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update
+
+      - name: Install GNOME Desktop
+        become: true
+        apt:
+          name: "{{ gnome_desktop_packages }}"
+          state: present
+          force: yes          # force yes
+          force_apt_get: yes
+          install_recommends: yes
+          update_cache: yes   # force apt-get update          
+
+      - name: Enable service gdm3
+        become: true
+        systemd:
+          name: gdm3
+          state: started  # make sure service is running
+          enabled: yes    # start service on boot
+          masked: no
+      
+      - name: Restart service gdm3
+        become: true
+        systemd:
+          name: gdm3
+          state: restarted  # make sure service is running
+          enabled: yes      # start service on boot
+          masked: no
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Install TeamViewer
+      # ////////////////////////////////////////////////////////////////////////
+      
+      - name: Install TeamViewer
+        become: true  
+        apt:
+          deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb

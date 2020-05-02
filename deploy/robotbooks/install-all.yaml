@@ -6,6 +6,9 @@
 - include: docker.yaml
 - include: docker-tools.yaml
 
+# Install teamviewer and GNOME desktop on the remote VM
+- include: teamviewer.yaml
+
 # Clones the deploy repo on the remote VM (can take 30 minutes)
 # You do not need to clone the repo on the remote VM manually, this command will do that for you.
 - include: git-repository.yaml

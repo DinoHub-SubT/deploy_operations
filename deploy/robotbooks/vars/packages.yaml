@@ -56,6 +56,16 @@ rdp_packages:
   - xfce4
   - xrdp
 
+  # Prerequisites Remote Desktop Packages
+gnome_vanilla_packages:  
+  - gdm3
+
+gnome_prerequisite_packages:
+  - tasksel
+
+gnome_desktop_packages:
+  - ubuntu-desktop
+
 # Authorized SSH keys to add on the remote host
 bitbucket_ssh_keys:
   - filepath: ~/.ssh/bitbucket
