@@ -113,6 +113,28 @@ variable "perception_username" {
 }
 
 # // /////////////////////////////////////////////////////////////////////////////
+# resource creation toggles
+# // /////////////////////////////////////////////////////////////////////////////
+
+variable "basic_robots_toggle" {
+  description = "toggle (enable or disable) for creating VMs for basic robot simulation"
+  type = number
+  default = 0
+}
+
+variable "coord_robots_toggle" {
+  description = "toggle (enable or disable) for creating VMs for full coordination robot simulation"
+  type = number
+  default = 0
+}
+
+variable "perception_robots_toggle" {
+  description = "toggle (enable or disable) for creating VMs for perception robot simulation"
+  type = number
+  default = 0
+}
+
+# // /////////////////////////////////////////////////////////////////////////////
 # terraform tags
 # // /////////////////////////////////////////////////////////////////////////////
 variable "tag_name_prefix" {

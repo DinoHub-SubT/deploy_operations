@@ -9,6 +9,9 @@ resource "azurerm_network_interface" "ugv1" {
   # region location
   location                    = var.resource_location
 
+  # toggle creation of a resource
+  count                       = var.basic_robots_toggle
+
   ip_configuration {
     # name of NIC configuration
     name                          = "${var.resource_name_prefix}-NIC-ugv1-configuration"
@@ -19,8 +22,8 @@ resource "azurerm_network_interface" "ugv1" {
     # private ip allocation method
     private_ip_address_allocation = "Static"
     
-    # private ip address (UGV1)
-    private_ip_address = "10.3.1.11"
+    # private ip address
+    private_ip_address            = "10.3.1.11"
   }
 
   tags = {
@@ -31,10 +34,13 @@ resource "azurerm_network_interface" "ugv1" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "ugv1" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.ugv1.id
+  network_interface_id      = azurerm_network_interface.ugv1[count.index].id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
+
+  # toggle creation of a resource
+  count                     = var.basic_robots_toggle
 }
 
 # Create virtual machine -- UGV1
@@ -49,20 +55,26 @@ resource "azurerm_linux_virtual_machine" "ugv1" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.ugv1.id]
+  # NIC interface id
+  network_interface_ids = [azurerm_network_interface.ugv1[count.index].id]
+
+  # toggle creation of a resource
+  count                 = var.basic_robots_toggle
 
   # == VM instance Settings ==
   
   # instance type
   size                  = "Standard_F8s_v2"
   
+  # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-ugv1-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
-    disk_size_gb            = "30"
+    disk_size_gb            = "64"
   }
 
+  # VM image setup
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"

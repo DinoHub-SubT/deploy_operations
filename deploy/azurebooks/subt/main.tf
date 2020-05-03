@@ -8,8 +8,9 @@ provider "azurerm" {
   features {}
   
   # setup credentials
-  subscription_id = var.subscription_id
-  tenant_id = var.tenant_id
+  # -- please have these variables set in your ~/.bashrc (or ~/.zshrc)
+  subscription_id   = var.subscription_id
+  tenant_id         = var.tenant_id
 }
 
 # // /////////////////////////////////////////////////////////////////////////////
@@ -47,37 +48,77 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
   
   # use existing resource group name
-  user_defined_resource_group_name = "SubT"
+  user_defined_resource_group_name  = "SubT"
+
+  # set the resource location
+  resource_location                 = "eastus"
 
   # name prefix to be used for all resources
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
-  resource_name_prefix    = "USERNAME-example"
+  resource_name_prefix              = "USERNAME-example"
   
   # tag prefix
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
-  tag_name_prefix         = "tag-USERNAME-example"
+  tag_name_prefix                   = "tag-USERNAME-example"
 
   # resource VNET, address space
-  vnet_address_space      = "10.3.0.0/16"
+  vnet_address_space                = "10.3.0.0/16"
 
   # resource SUBNET, example subnet address space with above VNET
-  subnet_address_space    = "10.3.0.0/22"
+  subnet_address_space              = "10.3.0.0/22"
 
   # rsource SUBNET, gateway
-  gateway_address_subnet  = "10.3.10.0/24"
+  gateway_address_subnet            = "10.3.10.0/24"
 
   # vpn settings
-  vpn_address_space       = "10.2.0.0/24"
+  vpn_address_space                 = "10.2.0.0/24"
 
   # vpn ca certificate
   # !! -- PLEASE CHANGE VPN CA CERTIFCATE -- !!
-  vpn_ca_cert             = "YOUR VPN CA CERTIFICATE GOES HERE"
+  vpn_ca_cert                       = "YOUR VPN CA CERTIFICATE GOES HERE" 
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Settings
   # // /////////////////////////////////////////////////////////////////////////////
 
-  # location of local ssh key to connect to remove VM
+  # location of local ssh key to connect to remote VM
+  #   -- remember to to keep the '.pub' suffix.
   # !! -- PLEASE CHANGE AZURE SSH KEY -- !!
-  vm_pub_ssh_key          = "~/.ssh/azure_vpn.pub"
+  vm_pub_ssh_key                    = "~/.ssh/azure_vpn.pub"
+
+  # // /////////////////////////////////////////////////////////////////////////////
+  # Number Of Robot VMs To Create
+  # // /////////////////////////////////////////////////////////////////////////////
+
+  # !! -- PLEASE CHANGE THE TOGGLE TO YOUR PREFERENCE -- !!
+  # Recommendation:
+  #   - Please keep 'basic' enabled always.
+  #   - Enable 'perception' if you wish to test perception simulation.
+  #   - Enable 'coord' if you wish to test the full coordination simulation.
+  
+  # About:
+  #   - basic simulation:         basestation, ugv1, uav1
+  #   - perception simulation:    perception
+  #   - coordination simulation:  ugv2, ugv3, ..., uav2, uav3, ...
+  # Comments:
+  #   - ENABLING ALL: creates the entire full simulation
+  #   - DISABLE ANY: will remove that set of VMs from azure
+
+  # Create all the robot VMs for basic simulation setup
+  # Robot VMs: basestation, ugv1, uav1
+  #   -- Enable: 1 == true
+  #   -- Disable: 0 == false
+  basic_robots_toggle                 = 1
+
+  # Create all the robot VMs for full coordination simulation setup
+  # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
+  #   -- Enable: 1 == true
+  #   -- Disable: 0 == false
+  perception_robots_toggle            = 0
+
+  # Create all the robot VMs for full coordination simulation setup
+  # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
+  #   -- Enable: 1 == true
+  #   -- Disable: 0 == false
+  coord_robots_toggle                 = 0
 }

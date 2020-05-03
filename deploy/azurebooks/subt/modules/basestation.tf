@@ -9,6 +9,9 @@ resource "azurerm_network_interface" "basestation" {
   # region location
   location                    = var.resource_location
 
+  # toggle creation of a resource
+  count                       = var.basic_robots_toggle
+
   ip_configuration {
     # name of NIC configuration
     name                          = "${var.resource_name_prefix}-NIC-basestation-configuration"
@@ -31,10 +34,13 @@ resource "azurerm_network_interface" "basestation" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "basestation" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.basestation.id
+  network_interface_id      = azurerm_network_interface.basestation[count.index].id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
+
+  # toggle creation of a resource
+  count                     = var.basic_robots_toggle
 }
 
 # Create virtual machine -- basestation
@@ -49,13 +55,18 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.basestation.id]
+  # NIC interface id
+  network_interface_ids = [azurerm_network_interface.basestation[count.index].id]
+
+  # toggle creation of a resource
+  count                 = var.basic_robots_toggle
 
   # == VM instance Settings ==
   
   # instance type
   size                  = "Standard_F8s_v2"
   
+  # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-basestation-os-disk"
     caching                 = "ReadWrite"
@@ -63,6 +74,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
     disk_size_gb            = "30"
   }
 
+  # VM image setup
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
