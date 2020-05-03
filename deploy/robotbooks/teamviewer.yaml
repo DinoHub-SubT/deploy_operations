@@ -61,8 +61,14 @@
           force: yes          # force yes
           force_apt_get: yes
           install_recommends: yes
-          update_cache: yes   # force apt-get update          
-
+          update_cache: yes   # force apt-get update
+      
+      - name: Tasksel Install GNOME Desktop
+        become: true
+        shell:
+          cmd: tasksel install ubuntu-desktop
+        ignore_errors: True
+    
       - name: Enable service gdm3
         become: true
         systemd:
@@ -79,6 +85,23 @@
           enabled: yes      # start service on boot
           masked: no
 
+      - name: Remove Previous Dummy Xorg
+        become: true
+        file:
+          path: /usr/share/X11/xorg.conf.d/xorg.conf
+          state: absent
+        
+      - name: Add Dummy Xorg
+        become: true
+        copy:
+          src: dummy-xorg.conf
+          dest: '/usr/share/X11/xorg.conf.d/xorg.conf'
+
+      - name: Reboot Machine
+        become: true
+        reboot:
+          reboot_timeout: 3600
+
       # ////////////////////////////////////////////////////////////////////////
       # Install TeamViewer
       # ////////////////////////////////////////////////////////////////////////
@@ -87,3 +110,40 @@
         become: true  
         apt:
           deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+
+      - name: Enable service TeamViewer
+        become: true
+        systemd:
+          name: teamviewerd
+          state: started  # make sure service is running
+          enabled: yes    # start service on boot
+          masked: no
+
+      - name: Restart service TeamViewer
+        become: true
+        systemd:
+          name: teamviewerd
+          state: restarted  # make sure service is running
+          enabled: yes    # start service on boot
+          masked: no
+      
+      - name: Set TeamViewer Password
+        become: true
+        command: teamviewer --passwd "{{ teamviewer.password }}"
+
+      - name: Accept TeamViewer License
+        become: true
+        command: teamviewer license accept
+        ignore_errors: yes
+          
+      - name: TeamViewer Info
+        become: true
+        command: teamviewer --info
+        register: teamviewer_info
+      
+      - debug: msg="{{ teamviewer_info.stdout }}"
+
+      - name: Reboot Machine
+        become: true
+        reboot:
+          reboot_timeout: 3600

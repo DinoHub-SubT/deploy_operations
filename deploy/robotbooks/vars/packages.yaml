@@ -59,12 +59,14 @@ rdp_packages:
   # Prerequisites Remote Desktop Packages
 gnome_vanilla_packages:  
   - gdm3
+  - gnome-session
 
 gnome_prerequisite_packages:
   - tasksel
 
 gnome_desktop_packages:
   - ubuntu-desktop
+  - xserver-xorg-video-dummy
 
 # Authorized SSH keys to add on the remote host
 bitbucket_ssh_keys:
@@ -91,3 +93,6 @@ default_user:
   name: subt
   password: Password1234!
 
+# terraform version validation
+teamviewer:
+  password: teamviewer
