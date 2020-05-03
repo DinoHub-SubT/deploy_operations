@@ -382,7 +382,13 @@ Apply the changes to the cloud
         terraform destroy
 
         # remove a specific terraform resource (example)
+        # note: terraform does not remove linked resources, only the resource explicitly specified
         terraform destroy -target module.example.azurerm_linux_virtual_machine.ugv1
+
+        # remove multiple terraform resources
+        terraform destroy -target module.example.azurerm_linux_virtual_machine.ugv1 \
+                -target module.example.azurerm_network_interface_security_group_association.ugv1 \
+                -target module.example.azurerm_network_interface.ugv1
 
 Always, verify on the Azure Portal that your resources have been destroyed.
 
