@@ -9,6 +9,9 @@ resource "azurerm_network_interface" "perception" {
   # region location
   location                    = var.resource_location
 
+  # toggle creation of a resource
+  count                       = var.perception_robots_toggle
+
   ip_configuration {
     # name of NIC configuration
     name                          = "${var.resource_name_prefix}-NIC-perception-configuration"
@@ -20,10 +23,7 @@ resource "azurerm_network_interface" "perception" {
     private_ip_address_allocation = "static"
     
     # private ip address
-    private_ip_address = "10.3.1.14"
-    
-    # public IP resource connection
-    # public_ip_address_id          = azurerm_public_ip.example.id
+    private_ip_address            = "10.3.1.14"
   }
 
   tags = {
@@ -34,10 +34,13 @@ resource "azurerm_network_interface" "perception" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "perception" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.perception.id
+  network_interface_id      = azurerm_network_interface.perception[count.index].id
   
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
+
+  # toggle creation of a resource
+  count                     = var.perception_robots_toggle
 }
 
 # Create virtual machine -- perception
@@ -52,7 +55,11 @@ resource "azurerm_linux_virtual_machine" "perception" {
   # region location
   location              = var.resource_location
 
-  network_interface_ids = [azurerm_network_interface.perception.id]
+  # toggle creation of a resource
+  count                 = var.perception_robots_toggle
+
+    # NIC interface id
+  network_interface_ids = [azurerm_network_interface.perception[count.index].id]
 
   # == VM instance Settings ==
   
@@ -103,8 +110,6 @@ data "azurerm_platform_image" "ubuntu1804" {
   sku       = "18.04-LTS"
 }
 
-
-
 resource "azurerm_managed_disk" "perception" {
   name                 = "${var.resource_name_prefix}-perception-disk1"
   location             = var.resource_location
@@ -113,11 +118,15 @@ resource "azurerm_managed_disk" "perception" {
   create_option        = "FromImage"
   disk_size_gb         = 1000
   image_reference_id   = "/Subscriptions/b1e974e5-8229-44c3-a472-235a580d611a/Providers/Microsoft.Compute/Locations/westus/Publishers/Canonical/ArtifactTypes/VMImage/Offers/UbuntuServer/Skus/18.04-LTS/Versions/18.04.202004080"
+  # toggle creation of a resource
+  count                 = var.perception_robots_toggle
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "perception" {
-  managed_disk_id    = azurerm_managed_disk.perception.id
-  virtual_machine_id = azurerm_linux_virtual_machine.perception.id
+  managed_disk_id    = azurerm_managed_disk.perception[count.index].id
+  virtual_machine_id = azurerm_linux_virtual_machine.perception[count.index].id
   lun                = "10"
   caching            = "ReadWrite"
+  # toggle creation of a resource
+  count                 = var.perception_robots_toggle
 }
