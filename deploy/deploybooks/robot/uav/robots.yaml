@@ -4,13 +4,16 @@
 # //////////////////////////////////////////////////////////////////////////////
 - desktop:
 # //////////////////////////////////////////////////////////////////////////////
-  # scenario file
-  - 'export scenario=" --scenario desktop-uav"'
-  # source the scenario file
-  - source operations/deploy/scenarios/desktop-uav.env
   
-  # == extend all the computers that run on a uav ==
-  - uav:
+  # ////////////////////////////////////////////////////////////////////////////
+  - uav1:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # scenario file
+    - 'export scenario=" --scenario localhost/uav1"'
+    # source the scenario file
+    - source operations/deploy/scenarios/localhost/uav1.env
+
     # uav simulation
     - export deploybook_catkin_profile=uav
     - export deploybook_robot=desktop.sim
