@@ -85,8 +85,7 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
 
   # location of local ssh key to connect to remote VM
-  #   -- remember to to keep the '.pub' suffix.
-  # !! -- PLEASE CHANGE AZURE SSH KEY -- !!
+  #   -- PLEASE DO NOT CHANGE!! KEEP THE DEFAULT PATH!!
   vm_pub_ssh_key                    = "~/.ssh/azure_vpn.pub"
 
   # // /////////////////////////////////////////////////////////////////////////////
