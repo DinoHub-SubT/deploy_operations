@@ -26,9 +26,23 @@ There are two operational tools available to use: `az` or `terraform`
     - **DO NOT ENTER A PASSPHRASE on `ssh-keygen`! LEAVE IT BLANK.**
     - Replace `<USER-NAME>` with your actual username
 
+**About Connection Keys**
+
+You will have a total of three types of connection keys:
+
+- Bitubcket ssh key, used to clone repos from the subt bitbucket account.
+    - Found in `/home/<USER-NAME>/.ssh/bitbucket`
+- Azure VM ssh key, used to connect to the Azure VMs.
+    - Found in ` /home/<USER-NAME>/.ssh/azure_vpn`
+- Azure VPN certificates, used to connect to the Azure VPN setup.
+    - Found in: `/home/<USER-NAME>/.ssh/azure/vpn`
+
+Please **keep the default paths** as discussed in the readme instructions. 
+- Some of these paths are hard-coded in scripts. If you do not wish to use these paths, please notify the maintainer to discuss which hard-coded values must be changed.
+
 * * *
 
-## Terraform Example Project Walkthrough
+## Mini-Tutorial: Terraform Example Project
 
 This terraform example will create Virtual Machines, Networking and VPN setup on Azure.
 
@@ -130,13 +144,13 @@ Source your `bashrc` or `zshrc` directly:
 
     - Change `tag_name_prefix` to your preference
 
-    - Change `vm_pub_ssh_key` to the the ssh key path generated in the *Bitbucket SSH Keys steps*
-    
-        - example key path: `/home/<USER-NAME>/.ssh/azure_vpn`
-        
     - Change `vpn_ca_cert`  to the output seen in the terminal in the previous *Setup the VPN Connection certificates* step.
 
         - if you do not want to setup vpn, you can leave this variable with the default contents.
+
+    - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`. Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
+    
+        - default ssh key path: `/home/<USER-NAME>/.ssh/azure_vpn`
 
 - Dry-run the terraform deployment
 
