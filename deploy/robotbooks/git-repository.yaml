@@ -188,6 +188,14 @@
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
 
+      - name: Submodule UAV Sim LFS Files
+        shell:
+          cmd: |
+            git lfs fetch
+            git lfs pull
+          chdir: ~/deploy_ws/src/uav/sim/subt_gazebo
+        when: inventory_hostname is match("azure-uav*")
+
       - name: Validate Git Status
         shell:
           cmd: git status
