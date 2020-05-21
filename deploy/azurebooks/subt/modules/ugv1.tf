@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "ugv1" {
   # == VM instance Settings ==
   
   # instance type
-  size                  = "Standard_F8s_v2"
+  size                  = "Standard_F16s_v2"
   
   # OS disk setup
   os_disk {
