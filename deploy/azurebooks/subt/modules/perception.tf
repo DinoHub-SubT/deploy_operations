@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "perception" {
 
     # private ip allocation method
     private_ip_address_allocation = "static"
-    
+
     # private ip address
     private_ip_address            = "10.3.1.14"
   }
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "perception" {
 resource "azurerm_network_interface_security_group_association" "perception" {
   # NIC interface id
   network_interface_id      = azurerm_network_interface.perception[count.index].id
-  
+
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
@@ -62,10 +62,11 @@ resource "azurerm_linux_virtual_machine" "perception" {
   network_interface_ids = [azurerm_network_interface.perception[count.index].id]
 
   # == VM instance Settings ==
-  
+
   # instance type
-  size                  = "Standard_NC6_Promo"
-  
+  # (To enable "Standard_NC6_Promo", need to incrase quota. Pending operation.)
+  size                    = "Standard_NC6"
+
   os_disk {
     name                    = "${var.resource_name_prefix}-perception-os-disk"
     caching                 = "ReadWrite"
@@ -87,12 +88,12 @@ resource "azurerm_linux_virtual_machine" "perception" {
   }
 
   # == User Access Settings ==
-  
+
   computer_name  = "${var.perception_hostname}1"
   admin_username = var.perception_username
 
   # only allow ssh key connection
-  disable_password_authentication = true    
+  disable_password_authentication = true
   admin_ssh_key {
     username       = var.perception_username
     public_key     = file(var.vm_pub_ssh_key)

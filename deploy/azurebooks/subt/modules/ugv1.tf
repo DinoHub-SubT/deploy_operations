@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "ugv1" {
 
     # private ip allocation method
     private_ip_address_allocation = "Static"
-    
+
     # private ip address
     private_ip_address            = "10.3.1.11"
   }
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "ugv1" {
 resource "azurerm_network_interface_security_group_association" "ugv1" {
   # NIC interface id
   network_interface_id      = azurerm_network_interface.ugv1[count.index].id
-  
+
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
@@ -62,10 +62,10 @@ resource "azurerm_linux_virtual_machine" "ugv1" {
   count                 = var.basic_robots_toggle
 
   # == VM instance Settings ==
-  
+
   # instance type
   size                  = "Standard_F16s_v2"
-  
+
   # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-ugv1-os-disk"
@@ -83,7 +83,7 @@ resource "azurerm_linux_virtual_machine" "ugv1" {
   }
 
   # == User Access Settings ==
-  
+
   computer_name  = "${var.ugv_hostname}1"
   admin_username = var.ugv_username
   # admin_password = var.vm_default_password

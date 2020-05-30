@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "uav3" {
 
     # private ip allocation method
     private_ip_address_allocation = "static"
-    
+
     # private ip address
     private_ip_address            = "10.3.1.53"
   }
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "uav3" {
 resource "azurerm_network_interface_security_group_association" "uav3" {
   # NIC interface id
   network_interface_id      = azurerm_network_interface.uav3[count.index].id
-  
+
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
@@ -62,10 +62,10 @@ resource "azurerm_linux_virtual_machine" "uav3" {
   network_interface_ids = [azurerm_network_interface.uav3[count.index].id]
 
   # == VM instance Settings ==
-  
+
   # instance type
   size                  = "Standard_F16s_v2"
-  
+
   # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-uav3-os-disk"
@@ -83,7 +83,7 @@ resource "azurerm_linux_virtual_machine" "uav3" {
   }
 
   # == User Access Settings ==
-  
+
   computer_name  = "${var.uav_hostname}3"
   admin_username = var.uav_username
   # admin_password = var.vm_default_password

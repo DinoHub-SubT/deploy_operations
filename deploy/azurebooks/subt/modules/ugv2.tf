@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "ugv2" {
 
     # private ip allocation method
     private_ip_address_allocation = "static"
-    
+
     # private ip address
     private_ip_address            = "10.3.1.12"
   }
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "ugv2" {
 resource "azurerm_network_interface_security_group_association" "ugv2" {
   # NIC interface id
   network_interface_id      = azurerm_network_interface.ugv2[count.index].id
-  
+
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
@@ -62,10 +62,10 @@ resource "azurerm_linux_virtual_machine" "ugv2" {
   network_interface_ids = [azurerm_network_interface.ugv2[count.index].id]
 
   # == VM instance Settings ==
-  
+
   # instance type
   size                  = "Standard_F16s_v2"
-  
+
   # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-ugv2-os-disk"
@@ -83,14 +83,14 @@ resource "azurerm_linux_virtual_machine" "ugv2" {
   }
 
   # == User Access Settings ==
-  
+
   computer_name  = "${var.ugv_hostname}2"
   admin_username = var.ugv_username
   # admin_password = var.vm_default_password
 
   # only allow ssh key connection
   disable_password_authentication = true
-  
+
   # ssh connection configurations
   admin_ssh_key {
     username       = var.ugv_username

@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "basestation" {
 
     # private ip allocation method
     private_ip_address_allocation = "Static"
-    
+
     # private ip address
     private_ip_address            = "10.3.1.1"
   }
@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "basestation" {
 resource "azurerm_network_interface_security_group_association" "basestation" {
   # NIC interface id
   network_interface_id      = azurerm_network_interface.basestation[count.index].id
-  
+
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
@@ -62,10 +62,10 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   count                 = var.basic_robots_toggle
 
   # == VM instance Settings ==
-  
+
   # instance type
   size                  = "Standard_F8s_v2"
-  
+
   # OS disk setup
   os_disk {
     name                    = "${var.resource_name_prefix}-basestation-os-disk"
@@ -83,7 +83,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   }
 
   # == User Access Settings ==
-  
+
   computer_name  = var.basestation_hostname
   admin_username = var.basestation_username
   # admin_password = var.vm_default_password
