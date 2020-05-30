@@ -290,18 +290,80 @@ Summary of above link (please use the link):
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
-**Example Errors**
+## Issues
 
-- Permision denined
+
+**Permision denined**
 
         # ssh into your VM with the identify file specified
         ssh -i /home/$USER/.ssh/path/to/id_rsa [username]@[private IP]
 
-- Too many authentication failures
+**Too many authentication failures**
 
         ssh -o IdentitiesOnly=yes [username]@[private IP]
 
-- For ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
+**SSH connection stuck**
+
+        ssh -o MACs=hmac-sha2-256 [username]@[private IP]
+
+If you ssh connection is still stuck, debug the issue by viewing the verbose connection log:
+
+        ssh -v [username]@[private IP]
+
+**Remote host identification has changed**
+
+If you ssh into your VM and you see the following error (example):
+
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+        Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+        It is also possible that a host key has just been changed.
+        The fingerprint for the ECDSA key sent by the remote host is
+        SHA256:61VpK3J5BABJa3JDbjPxtMPlnoPdMeZaOVavdpn3HT8.
+        Please contact your system administrator.
+        Add correct host key in /home/katarina/.ssh/known_hosts to get rid of this message.
+        Offending ECDSA key in /home/katarina/.ssh/known_hosts:41
+        remove with:
+        ssh-keygen -f "/home/katarina/.ssh/known_hosts" -R "azure-uav1"
+        ECDSA host key for azure-uav1 has changed and you have requested strict checking.
+        Host key verification failed.
+
+The warning is saying that you have previously `ssh-ed` into a host with the same IP, but a different machine.
+
+Perform the first step, apply the `ssh-keygen` update:
+
+        ssh-keygen -f "/home/katarina/.ssh/known_hosts" -R "azure-uav1"
+
+Perform the next step, remove the previous host key in `know_hosts`:
+
+        # Open the known_hosts, to the problematic line.
+        # Example: /home/katarina/.ssh/known_hosts:41
+        #   - the problamatic line is 41
+
+        # STEP:  open the file
+        gedit /home/katarina/.ssh/known_hosts
+
+        # STEP: Go to line 41
+
+        # STEP:  Remove the ENTIRE line
+
+Perform the final step, ssh into the VM again:
+
+        # Example, enter the Azure UAV1 VM
+        ssh azure.uav1
+
+        # When prompted:
+        #   'Are you sure you want to continue connecting (yes/no)?'
+        # STEP: Say 'yes'
+
+You should not see the above error again and should be logged into the remote VM.
+
+**More discussion**
+
+For solving ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
+
 
 * * *
 
