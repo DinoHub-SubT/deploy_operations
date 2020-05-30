@@ -3,11 +3,11 @@
   # setup localhost
   # ////////////////////////////////////////////////////////////////////////
   - name: Localhost Setup
-    
+
     # setup variables to be shared in tasks
     vars_files:
-      vars/packages.yaml
-  
+      - ../vars/packages.yaml
+
     # setup hosts to run commands as
     hosts:
       - localhost
@@ -17,12 +17,12 @@
       - perception
     become_method: sudo
     become_user: root
-    
+
     # ////////////////////////////////////////////////////////////////////////
     # Tasks to execute
     # ////////////////////////////////////////////////////////////////////////
     tasks:
-      
+
       # ////////////////////////////////////////////////////////////////////////
       # Install GNOME Desktop
       # ////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@
           force_apt_get: yes
           install_recommends: yes
           update_cache: yes   # force apt-get update
-      
+
       - name: Install GNOME Prerequisite
         become: true
         apt:
@@ -63,13 +63,13 @@
           force_apt_get: yes
           install_recommends: yes
           update_cache: yes   # force apt-get update
-      
+
       - name: Tasksel Install GNOME Desktop
         become: true
         shell:
           cmd: tasksel install ubuntu-desktop
         ignore_errors: True
-    
+
       - name: Enable service gdm3
         become: true
         systemd:
@@ -77,7 +77,7 @@
           state: started  # make sure service is running
           enabled: yes    # start service on boot
           masked: no
-      
+
       - name: Restart service gdm3
         become: true
         systemd:
@@ -91,7 +91,7 @@
         file:
           path: /usr/share/X11/xorg.conf.d/xorg.conf
           state: absent
-        
+
       - name: Add Dummy Xorg
         become: true
         copy:
@@ -106,9 +106,9 @@
       # ////////////////////////////////////////////////////////////////////////
       # Install TeamViewer
       # ////////////////////////////////////////////////////////////////////////
-      
+
       - name: Install TeamViewer
-        become: true  
+        become: true
         apt:
           deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
 
@@ -127,7 +127,7 @@
           state: restarted  # make sure service is running
           enabled: yes    # start service on boot
           masked: no
-      
+
       - name: Set TeamViewer Password
         become: true
         command: teamviewer --passwd "{{ teamviewer.password }}"
@@ -136,12 +136,12 @@
         become: true
         command: teamviewer license accept
         ignore_errors: yes
-          
+
       - name: TeamViewer Info
         become: true
         command: teamviewer --info
         register: teamviewer_info
-      
+
       - debug: msg="{{ teamviewer_info.stdout }}"
 
       - name: Reboot Machine

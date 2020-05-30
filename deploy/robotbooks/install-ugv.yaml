@@ -1,0 +1,11 @@
+
+# Install basic dependencies on the remote VM
+- include: plays/robothost.yaml
+
+# Install docker & docker-tools on the remote VM
+- include: plays/docker.yaml
+- include: plays/docker-tools.yaml
+
+# Clones the deploy repo on the remote VM (can take 30 minutes)
+# You do not need to clone the repo on the remote VM manually, this command will do that for you.
+- include: plays/git-repository.yaml

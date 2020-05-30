@@ -1,0 +1,13 @@
+
+# Install basic dependencies on the remote VM
+- include: plays/robothost.yaml
+
+# Install docker & docker-tools on the remote VM
+- include: plays/docker.yaml
+- include: plays/docker-tools.yaml
+
+# Install teamviewer and GNOME desktop on the remote VM
+- include: plays/teamviewer.yaml
+
+# Install azure tools
+- include: plays/azure.yaml

@@ -1,3 +1,5 @@
+# == System Packages ==
+
 # Prerequisites Ubuntu Packages
 prereq_packages:
   - python2.7
@@ -40,7 +42,7 @@ pip_packages:
 docker_packages:
   - ca-certificates
   - curl
-  - software-properties-common  
+  - software-properties-common
 
 # Prerequisites Azure CLI Tool packages
 azure_cli_packages:
@@ -52,12 +54,12 @@ azure_cli_packages:
   - wget
 
 # Prerequisites Remote Desktop Packages
-rdp_packages:  
+rdp_packages:
   - xfce4
   - xrdp
 
   # Prerequisites Remote Desktop Packages
-gnome_vanilla_packages:  
+gnome_vanilla_packages:
   - gdm3
   - gnome-session
 
@@ -68,12 +70,7 @@ gnome_desktop_packages:
   - ubuntu-desktop
   - xserver-xorg-video-dummy
 
-# Authorized SSH keys to add on the remote host
-bitbucket_ssh_keys:
-  - filepath: ~/.ssh/bitbucket
-  - filepath: ~/.ssh/bitbucket.pub
-
-# == Versions ==
+# == Tool Versions ==
 
 # Git Deploy Repository Configuration
 git:
@@ -88,7 +85,9 @@ docker:
 terraform:
   - version: 0.12.24
 
-# terraform version validation
+# == Passwords ==
+
+# azure VM default user & password
 default_user:
   name: subt
   password: Password1234!
@@ -96,3 +95,8 @@ default_user:
 # terraform version validation
 teamviewer:
   password: teamviewer
+
+# Authorized SSH keys to add on the remote host
+bitbucket_ssh_keys:
+  - filepath: ~/.ssh/bitbucket
+  - filepath: ~/.ssh/bitbucket.pub

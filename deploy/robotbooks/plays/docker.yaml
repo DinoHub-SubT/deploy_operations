@@ -5,7 +5,7 @@
 - name: Docker Setup
 
   vars_files:
-    vars/packages.yaml
+    - ../vars/packages.yaml
 
   # run playbook on the localhost
   hosts:
@@ -20,7 +20,7 @@
   # Tasks to execute
   # ////////////////////////////////////////////////////////////////////////
   tasks:
-  
+
   # ////////////////////////////////////////////////////////////////////////
   # Docker
   # ////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@
   - name: Reset Docker Group
     become: true
     user: name=subt groups=docker append=yes
-    
+
   - name: reset ssh connection to allow user changes to affect 'current login user'
     meta: reset_connection
 

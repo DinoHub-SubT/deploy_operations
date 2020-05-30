@@ -3,11 +3,11 @@
   # Install Git Deploy Repository Setup
   # ////////////////////////////////////////////////////////////////////////
   - name: Install Git Deploy Repository Setup
-    
+
     # setup variables to be shared in tasks
     vars_files:
-      vars/packages.yaml
-  
+      - ../vars/packages.yaml
+
     # setup hosts to run commands as
     hosts:
       - localhost
@@ -16,12 +16,12 @@
       - uav
     become_method: sudo
     become_user: root
-    
+
     # ////////////////////////////////////////////////////////////////////////
     # Tasks to execute
     # ////////////////////////////////////////////////////////////////////////
     tasks:
-      
+
       # ////////////////////////////////////////////////////////////////////////
       # Bitbucket SSH Key Setup
       # ////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@
           path: $HOME/.ssh/known_hosts
           regexp: '^bitbucket.org ssh-rsa'
           state: absent
-      
+
       - name: Add Bitbucket to Known Hosts
         shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
 
@@ -63,7 +63,7 @@
           path: ~/.ssh/config
           regexp: 'IdentityFile ~/.ssh/bitbucket'
           line: IdentityFile ~/.ssh/bitbucket
-      
+
       # ////////////////////////////////////////////////////////////////////////
       # Clone Deploy Repository
       # ////////////////////////////////////////////////////////////////////////
@@ -82,14 +82,14 @@
           key_file: ~/.ssh/bitbucket
 
       - name: Checkout Development Branch
-        shell: 
+        shell:
           cmd: |
             git checkout {{ git.deploy.branch }}
             rm -rf ci docker perception launch
           chdir: ~/deploy_ws/src
-        
+
       - name: Install Deployer Script
-        shell: 
+        shell:
           cmd: ./install-deployer.bash --install
           chdir: ~/deploy_ws/src
 
@@ -98,7 +98,7 @@
           cmd: ./deployer --help
           chdir: ~/deploy_ws/src
         register: deployer_status_out
-      
+
       - name: Output Validate Deployer Install
         debug:
           msg: "Git Status: {{deployer_status_out.stdout}}"
@@ -119,11 +119,11 @@
           cmd: git status
           chdir: ~/deploy_ws/src
         register: git_status_out
-    
+
       - name: Output Validate Git Status
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
-      
+
       - name: Submodule Common Checkout LFS Files
         shell:
           cmd: |
@@ -131,7 +131,7 @@
             git lfs pull
           chdir: ~/deploy_ws/src/common/communication_manager
         ignore_errors: True
-  
+
       # Basestation
       - name: Submodule Update Basestation
         shell:
@@ -146,12 +146,12 @@
           chdir: ~/deploy_ws/src
         register: git_status_out
         when: inventory_hostname is match("azure-basestation")
-    
+
       - name: Output Validate Git Status
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
         when: inventory_hostname is match("azure-basestation")
-  
+
       # UGV
       - name: Submodule Update UGV
         shell:
@@ -174,12 +174,12 @@
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-ugv*")
         register: git_status_out
-    
+
       - name: Output Validate Git Status
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
         when: inventory_hostname is match("azure-ugv*")
-      
+
       # UAV
       - name: Submodule Update UAV
         shell:
@@ -202,7 +202,7 @@
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-uav*")
         register: git_status_out
-    
+
       - name: Output Validate Git Status
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"

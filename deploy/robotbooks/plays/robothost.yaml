@@ -3,11 +3,11 @@
   # setup localhost
   # ////////////////////////////////////////////////////////////////////////
   - name: Localhost Setup
-    
+
     # setup variables to be shared in tasks
     vars_files:
-      vars/packages.yaml
-  
+      - ../vars/packages.yaml
+
     # setup hosts to run commands as
     hosts:
       - localhost
@@ -17,12 +17,12 @@
       - perception
     become_method: sudo
     become_user: root
-    
+
     # ////////////////////////////////////////////////////////////////////////
     # Tasks to execute
     # ////////////////////////////////////////////////////////////////////////
     tasks:
-      
+
       # ////////////////////////////////////////////////////////////////////////
       # Install Base Packages
       # ////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@
           force_apt_get: yes
           install_recommends: yes
           update_cache: yes   # force apt-get update
-      
+
       - name: Install Python Prerequisite Packages
         pip:
           name: "{{ pip_packages }}"
@@ -52,7 +52,7 @@
       # ////////////////////////////////////////////////////////////////////////
       # Install Remote Desktop
       # ////////////////////////////////////////////////////////////////////////
-      
+
       - name: Install RDP Prerequisite Packages
         become: true
         ignore_errors: yes
@@ -63,7 +63,7 @@
           force_apt_get: yes
           install_recommends: yes
           update_cache: yes   # force apt-get update
-      
+
       - name: Enable service xrdp
         become: true
         systemd:
@@ -71,7 +71,7 @@
           state: started  # make sure service is running
           enabled: yes    # start service on boot
           masked: no
-      
+
       - name: Add session to xsession
         shell: echo xfce4-session >~/.xsession
 
