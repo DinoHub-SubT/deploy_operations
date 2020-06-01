@@ -202,8 +202,11 @@
       # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UGV
         shell:
-          cmd: git -c submodule."ugv/slam/laser_odometry/".update=none -c submodule."ugv/hardware/".update=none submodule update --recursive --init ugv
-          chdir: ~/deploy_ws/src
+          cmd: |
+            git submodule update --init .
+            git submodule update --init planning-pc/
+            git submodule update --init nuc
+          chdir: ~/deploy_ws/src/ugv/
         when: inventory_hostname is match("azure-ugv*")
         ignore_errors: True
 
@@ -224,8 +227,11 @@
       # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UAV
         shell:
-          cmd: git -c submodule."uav/hardware/".update=none submodule update --recursive --init uav
-          chdir: ~/deploy_ws/src
+          shell:
+            cmd: |
+              git submodule update --init .
+              git submodule update --init core/
+          chdir: ~/deploy_ws/src/uav/
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
 
