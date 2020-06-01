@@ -168,7 +168,7 @@
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
 
-      - name: Submodule UGV Sim LFS Files
+      - name: Submodule SubT Gazebo Sim LFS Files
         shell:
           cmd: |
             git lfs fetch
@@ -202,7 +202,7 @@
       # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UGV
         shell:
-          cmd: git -c submodule."ugv/slam/laser_odometry/".update=none git submodule update --recursive --init ugv
+          cmd: git -c submodule."ugv/slam/laser_odometry/".update=none -c submodule."ugv/hardware/".update=none submodule update --recursive --init ugv
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-ugv*")
         ignore_errors: True
@@ -224,7 +224,7 @@
       # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UAV
         shell:
-          cmd: git submodule update --recursive --init uav
+          cmd: git -c submodule."uav/hardware/".update=none submodule update --recursive --init uav
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
