@@ -1,5 +1,5 @@
 # //////////////////////////////////////////////////////////////////////////////
-- azure:
+- robots:
 # //////////////////////////////////////////////////////////////////////////////
 
   # source the top-level scenario files
@@ -15,6 +15,5 @@
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
-    - vm:
-      - +extend: systems/robots/ugv/vm/transfer
-      - +extend: systems/azure/ugv/vm/compose
+    # extend
+    - +extend: systems/azure/ugv/vm/compose
