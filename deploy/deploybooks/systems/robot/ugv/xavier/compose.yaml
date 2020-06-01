@@ -1,0 +1,17 @@
+# //////////////////////////////////////////////////////////////////////////
+# docker container interface to deployer commander run commands
+# //////////////////////////////////////////////////////////////////////////
+- docker:
+  # add '--force-rm '
+  - image:
+    - docker-compose-wrapper $scenario build ros-image
+    - docker-compose-wrapper $scenario build perception-image
+    # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+  - container:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d perception-commander-run
+  - container-run-any:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d perception-commander-run-any
+  - shell:
+    # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
+    - docker-compose-wrapper $scenario -p perception-shell up --force-recreate -d perception-shell
+

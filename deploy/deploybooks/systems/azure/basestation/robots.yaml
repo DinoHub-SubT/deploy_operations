@@ -1,0 +1,22 @@
+# //////////////////////////////////////////////////////////////////////////////
+- azure:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/azure/.azure.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - basestation:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/azure/basestation
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - vm:
+      - +extend: systems/azure/ugv/vm/transfer
+      - compose:
+        - +ssh:{ azure.basestation }
+        - +extend: systems/azure/ugv/vm/compose

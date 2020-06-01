@@ -1,0 +1,20 @@
+# //////////////////////////////////////////////////////////////////////////
+# docker container interface to deployer commander run commands
+# //////////////////////////////////////////////////////////////////////////
+- docker:
+
+  # add '--force-rm '
+  - image:
+    - docker-compose-wrapper $scenario build ros-image
+    - docker-compose-wrapper $scenario build ppc-image
+    - docker-compose-wrapper $scenario build nuc-image
+    # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+  - container:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d sim-commander-run
+  - container-run-any:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d sim-commander-run-any
+  - shell:
+    # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
+    - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
+    - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ppc-shell
+

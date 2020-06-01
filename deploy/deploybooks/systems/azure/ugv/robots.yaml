@@ -1,0 +1,52 @@
+# //////////////////////////////////////////////////////////////////////////////
+- azure:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/azure/.azure.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv1:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/azure/ugv1
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - vm:
+      - +extend: systems/azure/ugv/vm/transfer
+      - compose:
+        - +ssh:{ azure.ugv1 }
+        - +extend: systems/azure/ugv/vm/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv2:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/azure/ugv2
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - vm:
+      - +extend: systems/azure/ugv/vm/transfer
+      - compose:
+        - +ssh:{ azure.ugv2 }
+        - +extend: systems/azure/ugv/vm/compose
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv3:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      # source the computer-level scenario file
+      - export filename=systems/azure/ugv3
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - vm:
+        - +extend: systems/azure/ugv/vm/transfer
+        - compose:
+          - +ssh:{ azure.ugv3 }
+          - +extend: systems/azure/ugv/vm/compose

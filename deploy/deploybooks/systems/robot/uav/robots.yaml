@@ -1,0 +1,59 @@
+# //////////////////////////////////////////////////////////////////////////////
+- robots:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/systems/.base.env
+  - source operations/deploy/scenarios/systems/robot/.robot.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ds1:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/robot/uav1
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/uav/ds/transfer
+    - +extend: systems/robot/uav/ds/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ds2:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/robot/uav2
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/uav/ds/transfer
+    - +extend: systems/robot/uav/ds/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ds3:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/robot/uav3
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/uav/ds/transfer
+    - +extend: systems/robot/uav/ds/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ds4:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/robot/uav4
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/uav/ds/transfer
+    - +extend: systems/robot/uav/ds/compose
