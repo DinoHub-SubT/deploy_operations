@@ -1,0 +1,95 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# setup & install nvidia-docker
+# ////////////////////////////////////////////////////////////////////////
+- name: nvidia-docker setup
+
+  vars_files:
+    - ../vars/main.yaml
+
+  # run playbook on the specified hosts
+  hosts:
+    - localhost
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+  # ////////////////////////////////////////////////////////////////////////
+  # NVIDIA Docker
+  # ////////////////////////////////////////////////////////////////////////
+
+  - name: remove previous nvidia-docker manual install
+    become: true
+    shell: docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+    ignore_errors: yes
+
+  - name: remove previous nvidia-docker apt install
+    become: true
+    apt:
+      name: "{{ nvidia_docker_purge_packages }}"
+      state: present
+      force_apt_get: yes
+    ignore_errors: yes
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: install docker dependency packages
+    become: true
+    apt:
+      name: "{{ docker_packages }}"
+      state: present
+      force_apt_get: yes
+
+  - name: add official GPG key of nvidia docker
+    shell: curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+
+  - name: save the current Ubuntu release version
+    shell: . /etc/os-release;echo $ID$VERSION_ID
+    register: distribution
+
+  - name: update apt packages with nvidia docker
+    become: true
+    shell: curl -s -L https://nvidia.github.io/nvidia-docker/{{ distribution.stdout }}/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: install nvidia-docker
+    become: true
+    apt:
+      name: "{{ nvidia_docker_packages }}"
+      state: present
+      force_apt_get: yes
+
+  - name: restart docker service
+    become: true
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: docker
+
+  - name: validate nvidia-docker
+    shell: nvidia-docker --version
+    register: docker_version_out
+
+  - name: output validate docker
+    debug:
+      msg: "Container Output: {{docker_version_out.stdout}}"
+
+  - name: test nvidia-docker with 'hello world' example
+    shell: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+    register: hello_world_output
+
+  - name: show output of 'hello word' example
+    debug:
+      msg: "Container Output: {{hello_world_output.stdout}}"

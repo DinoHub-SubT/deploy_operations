@@ -1,13 +1,110 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup robot host system packages
+# ////////////////////////////////////////////////////////////////////////
+- name: localhost setup
 
-# Install basic dependencies on the remote VM
-- include: plays/robothost.yaml
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/main.yaml
+
+  # setup hosts to run commands as
+  hosts:
+    - localhost
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install ubuntu prerequisite packages
+      become: true
+      apt:
+        name: "{{ prereq_packages }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install python prerequisite packages
+      pip:
+        name: "{{ pip_packages }}"
+        extra_args: --user
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Bitbucket SSH Key Setup
+    # ////////////////////////////////////////////////////////////////////////
+
+    - name: Creates SSH Directory
+      file:
+        path: ~/.ssh/
+        state: directory
+
+    - name: Remove Previously Added Bitbucket SSH Keys
+      file:
+        path: ~/.ssh/"{{ item.filepath }}"
+        state: absent
+      with_items: " {{ bitbucket_ssh_keys }} "
+
+    - name: Copy Bitbucket SSH Keys
+      copy:
+        src: "{{ item.filepath }}"
+        dest: ~/.ssh/
+        mode: '0600'
+      with_items: " {{ bitbucket_ssh_keys }} "
+
+    - name: Remove Previously Added Bitbucket To Known Hosts
+      lineinfile:
+        path: $HOME/.ssh/known_hosts
+        regexp: '^bitbucket.org ssh-rsa'
+        state: absent
+
+    - name: Add Bitbucket to Known Hosts
+      shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
+
+    - name: Create SSH Config File
+      file:
+        path: ~/.ssh/config
+        state: touch
+
+    - name: Add Bitubucket to the SSH config
+      lineinfile:
+        path: ~/.ssh/config
+        regexp: 'IdentityFile ~/.ssh/bitbucket'
+        line: IdentityFile ~/.ssh/bitbucket
+
+    # TODO: ssh keys (azure vpn)
+---
 
 # Install docker & docker-tools on the remote VM
-- include: plays/docker.yaml
-- include: plays/docker-tools.yaml
+- include: tasks/docker.yaml
+- include: tasks/docker-tools.yaml
+
+# TODO: add variable to enable/disable
+# Install nvidia docker only on gpu hosts
+- include: tasks/docker-nvidia.yaml
 
 # Install teamviewer and GNOME desktop on the remote VM
-- include: plays/teamviewer.yaml
+- include: tasks/teamviewer.yaml
 
 # Install azure tools
-- include: plays/azure.yaml
+- include: tasks/azure.yaml
+
+---
+  # TODO: setup azure vpn keys
+
+  # TODO: verify all tools have been installed

@@ -6,7 +6,7 @@
 
     # setup variables to be shared in tasks
     vars_files:
-      - ../vars/packages.yaml
+      - ../vars/main.yaml
 
     # setup hosts to run commands as
     hosts:
@@ -14,6 +14,7 @@
       - basestation
       - ugv
       - uav
+      - perception
     become_method: sudo
     become_user: root
 
@@ -131,6 +132,23 @@
             git lfs pull
           chdir: ~/deploy_ws/src/common/communication_manager
         ignore_errors: True
+
+      # Simulation
+      - name: Submodule Update Simulation
+        shell:
+          cmd: git submodule update --recursive --init simulation
+          chdir: ~/deploy_ws/src
+        ignore_errors: True
+
+      - name: Validate Git Status
+        shell:
+          cmd: git status
+          chdir: ~/deploy_ws/src
+        register: git_status_out
+
+      - name: Output Validate Git Status
+        debug:
+          msg: "Git Status: {{git_status_out.stdout}}"
 
       # Basestation
       - name: Submodule Update Basestation

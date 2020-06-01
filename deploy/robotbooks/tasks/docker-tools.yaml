@@ -1,0 +1,84 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# setup & install docker tools
+# ////////////////////////////////////////////////////////////////////////
+- name: docker tools setup
+
+  vars_files:
+    - ../vars/main.yaml
+
+  # run playbook on the specified hosts
+  hosts:
+    - localhost
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+  # //////////////////////////////////////////////////////////////////////////
+  # Docker Compose
+  # //////////////////////////////////////////////////////////////////////////
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: get system info, kernel name
+    shell: uname -s
+    register: uname_kernel
+
+  - name: get system info, machine name
+    shell: uname -m
+    register: uname_machine
+
+  - name: download docker compose
+    become: true
+    get_url:
+        url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
+        dest: /usr/local/bin/docker-compose
+        mode: a+x
+
+  - name: create docker compose symbolic link
+    become: true
+    file:
+      src: /usr/local/bin/docker-compose
+      dest: /usr/bin/docker-compose
+      state: link
+
+  - name: validate docker compose
+    become: true
+    shell: docker-compose --version
+    register: docker_compose_version_out
+
+  - name: output validate docker compose
+    debug:
+      msg: "Docker Compose Version: {{docker_compose_version_out.stdout}}"
+
+  # //////////////////////////////////////////////////////////////////////////
+  # Docker Machine
+  # //////////////////////////////////////////////////////////////////////////
+
+  - name: download docker machine
+    become: true
+    get_url:
+      url: https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
+      dest: /tmp/docker-machine
+      mode: a+x
+
+  - name: stat docker machine
+    stat: path=/tmp/docker-machine
+    register: docker_machine_stat
+
+  - name: move docker machine to 'bin'
+    become: true
+    command: mv /tmp/docker-machine /usr/local/bin/
+    when: docker_machine_stat.stat.exists
+

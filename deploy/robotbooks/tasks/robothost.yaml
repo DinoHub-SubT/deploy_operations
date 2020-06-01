@@ -1,0 +1,94 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup robot host system packages
+# ////////////////////////////////////////////////////////////////////////
+- name: robothost setup
+
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/main.yaml
+
+  # setup hosts to run commands as
+  hosts:
+    - localhost
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install ubuntu prerequisite packages
+      become: true
+      apt:
+        name: "{{ prereq_packages }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install python prerequisite packages
+      pip:
+        name: "{{ pip_packages }}"
+        extra_args: --user
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Remote Desktop
+    # ////////////////////////////////////////////////////////////////////////
+
+    - name: install RDP prerequisite packages
+      become: true
+      ignore_errors: yes
+      apt:
+        name: "{{ rdp_packages }}"
+        state: present
+        force: yes  # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: enable service xrdp
+      become: true
+      systemd:
+        name: xrdp
+        state: started  # make sure service is running
+        enabled: yes    # start service on boot
+        masked: no
+
+    - name: add session to xsession
+      shell: echo xfce4-session >~/.xsession
+
+    - name: restart service xrdp
+      become: true
+      systemd:
+        name: xrdp
+        state: restarted  # make sure service is running
+        enabled: yes    # start service on boot
+        masked: no
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Update password for default VM user
+    # ////////////////////////////////////////////////////////////////////////
+    - name: setup default 'subt' user password
+      become: true
+      user:
+        name: "{{ default_user.name }}"
+        update_password: always
+        password: "{{ default_user.password | password_hash('sha512') }}"

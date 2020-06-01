@@ -30,6 +30,7 @@ prereq_packages:
   - debian-archive-keyring
   - apt-transport-https
   - git-lfs
+  - freerdp-x11
 
 # Prerequisites Ubuntu Packages
 pip_packages:
@@ -39,10 +40,21 @@ pip_packages:
   - pexpect
 
 # Prerequisites Docker Packages
-docker_packages:
+docker_dependency_packages:
   - ca-certificates
   - curl
   - software-properties-common
+
+docker_packages:
+  - docker-ce
+
+# Previous nvidia-docker package, for removal
+nvidia_docker_purge_packages:
+  - nvidia-docker
+
+# nvidia-docker package, for install
+nvidia_docker_packages:
+  - nvidia-docker2
 
 # Prerequisites Azure CLI Tool packages
 azure_cli_packages:
