@@ -79,15 +79,10 @@
           repo: "git@bitbucket.org:cmusubt/deploy.git"
           dest: ~/deploy_ws/src
           accept_hostkey: yes
+          recursive: no
           force: yes
+          version: "{{ git.deploy.branch }}"
           key_file: ~/.ssh/bitbucket
-
-      - name: Checkout Development Branch
-        shell:
-          cmd: |
-            git checkout {{ git.deploy.branch }}
-            rm -rf ci docker perception launch
-          chdir: ~/deploy_ws/src
 
       - name: Install Deployer Script
         shell:
@@ -105,7 +100,7 @@
           msg: "Git Status: {{deployer_status_out.stdout}}"
 
       # ////////////////////////////////////////////////////////////////////////
-      # Deploy Submodules
+      # Common Submodules
       # ////////////////////////////////////////////////////////////////////////
 
       # Common
@@ -133,7 +128,30 @@
           chdir: ~/deploy_ws/src/common/communication_manager
         ignore_errors: True
 
-      # Simulation
+      # ////////////////////////////////////////////////////////////////////////
+      # SubT Launch Submodules
+      # ////////////////////////////////////////////////////////////////////////
+
+      # Common
+      - name: Submodule Update SubT Launch
+        shell:
+          cmd: git submodule update --recursive --init subt_launch
+          chdir: ~/deploy_ws/src
+        ignore_errors: True
+
+      - name: Validate Git Status
+        shell:
+          cmd: git status
+          chdir: ~/deploy_ws/src
+        register: git_status_out
+
+      - name: Output Validate Git Status
+        debug:
+          msg: "Git Status: {{git_status_out.stdout}}"
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Simulation Submodules
+      # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update Simulation
         shell:
           cmd: git submodule update --recursive --init simulation
@@ -150,7 +168,16 @@
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
 
-      # Basestation
+      - name: Submodule UGV Sim LFS Files
+        shell:
+          cmd: |
+            git lfs fetch
+            git lfs pull
+          chdir: ~/deploy_ws/src/simulation/subt_gazebo
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Basestation Submodules
+      # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update Basestation
         shell:
           cmd: git submodule update --recursive --init basestation
@@ -170,21 +197,15 @@
           msg: "Git Status: {{git_status_out.stdout}}"
         when: inventory_hostname is match("azure-basestation")
 
-      # UGV
+      # ////////////////////////////////////////////////////////////////////////
+      # UGV Submodules
+      # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UGV
         shell:
-          cmd: git submodule update --recursive --init ugv
+          cmd: git -c submodule."ugv/slam/laser_odometry/".update=none git submodule update --recursive --init ugv
           chdir: ~/deploy_ws/src
         when: inventory_hostname is match("azure-ugv*")
         ignore_errors: True
-
-      - name: Submodule UGV Sim LFS Files
-        shell:
-          cmd: |
-            git lfs fetch
-            git lfs pull
-          chdir: ~/deploy_ws/src/ugv/sim/subt_gazebo
-        when: inventory_hostname is match("azure-ugv*")
 
       - name: Validate Git Status
         shell:
@@ -198,7 +219,9 @@
           msg: "Git Status: {{git_status_out.stdout}}"
         when: inventory_hostname is match("azure-ugv*")
 
-      # UAV
+      # ////////////////////////////////////////////////////////////////////////
+      # UAV Submodules
+      # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UAV
         shell:
           cmd: git submodule update --recursive --init uav
@@ -206,14 +229,6 @@
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
 
-      - name: Submodule UAV Sim LFS Files
-        shell:
-          cmd: |
-            git lfs fetch
-            git lfs pull
-          chdir: ~/deploy_ws/src/uav/sim/subt_gazebo
-        when: inventory_hostname is match("azure-uav*")
-
       - name: Validate Git Status
         shell:
           cmd: git status
@@ -225,3 +240,25 @@
         debug:
           msg: "Git Status: {{git_status_out.stdout}}"
         when: inventory_hostname is match("azure-uav*")
+
+      # ////////////////////////////////////////////////////////////////////////
+      # Perception Submodules
+      # ////////////////////////////////////////////////////////////////////////
+      - name: Submodule Update Perception
+        shell:
+          cmd: git submodule update --recursive --init perception
+          chdir: ~/deploy_ws/src
+        when: inventory_hostname is match("azure-perception*")
+        ignore_errors: True
+
+      - name: Validate Git Status
+        shell:
+          cmd: git status
+          chdir: ~/deploy_ws/src
+        when: inventory_hostname is match("azure-perception*")
+        register: git_status_out
+
+      - name: Output Validate Git Status
+        debug:
+          msg: "Git Status: {{git_status_out.stdout}}"
+        when: inventory_hostname is match("azure-perception*")

@@ -15,4 +15,4 @@
 
 # Clones the deploy repo on the remote VM (can take 30 minutes)
 # You do not need to clone the repo on the remote VM manually, this command will do that for you.
-# - include: tasks/git-repository.yaml
+- include: tasks/git-repository.yaml
