@@ -1,7 +1,7 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "perception" {
+resource "azurerm_network_interface" "perception1" {
   # name of NIC
-  name                        = "${var.resource_name_prefix}-NIC-perception"
+  name                        = "${var.resource_name_prefix}-NIC-perception1"
 
   # resource group
   resource_group_name         = var.user_defined_resource_group_name
@@ -14,7 +14,7 @@ resource "azurerm_network_interface" "perception" {
 
   ip_configuration {
     # name of NIC configuration
-    name                          = "${var.resource_name_prefix}-NIC-perception-configuration"
+    name                          = "${var.resource_name_prefix}-NIC-perception1-configuration"
 
     # subnet configuration for this NIC
     subnet_id                     = azurerm_subnet.example.id
@@ -32,9 +32,9 @@ resource "azurerm_network_interface" "perception" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "perception" {
+resource "azurerm_network_interface_security_group_association" "perception1" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.perception[count.index].id
+  network_interface_id      = azurerm_network_interface.perception1[count.index].id
 
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
@@ -43,11 +43,11 @@ resource "azurerm_network_interface_security_group_association" "perception" {
   count                     = var.perception_robots_toggle
 }
 
-# Create virtual machine -- perception
-resource "azurerm_linux_virtual_machine" "perception" {
+# Create virtual machine -- perception1
+resource "azurerm_linux_virtual_machine" "perception1" {
 
   # name of vm
-  name                  = "${var.resource_name_prefix}-perception"
+  name                  = "${var.resource_name_prefix}-perception1"
 
   # resource group
   resource_group_name   = var.user_defined_resource_group_name
@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "perception" {
   count                 = var.perception_robots_toggle
 
     # NIC interface id
-  network_interface_ids = [azurerm_network_interface.perception[count.index].id]
+  network_interface_ids = [azurerm_network_interface.perception1[count.index].id]
 
   # == VM instance Settings ==
 
@@ -68,7 +68,7 @@ resource "azurerm_linux_virtual_machine" "perception" {
   size                    = "Standard_NC6"
 
   os_disk {
-    name                    = "${var.resource_name_prefix}-perception-os-disk"
+    name                    = "${var.resource_name_prefix}-perception1-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
     disk_size_gb            = "100"
@@ -111,8 +111,8 @@ data "azurerm_platform_image" "ubuntu1804" {
   sku       = "18.04-LTS"
 }
 
-resource "azurerm_managed_disk" "perception" {
-  name                 = "${var.resource_name_prefix}-perception-disk1"
+resource "azurerm_managed_disk" "perception1" {
+  name                 = "${var.resource_name_prefix}-perception1-disk1"
   location             = var.resource_location
   resource_group_name  = var.user_defined_resource_group_name
   storage_account_type = "Standard_LRS"
@@ -123,9 +123,9 @@ resource "azurerm_managed_disk" "perception" {
   count                 = var.perception_robots_toggle
 }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "perception" {
-  managed_disk_id    = azurerm_managed_disk.perception[count.index].id
-  virtual_machine_id = azurerm_linux_virtual_machine.perception[count.index].id
+resource "azurerm_virtual_machine_data_disk_attachment" "perception1" {
+  managed_disk_id    = azurerm_managed_disk.perception1[count.index].id
+  virtual_machine_id = azurerm_linux_virtual_machine.perception1[count.index].id
   lun                = "10"
   caching            = "ReadWrite"
   # toggle creation of a resource
