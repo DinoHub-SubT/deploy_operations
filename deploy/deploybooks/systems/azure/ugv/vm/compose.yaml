@@ -9,7 +9,8 @@
     - docker-compose-wrapper $scenario build --force-rm nuc-image
     # temporary for now, move to 'simulation' docker image
     - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
-    - docker rmi -f $(docker images -f "dangling=true" -q)
+    # ignore any error messages (in case there are no dangling images)
+    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
   # == creating docker access containers ==
   - shell:
@@ -18,9 +19,9 @@
     - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ugv-sim-shell
 
   # == creating docker run containers ==
-  - container-run:
+  - container.run:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d ugv-sim-commander-run
   # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container-run-any:
+  - container.exec:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d ugv-sim-commander-run-any
 
