@@ -2,11 +2,11 @@
 # Setup the cloud provider
 # // /////////////////////////////////////////////////////////////////////////////
 provider "azurerm" {
-  # The "feature" block is required for AzureRM provider 2.x. 
+  # The "feature" block is required for AzureRM provider 2.x.
   # If you're using version 1.x, the "features" block is not allowed.
   version = "~>2.0"
   features {}
-  
+
   # setup credentials
   # -- please have these variables set in your ~/.bashrc (or ~/.zshrc)
   subscription_id   = var.subscription_id
@@ -22,7 +22,7 @@ provider "azurerm" {
 # // /////////////////////////////////////////////////////////////////////////////
 terraform {
   # setup the backend remote for maintaining state file storage
-  
+
   backend "azurerm" {
 
     # existing storage account (make sure exists on azure)
@@ -49,7 +49,7 @@ module "example" {
   # // /////////////////////////////////////////////////////////////////////////////
   # Resource & Network Settings
   # // /////////////////////////////////////////////////////////////////////////////
-  
+
   # use existing resource group name
   user_defined_resource_group_name  = "SubT"
 
@@ -59,7 +59,7 @@ module "example" {
   # name prefix to be used for all resources
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
   resource_name_prefix              = "USERNAME-example"
-  
+
   # tag prefix
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
   tag_name_prefix                   = "tag-USERNAME-example"
@@ -78,7 +78,7 @@ module "example" {
 
   # vpn ca certificate
   # !! -- PLEASE CHANGE VPN CA CERTIFCATE -- !!
-  vpn_ca_cert                       = "YOUR VPN CA CERTIFICATE GOES HERE" 
+  vpn_ca_cert                       = "YOUR VPN CA CERTIFICATE GOES HERE"
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Settings
@@ -97,7 +97,7 @@ module "example" {
   #   - Please keep 'basic' enabled always.
   #   - Enable 'perception' if you wish to test perception simulation.
   #   - Enable 'coord' if you wish to test the full coordination simulation.
-  
+
   # About:
   #   - basic simulation:         basestation, ugv1, uav1
   #   - perception simulation:    perception
@@ -123,4 +123,9 @@ module "example" {
   #   -- Enable: 1 == true
   #   -- Disable: 0 == false
   coord_robots_toggle                 = 0
+
+  # Create a dummy VM for robot basestation (explorer@system76-pc) development connection 'staging environment'
+  #   -- Enable: 1 == true
+  #   -- Disable: 0 == false
+  explorer_basestation_toggle         = 0
 }

@@ -134,6 +134,12 @@ variable "perception_robots_toggle" {
   default = 0
 }
 
+variable "explorer_basestation_toggle" {
+  description = "toggle (enable or disable) for creating VM for explorer basestation connection"
+  type = number
+  default = 0
+}
+
 # // /////////////////////////////////////////////////////////////////////////////
 # terraform tags
 # // /////////////////////////////////////////////////////////////////////////////
