@@ -1,18 +1,20 @@
 # //////////////////////////////////////////////////////////////////////////
-# docker container interface to deployer commander run commands
-# //////////////////////////////////////////////////////////////////////////
 - docker:
+# //////////////////////////////////////////////////////////////////////////
 
-  # add '--force-rm '
+  # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build ros-image
-    - docker-compose-wrapper $scenario build perception-image
-    # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container:
+    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image
+    - docker rmi -f $(docker images -f "dangling=true" -q)
+
+  # == creating docker access containers ==
+  - shell:
+    - docker-compose-wrapper $scenario -p perception-$deploy_system_type-shell up --force-recreate -d perception-$deploy_system_type-shell
+
+  # == creating docker run containers ==
+  - container-run:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d sim-commander-run
+  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
   - container-run-any:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d sim-commander-run-any
-  - shell:
-    # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
-    - docker-compose-wrapper $scenario -p perception-shell up --force-recreate -d perception-shell
-
