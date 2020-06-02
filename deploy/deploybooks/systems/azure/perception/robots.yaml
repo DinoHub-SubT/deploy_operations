@@ -7,16 +7,31 @@
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - perception:
+  - perception1.cpu:
   # ////////////////////////////////////////////////////////////////////////////
 
     # source the computer-level scenario file
-    - export filename=systems/azure/perception
+    - export filename=systems/azure/perception1-cpu
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: systems/azure/perception/vm/transfer
       - compose:
-        - +ssh:{ azure.perception }
-        - +extend: systems/azure/ugv/vm/compose
+        - +ssh:{ azure.perception1 }
+        - +extend: systems/azure/perception/vm/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - perception1.gpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+      # source the computer-level scenario file
+      - export filename=systems/azure/perception1-gpu
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - vm:
+        - +extend: systems/azure/perception/vm/transfer
+        - compose:
+          - +ssh:{ azure.perception1 }
+          - +extend: systems/azure/perception/vm/compose

@@ -16,10 +16,10 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: systems/azure/uav/vm/transfer
       - compose:
         - +ssh:{ azure.uav1 }
-        - +extend: systems/azure/ugv/vm/compose
+        - +extend: systems/azure/uav/vm/compose
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav2:
@@ -31,10 +31,10 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: systems/azure/uav/vm/transfer
       - compose:
         - +ssh:{ azure.uav2 }
-        - +extend: systems/azure/ugv/vm/compose
+        - +extend: systems/azure/uav/vm/compose
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -47,10 +47,10 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: systems/azure/uav/vm/transfer
       - compose:
         - +ssh:{ azure.uav3 }
-        - +extend: systems/azure/ugv/vm/compose
+        - +extend: systems/azure/uav/vm/compose
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -63,8 +63,8 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: systems/azure/uav/vm/transfer
       - compose:
         - +ssh:{ azure.uav4 }
-        - +extend: systems/azure/ugv/vm/compose
+        - +extend: systems/azure/uav/vm/compose
 
