@@ -53,6 +53,15 @@
       dest: /usr/bin/docker-compose
       state: link
 
+  - name: which docker compose
+    become: true
+    shell: which docker-compose
+    register: docker_compose_which_out
+
+  - name: enable docker-compose permissions
+    become: true
+    shell: chmod a+rx {{docker_compose_which_out.stdout}}
+
   - name: validate docker compose
     become: true
     shell: docker-compose --version
