@@ -1,19 +1,19 @@
 # //////////////////////////////////////////////////////////////////////////////
-- robots:
+- robot:
 # //////////////////////////////////////////////////////////////////////////////
 
   # source the top-level scenario files
   - source operations/deploy/scenarios/.base.env
-  - source operations/deploy/scenarios/systems/robots/.robots.env
+  - source operations/deploy/scenarios/systems/robot/.robot.env
 
   # ////////////////////////////////////////////////////////////////////////////
   - basestation:
   # ////////////////////////////////////////////////////////////////////////////
 
     # source the computer-level scenario file
-    - export filename=systems/robots/basestation
+    - export filename=systems/robot/basestation
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
     # extend
-    - +extend: systems/azure/ugv/vm/compose
+    - +extend: systems/robot/basestation/vm/compose

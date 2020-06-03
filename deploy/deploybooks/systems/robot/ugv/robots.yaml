@@ -6,45 +6,88 @@
   - source operations/deploy/scenarios/systems/.base.env
   - source operations/deploy/scenarios/systems/robot/.robot.env
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ugv1:
-  # ////////////////////////////////////////////////////////////////////////////
+# ////////////////////////////////////////////////////////////////////////////
+- ugv1:
+# ////////////////////////////////////////////////////////////////////////////
 
+  # //////////////////////////////////////////////////////////////////////////
+  # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
+  # //////////////////////////////////////////////////////////////////////////
+  - ppc:
+    # source the computer-level scenario file
+    - export filename=systems/robot/ugv1-ppc
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/ugv/ppc/transfer
+    - compose:
+      - +ssh:{ ugv1.ppc }
+      - +extend: systems/robot/ugv/ppc/compose
+
+  - nuc:
+    # source the computer-level scenario file
+    - export filename=systems/robot/ugv1-nuc
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/ugv/nuc/transfer
+    - compose:
+      - +ssh:{ ugv1.nuc }
+      - +extend: systems/robot/ugv/nuc/compose
+
+  - xavier:
+    # source the computer-level scenario file
+    - export filename=systems/robot/ugv1-xavier
+    - source operations/deploy/scenarios/$filename.env
+    - 'export scenario=" --scenario $filename"'
+
+    # extend
+    - +extend: systems/robot/ugv/xavier/transfer
+    - compose:
+      - +ssh:{ ugv1.xavier }
+      - +extend: systems/robot/ugv/xavier/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv2:
+  # ////////////////////////////////////////////////////////////////////////////
+  
     # //////////////////////////////////////////////////////////////////////////
     # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
     # //////////////////////////////////////////////////////////////////////////
     - ppc:
       # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-ppc
+      - export filename=systems/robot/ugv2-ppc
       - source operations/deploy/scenarios/$filename.env
       - 'export scenario=" --scenario $filename"'
-
+  
       # extend
       - +extend: systems/robot/ugv/ppc/transfer
       - compose:
-        - +ssh:{ robot.ugv1.ppc }
+        - +ssh:{ ugv2.ppc }
         - +extend: systems/robot/ugv/ppc/compose
-
+  
     - nuc:
       # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-nuc
+      - export filename=systems/robot/ugv2-nuc
       - source operations/deploy/scenarios/$filename.env
       - 'export scenario=" --scenario $filename"'
-
+  
       # extend
       - +extend: systems/robot/ugv/nuc/transfer
       - compose:
-        - +ssh:{ robot.ugv1.nuc }
+        - +ssh:{ ugv2.nuc }
         - +extend: systems/robot/ugv/nuc/compose
-
+  
     - xavier:
       # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-xavier
+      - export filename=systems/robot/ugv2-xavier
       - source operations/deploy/scenarios/$filename.env
       - 'export scenario=" --scenario $filename"'
-
+  
       # extend
       - +extend: systems/robot/ugv/xavier/transfer
       - compose:
-        - +ssh:{ robot.ugv1.xavier }
+        - +ssh:{ ugv2.xavier }
         - +extend: systems/robot/ugv/xavier/compose

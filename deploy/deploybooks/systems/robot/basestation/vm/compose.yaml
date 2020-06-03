@@ -4,16 +4,19 @@
 
   # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build ros-image
-    - docker-compose-wrapper $scenario build basestation-image
+    - docker-compose-wrapper $scenario build --force-rm ros-image
+    - docker-compose-wrapper $scenario build --force-rm basestation-image
+    # ignore any error messages (in case there are no dangling images)
+    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
   # == creating docker access containers ==
   - shell:
     - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
 
   # == creating docker run containers ==
-  - container-run:
+  - container.run:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d basestation-commander-run
   # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container-run-any:
+  - container.exec:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d basestation-commander-run-any
+  
