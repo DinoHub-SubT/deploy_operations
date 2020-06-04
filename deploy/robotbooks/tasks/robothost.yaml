@@ -63,7 +63,9 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
-
+      when: >
+        "azure-" in inventory_hostname
+    
     - name: enable service xrdp
       become: true
       systemd:
@@ -71,9 +73,13 @@
         state: started  # make sure service is running
         enabled: yes    # start service on boot
         masked: no
+      when: >
+        "azure-" in inventory_hostname
 
     - name: add session to xsession
       shell: echo xfce4-session >~/.xsession
+      when: >
+        "azure-" in inventory_hostname
 
     - name: restart service xrdp
       become: true
@@ -82,6 +88,8 @@
         state: restarted  # make sure service is running
         enabled: yes    # start service on boot
         masked: no
+      when: >
+        "azure-" in inventory_hostname
 
     # ////////////////////////////////////////////////////////////////////////
     # Update password for default VM user
@@ -92,3 +100,5 @@
         name: "{{ default_user.name }}"
         update_password: always
         password: "{{ default_user.password | password_hash('sha512') }}"
+      when: >
+        "azure-" in inventory_hostname

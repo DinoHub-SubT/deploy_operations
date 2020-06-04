@@ -1,0 +1,48 @@
+[alias]
+    st =! git status && :
+
+    # push branch & changes to origin
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+	pub = !git push origin -f $(git branch-name) && :
+
+	ca =! git add . && git commit --amend
+
+	cm =! git add . && git commit
+
+	cl = clone
+
+	f =! git fetch --all
+
+	ig =!git update-index --assume-unchanged $1
+	ign =!git update-index --no-assume-unchanged $1
+
+	reset = !git reset --hard
+    reset-one = !git reset --hard HEAD~1
+
+	brl = !git branch -a
+
+	dell = !git branch -d $1
+	delr = !git branch -D $1
+    delm = !git branch -d $(git branch --merged |tail -n +2)
+
+	co = checkout
+	cob = checkout -b
+
+    iam = !"git rev-parse --verify HEAD"
+
+	lna = log --oneline --decorate --graph --all
+
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+
+[user]
+	name = Basestation
+	email = subt@andrew.cmu.edu
+[merge]
+	tool = meld
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

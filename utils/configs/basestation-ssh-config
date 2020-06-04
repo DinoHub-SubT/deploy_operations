@@ -1,0 +1,87 @@
+cat ~/.ssh/config
+# enable rsa keys to use on login
+IdentityFile ~/.ssh/deploy
+IdentityFile ~/.ssh/bitbucket
+
+Host ugv1
+    Hostname ugv1
+    User explorer
+
+################################################
+# SubT Robot SSH Configuration
+################################################
+
+# UGV1
+
+Host ugv1.ppc
+    HostName ugv1
+    User explorer
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+
+Host ugv1.nuc
+    HostName nuc
+    User nuc
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv1.ppc
+
+Host ugv1.xavier
+    HostName xavier
+    User nvidia
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv1.ppc
+
+# UGV2
+
+Host ugv2.ppc
+    HostName ugv2
+    User explorer
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+
+Host ugv2.nuc
+    HostName nuc
+    User nuc
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv2.ppc
+
+Host ugv2.xavier
+    HostName xavier
+    User nvidia
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv2.ppc
+
+# UGV3
+
+Host ugv3.ppc
+    HostName ugv3
+    User explorer
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+
+Host ugv3.nuc
+    HostName nuc
+    User nuc
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv3.ppc
+
+Host ugv3.xavier
+    HostName xavier
+    User nvidia
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/deploy
+    ProxyJump ugv3.ppc

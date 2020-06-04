@@ -1,0 +1,19 @@
+127.0.0.1       localhost
+::1             localhost
+127.0.1.1       system76-pc
+
+#10.1.1.142      planning-pc
+10.3.1.11      ugv1
+#10.1.1.143      ugv2
+#11.1.1.143      ugv2
+10.3.1.12      ugv2
+#10.1.1.8        uav2pc
+10.3.2.10        uav2pc
+10.1.1.9       uav3-pc
+10.1.1.7       basestation-pc
+10.3.1.51          ds1pc
+10.3.1.53      ds3
+10.3.1.54      nuc
+10.3.1.13      ugv3
+
+10.3.1.66   b2

@@ -31,6 +31,8 @@ prereq_packages:
   - apt-transport-https
   - git-lfs
   - freerdp-x11
+  - traceroute
+  - zsh
 
 # Prerequisites Ubuntu Packages
 pip_packages:
