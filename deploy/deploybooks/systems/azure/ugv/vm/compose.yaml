@@ -4,19 +4,26 @@
 
   # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build --force-rm ros-image
-    - docker-compose-wrapper $scenario build --force-rm ppc-image
-    - docker-compose-wrapper $scenario build --force-rm nuc-image
-    # temporary for now, move to 'simulation' docker image
-    - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
+    - ros:
+      - docker-compose-wrapper $scenario build --force-rm ros-image
+    - ppc:
+      - docker-compose-wrapper $scenario build --force-rm ppc-image
+    - nuc:
+      - docker-compose-wrapper $scenario build --force-rm nuc-image
+    - sim:
+      # temporary for now, move to 'simulation' docker image
+      - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
   # == creating docker access containers ==
   - shell:
-    - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
-    - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ppc-shell
-    - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ugv-sim-shell
+    - nuc:
+      - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
+    - ppc:
+      - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ppc-shell
+    - sim:
+      - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ugv-sim-shell
 
   # == creating docker run containers ==
   - container.run:
