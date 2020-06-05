@@ -227,10 +227,9 @@
       # ////////////////////////////////////////////////////////////////////////
       - name: Submodule Update UAV
         shell:
-          shell:
-            cmd: |
-              git submodule update --init .
-              git submodule update --init core/
+          cmd: |
+            git submodule update --init .
+            git submodule update --init core/
           chdir: ~/deploy_ws/src/uav/
         when: inventory_hostname is match("azure-uav*")
         ignore_errors: True
