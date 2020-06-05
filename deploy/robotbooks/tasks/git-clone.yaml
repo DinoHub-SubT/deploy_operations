@@ -141,6 +141,11 @@
       when: >
         inventory_hostname is match("azure-.*")
 
+    - name: Temporary, ignore extra 'velodyne_gazebo_plugins' package
+      shell:
+        cmd: touch ./velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+        chdir: ~/deploy_ws/src/simulation
+
     # ////////////////////////////////////////////////////////////////////////
     # Basestation Submodules
     # ////////////////////////////////////////////////////////////////////////
@@ -176,8 +181,8 @@
       shell:
         cmd: |
           git submodule update --init .
-          git submodule update --init planning-pc/
-          git submodule update --init nuc
+          git submodule update --recursive --init planning-pc/
+          git submodule update --recursive --init nuc
         chdir: ~/deploy_ws/src/ugv/
       when: >
         inventory_hostname is match("azure-ugv.*") or
@@ -208,10 +213,9 @@
     # ////////////////////////////////////////////////////////////////////////
     - name: Submodule Update UAV
       shell:
-        shell:
-          cmd: |
-            git submodule update --init .
-            git submodule update --init core/
+        cmd: |
+          git submodule update --init .
+          git submodule update --recursive --init core/
         chdir: ~/deploy_ws/src/uav/
       when: >
         inventory_hostname is match("azure-uav.*") or
@@ -234,65 +238,6 @@
         inventory_hostname is match("azure-uav.*") or
         inventory_hostname is match("robot-uav.*")
 
-<<<<<<< HEAD:operations/deploy/robotbooks/tasks/git-repository.yaml
-      - name: Validate Git Status
-        shell:
-          cmd: git status
-          chdir: ~/deploy_ws/src
-        when: inventory_hostname is match("azure-ugv*")
-        register: git_status_out
-
-      - name: Output Validate Git Status
-        debug:
-          msg: "Git Status: {{git_status_out.stdout}}"
-        when: inventory_hostname is match("azure-ugv*")
-
-      # ////////////////////////////////////////////////////////////////////////
-      # UAV Submodules
-      # ////////////////////////////////////////////////////////////////////////
-      - name: Submodule Update UAV
-        shell:
-          cmd: |
-            git submodule update --init .
-            git submodule update --init core/
-          chdir: ~/deploy_ws/src/uav/
-        when: inventory_hostname is match("azure-uav*")
-        ignore_errors: True
-
-      - name: Validate Git Status
-        shell:
-          cmd: git status
-          chdir: ~/deploy_ws/src
-        when: inventory_hostname is match("azure-uav*")
-        register: git_status_out
-
-      - name: Output Validate Git Status
-        debug:
-          msg: "Git Status: {{git_status_out.stdout}}"
-        when: inventory_hostname is match("azure-uav*")
-
-      # ////////////////////////////////////////////////////////////////////////
-      # Perception Submodules
-      # ////////////////////////////////////////////////////////////////////////
-      - name: Submodule Update Perception
-        shell:
-          cmd: git submodule update --recursive --init perception
-          chdir: ~/deploy_ws/src
-        when: inventory_hostname is match("azure-perception*")
-        ignore_errors: True
-
-      - name: Validate Git Status
-        shell:
-          cmd: git status
-          chdir: ~/deploy_ws/src
-        when: inventory_hostname is match("azure-perception*")
-        register: git_status_out
-
-      - name: Output Validate Git Status
-        debug:
-          msg: "Git Status: {{git_status_out.stdout}}"
-        when: inventory_hostname is match("azure-perception*")
-=======
     # ////////////////////////////////////////////////////////////////////////
     # Perception Submodules
     # ////////////////////////////////////////////////////////////////////////
@@ -320,4 +265,3 @@
       when: >
         inventory_hostname is match("azure-perception*") or
         inventory_hostname is match("robot-ugv.*-xavier")
->>>>>>> 58d5d10... adding ugv2 robot integration operation config updates:operations/deploy/robotbooks/tasks/git-clone.yaml
