@@ -123,9 +123,4 @@ module "example" {
   #   -- Enable: 1 == true
   #   -- Disable: 0 == false
   coord_robots_toggle                 = 0
-
-  # Create a dummy VM for robot basestation (explorer@system76-pc) development connection 'staging environment'
-  #   -- Enable: 1 == true
-  #   -- Disable: 0 == false
-  explorer_basestation_toggle         = 0
 }
