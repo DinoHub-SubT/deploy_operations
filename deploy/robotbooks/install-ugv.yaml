@@ -4,8 +4,13 @@
 
 # Install docker & docker-tools on the remote VM
 - include: tasks/docker.yaml
-- include: tasks/docker-tools.yaml
+# - include: tasks/docker-tools.yaml
 
 # Clones the deploy repo on the remote VM (can take 30 minutes)
 # You do not need to clone the repo on the remote VM manually, this command will do that for you.
-- include: tasks/git-repository.yaml
+
+# setup the git ssh keys and gitconfig
+- include: tasks/git-config.yaml
+
+# clone deploy repo using internet
+# - include: tasks/git-clone.yaml

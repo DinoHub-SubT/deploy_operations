@@ -26,23 +26,23 @@
     # ////////////////////////////////////////////////////////////////////////
     # Install Base Packages
     # ////////////////////////////////////////////////////////////////////////
-    # - name: update apt packages
-    #   become: true
-    #   apt:
-    #     force: yes          # force yes
-    #     force_apt_get: yes
-    #     install_recommends: yes
-    #     update_cache: yes   # force apt-get update
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
 
-    # - name: install ubuntu prerequisite packages
-    #   become: true
-    #   apt:
-    #     name: "{{ prereq_packages }}"
-    #     state: present
-    #     force: yes          # force yes
-    #     force_apt_get: yes
-    #     install_recommends: yes
-    #     update_cache: yes   # force apt-get update
+    - name: install ubuntu prerequisite packages
+      become: true
+      apt:
+        name: "{{ prereq_packages }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
 
     - name: install python prerequisite packages
       pip:

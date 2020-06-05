@@ -39,7 +39,8 @@
       force_apt_get: yes
 
   - name: add official GPG key of docker
-    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    become: true
+    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
   - name: save the current Ubuntu release version
     shell: lsb_release -cs
