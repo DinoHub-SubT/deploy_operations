@@ -141,10 +141,13 @@
       when: >
         inventory_hostname is match("azure-.*")
 
-    - name: Temporary, ignore extra 'velodyne_gazebo_plugins' package
+    - name: Temporary, ignore extra 'velodyne_gazebo_plugins' package for ugv
       shell:
         cmd: touch ./velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
         chdir: ~/deploy_ws/src/simulation
+      when: >
+        inventory_hostname is match("azure-uav.*") or
+        inventory_hostname is match("robot-uav.*")
 
     # ////////////////////////////////////////////////////////////////////////
     # Basestation Submodules
