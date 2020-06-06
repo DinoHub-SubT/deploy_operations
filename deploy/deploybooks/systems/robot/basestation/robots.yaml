@@ -16,4 +16,4 @@
     - export scenario=" --scenario $filename"
 
     # extend
-    - +extend: systems/robot/basestation/vm/compose
+    - +extend: systems/robot/basestation/localhost/compose

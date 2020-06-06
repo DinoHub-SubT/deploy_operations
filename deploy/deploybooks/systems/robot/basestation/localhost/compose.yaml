@@ -19,4 +19,3 @@
   # any compose command -- user can add '-e arg="launch build-gui"' to specify command
   - container.exec:
     - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d basestation-commander-run-any
-  
