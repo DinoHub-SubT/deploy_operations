@@ -20,3 +20,7 @@
       - compose:
         - +ssh:{ azure.basestation }
         - +extend: systems/azure/basestation/vm/compose
+      - catkin:
+        - +ssh:{ azure.basestation }
+        - +docker:basestation-shell
+        - +extend: systems/azure/basestation/vm/catkin

@@ -1,6 +1,6 @@
 # export the local & remote paths
 - export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
-- export REMOTE_DEPLOY_PATH=/home/$remote_username/deploy_ws/
+- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/deploy_ws/
 
 # export local and remote workspaces
 - 'export copy_opts="-avzh --delete

@@ -1,14 +1,9 @@
 # export the local & remote paths
 - export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
-- export REMOTE_DEPLOY_PATH=/home/$remote_username/deploy_ws/
+- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/deploy_ws/
 
-# export local and remote workspaces
-- 'export copy_opts="-avzh --delete
-    --exclude=src/perception
-    --exclude=src/uav/
-    --exclude=src/ugv/
-    --exclude=*.git/
-  " '
+# deployer, rsync exclude options
+- export copy_opts="-avzh --delete $deploy_rsync_opts"
 
 - to:
   # create the remote directory

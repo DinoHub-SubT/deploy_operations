@@ -24,6 +24,10 @@
       - compose:
         - +ssh:{ ugv1.ppc }
         - +extend: systems/robot/ugv/ppc/compose
+      - catkin:
+        - +ssh:{ ugv1.ppc }
+        - +docker:ppc-shell
+        - +extend: systems/robot/ugv/ppc/catkin
 
     - nuc:
       # source the computer-level scenario file
@@ -36,6 +40,10 @@
       - compose:
         - +ssh:{ ugv1.nuc }
         - +extend: systems/robot/ugv/nuc/compose
+      - catkin:
+        - +ssh:{ ugv1.nuc }
+        - +docker:nuc-shell
+        - +extend: systems/robot/ugv/nuc/catkin
 
     - xavier:
       # source the computer-level scenario file
@@ -67,6 +75,10 @@
       - compose:
         - +ssh:{ ugv2.ppc }
         - +extend: systems/robot/ugv/ppc/compose
+      - catkin:
+        - +ssh:{ ugv2.ppc }
+        - +docker:ppc-shell
+        - +extend: systems/robot/ugv/ppc/catkin
   
     - nuc:
       # source the computer-level scenario file
@@ -77,8 +89,12 @@
       # extend
       - +extend: systems/robot/ugv/nuc/transfer
       - compose:
-        # - +ssh:{ ugv2.nuc }
+        - +ssh:{ ugv2.nuc }
         - +extend: systems/robot/ugv/nuc/compose
+      - catkin:
+        - +ssh:{ ugv2.nuc }
+        - +docker:nuc-shell
+        - +extend: systems/robot/ugv/nuc/catkin
   
     - xavier:
       # source the computer-level scenario file

@@ -2,7 +2,8 @@
 - workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
-  - ppc:
+  - basestation:
+
     - cd $SUBT_PATH/
     - pwd
     - whoami
@@ -10,10 +11,10 @@
     # ////////////////////////////////////////////////////////////////////////////
     - clean:
     # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/ugv
-      - rm -rf ~/deploy_ws/build/ugv
-      - rm -rf ~/deploy_ws/install/ugv
-      - rm -rf ~/deploy_ws/logs/ugv
+      - rm -rf ~/deploy_ws/devel/basestation
+      - rm -rf ~/deploy_ws/build/basestation
+      - rm -rf ~/deploy_ws/install/basestation
+      - rm -rf ~/deploy_ws/logs/basestation
 
     # ////////////////////////////////////////////////////////////////////////////
     - build:
@@ -23,15 +24,15 @@
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv
+        - catkin profile set basestation
         - catkin config
         - catkin build --force-cmake
 
-      - ugv:
-        - cd ~/deploy_ws/src/ugv
+      - basestation:
+        - cd ~/deploy_ws/src/basestation
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-ppc
+        - catkin profile set basestation
         - catkin config
         - catkin build --force-cmake
 
@@ -39,6 +40,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-ppc
+        - catkin profile set basestation
         - catkin config
         - catkin build --force-cmake
