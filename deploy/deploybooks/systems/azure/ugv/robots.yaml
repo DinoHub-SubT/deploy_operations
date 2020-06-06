@@ -20,6 +20,10 @@
       - compose:
         - +ssh:{ azure.ugv1 }
         - +extend: systems/azure/ugv/vm/compose
+      - catkin:
+        - +ssh:{ azure.ugv1 }
+        - +docker:ugv-sim-shell
+        - +extend: systems/azure/ugv/vm/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - ugv2:
@@ -35,18 +39,26 @@
       - compose:
         - +ssh:{ azure.ugv2 }
         - +extend: systems/azure/ugv/vm/compose
+      - catkin:
+        - +ssh:{ azure.ugv2 }
+        - +docker:ugv-sim-shell
+        - +extend: systems/azure/ugv/vm/catkin
 
-    # ////////////////////////////////////////////////////////////////////////////
-    - ugv3:
-    # ////////////////////////////////////////////////////////////////////////////
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv3:
+  # ////////////////////////////////////////////////////////////////////////////
 
-      # source the computer-level scenario file
-      - export filename=systems/azure/ugv3
-      - source operations/deploy/scenarios/$filename.env
-      - export scenario=" --scenario $filename"
+    # source the computer-level scenario file
+    - export filename=systems/azure/ugv3
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
 
-      - vm:
-        - +extend: systems/azure/ugv/vm/transfer
-        - compose:
-          - +ssh:{ azure.ugv3 }
-          - +extend: systems/azure/ugv/vm/compose
+    - vm:
+      - +extend: systems/azure/ugv/vm/transfer
+      - compose:
+        - +ssh:{ azure.ugv3 }
+        - +extend: systems/azure/ugv/vm/compose
+      - catkin:
+        - +ssh:{ azure.ugv3 }
+        - +docker:ugv-sim-shell
+        - +extend: systems/azure/ugv/vm/catkin

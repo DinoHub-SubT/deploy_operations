@@ -1,40 +1,46 @@
 # ////////////////////////////////////////////////////////////////////////////
-- robot:
-  - nuc:
+- workspace:
 # ////////////////////////////////////////////////////////////////////////////
+
+  - basestation:
 
     - cd $SUBT_PATH/
     - pwd
+    - whoami
 
     # ////////////////////////////////////////////////////////////////////////////
-    # perform all tasks that involve 'building'
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/basestation
+      - rm -rf ~/deploy_ws/build/basestation
+      - rm -rf ~/deploy_ws/install/basestation
+      - rm -rf ~/deploy_ws/logs/basestation
+
+    # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
 
-      # //////////////////////////////////////////////////////////////////////////
-      - start:
-      # //////////////////////////////////////////////////////////////////////////
-        - common:
-          - cd common/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        - nuc:
-          - cd ugv/nuc/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        # TODO:
-        # - launch:
-        #   - cd $DEPLOY_SRC/operations/launch/
-        #   - rm -f .catkin_tools/profiles/profiles.yaml
-        #   - catkin profile set ${computer_type_t}-basestation
-        #   - catkin build --force-cmake
-        #   - catkin clean -b --yes
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set basestation
+        - catkin config
+        - catkin build --force-cmake
 
-      # //////////////////////////////////////////////////////////////////////////
-      - stop:
-      # //////////////////////////////////////////////////////////////////////////
-        - echo "Nothing to stop, everything is done."
-        
-    
+      - basestation:
+        - cd ~/deploy_ws/src/basestation
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set basestation
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set basestation
+        - catkin config
+        - catkin build --force-cmake
+

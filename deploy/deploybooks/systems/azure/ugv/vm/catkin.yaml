@@ -1,40 +1,60 @@
 # ////////////////////////////////////////////////////////////////////////////
-- robot:
-  - nuc:
+- workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
+  - nuc:
     - cd $SUBT_PATH/
     - pwd
+    - whoami
 
     # ////////////////////////////////////////////////////////////////////////////
-    # perform all tasks that involve 'building'
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/ugv
+      - rm -rf ~/deploy_ws/build/ugv
+      - rm -rf ~/deploy_ws/install/ugv
+      - rm -rf ~/deploy_ws/logs/ugv
+
+    # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
 
-      # //////////////////////////////////////////////////////////////////////////
-      - start:
-      # //////////////////////////////////////////////////////////////////////////
-        - common:
-          - cd common/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        - nuc:
-          - cd ugv/nuc/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        # TODO:
-        # - launch:
-        #   - cd $DEPLOY_SRC/operations/launch/
-        #   - rm -f .catkin_tools/profiles/profiles.yaml
-        #   - catkin profile set ${computer_type_t}-basestation
-        #   - catkin build --force-cmake
-        #   - catkin clean -b --yes
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv
+        - catkin config
+        - catkin build --force-cmake
 
-      # //////////////////////////////////////////////////////////////////////////
-      - stop:
-      # //////////////////////////////////////////////////////////////////////////
-        - echo "Nothing to stop, everything is done."
-        
-    
+      - ugv:
+        - cd ~/deploy_ws/src/ugv
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set sim
+        - catkin config
+        - catkin build --force-cmake
+
+      - darpa:
+        - cd ~/deploy_ws/src/simulation/darpa/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv
+        - catkin config
+        - catkin build --force-cmake
+
+      - simulation:
+        - cd ~/deploy_ws/src/simulation
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-sim
+        - catkin config
+        - catkin build --force-cmake

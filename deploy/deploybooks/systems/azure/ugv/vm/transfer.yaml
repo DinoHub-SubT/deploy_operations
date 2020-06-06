@@ -1,14 +1,10 @@
 # export the local & remote paths
-- export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
-- export REMOTE_DEPLOY_PATH=/home/$remote_username/deploy_ws/
+# - export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
+# - export LOCAL_DEPLOY_PATH=/home/katarina/airlab/infrastructure/deploy-restructure/deploy-new/src
+- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/deploy_ws/
 
-# export local and remote workspaces
-- 'export copy_opts="-avzh --delete
-    --exclude=src/basestation
-    --exclude=src/uav/
-    --exclude=src/perception/
-    --exclude=*.git/
-  " '
+# deployer, rsync exclude options
+- export copy_opts="-avzh --delete $deploy_rsync_opts"
 
 - to:
   # create the remote directory
@@ -24,5 +20,5 @@
   - 'export copy_cmd=$copy_from'
 
 # evaluate the copy command
-- echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
+- echo -e "\n${YELLOW}\t copy command -> \n $copy_cmd \n"
 - eval $copy_cmd
