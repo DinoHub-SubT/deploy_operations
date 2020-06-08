@@ -10,10 +10,10 @@
     # ////////////////////////////////////////////////////////////////////////////
     - clean:
     # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/ugv
-      - rm -rf ~/deploy_ws/build/ugv
-      - rm -rf ~/deploy_ws/install/ugv
-      - rm -rf ~/deploy_ws/logs/ugv
+      - rm -rf ~/deploy_ws/devel/ugv/ppc
+      - rm -rf ~/deploy_ws/build/ugv/ppc
+      - rm -rf ~/deploy_ws/install/ugv/ppc
+      - rm -rf ~/deploy_ws/logs/ugv/ppc
 
     # ////////////////////////////////////////////////////////////////////////////
     - build:

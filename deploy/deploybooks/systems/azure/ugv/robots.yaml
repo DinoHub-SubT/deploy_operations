@@ -16,7 +16,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.ugv1 }
         - +extend: systems/azure/ugv/vm/compose
@@ -35,7 +35,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.ugv2 }
         - +extend: systems/azure/ugv/vm/compose
@@ -54,7 +54,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/ugv/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.ugv3 }
         - +extend: systems/azure/ugv/vm/compose

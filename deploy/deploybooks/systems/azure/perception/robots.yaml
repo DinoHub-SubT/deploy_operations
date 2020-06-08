@@ -16,8 +16,9 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/perception/vm/transfer
+      - +extend: common/transfer
       - compose:
+        # TODO: this needs to be changed the the 'cpu' Azure VM ssh alias (right now its the gpu alias)
         - +ssh:{ azure.perception1 }
         - +extend: systems/azure/perception/vm/compose
 
@@ -31,7 +32,7 @@
       - export scenario=" --scenario $filename"
 
       - vm:
-        - +extend: systems/azure/perception/vm/transfer
+        - +extend: common/transfer
         - compose:
           - +ssh:{ azure.perception1 }
           - +extend: systems/azure/perception/vm/compose

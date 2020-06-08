@@ -16,7 +16,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/uav/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.uav1 }
         - +extend: systems/azure/uav/vm/compose
@@ -31,7 +31,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/uav/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.uav2 }
         - +extend: systems/azure/uav/vm/compose
@@ -47,7 +47,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/uav/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.uav3 }
         - +extend: systems/azure/uav/vm/compose
@@ -63,7 +63,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/uav/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.uav4 }
         - +extend: systems/azure/uav/vm/compose

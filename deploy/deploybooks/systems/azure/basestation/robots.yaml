@@ -16,7 +16,7 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: systems/azure/basestation/vm/transfer
+      - +extend: common/transfer
       - compose:
         - +ssh:{ azure.basestation }
         - +extend: systems/azure/basestation/vm/compose
