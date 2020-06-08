@@ -42,7 +42,6 @@
         - +extend: systems/robot/ugv/nuc/compose
       - catkin:
         - +ssh:{ ugv1.nuc }
-        - +docker:nuc-shell
         - +extend: systems/robot/ugv/nuc/catkin
 
     - xavier:
@@ -93,7 +92,6 @@
         - +extend: systems/robot/ugv/nuc/compose
       - catkin:
         - +ssh:{ ugv2.nuc }
-        - +docker:nuc-shell
         - +extend: systems/robot/ugv/nuc/catkin
 
     - xavier:
