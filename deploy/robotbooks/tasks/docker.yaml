@@ -64,7 +64,7 @@
 
   - name: reset docker group
     become: true
-    user: name=subt groups=docker append=yes
+    user: name={{ default_user.name }} groups=docker append=yes
 
   - name: reset ssh connection to allow user changes to affect 'current login user'
     meta: reset_connection

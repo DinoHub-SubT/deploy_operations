@@ -1,0 +1,110 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup ROS packages
+# ////////////////////////////////////////////////////////////////////////
+- name: ros install setup
+
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/main.yaml
+
+  # setup hosts to run commands as
+  hosts:
+    - localhost
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install ros prerequisite packages
+      become: true
+      apt:
+        name: "{{ ros.melodic.packages }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - command: lsb_release -sc
+      register: ubuntu_distro
+    - debug: msg="ubuntu distro is {{ubuntu_distro.stdout}}"
+    
+    - name: set up your keys
+      apt_repository:
+        repo: "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main"
+        state: present
+        filename: ros-latest
+      become: true
+
+    - name: setup apt keys
+      shell: "apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key {{ ros.melodic.key }}"
+      become: true
+
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: installation ros {{ ros.version }}
+      apt:
+        name: "ros-{{ ros.version }}-desktop-full"
+        update_cache: yes
+      become: true
+
+    # remove previous file
+    - name: Remove Previously Added Bitbucket SSH Keys
+      become: true
+      file:
+        path: /etc/ros/rosdep/sources.list.d/20-default.list
+        state: absent
+
+    - name: rosdep initialize
+      command: rosdep init
+      become: true
+
+    - name: rosdep update
+      command: rosdep update
+
+    - name: bash environment setup
+      lineinfile: dest={{ item.file }} state=present line={{ item.line }}
+      with_items:
+        - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ default_user.name }}/.bashrc" }
+
+    - name: zsh environment setup
+      lineinfile: dest={{ item.file }} state=present line={{ item.line }}
+      with_items:
+        - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ default_user.name }}/.zshrc" }
+
+    - name: install nuc prerequisite packages
+      become: true
+      apt:
+        name: "{{ ros.nuc.packages }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-ugv.*-nuc")

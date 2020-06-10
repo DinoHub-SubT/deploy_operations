@@ -33,6 +33,7 @@ prereq_packages:
   - freerdp-x11
   - traceroute
   - zsh
+  - lm-sensors
 
 # Prerequisites Ubuntu Packages
 pip_packages:
@@ -98,6 +99,57 @@ docker:
 # terraform version validation
 terraform:
   - version: 0.12.24
+
+ros:
+  version: melodic
+  # ROS packages for base melodic install
+  melodic:
+    key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+    packages:
+      - python-rosdep
+      - python-rosinstall-generator
+      - python-wstool
+      - python-rosinstall
+      - python-catkin-tools
+      - ros-melodic-cmake-modules
+      - ros-melodic-rqt-gui-cpp
+      - ros-melodic-rviz
+      - ros-melodic-gazebo-*
+      - ros-melodic-rqt-gui
+      - ros-melodic-rqt-gui-cpp
+      - ros-melodic-rqt-gui-py
+      - ros-melodic-catch-ros
+  # ROS packages for ugv[nuc] install
+  nuc:
+    packages:
+      - libboost-all-dev
+      - libeigen3-dev
+      - assimp-utils
+      - libcgal-dev
+      - libcgal-qt5-dev
+      - libproj-dev
+      - libnlopt-dev
+      - python-wstool
+      - python-catkin-tools
+      - libglfw3-dev
+      - libblosc-dev
+      - libopenexr-dev
+      - liblog4cplus-dev
+      - libsuitesparse-dev
+      - libsdl1.2-dev
+      - ros-melodic-smach-viewer
+      - ros-melodic-tf-conversions
+      - ros-melodic-random-numbers
+      - ros-melodic-ros-type-introspection
+      - ros-melodic-pcl-ros
+      - ros-melodic-rosfmt
+      - ros-melodic-rosserial
+      - ros-melodic-serial
+      - libncurses5-dev
+      - libpcap-dev
+      - graphviz
+      - doxygen
+      - sharutils
 
 # == Passwords ==
 
