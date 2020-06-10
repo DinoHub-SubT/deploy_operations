@@ -49,6 +49,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-sim
+        - catkin profile set perception-x86
         - catkin config
         - catkin build --force-cmake

@@ -26,7 +26,6 @@
         - catkin profile set ugv
         - catkin config
         - catkin build --force-cmake
-
       - ugv:
         - cd ~/deploy_ws/src/ugv
         - rm -f .catkin_tools/profiles/profiles.yaml

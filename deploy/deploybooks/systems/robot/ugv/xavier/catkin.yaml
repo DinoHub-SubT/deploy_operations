@@ -1,38 +1,54 @@
 # ////////////////////////////////////////////////////////////////////////////
-- run:
-  - ppc:
+- workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
+  - perception:
     - cd $SUBT_PATH/
     - pwd
+    - whoami
 
     # ////////////////////////////////////////////////////////////////////////////
-    # perform all tasks that involve 'building'
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/perception
+      - rm -rf ~/deploy_ws/build/perception
+      - rm -rf ~/deploy_ws/install/perception
+      - rm -rf ~/deploy_ws/logs/perception
+
+    # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
 
-      # //////////////////////////////////////////////////////////////////////////
-      - start:
-      # //////////////////////////////////////////////////////////////////////////
-        - common:
-          - cd common/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        - ppc:
-          - cd ugv/planning-pc/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        # TODO:
-        # - launch:
-        #   - cd $DEPLOY_SRC/operations/launch/
-        #   - rm -f .catkin_tools/profiles/profiles.yaml
-        #   - catkin profile set ${computer_type_t}-basestation
-        #   - catkin build --force-cmake
-        #   - catkin clean -b --yes
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set perception-x86
+        - catkin config
+        - catkin build --force-cmake
 
-      # //////////////////////////////////////////////////////////////////////////
-      - stop:
-      # //////////////////////////////////////////////////////////////////////////
-        - echo "Nothing to stop, everything is done."
+      - perception:
+        - deps:
+          # build perception deps
+          - cd ~/deploy_ws/src/perception/deps/catkin
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          -  catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
+        - objdet:
+          # build objdet
+          - cd ~/deploy_ws/src/perception/
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          -  catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-sim
+        - catkin config
+        - catkin build --force-cmake
