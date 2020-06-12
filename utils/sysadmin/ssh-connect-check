@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# //////////////////////////////////////////////////////////////////////////////
+# display usage
+usage_msg="\
+Usage: $(basename $0)
+options:
+  * optional arguments are enclosed in square brackets
+
+  [ --config <config-file> ]
+      load the project config file
+  --name <container name>
+      set the container name to join
+      use '--name' or '--config', but not both.
+  [--preview]
+      preview docker build command; docker build is not called
+
+  Joins the docker container. Call $(basename $0) script multiple times to join the same container.
+
+For more help, please see the README.md or wiki."
+
+# //////////////////////////////////////////////////////////////////////////////
+# load helper scripts
+
+# load print-info
+. "$(dirname $0)/utils.bash"
+validate "load utils failed"
+
+# get the directory of this script -- "build.bash"
+script_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+pushd $script_path  # go so script path
+
+# //////////////////////////////////////////////////////////////////////////////
+# script
+script_title "Testing SSH Connection"
+
+# check every connection in the user's ssh config
+shopt -s nocasematch
+for str in $(grep -i "^[^#\S]*Host\(name\)\?" ~/.ssh/config | paste -s -); do
+  case "$str" in
+    "Host")
+      type=connection
+      ;;
+    "Hostname")
+      type=hostname
+      ;;
+    *)
+      case "$type" in
+        # get the name of the connection & test out an ssh connection
+        "connection")
+          connection=$str
+          if ssh -q -o BatchMode=yes -o ConnectTimeout=1 $connection exit 2>/dev/null; then
+            printf "${GREEN}"
+            printf "%30s %13s" "$connection" "OK."
+            printf "\n${NC}"
+          else
+            printf "${RED}"
+            printf "%30s %13s" "$connection" "FAIL"
+            printf "\n${NC}"
+          fi
+          unset connection
+        ;;
+      esac
+  esac
+done
+
+# cleanup & exit
+newline
+popd
+exit_success
