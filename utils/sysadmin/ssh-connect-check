@@ -3,18 +3,8 @@
 # display usage
 usage_msg="\
 Usage: $(basename $0)
-options:
-  * optional arguments are enclosed in square brackets
 
-  [ --config <config-file> ]
-      load the project config file
-  --name <container name>
-      set the container name to join
-      use '--name' or '--config', but not both.
-  [--preview]
-      preview docker build command; docker build is not called
-
-  Joins the docker container. Call $(basename $0) script multiple times to join the same container.
+  Checks which SSH connections are open, found in the local ~/.ssh/config
 
 For more help, please see the README.md or wiki."
 
