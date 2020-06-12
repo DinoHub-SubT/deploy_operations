@@ -7,6 +7,7 @@
   # setup variables to be shared in tasks
   vars_files:
     - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
 
   # setup hosts to run commands as
   hosts:
@@ -33,6 +34,7 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
+      when: localhost_ros
 
     - name: install ros prerequisite packages
       become: true
@@ -43,21 +45,25 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
+      when: localhost_ros
 
     - command: lsb_release -sc
       register: ubuntu_distro
     - debug: msg="ubuntu distro is {{ubuntu_distro.stdout}}"
-    
+      when: localhost_ros
+
     - name: set up your keys
       apt_repository:
         repo: "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main"
         state: present
         filename: ros-latest
       become: true
+      when: localhost_ros
 
     - name: setup apt keys
       shell: "apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key {{ ros.melodic.key }}"
       become: true
+      when: localhost_ros
 
     - name: update apt packages
       become: true
@@ -66,12 +72,14 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
+      when: localhost_ros
 
     - name: installation ros {{ ros.version }}
       apt:
         name: "ros-{{ ros.version }}-desktop-full"
         update_cache: yes
       become: true
+      when: localhost_ros
 
     # remove previous file
     - name: Remove Previously Added Bitbucket SSH Keys
@@ -79,23 +87,28 @@
       file:
         path: /etc/ros/rosdep/sources.list.d/20-default.list
         state: absent
+      when: localhost_ros
 
     - name: rosdep initialize
       command: rosdep init
       become: true
+      when: localhost_ros
 
     - name: rosdep update
       command: rosdep update
+      when: localhost_ros
 
     - name: bash environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
         - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ default_user.name }}/.bashrc" }
+      when: localhost_ros
 
     - name: zsh environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
         - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ default_user.name }}/.zshrc" }
+      when: localhost_ros
 
     - name: install nuc prerequisite packages
       become: true

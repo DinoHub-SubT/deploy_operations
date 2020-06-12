@@ -6,6 +6,7 @@
 
   vars_files:
     - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
 
   # run playbook on the specified hosts
   hosts:
@@ -27,6 +28,7 @@
     become: true
     shell: docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
     ignore_errors: yes
+    when: localhost_nvidia_docker
 
   - name: remove previous nvidia-docker apt install
     become: true
@@ -35,11 +37,13 @@
       state: present
       force_apt_get: yes
     ignore_errors: yes
+    when: localhost_nvidia_docker
 
   - name: update apt packages
     become: true
     apt:
       update_cache: yes
+    when: localhost_nvidia_docker
 
   - name: install docker dependency packages
     become: true
@@ -47,22 +51,27 @@
       name: "{{ docker_packages }}"
       state: present
       force_apt_get: yes
+    when: localhost_nvidia_docker
 
   - name: add official GPG key of nvidia docker
     shell: curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+    when: localhost_nvidia_docker
 
   - name: save the current Ubuntu release version
     shell: . /etc/os-release;echo $ID$VERSION_ID
     register: distribution
+    when: localhost_nvidia_docker
 
   - name: update apt packages with nvidia docker
     become: true
     shell: curl -s -L https://nvidia.github.io/nvidia-docker/{{ distribution.stdout }}/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
+    when: localhost_nvidia_docker
 
   - name: update apt packages
     become: true
     apt:
       update_cache: yes
+    when: localhost_nvidia_docker
 
   - name: install nvidia-docker
     become: true
@@ -70,6 +79,7 @@
       name: "{{ nvidia_docker_packages }}"
       state: present
       force_apt_get: yes
+    when: localhost_nvidia_docker
 
   - name: restart docker service
     become: true
@@ -77,19 +87,24 @@
       state: restarted
       daemon_reload: yes
       name: docker
+    when: localhost_nvidia_docker
 
   - name: validate nvidia-docker
     shell: nvidia-docker --version
     register: docker_version_out
+    when: localhost_nvidia_docker
 
   - name: output validate docker
     debug:
       msg: "Container Output: {{docker_version_out.stdout}}"
+    when: localhost_nvidia_docker
 
   - name: test nvidia-docker with 'hello world' example
     shell: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
     register: hello_world_output
+    when: localhost_nvidia_docker
 
   - name: show output of 'hello word' example
     debug:
       msg: "Container Output: {{hello_world_output.stdout}}"
+    when: localhost_nvidia_docker

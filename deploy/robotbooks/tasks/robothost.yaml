@@ -65,7 +65,7 @@
         update_cache: yes   # force apt-get update
       when: >
         "azure-" in inventory_hostname
-    
+
     - name: enable service xrdp
       become: true
       systemd:

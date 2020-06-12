@@ -1,4 +1,3 @@
-
 # Install basic dependencies on the remote VM
 - include: tasks/robothost.yaml
 
@@ -12,6 +11,9 @@
 # Install teamviewer and GNOME desktop on the remote VM
 - include: tasks/gnome.yaml
 - include: tasks/teamviewer.yaml
+
+# install ros on VM localhost
+- include: tasks/ros.yaml
 
 # Clones the deploy repo on the remote VM (can take 30 minutes)
 # You do not need to clone the repo on the remote VM manually, this command will do that for you.
