@@ -1,0 +1,100 @@
+# == ZSH Themes & Plugins ==
+
+# ZSH_THEME="robbyrussell"
+ZSH_THEME=""
+
+# ZSH theme: https://github.com/sindresorhus/pure#install
+fpath+=$HOME/.zsh/pure
+autoload -U promptinit; promptinit
+# optionally define some options
+PURE_CMD_MAX_EXEC_TIME=10
+# change the path color
+zstyle :prompt:pure:path color white
+# change the color for both `prompt:success` and `prompt:error`
+zstyle ':prompt:pure:prompt:*' color cyan
+# turn on git stash status
+zstyle :prompt:pure:git:stash show yes
+prompt pure
+
+plugins=(git zsh-autosuggestions)
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# == ZSH Custom Setup ==
+
+# History options
+# http://unix.stackexchange.com/questions/273861/unlimited-history-in-zsh
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+
+# Setup Custom ZSH Prompt
+PROMPT="$fg[cyan]%}$USER@%{$fg[blue]%}%m ${PROMPT}"
+
+# == Deploy Repo Setup ==
+export SUBT_PATH=/home/explorer/deploy_ws/src/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH
+alias docker-join="cd /home/explorer/deploy_ws/src/docker/scripts && ./join.bash --name subt "
+
+# == General Setup ==
+
+alias sd='source devel/setup.bash'
+alias refresh='source /home/explorer/.bashrc'
+
+#setup static route to DARPA basestation
+#alias ipr='sudo ip route add 10.0.0.0/8 via 10.3.1.1 dev enp8s0'
+
+source /opt/ros/melodic/setup.bash
+#source /home/explorer/workspaces/basestation/devel/setup.bash
+
+export ROS_MASTER_URI=http://system76-pc:11311
+#export ROS_HOSTNAME=system76-pc
+export MCAST_GROUP=224.0.0.251
+alias xctu="cd /opt/Digi/XCTU-NG; sudo ./launcher"
+
+# aliases for Tmux
+alias tconf='vim ~/.tmux.conf && tmux source ~/.tmux.conf'
+alias ta='tmux attach -t'
+alias tnew='tmux new -s'
+alias tls='tmux ls'
+alias tkill='tmux kill-session -t'
+
+export RTI_LICENSE_FILE=/home/explorer/deploy_ws/src/basestation/communication_manager/config/rti_license.dat
+
+# navigation
+alias b="cd .."
+alias c="clear"
+
+# git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit -m"
+alias gp="git pull"
+alias gd="git diff"
+
+# == Deploy Setup ==
+alias cd-deploy="cd /home/explorer/deploy_ws/src/"
+export SUBT_PATH=/home/explorer/deploy_ws/src/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export DEPLOY_UTILS_PATH=/home/explorer/deploy_ws/src/operations/utils/sysadmin/
+export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH:$DEPLOY_UTILS_PATH

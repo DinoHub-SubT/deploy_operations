@@ -3,10 +3,6 @@ cat ~/.ssh/config
 IdentityFile ~/.ssh/deploy
 IdentityFile ~/.ssh/bitbucket
 
-Host ugv1
-    Hostname ugv1
-    User explorer
-
 ################################################
 # SubT Robot SSH Configuration
 ################################################
