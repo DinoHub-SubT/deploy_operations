@@ -56,5 +56,11 @@ is_display_usage() {
     exit_failure
   fi
 }
-# check if arg is set
-verify_arg() { [[ -z "${1+x}" ]] && { display_usage "$usage_msg"; print_error "$2"; exit_failure; } }
+# check if an argument is set
+verify_arg() {
+  # variable is not set
+  [[ -z "${1+x}" ]] && { display_usage "$usage_msg"; print_error "$2"; exit_failure; }
+  # variable is empty
+  [[ -z "${1}" ]] && { display_usage "$usage_msg"; print_error "$2"; exit_failure; }
+}
+

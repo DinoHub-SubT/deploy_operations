@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# //////////////////////////////////////////////////////////////////////////////
+# display usage
+usage_msg="\
+Usage: $(basename $0)
+
+  options:
+  --task <arg>
+      Ansible entrypoint task script to run.
+      - Task files are found in: operations/deploy/robotbooks/
+      - Example usage: --task install-azure.yaml
+  --inv <arg>
+      inventory filename
+      - Invetory files are found in: operations/deploy/robotbooks/inventory/
+      - Example usage: --inv inventory/azure.ini
+  --host <arg>
+      Host alias to run the ansible install script.
+      - Host alias configured in your selected inventory file
+      - Example usage: --host azure-basestation
+
+  Ansible Runner Wrapper
+    - Quick GoTo script, to run ansible installs quickly.
+    - Hides ansible cli options & details.
+
+  * optional arguments are enclosed in square brackets
+
+For more help, please see the README.md or wiki."
+
+# //////////////////////////////////////////////////////////////////////////////
+# load helper scripts
+
+# load print-info
+. "$(dirname $0)/.utils.bash"
+validate "load utils failed"
+
+# load print-info
+. "$(dirname $0)/args/.ansible-runner-args.bash"
+validate "load args failed"
+
+# display usage message
+is_display_usage "$usage_msg"
+
+# verify user input arguments
+verify_user_input_args
+
+# get the directory of this script -- "build.bash"
+script_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+pushd $script_path  # go so script path
+
+# //////////////////////////////////////////////////////////////////////////////
+# script
+script_title "Ansible Runner"
+
+# go to the ansible workspace
+cd ../../deploy/robotbooks
+
+# //////////////////////////////////////////////////////////////////////////////
+# execute the ansible install command
+ansible-playbook -v -i $inv $task --limit $host
+
+# cleanup & exit
+newline
+popd
+exit_success

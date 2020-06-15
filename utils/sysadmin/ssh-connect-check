@@ -12,7 +12,7 @@ For more help, please see the README.md or wiki."
 # load helper scripts
 
 # load print-info
-. "$(dirname $0)/utils.bash"
+. "$(dirname $0)/.utils.bash"
 validate "load utils failed"
 
 # get the directory of this script -- "build.bash"
