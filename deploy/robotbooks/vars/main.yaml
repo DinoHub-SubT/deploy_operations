@@ -115,19 +115,21 @@ ros:
   melodic:
     key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     packages:
-      - python-rosdep
-      - python-rosinstall-generator
-      - python-wstool
-      - python-rosinstall
-      - python-catkin-tools
-      - ros-melodic-cmake-modules
-      - ros-melodic-rqt-gui-cpp
-      - ros-melodic-rviz
-      - ros-melodic-gazebo-*
-      - ros-melodic-rqt-gui
-      - ros-melodic-rqt-gui-cpp
-      - ros-melodic-rqt-gui-py
-      - ros-melodic-catch-ros
+      prereq:
+        - python-rosdep
+        - python-rosinstall-generator
+        - python-wstool
+        - python-rosinstall
+        - python-catkin-tools
+      extra:
+        - ros-melodic-cmake-modules
+        - ros-melodic-rqt-gui-cpp
+        - ros-melodic-rviz
+        - ros-melodic-gazebo-*
+        - ros-melodic-rqt-gui
+        - ros-melodic-rqt-gui-cpp
+        - ros-melodic-rqt-gui-py
+        - ros-melodic-catch-ros
   # ROS packages for ugv[nuc] install
   nuc:
     packages:

@@ -36,27 +36,21 @@
         update_cache: yes   # force apt-get update
       when: localhost_ros
 
-    - name: install ros prerequisite packages
-      become: true
-      apt:
-        name: "{{ ros.melodic.packages }}"
-        state: present
-        force: yes          # force yes
-        force_apt_get: yes
-        install_recommends: yes
-        update_cache: yes   # force apt-get update
-      when: localhost_ros
-
     - command: lsb_release -sc
       register: ubuntu_distro
     - debug: msg="ubuntu distro is {{ubuntu_distro.stdout}}"
       when: localhost_ros
 
+    # - name: set up your keys
+    #   apt_repository:
+    #     repo: "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main"
+    #     state: present
+    #     filename: ros-latest
+    #   become: true
+    #   when: localhost_ros
+
     - name: set up your keys
-      apt_repository:
-        repo: "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main"
-        state: present
-        filename: ros-latest
+      shell: echo "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main" > /etc/apt/sources.list.d/ros-latest.list
       become: true
       when: localhost_ros
 
@@ -74,11 +68,33 @@
         update_cache: yes   # force apt-get update
       when: localhost_ros
 
+    - name: install ros prerequisite packages
+      become: true
+      apt:
+        name: "{{ ros.melodic.packages.prereq }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: localhost_ros
+
     - name: installation ros {{ ros.version }}
       apt:
         name: "ros-{{ ros.version }}-desktop-full"
         update_cache: yes
       become: true
+      when: localhost_ros
+
+    - name: install ros extra packages
+      become: true
+      apt:
+        name: "{{ ros.melodic.packages.extra }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
       when: localhost_ros
 
     # remove previous file
@@ -104,11 +120,16 @@
         - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ default_user.name }}/.bashrc" }
       when: localhost_ros
 
+    - name: check that zshrc exists
+      stat:
+        path: /home/{{ default_user.name }}/.zshrc
+      register: stat_result
+
     - name: zsh environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
         - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ default_user.name }}/.zshrc" }
-      when: localhost_ros
+      when: localhost_ros and stat_result.stat.exists
 
     - name: install nuc prerequisite packages
       become: true
