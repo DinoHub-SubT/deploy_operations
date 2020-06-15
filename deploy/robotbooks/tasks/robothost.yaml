@@ -104,3 +104,22 @@
         password: "{{ default_user.password | password_hash('sha512') }}"
       when: >
         "azure-" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Copy Git Config
+    # ////////////////////////////////////////////////////////////////////////
+    # - name: Remove Previously Added Git Config Keys
+    #   file:
+    #     path: ~/.gitconfig"
+    #     state: absent
+    #   when: >
+    #     copy_git_config and
+    #     not ("localhost" in inventory_hostname)
+
+    - name: Copy Git Config
+      copy:
+        src: ~/.gitconfig
+        dest: ~/.gitconfig
+      when: >
+        copy_git_config and
+        not ("localhost" in inventory_hostname)
