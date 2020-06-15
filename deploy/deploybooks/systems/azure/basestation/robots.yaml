@@ -22,5 +22,5 @@
         - +extend: systems/azure/basestation/vm/compose
       - catkin:
         - +ssh:{ azure.basestation }
-        - +docker:basestation-shell
+        - +docker:basestation-cpu-shell
         - +extend: systems/azure/basestation/vm/catkin
