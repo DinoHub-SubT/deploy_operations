@@ -1,4 +1,5 @@
 # //////////////////////////////////////////////////////////////////////////////
+# @brief Azure Basestation deployment
 - azure:
 # //////////////////////////////////////////////////////////////////////////////
 
@@ -7,11 +8,12 @@
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - basestation:
+  # @brief Basestation GUI deployment
+  - basestation.cpu:
   # ////////////////////////////////////////////////////////////////////////////
 
     # source the computer-level scenario file
-    - export filename=systems/azure/basestation
+    - export filename=systems/azure/basestation-cpu
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
@@ -24,3 +26,24 @@
         - +ssh:{ azure.basestation }
         - +docker:basestation-cpu-shell
         - +extend: systems/azure/basestation/vm/catkin
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # @brief Basestation perception deployment
+  - basestation.gpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/azure/basestation-gpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - vm:
+      - +extend: common/transfer
+      - compose:
+        - +ssh:{ azure.basestation }
+        - +extend: systems/azure/basestation/vm/compose
+      - catkin:
+        - +ssh:{ azure.basestation }
+        - +docker:basestation-gpu-shell
+        - +extend: systems/azure/basestation/vm/catkin
+

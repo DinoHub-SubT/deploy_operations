@@ -2,7 +2,9 @@
 - workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
-  - basestation:
+  # ////////////////////////////////////////////////////////////////////////////
+  - basestation.gui:
+  # ////////////////////////////////////////////////////////////////////////////
 
     - cd $SUBT_PATH/
     - pwd
@@ -19,23 +21,22 @@
     # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
-
       - common:
+        # build common
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
         - catkin profile set basestation
         - catkin config
         - catkin build --force-cmake
-
       - basestation:
+        # build basestation gui
         - cd ~/deploy_ws/src/basestation
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
         - catkin profile set basestation
         - catkin config
         - catkin build --force-cmake
-
       - subt_launch:
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
@@ -44,3 +45,61 @@
         - catkin config
         - catkin build --force-cmake
 
+  # ////////////////////////////////////////////////////////////////////////////
+  - basestation.perception:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    - cd $SUBT_PATH/
+    - pwd
+    - whoami
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/perception
+      - rm -rf ~/deploy_ws/build/perception
+      - rm -rf ~/deploy_ws/install/perception
+      - rm -rf ~/deploy_ws/logs/perception
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      - perception:
+        - common:
+          # build common
+          - cd ~/deploy_ws/src/common
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          - catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
+        - deps:
+          # build perception deps
+          - cd ~/deploy_ws/src/perception/deps/catkin
+          # temporary -- need to fix!
+          - source /opt/ros/melodic/setup.bash
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          - catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
+        - objdet:
+          # build objdet
+          - cd ~/deploy_ws/src/perception/
+          # temporary -- need to fix!
+          - source /opt/ros/melodic/setup.bash
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          - catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
+        - subt_launch:
+          - cd ~/deploy_ws/src/subt_launch
+          # temporary -- need to fix!
+          - source /opt/ros/melodic/setup.bash
+          - rm -f .catkin_tools/profiles/profiles.yaml
+          - catkin profile list
+          - catkin profile set perception-x86
+          - catkin config
+          - catkin build --force-cmake
