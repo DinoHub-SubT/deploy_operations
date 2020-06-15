@@ -100,6 +100,15 @@ docker:
 terraform:
   - version: 0.12.24
 
+# terraform version validation
+teamviewer:
+  password: teamviewer
+
+# Authorized SSH keys to add on the remote host
+bitbucket_ssh_keys:
+  - filepath: ~/.ssh/bitbucket
+  - filepath: ~/.ssh/bitbucket.pub
+
 ros:
   version: melodic
   # ROS packages for base melodic install
@@ -151,18 +160,3 @@ ros:
       - doxygen
       - sharutils
 
-# == Passwords ==
-
-# azure VM default user & password
-default_user:
-  name: subt
-  password: Password1234!
-
-# terraform version validation
-teamviewer:
-  password: teamviewer
-
-# Authorized SSH keys to add on the remote host
-bitbucket_ssh_keys:
-  - filepath: ~/.ssh/bitbucket
-  - filepath: ~/.ssh/bitbucket.pub

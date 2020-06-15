@@ -7,10 +7,11 @@
   # setup variables to be shared in tasks
   vars_files:
     - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
 
   # setup hosts to run commands as
   hosts:
-    - localhost
+    - laptop
     - basestation
     - ugv
     - uav
@@ -44,6 +45,7 @@
         install_recommends: yes
         update_cache: yes   # force apt-get update
 
+    # note: can output segmentation fault.
     - name: install python prerequisite packages
       pip:
         name: "{{ pip_packages }}"

@@ -10,7 +10,7 @@
 
   # run playbook on the specified hosts
   hosts:
-    - localhost
+    - laptop
     - perception
   become_method: sudo
   become_user: root

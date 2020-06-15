@@ -8,7 +8,7 @@
     - ../vars/main.yaml
 
   hosts:
-    - localhost
+    - laptop
   connection: local
   become_method: sudo
   become_user: root

@@ -11,7 +11,7 @@
 
   # setup hosts to run commands as
   hosts:
-    - localhost
+    - laptop
     - basestation
     - ugv
     - uav

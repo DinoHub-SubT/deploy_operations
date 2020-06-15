@@ -11,3 +11,15 @@ localhost_nvidia_docker: true
 
 # enable if you wish to install ROS [melodic] on your localhost
 localhost_ros: true
+
+# default user & password of ansible script install host
+# -- remember to change, depending on which host you are installing on
+default_user:
+  name: katarina
+  password: Password1234!
+
+# TODO: enable if you wish to install zsh & plugins
+zsh_setup: false
+
+# TODO: example if you wish to copy your ~/.gitconfig to the ansible host
+copy_git_config: false

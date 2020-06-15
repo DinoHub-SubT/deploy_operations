@@ -7,10 +7,11 @@
   # setup variables to be shared in tasks
   vars_files:
     - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
 
   # setup hosts to run commands as
   hosts:
-    - localhost
+    - laptop
     - basestation
     - ugv
     - uav

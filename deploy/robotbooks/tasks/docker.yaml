@@ -6,10 +6,11 @@
 
   vars_files:
     - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
 
   # run playbook on the localhost
   hosts:
-    - localhost
+    - laptop
     - basestation
     - ugv
     - uav
