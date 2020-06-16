@@ -19,7 +19,7 @@ There are two operational tools available to use: `az` or `terraform`
         ssh-keygen
 
     - Answer the prompts from `ssh-keygen` as shown below:
-        
+
             Enter file in which to save the key (/home/<USER-NAME>/.ssh/id_rsa): /home/<USER-NAME>/.ssh/azure_vpn
             Enter passphrase (empty for no passphrase):
 
@@ -37,7 +37,7 @@ You will have a total of three types of connection keys:
 - Azure VPN certificates, used to connect to the Azure VPN setup.
     - Found in: `/home/<USER-NAME>/.ssh/azure/vpn`
 
-Please **keep the default paths** as discussed in the readme instructions. 
+Please **keep the default paths** as discussed in the readme instructions.
 - Some of these paths are hard-coded in scripts. If you do not wish to use these paths, please notify the maintainer to discuss which hard-coded values must be changed.
 
 * * *
@@ -92,7 +92,7 @@ Source your `bashrc` or `zshrc` directly:
 - Go to the terraform workspace
 
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
-    
+
 - Initialize the terraform workspace
 
         terraform init
@@ -104,7 +104,7 @@ Source your `bashrc` or `zshrc` directly:
         sudo apt-get install strongswan strongswan-pki libstrongswan-extra-plugins network-manager-strongswan
 
         # == Create the Root & User Certificates ==
-        
+
         # create the cert path
         mkdir -p ~/.ssh/azure/vpn
         cd ~/.ssh/azure/vpn
@@ -112,13 +112,13 @@ Source your `bashrc` or `zshrc` directly:
         # Create the Root CA cert
         ipsec pki --gen --outform pem > caKey.pem
         ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
-        
+
         # Copy the output to the 'vpn_ca_cert' variable in 'subt/main.tf'
         openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
 
         # == Create the user certificate ==
 
-        # Change 'password' to something more secure 
+        # Change 'password' to something more secure
         export PASSWORD="password"
         # Change 'username' to your username (change to your azure username)
         export USERNAME="client"
@@ -149,7 +149,7 @@ Source your `bashrc` or `zshrc` directly:
         - if you do not want to setup vpn, you can leave this variable with the default contents.
 
     - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`. Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
-    
+
         - default ssh key path: `/home/<USER-NAME>/.ssh/azure_vpn`
 
 - Dry-run the terraform deployment
@@ -158,7 +158,7 @@ Source your `bashrc` or `zshrc` directly:
         terraform plan
 
     - **Errors:** if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
-  
+
 - Apply the terraform infrastructure setup to Azure
 
         # will create all the resources on azure
@@ -168,7 +168,7 @@ Source your `bashrc` or `zshrc` directly:
 
     - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to the **Download the VPN Client** step and continue from there.
 
-You should now have an example resources deployed on azure. 
+You should now have an example resources deployed on azure.
 
 - You can verify your setup by going on the [portal.azure.com](https://portal.azure.com/#home) website, navigate to the `SubT` resource group and finding your newly created resources.
 
@@ -179,7 +179,7 @@ You should now have an example resources deployed on azure.
 ### Ubuntu
 
 The below instructions can be found on [azure tutorials](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert) for reference.
-  
+
   - Please follow the below instructions and use the *azure tutorials* only when running into issues or for more background information.
 
 **Install Dependency Libraries**
@@ -196,13 +196,13 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
       # Create the Root CA cert
       ipsec pki --gen --outform pem > caKey.pem
       ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
-      
+
       # Copy the output to the 'vpn_ca_cert' variable in 'example/main.tf'
       openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
 
       # == Create the user certificate ==
 
-      # Please change 'password' to something more secure 
+      # Please change 'password' to something more secure
       export PASSWORD="password"
       # Please change 'username' to your username
       export USERNAME="client"
@@ -229,7 +229,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
 
       # Dry-run: shows the user the azure deployment
       terraform plan
-      
+
       # Apply the terraform setup to azure
       terraform apply
 
@@ -285,7 +285,7 @@ Summary of above link (please use the link):
 - **To find the IP:**
 
     - Go to the Azure Portal Website
-    
+
     - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
@@ -380,7 +380,7 @@ The subt terraform example has remote desktop port enabled.
 - **To find the IP:**
 
     - Go to the Azure Portal Website
-    
+
     - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
@@ -472,7 +472,7 @@ Always, verify on the Azure Portal that your resources have been destroyed.
 - Go to the Azure portal and directly remove the resource if its still exists.
 
 **WARNING:** Synchronization errors can occur when removing azure resources directly on the portal, but without removing using terraform.
-  
+
 - If terraform does not find those resources on Azure it might not be able to sync its `terraform state` files correctly.
 - Always remove the resources using terraform first. If there is a failure, then remove the resource on the azure portal website directly.
 
@@ -486,11 +486,11 @@ List your user account information:
       az account list
 
 List all resource groups available:
-    
+
       az group list -o table
 
 List all resources for the `SubT` resource group:
-      
+
       az resource list -g SubT -o table
 
 List all resources for the `SubT` resource group, matching pattern:
