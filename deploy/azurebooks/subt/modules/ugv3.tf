@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "ugv3" {
     name                    = "${var.resource_name_prefix}-ugv3-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
-    disk_size_gb            = "64"
+    disk_size_gb            = var.ugv_disk_size
   }
 
   # VM image setup

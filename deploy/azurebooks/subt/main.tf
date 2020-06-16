@@ -88,6 +88,12 @@ module "example" {
   #   -- PLEASE DO NOT CHANGE!! KEEP THE DEFAULT PATH!!
   vm_pub_ssh_key                    = "~/.ssh/azure_vpn.pub"
 
+  # VM disk sizes (in GB)
+  basestation_disk_size             = 64
+  ugv_disk_size                     = 64
+  uav_disk_size                     = 64
+  perception_disk_size              = 100
+
   # // /////////////////////////////////////////////////////////////////////////////
   # Number Of Robot VMs To Create
   # // /////////////////////////////////////////////////////////////////////////////

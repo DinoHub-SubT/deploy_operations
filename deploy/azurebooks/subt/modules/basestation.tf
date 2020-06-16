@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
     name                    = "${var.resource_name_prefix}-basestation-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
-    disk_size_gb            = "30"
+    disk_size_gb            = var.basestation_disk_size
   }
 
   # VM image setup

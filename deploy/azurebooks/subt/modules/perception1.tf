@@ -65,20 +65,20 @@ resource "azurerm_linux_virtual_machine" "perception1" {
 
   # instance type
   # (To enable "Standard_NC6_Promo", need to incrase quota. Pending operation.)
-  size                    = "Standard_NC6"
+  size                  = "Standard_NC6"
 
   os_disk {
-    name                    = "${var.resource_name_prefix}-perception1-os-disk"
-    caching                 = "ReadWrite"
-    storage_account_type    = "Standard_LRS"
-    disk_size_gb            = "100"
+    name                      = "${var.resource_name_prefix}-perception1-os-disk"
+    caching                   = "ReadWrite"
+    storage_account_type      = "Standard_LRS"
+    disk_size_gb              = var.perception_disk_size
   }
 
   source_image_reference {
-    offer                   = "ngc_azure_17_11"
-    publisher               = "nvidia"
-    sku                     = "ngc_machine_image_20_03_1"
-    version                 = "20.03.1"
+    offer                     = "ngc_azure_17_11"
+    publisher                 = "nvidia"
+    sku                       = "ngc_machine_image_20_03_1"
+    version                   = "20.03.1"
   }
 
   plan {

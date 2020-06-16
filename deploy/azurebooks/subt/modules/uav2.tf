@@ -71,7 +71,7 @@ resource "azurerm_linux_virtual_machine" "uav2" {
     name                    = "${var.resource_name_prefix}-uav2-os-disk"
     caching                 = "ReadWrite"
     storage_account_type    = "Standard_LRS"
-    disk_size_gb            = "64"
+    disk_size_gb            = var.uav_disk_size
   }
 
   # VM image setup

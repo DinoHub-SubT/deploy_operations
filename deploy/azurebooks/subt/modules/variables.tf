@@ -64,6 +64,8 @@ variable "vm_default_password" {
   default = "Password1234!"
 }
 
+# /// basestation
+
 variable "basestation_hostname" {
   description = "Hostname of basestation VM"
   type = string
@@ -75,6 +77,14 @@ variable "basestation_username" {
   type = string
   default = "subt"
 }
+
+variable "basestation_disk_size" {
+  description = "basestation disk size"
+  type = number
+  default = 30
+}
+
+# /// UGV
 
 variable "ugv_hostname" {
   description = "Hostname of UGV VM"
@@ -88,6 +98,14 @@ variable "ugv_username" {
   default = "subt"
 }
 
+variable "ugv_disk_size" {
+  description = "basestation disk size"
+  type = number
+  default = 30
+}
+
+# /// UAV
+
 variable "uav_hostname" {
   description = "Hostname of UAV VM"
   type = string
@@ -100,6 +118,14 @@ variable "uav_username" {
   default = "subt"
 }
 
+variable "uav_disk_size" {
+  description = "basestation disk size"
+  type = number
+  default = 30
+}
+
+# /// perception
+
 variable "perception_hostname" {
   description = "Hostname of UAV VM"
   type = string
@@ -110,6 +136,12 @@ variable "perception_username" {
   description = "Username of Perception VM"
   type = string
   default = "subt"
+}
+
+variable "perception_disk_size" {
+  description = "basestation disk size"
+  type = number
+  default = 100
 }
 
 # // /////////////////////////////////////////////////////////////////////////////
