@@ -81,7 +81,7 @@ module "example" {
   vpn_ca_cert                       = "YOUR VPN CA CERTIFICATE GOES HERE"
 
   # // /////////////////////////////////////////////////////////////////////////////
-  # VM Settings
+  # General VM Settings
   # // /////////////////////////////////////////////////////////////////////////////
 
   # location of local ssh key to connect to remote VM
@@ -89,20 +89,31 @@ module "example" {
   vm_pub_ssh_key                    = "~/.ssh/azure_vpn.pub"
 
   # VM disk sizes (in GB)
+  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
   basestation_disk_size             = 64
   ugv_disk_size                     = 64
   uav_disk_size                     = 64
   perception_disk_size              = 100
 
+  # VM instance types
+  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
+  ugv_vm_instance                   = "Standard_F16s_v2"
+  uav_vm_instance                   = "Standard_F16s_v2"
+  perception_vm_instance            = "Standard_NC6"
+  # Basestation available options:
+  #   - choose 'Standard_F8s_v2' to only test the GUI only for the basestation
+  #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
+  basestation_vm_instance           = "Standard_F8s_v2"
+
   # // /////////////////////////////////////////////////////////////////////////////
-  # Number Of Robot VMs To Create
+  # VM Creation -- number of VMs to create options
   # // /////////////////////////////////////////////////////////////////////////////
 
-  # !! -- PLEASE CHANGE THE TOGGLE TO YOUR PREFERENCE -- !!
+  # !! -- PLEASE CHANGE THE TOGGLES TO YOUR PREFERENCE -- !!
   # Recommendation:
   #   - Please keep 'basic' enabled always.
-  #   - Enable 'perception' if you wish to test perception simulation.
   #   - Enable 'coord' if you wish to test the full coordination simulation.
+  #   - Enable 'perception' if you wish to test perception simulation.
 
   # About:
   #   - basic simulation:         basestation, ugv1, uav1
@@ -111,22 +122,20 @@ module "example" {
   # Comments:
   #   - ENABLING ALL: creates the entire full simulation
   #   - DISABLE ANY: will remove that set of VMs from azure
+  # Usage:
+  #   - Enable: 1 == true
+  #   - Disable: 0 == false
 
   # Create all the robot VMs for basic simulation setup
   # Robot VMs: basestation, ugv1, uav1
-  #   -- Enable: 1 == true
-  #   -- Disable: 0 == false
   basic_robots_toggle                 = 1
 
   # Create all the robot VMs for full coordination simulation setup
   # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
-  #   -- Enable: 1 == true
-  #   -- Disable: 0 == false
-  perception_robots_toggle            = 0
+  coord_robots_toggle                 = 0
 
   # Create all the robot VMs for full coordination simulation setup
   # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
-  #   -- Enable: 1 == true
-  #   -- Disable: 0 == false
-  coord_robots_toggle                 = 0
+  perception_robots_toggle            = 0
+
 }

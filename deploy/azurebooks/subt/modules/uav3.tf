@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "uav3" {
   # == VM instance Settings ==
 
   # instance type
-  size                  = "Standard_F16s_v2"
+  size                  = var.uav_vm_instance
 
   # OS disk setup
   os_disk {

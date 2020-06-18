@@ -64,7 +64,8 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   # == VM instance Settings ==
 
   # instance type
-  size                  = "Standard_F8s_v2"
+  # size                  = "Standard_F8s_v2"
+  size                  = var.basestation_vm_instance
 
   # OS disk setup
   os_disk {

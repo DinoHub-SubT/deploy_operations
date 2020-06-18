@@ -64,8 +64,7 @@ resource "azurerm_linux_virtual_machine" "perception1" {
   # == VM instance Settings ==
 
   # instance type
-  # (To enable "Standard_NC6_Promo", need to incrase quota. Pending operation.)
-  size                  = "Standard_NC6"
+  size                  = var.perception_vm_instance
 
   os_disk {
     name                      = "${var.resource_name_prefix}-perception1-os-disk"

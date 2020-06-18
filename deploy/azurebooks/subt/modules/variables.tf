@@ -84,6 +84,12 @@ variable "basestation_disk_size" {
   default = 30
 }
 
+variable "basestation_vm_instance" {
+  description = "Basestation VM Instance Type"
+  type = string
+  default = "Standard_F8s_v2"
+}
+
 # /// UGV
 
 variable "ugv_hostname" {
@@ -102,6 +108,12 @@ variable "ugv_disk_size" {
   description = "basestation disk size"
   type = number
   default = 30
+}
+
+variable "ugv_vm_instance" {
+  description = "UGV VM Instance Type"
+  type = string
+  default = "Standard_F16s_v2"
 }
 
 # /// UAV
@@ -124,6 +136,12 @@ variable "uav_disk_size" {
   default = 30
 }
 
+variable "uav_vm_instance" {
+  description = "UAV VM Instance Type"
+  type = string
+  default = "Standard_F16s_v2"
+}
+
 # /// perception
 
 variable "perception_hostname" {
@@ -142,6 +160,12 @@ variable "perception_disk_size" {
   description = "basestation disk size"
   type = number
   default = 100
+}
+
+variable "perception_vm_instance" {
+  description = "Perception VM Instance Type"
+  type = string
+  default = "Standard_NC6"
 }
 
 # // /////////////////////////////////////////////////////////////////////////////
