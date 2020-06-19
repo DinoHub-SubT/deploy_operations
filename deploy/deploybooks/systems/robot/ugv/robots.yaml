@@ -105,3 +105,53 @@
       - compose:
         - +ssh:{ ugv2.xavier }
         - +extend: systems/robot/ugv/xavier/compose
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv3:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
+    # //////////////////////////////////////////////////////////////////////////
+    - ppc:
+      # source the computer-level scenario file
+      - export filename=systems/robot/ugv3-ppc
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
+
+      # extend
+      - +extend: common/transfer
+      - compose:
+        - +ssh:{ ugv3.ppc }
+        - +extend: systems/robot/ugv/ppc/compose
+      - catkin:
+        - +ssh:{ ugv3.ppc }
+        - +docker:ppc-shell
+        - +extend: systems/robot/ugv/ppc/catkin
+
+    - nuc:
+      # source the computer-level scenario file
+      - export filename=systems/robot/ugv3-nuc
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
+
+      # extend
+      - +extend: common/transfer
+      - compose:
+        - +ssh:{ ugv3.nuc }
+        - +extend: systems/robot/ugv/nuc/compose
+      - catkin:
+        - +ssh:{ ugv3.nuc }
+        - +extend: systems/robot/ugv/nuc/catkin
+
+    - xavier:
+      # source the computer-level scenario file
+      - export filename=systems/robot/ugv3-xavier
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
+
+      # extend
+      - +extend: common/transfer
+      - compose:
+        - +ssh:{ ugv3.xavier }
+        - +extend: systems/robot/ugv/xavier/compose
