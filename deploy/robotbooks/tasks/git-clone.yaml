@@ -254,7 +254,6 @@
         inventory_hostname is match("robot-ugv.*-xavier") or
         inventory_hostname is match("azure-basestation") or
         inventory_hostname is match("robot-basestation")
-
       ignore_errors: True
 
     - name: Validate Git Status
@@ -266,7 +265,6 @@
         inventory_hostname is match("robot-ugv.*-xavier") or
         inventory_hostname is match("azure-basestation") or
         inventory_hostname is match("robot-basestation")
-
       register: git_status_out
 
     - name: Output Validate Git Status

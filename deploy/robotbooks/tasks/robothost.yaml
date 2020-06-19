@@ -106,6 +106,48 @@
         "azure-" in inventory_hostname
 
     # ////////////////////////////////////////////////////////////////////////
+    # Bitbucket SSH Key Setup
+    # ////////////////////////////////////////////////////////////////////////
+
+    - name: Creates SSH Directory
+      file:
+        path: ~/.ssh/
+        state: directory
+
+    - name: Remove Previously Added Bitbucket SSH Keys
+      file:
+        path: ~/.ssh/"{{ item.filepath }}"
+        state: absent
+      with_items: " {{ bitbucket_ssh_keys }} "
+
+    - name: Copy Bitbucket SSH Keys
+      copy:
+        src: "{{ item.filepath }}"
+        dest: ~/.ssh/
+        mode: '0600'
+      with_items: " {{ bitbucket_ssh_keys }} "
+
+    - name: Remove Previously Added Bitbucket To Known Hosts
+      lineinfile:
+        path: $HOME/.ssh/known_hosts
+        regexp: '^bitbucket.org ssh-rsa'
+        state: absent
+
+    - name: Add Bitbucket to Known Hosts
+      shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
+
+    - name: Create SSH Config File
+      file:
+        path: ~/.ssh/config
+        state: touch
+
+    - name: Add Bitubucket to the SSH config
+      lineinfile:
+        path: ~/.ssh/config
+        regexp: 'IdentityFile ~/.ssh/bitbucket'
+        line: IdentityFile ~/.ssh/bitbucket
+
+    # ////////////////////////////////////////////////////////////////////////
     # Copy Git Config
     # ////////////////////////////////////////////////////////////////////////
     # - name: Remove Previously Added Git Config Keys
