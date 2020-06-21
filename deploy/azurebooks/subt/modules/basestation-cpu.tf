@@ -1,5 +1,5 @@
 # Virtual Network Interface -- connect VMs to network & security setup
-resource "azurerm_network_interface" "basestation" {
+resource "azurerm_network_interface" "basestation-cpu" {
   # name of NIC
   name                        = "${var.resource_name_prefix}-NIC-basestation"
 
@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "basestation" {
   location                    = var.resource_location
 
   # toggle creation of a resource
-  count                       = var.basic_robots_toggle
+  count                       = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
 
   ip_configuration {
     # name of NIC configuration
@@ -32,19 +32,19 @@ resource "azurerm_network_interface" "basestation" {
 }
 
 # Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "basestation" {
+resource "azurerm_network_interface_security_group_association" "basestation-cpu" {
   # NIC interface id
-  network_interface_id      = azurerm_network_interface.basestation[count.index].id
+  network_interface_id      = azurerm_network_interface.basestation-cpu[count.index].id
 
   # Security Rules
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
   # toggle creation of a resource
-  count                     = var.basic_robots_toggle
+  count                     = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
 }
 
 # Create virtual machine -- basestation
-resource "azurerm_linux_virtual_machine" "basestation" {
+resource "azurerm_linux_virtual_machine" "basestation-cpu" {
 
   # name of vm
   name                  = "${var.resource_name_prefix}-basestation"
@@ -56,15 +56,14 @@ resource "azurerm_linux_virtual_machine" "basestation" {
   location              = var.resource_location
 
   # NIC interface id
-  network_interface_ids = [azurerm_network_interface.basestation[count.index].id]
+  network_interface_ids = [azurerm_network_interface.basestation-cpu[count.index].id]
 
   # toggle creation of a resource
-  count                 = var.basic_robots_toggle
+  count                 = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
 
   # == VM instance Settings ==
 
   # instance type
-  # size                  = "Standard_F8s_v2"
   size                  = var.basestation_vm_instance
 
   # OS disk setup
@@ -85,7 +84,7 @@ resource "azurerm_linux_virtual_machine" "basestation" {
 
   # == User Access Settings ==
 
-  computer_name  = var.basestation_hostname
+  computer_name  = var.basestation_cpu_hostname
   admin_username = var.basestation_username
   # admin_password = var.vm_default_password
 

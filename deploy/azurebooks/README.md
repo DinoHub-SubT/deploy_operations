@@ -10,7 +10,7 @@ There are two operational tools available to use: `az` or `terraform`
 
 ## Prerequisites
 
-**Bitbucket SSH Keys**
+**Azure SSH Keys**
 
 - Generate ssh keys for azure vms:
 
@@ -241,7 +241,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
       # Get the vpn client, this will output a https link, please remember it!
       #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
       #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
-      #   - an example would be: kat-example-vnet-gateway
+      #   - an example would be: USERNAME-example-vnet-gateway
       az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
       # download the client (without brackets)
@@ -323,10 +323,10 @@ If you ssh into your VM and you see the following error (example):
         The fingerprint for the ECDSA key sent by the remote host is
         SHA256:61VpK3J5BABJa3JDbjPxtMPlnoPdMeZaOVavdpn3HT8.
         Please contact your system administrator.
-        Add correct host key in /home/katarina/.ssh/known_hosts to get rid of this message.
-        Offending ECDSA key in /home/katarina/.ssh/known_hosts:41
+        Add correct host key in /home/USERNAME/.ssh/known_hosts to get rid of this message.
+        Offending ECDSA key in /home/USERNAME/.ssh/known_hosts:41
         remove with:
-        ssh-keygen -f "/home/katarina/.ssh/known_hosts" -R "azure-uav1"
+        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
         ECDSA host key for azure-uav1 has changed and you have requested strict checking.
         Host key verification failed.
 
@@ -334,16 +334,16 @@ The warning is saying that you have previously `ssh-ed` into a host with the sam
 
 Perform the first step, apply the `ssh-keygen` update:
 
-        ssh-keygen -f "/home/katarina/.ssh/known_hosts" -R "azure-uav1"
+        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
 
 Perform the next step, remove the previous host key in `know_hosts`:
 
         # Open the known_hosts, to the problematic line.
-        # Example: /home/katarina/.ssh/known_hosts:41
+        # Example: /home/USERNAME/.ssh/known_hosts:41
         #   - the problamatic line is 41
 
         # STEP:  open the file
-        gedit /home/katarina/.ssh/known_hosts
+        gedit /home/USERNAME/.ssh/known_hosts
 
         # STEP: Go to line 41
 
@@ -359,6 +359,32 @@ Perform the final step, ssh into the VM again:
         # STEP: Say 'yes'
 
 You should not see the above error again and should be logged into the remote VM.
+
+**Terraform Error Acquiring Lock**
+
+If you have a corrupted terraform `state` file, you might end up with a acquiring lock error as such:
+
+        Error locking state: Error acquiring the state lock: storage: service returned error: StatusCode=409, ErrorCode=LeaseAlreadyPresent, ErrorMessage=There is already a lease present.
+        RequestId:3ea11a03-701e-0092-62a0-45c8e9000000
+        Time:2020-06-18T18:46:11.9697526Z, RequestInitiated=Thu, 18 Jun 2020 18:46:11 GMT, RequestId=3ea11a03-701e-0092-62a0-45c8e9000000, API Version=2018-03-28, QueryParameterName=, QueryParameterValue=
+        Lock Info:
+        ID:        ac14e41a-4ca6-01e5-5f1c-36368320b3c5
+        Path:      subtdeploy-statefile-container/workspaces/USERNAME/terraform.tfstate
+        Operation: OperationTypePlan
+        Who:       USERNAME@USER-HOSTNAME
+        Version:   0.12.24
+        Created:   2020-06-18 18:44:10.797134982 +0000 UTC
+        Info:
+
+        Terraform acquires a state lock to protect the state from being written
+        by multiple users at the same time. Please resolve the issue above and try
+        again. For most commands, you can disable locking with the "-lock=false"
+        flag, but this is not recommended.
+
+
+If you are the only user, using thee terraform `state` file, go ahead and force an unlock:
+
+        terraform force-unlock <lock-id-guid>
 
 **More discussion**
 
@@ -497,7 +523,7 @@ List all resources for the `SubT` resource group, matching pattern:
 
       # template: az resource list -g SubT -o table | grep [pattern]
       # example, with pattern:
-      az resource list -g SubT -o table | grep kat
+      az resource list -g SubT -o table | grep USERNAME
 
 List the IPs Virtual Machines found in `SubT` resource group:
 
@@ -511,4 +537,4 @@ List the public IPs found in `SubT` resource group, matching prefix:
 
       # template: az resource list -g SubT -o table | grep [pattern]
       # example, with pattern:
-      az network public-ip list -g SubT -o table | grep kat
+      az network public-ip list -g SubT -o table | grep USERNAME

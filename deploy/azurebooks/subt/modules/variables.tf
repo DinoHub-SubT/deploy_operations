@@ -66,10 +66,16 @@ variable "vm_default_password" {
 
 # /// basestation
 
-variable "basestation_hostname" {
+variable "basestation_cpu_hostname" {
   description = "Hostname of basestation VM"
   type = string
-  default = "az-basestation"
+  default = "az-basestation-cpu"
+}
+
+variable "basestation_gpu_hostname" {
+  description = "Hostname of basestation VM"
+  type = string
+  default = "az-basestation-gpu"
 }
 
 variable "basestation_username" {
@@ -88,6 +94,12 @@ variable "basestation_vm_instance" {
   description = "Basestation VM Instance Type"
   type = string
   default = "Standard_F8s_v2"
+}
+
+variable "enable_basestation_gpu" {
+  description = "toggle (enable or disable) for creating basestation VMs with GPU"
+  type = bool
+  default = false
 }
 
 # /// UGV
