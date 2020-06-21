@@ -20,6 +20,10 @@
       - compose:
         - +ssh:{ azure.uav1 }
         - +extend: systems/azure/uav/vm/compose
+      - catkin:
+        - +ssh:{ azure.uav1 }
+        - +docker:uav-sim-shell
+        - +extend: systems/azure/uav/vm/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav2:
@@ -35,6 +39,10 @@
       - compose:
         - +ssh:{ azure.uav2 }
         - +extend: systems/azure/uav/vm/compose
+      - catkin:
+        - +ssh:{ azure.uav2 }
+        - +docker:uav-sim-shell
+        - +extend: systems/azure/uav/vm/catkin
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -51,6 +59,10 @@
       - compose:
         - +ssh:{ azure.uav3 }
         - +extend: systems/azure/uav/vm/compose
+      - catkin:
+        - +ssh:{ azure.uav3 }
+        - +docker:uav-sim-shell
+        - +extend: systems/azure/uav/vm/catkin
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -67,4 +79,7 @@
       - compose:
         - +ssh:{ azure.uav4 }
         - +extend: systems/azure/uav/vm/compose
-
+      - catkin:
+        - +ssh:{ azure.uav4 }
+        - +docker:uav-sim-shell
+        - +extend: systems/azure/uav/vm/catkin

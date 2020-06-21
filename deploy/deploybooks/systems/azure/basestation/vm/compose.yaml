@@ -4,15 +4,15 @@
 
   # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build --force-rm ros-cpu-image
-    - docker-compose-wrapper $scenario build --force-rm basestation-cpu-image
+    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    - docker-compose-wrapper $scenario build --force-rm basestation-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
   # == creating docker access containers ==
   - shell:
     # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
-    - docker-compose-wrapper $scenario -p basestation-cpu-shell up --force-recreate -d basestation-cpu-shell
+    - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
 
   # == creating docker run containers ==
   - container.run:

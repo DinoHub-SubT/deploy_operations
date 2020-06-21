@@ -1,40 +1,66 @@
 # ////////////////////////////////////////////////////////////////////////////
-- robot:
-  - nuc:
+- workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
+  - uav:
     - cd $SUBT_PATH/
     - pwd
+    - whoami
 
     # ////////////////////////////////////////////////////////////////////////////
-    # perform all tasks that involve 'building'
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/uav
+      - rm -rf ~/deploy_ws/build/uav
+      - rm -rf ~/deploy_ws/install/uav
+      - rm -rf ~/deploy_ws/logs/uav
+
+    # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
 
-      # //////////////////////////////////////////////////////////////////////////
-      - start:
-      # //////////////////////////////////////////////////////////////////////////
-        - common:
-          - cd common/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        - nuc:
-          - cd ugv/nuc/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile set ${deploybook_catkin_profile}
-          - catkin build --force-cmake
-        # TODO:
-        # - launch:
-        #   - cd $DEPLOY_SRC/operations/launch/
-        #   - rm -f .catkin_tools/profiles/profiles.yaml
-        #   - catkin profile set ${computer_type_t}-basestation
-        #   - catkin build --force-cmake
-        #   - catkin clean -b --yes
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
 
-      # //////////////////////////////////////////////////////////////////////////
-      - stop:
-      # //////////////////////////////////////////////////////////////////////////
-        - echo "Nothing to stop, everything is done."
-        
-    
+      - thirdparty:
+        - cd ~/deploy_ws/src/uav/core/Firmware
+        - DONT_RUN=1 make px4_sitl_default gazebo
+
+      - uav:
+        - cd ~/deploy_ws/src/uav
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
+      - darpa:
+        - cd ~/deploy_ws/src/simulation/darpa/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
+      - simulation:
+        - cd ~/deploy_ws/src/simulation
+        # TEMPORARY!
+        - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-simulation
+        - catkin config
+        - catkin build --force-cmake

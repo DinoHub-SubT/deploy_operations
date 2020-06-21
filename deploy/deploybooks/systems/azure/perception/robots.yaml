@@ -7,6 +7,17 @@
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
   # ////////////////////////////////////////////////////////////////////////////
+  # @brief perception1 general deployment
+  - perception1:
+  # ////////////////////////////////////////////////////////////////////////////
+    # source the computer-level scenario file
+    - export filename=systems/azure/perception1-cpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+    - vm:
+      - +extend: common/transfer
+
+  # ////////////////////////////////////////////////////////////////////////////
   - perception1.cpu:
   # ////////////////////////////////////////////////////////////////////////////
 
@@ -16,11 +27,13 @@
     - export scenario=" --scenario $filename"
 
     - vm:
-      - +extend: common/transfer
       - compose:
-        # TODO: this needs to be changed the the 'cpu' Azure VM ssh alias (right now its the gpu alias)
         - +ssh:{ azure.perception1 }
         - +extend: systems/azure/perception/vm/compose
+      - catkin:
+        - +ssh:{ azure.perception1 }
+        - +docker:perception-cpu-shell
+        - +extend: systems/azure/perception/vm/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - perception1.gpu:
@@ -32,7 +45,11 @@
       - export scenario=" --scenario $filename"
 
       - vm:
-        - +extend: common/transfer
         - compose:
           - +ssh:{ azure.perception1 }
           - +extend: systems/azure/perception/vm/compose
+        - catkin:
+          - +ssh:{ azure.perception1 }
+          - +docker:perception-gpu-shell
+          - +extend: systems/azure/perception/vm/catkin
+

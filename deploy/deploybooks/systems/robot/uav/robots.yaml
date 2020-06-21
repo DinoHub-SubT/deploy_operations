@@ -16,8 +16,11 @@
     - 'export scenario=" --scenario $filename"'
 
     # extend
-    - +extend: systems/robot/uav/ds/transfer
-    - +extend: systems/robot/uav/ds/compose
+    - +extend: common/transfer
+    - ds:
+      - +ssh:{ azure.uav1 }
+      - +extend: systems/robot/uav/ds/catkin
+      - +extend: systems/robot/uav/ds/compose
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds2:
@@ -29,8 +32,11 @@
     - 'export scenario=" --scenario $filename"'
 
     # extend
-    - +extend: systems/robot/uav/ds/transfer
-    - +extend: systems/robot/uav/ds/compose
+    - +extend: common/transfer
+    - ds:
+      - +ssh:{ azure.uav2 }
+      - +extend: systems/robot/uav/ds/catkin
+      - +extend: systems/robot/uav/ds/compose
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds3:
@@ -42,8 +48,11 @@
     - 'export scenario=" --scenario $filename"'
 
     # extend
-    - +extend: systems/robot/uav/ds/transfer
-    - +extend: systems/robot/uav/ds/compose
+    - +extend: common/transfer
+    - ds:
+      - +ssh:{ azure.uav3 }
+      - +extend: systems/robot/uav/ds/catkin
+      - +extend: systems/robot/uav/ds/compose
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds4:
@@ -55,5 +64,8 @@
     - 'export scenario=" --scenario $filename"'
 
     # extend
-    - +extend: systems/robot/uav/ds/transfer
-    - +extend: systems/robot/uav/ds/compose
+    - +extend: common/transfer
+    - ds:
+      - +ssh:{ azure.uav4 }
+      - +extend: systems/robot/uav/ds/catkin
+      - +extend: systems/robot/uav/ds/compose
