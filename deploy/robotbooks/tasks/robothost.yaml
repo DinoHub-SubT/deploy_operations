@@ -113,12 +113,16 @@
       file:
         path: ~/.ssh/
         state: directory
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Remove Previously Added Bitbucket SSH Keys
       file:
         path: ~/.ssh/"{{ item.filepath }}"
         state: absent
       with_items: " {{ bitbucket_ssh_keys }} "
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Copy Bitbucket SSH Keys
       copy:
@@ -126,26 +130,36 @@
         dest: ~/.ssh/
         mode: '0600'
       with_items: " {{ bitbucket_ssh_keys }} "
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Remove Previously Added Bitbucket To Known Hosts
       lineinfile:
         path: $HOME/.ssh/known_hosts
         regexp: '^bitbucket.org ssh-rsa'
         state: absent
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Add Bitbucket to Known Hosts
       shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Create SSH Config File
       file:
         path: ~/.ssh/config
         state: touch
+      when: >
+        not ("localhost" in inventory_hostname)
 
     - name: Add Bitubucket to the SSH config
       lineinfile:
         path: ~/.ssh/config
         regexp: 'IdentityFile ~/.ssh/bitbucket'
         line: IdentityFile ~/.ssh/bitbucket
+      when: >
+        not ("localhost" in inventory_hostname)
 
     # ////////////////////////////////////////////////////////////////////////
     # Copy Git Config
