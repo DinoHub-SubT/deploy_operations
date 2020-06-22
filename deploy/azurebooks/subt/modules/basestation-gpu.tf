@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "basestation-gpu" {
   # == VM instance Settings ==
 
   # instance type
-  size                  = var.basestation_vm_instance
+  size                  = var.basestation_gpu_vm_instance
 
   os_disk {
     name                      = "${var.resource_name_prefix}-basestation-os-disk"

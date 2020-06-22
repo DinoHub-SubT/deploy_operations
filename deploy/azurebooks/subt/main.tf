@@ -103,7 +103,17 @@ module "example" {
   # Basestation available options:
   #   - choose 'Standard_F8s_v2' to only test the GUI only for the basestation
   #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
-  basestation_vm_instance           = "Standard_F8s_v2"
+  basestation_cpu_vm_instance       = "Standard_F16s_v2"
+  basestation_gpu_vm_instance       = "Standard_NC6"
+
+  # VM creation enable/disance
+  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
+  # Basesation: create a GPU or CPU VM
+  #   - after choosing the 'basestation_vm_instance' type, please also enable/disable 'enable_basestation_gpu'
+  #   variable below -- depending on what type of 'basestation_vm_instance' instance was chosen
+  #   - set false:  when choosing a CPU only VM instance (such as 'Standard_F8s_v2')
+  #   - set true:   when choosing a GPU VM instance (such as 'Standard_NC6')
+  enable_basestation_gpu            = false
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Creation -- number of VMs to create options

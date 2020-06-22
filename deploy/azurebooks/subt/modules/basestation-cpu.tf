@@ -64,7 +64,7 @@ resource "azurerm_linux_virtual_machine" "basestation-cpu" {
   # == VM instance Settings ==
 
   # instance type
-  size                  = var.basestation_vm_instance
+  size                  = var.basestation_cpu_vm_instance
 
   # OS disk setup
   os_disk {
