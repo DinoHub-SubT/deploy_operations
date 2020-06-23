@@ -90,8 +90,14 @@ variable "basestation_disk_size" {
   default = 30
 }
 
-variable "basestation_vm_instance" {
-  description = "Basestation VM Instance Type"
+variable "basestation_cpu_vm_instance" {
+  description = "Basestation VM CPU Instance Type"
+  type = string
+  default = "Standard_F8s_v2"
+}
+
+variable "basestation_gpu_vm_instance" {
+  description = "Basestation VM GPU Instance Type"
   type = string
   default = "Standard_F8s_v2"
 }
