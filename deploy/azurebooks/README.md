@@ -26,6 +26,19 @@ There are two operational tools available to use: `az` or `terraform`
     - **DO NOT ENTER A PASSPHRASE on `ssh-keygen`! LEAVE IT BLANK.**
     - Replace `<USER-NAME>` with your actual username
 
+- Add the ssh azure vpn key to your localhost ssh config file:
+
+        # create (if not created) ssh config file
+        touch ~/.ssh/config
+
+        # open the ssh config file
+        gedit ~/.ssh/config
+
+        # Add the following to the top of the config file:
+        IdentityFile ~/.ssh/azure_vpn
+
+        # exit the ssh config file
+
 **About Connection Keys**
 
 You will have a total of three types of connection keys:
@@ -62,7 +75,7 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
         # az login will prompt a browser window. Enter your user credentials to login.
         az login
 
-**Aad you subscription and tenant ids as environment variables**
+**Add you subscription and tenant ids as environment variables**
 
         # List the ids
         az account list
@@ -87,17 +100,17 @@ Source your `bashrc` or `zshrc` directly:
 
 ### Deploy Terraform SubT Project
 
-**All terraform commands must be done in the `azurebooks/subt` directory workspace**.
+All terraform commands must be done in the `azurebooks/subt` directory workspace
 
-- Go to the terraform workspace
+- **Go to the terraform workspace**
 
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
 
-- Initialize the terraform workspace
+- **Initialize the terraform workspace**
 
         terraform init
 
-- Setup the **VPN Connection** certificates
+- **Setup the VPN CA certificates**
 
         # == Install Dependency Libraries ==
         sudo apt-get update
@@ -130,7 +143,7 @@ Source your `bashrc` or `zshrc` directly:
         # generate the p12 bunder
         openssl pkcs12 -in "${USERNAME}Cert.pem" -inkey "${USERNAME}Key.pem" -certfile caCert.pem -export -out "${USERNAME}.p12" -password "pass:${PASSWORD}"
 
-- Personalize the variables
+- **Personalize the variables**
 
         # Go back to the deploy repo azurebooks
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
@@ -138,41 +151,108 @@ Source your `bashrc` or `zshrc` directly:
         # Edit the main entrypoint terraform configuration file
         gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
-    - Change `terraform:key` to include your azure username
+    - Change all the variables that have the comment: `# !! -- PLEASE CHANGE THE ... -- !!` to your preference:
 
-    - Change `resource_name_prefix` to your preference
+        - Change `terraform:key` to include your azure username.
 
-    - Change `tag_name_prefix` to your preference
+        - Change `resource_name_prefix` to include your azure username.
 
-    - Change `*_vm_instance` to the type of VM instance to create (defaults are already setup)
+        - Change `tag_name_prefix` to include your azure username.
 
-    - Change `basestation_enable_gpu` to enable creating a basestation GPU VM.
+        - Change `vpn_ca_cert`  to the output found in the terminal in the previous *Setup the VPN Connection certificates* step.
 
-    - Change `vpn_ca_cert`  to the output seen in the terminal in the previous *Setup the VPN Connection certificates* step.
+        - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
 
-        - if you do not want to setup vpn, you can leave this variable with the default contents.
+        - Change `*_disk_size` to the disk size for each VM type (default values are already set).
 
-    - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`. Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
+        - Change `*_create_vm` to enable creating that VM (default values are already set). Feel free to create whichever VMs you need.
 
-        - default ssh key path: `/home/<USER-NAME>/.ssh/azure_vpn`
+        - Change `basestation_enable_gpu` to true if creating a basestation VM with a GPU *(otherwise leave as false)*.
 
-- Dry-run the terraform deployment
+    - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`.
+
+        - Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
+
+        - Default ssh key path: `/home/<USER-NAME>/.ssh/azure_vpn`
+
+- **Dry-run the terraform deployment**
 
         # Shows the user the azure deployment
         terraform plan
 
-    - **Errors:** if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
+    - Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
 
-- Apply the terraform infrastructure setup to Azure
+- **Apply the terraform infrastructure setup to Azure**
 
         # will create all the resources on azure
         terraform apply
 
-- Complete the **VPN Connection** steps shown below (if you want VPN connection).
+    - **Errors:** if you see `OperationNotAllowed ... quota limits`, **please notify the maintainer to increase quota limits**.
 
-    - Complete only the *vpn setup* steps that are not already done. If following the above steps, you can directly go to the **Download the VPN Client** step and continue from there.
+- **Verify your VMs are created**
 
-You should now have an example resources deployed on azure.
+    - Go to the Azure Portal Website
+
+    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+
+            az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
+
+- **Download the VPN Client**
+
+        # go to a ssh folder to contain your vpn keys
+        cd ~/.ssh/azure/vpn
+
+        # Get the vpn client, this will output a https link, please remember it!
+        #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
+        #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
+        #   - an example would be: USERNAME-example-vnet-gateway
+        az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
+
+        # download the client (without brackets)
+        # - the wget command should take only a few seconds to download.
+        # - if the wget command does not work or takes too long, put the https link (from the previous step) in your browser and download it to '~/.ssh/azure/vpn' location
+        wget --directory-prefix=. [https path from previous command WITHOUT QUOTES ]
+
+        # unzip the vpn client package
+        #   - its okay to ignore the warnings '1 archive had warnings but no fatal errors.'
+        unzip -j -d client-download [downloaded.zip]
+
+        # == Connect to the VPN ==
+
+        # Get the VPN server DNS, copy the name between '<VpnServer>' tags
+        cd client-download
+        grep -rni VpnServer
+
+- **Setup Networking GUI Plugin**
+
+    - To setup the GUI, please follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
+
+    - Summary of above link (please use the link):
+
+        - Open the Network Manager Ubuntu GUI
+
+        - Add a new `VPN` connection, make sure it is the `IPsec/IKEv2 (strongswan)` connection
+
+        - Add the `[client]Cert.pem`, `[client]Key.pem` and the VPN server DNS name between `<VpnServer>` tags (from the previous step).
+
+        - Select `Request an inner IP address`
+
+        - Select the VPN connection
+
+        - Select the folder icon at the end of the Certificate field, browse to the Generic folder, and select the VpnServerRoot file.
+
+- **Connect to your VM (over the VPN)**
+
+        # verify you can connect to the Azure VM
+        ping [ private IP ]
+
+        # ssh into your VM
+        ssh [username]@[private IP]
+
+    - if you have issues pinging the VMs, please check your VPN connection.
+    - if you have issues ssh into the VMs, please see the `Issues` title below.
+
+You should now have resources deployed on Azure and be able to connect to them.
 
 - You can verify your setup by going on the [portal.azure.com](https://portal.azure.com/#home) website, navigate to the `SubT` resource group and finding your newly created resources.
 
@@ -262,7 +342,6 @@ Change the personalized cert key variable in the `main.tf` terraform:
       cd client-download
       grep -rni VpnServer
 
-
 **Setup Networking GUI Plugin**
 
 To setup the GUI, please follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
@@ -281,119 +360,24 @@ Summary of above link (please use the link):
 
 - Select the folder icon at the end of the Certificate field, browse to the Generic folder, and select the VpnServerRoot file.
 
-**Connect to your VM using VPN**
+**Find your VM IPs**
 
-        # ssh into your VM
-        ssh [username]@[private IP]
+- Go to the Azure Portal Website
 
-- **To find the IP:**
+- Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
 
-    - Go to the Azure Portal Website
+        az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
-    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+**Connect to your VM (over the VPN)**
 
-            az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
+    # verify you can connect to the Azure VM
+    ping [ private IP ]
 
-## Issues
+    # ssh into your VM
+    ssh [username]@[private IP]
 
-
-**Permision denined**
-
-        # ssh into your VM with the identify file specified
-        ssh -i /home/$USER/.ssh/path/to/id_rsa [username]@[private IP]
-
-**Too many authentication failures**
-
-        ssh -o IdentitiesOnly=yes [username]@[private IP]
-
-**SSH connection stuck**
-
-        ssh -o MACs=hmac-sha2-256 [username]@[private IP]
-
-If you ssh connection is still stuck, debug the issue by viewing the verbose connection log:
-
-        ssh -v [username]@[private IP]
-
-**Remote host identification has changed**
-
-If you ssh into your VM and you see the following error (example):
-
-        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
-        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
-        Someone could be eavesdropping on you right now (man-in-the-middle attack)!
-        It is also possible that a host key has just been changed.
-        The fingerprint for the ECDSA key sent by the remote host is
-        SHA256:61VpK3J5BABJa3JDbjPxtMPlnoPdMeZaOVavdpn3HT8.
-        Please contact your system administrator.
-        Add correct host key in /home/USERNAME/.ssh/known_hosts to get rid of this message.
-        Offending ECDSA key in /home/USERNAME/.ssh/known_hosts:41
-        remove with:
-        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
-        ECDSA host key for azure-uav1 has changed and you have requested strict checking.
-        Host key verification failed.
-
-The warning is saying that you have previously `ssh-ed` into a host with the same IP, but a different machine.
-
-Perform the first step, apply the `ssh-keygen` update:
-
-        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
-
-Perform the next step, remove the previous host key in `know_hosts`:
-
-        # Open the known_hosts, to the problematic line.
-        # Example: /home/USERNAME/.ssh/known_hosts:41
-        #   - the problamatic line is 41
-
-        # STEP:  open the file
-        gedit /home/USERNAME/.ssh/known_hosts
-
-        # STEP: Go to line 41
-
-        # STEP:  Remove the ENTIRE line
-
-Perform the final step, ssh into the VM again:
-
-        # Example, enter the Azure UAV1 VM
-        ssh azure.uav1
-
-        # When prompted:
-        #   'Are you sure you want to continue connecting (yes/no)?'
-        # STEP: Say 'yes'
-
-You should not see the above error again and should be logged into the remote VM.
-
-**Terraform Error Acquiring Lock**
-
-If you have a corrupted terraform `state` file, you might end up with a acquiring lock error as such:
-
-        Error locking state: Error acquiring the state lock: storage: service returned error: StatusCode=409, ErrorCode=LeaseAlreadyPresent, ErrorMessage=There is already a lease present.
-        RequestId:3ea11a03-701e-0092-62a0-45c8e9000000
-        Time:2020-06-18T18:46:11.9697526Z, RequestInitiated=Thu, 18 Jun 2020 18:46:11 GMT, RequestId=3ea11a03-701e-0092-62a0-45c8e9000000, API Version=2018-03-28, QueryParameterName=, QueryParameterValue=
-        Lock Info:
-        ID:        ac14e41a-4ca6-01e5-5f1c-36368320b3c5
-        Path:      subtdeploy-statefile-container/workspaces/USERNAME/terraform.tfstate
-        Operation: OperationTypePlan
-        Who:       USERNAME@USER-HOSTNAME
-        Version:   0.12.24
-        Created:   2020-06-18 18:44:10.797134982 +0000 UTC
-        Info:
-
-        Terraform acquires a state lock to protect the state from being written
-        by multiple users at the same time. Please resolve the issue above and try
-        again. For most commands, you can disable locking with the "-lock=false"
-        flag, but this is not recommended.
-
-
-If you are the only user, using thee terraform `state` file, go ahead and force an unlock:
-
-        terraform force-unlock <lock-id-guid>
-
-**More discussion**
-
-For solving ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
-
+- if you have issues pinging the VMs, please check your VPN connection.
+- if you have issues ssh into the VMs, please see the `Issues` title below.
 
 * * *
 
@@ -542,3 +526,118 @@ List the public IPs found in `SubT` resource group, matching prefix:
       # template: az resource list -g SubT -o table | grep [pattern]
       # example, with pattern:
       az network public-ip list -g SubT -o table | grep USERNAME
+
+
+* * *
+
+## Issues
+
+**Exceed Quota Limits**
+
+- You can check regional quota limits:
+
+        # template for quota limit check:
+        #   -> az vm list-usage --location "[ Region Name ]" -o table
+
+        # example, check in eastus region:
+        az vm list-usage --location "East US" -o table
+
+- If you see `OperationNotAllowed ... quota limits` during `terraform apply`, **please notify the maintainer to increase quota limits**.
+
+**SSH Permision denined**
+
+        # ssh into your VM with the identify file specified
+        ssh -i /home/$USER/.ssh/path/to/id_rsa [username]@[private IP]
+
+**SSH Too many authentication failures**
+
+        ssh -o IdentitiesOnly=yes [username]@[private IP]
+
+**SSH connection stuck**
+
+        ssh -o MACs=hmac-sha2-256 [username]@[private IP]
+
+If you ssh connection is still stuck, debug the issue by viewing the verbose connection log:
+
+        ssh -v [username]@[private IP]
+
+**Remote host identification has changed**
+
+If you ssh into your VM and you see the following error (example):
+
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+        Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+        It is also possible that a host key has just been changed.
+        The fingerprint for the ECDSA key sent by the remote host is
+        SHA256:61VpK3J5BABJa3JDbjPxtMPlnoPdMeZaOVavdpn3HT8.
+        Please contact your system administrator.
+        Add correct host key in /home/USERNAME/.ssh/known_hosts to get rid of this message.
+        Offending ECDSA key in /home/USERNAME/.ssh/known_hosts:41
+        remove with:
+        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
+        ECDSA host key for azure-uav1 has changed and you have requested strict checking.
+        Host key verification failed.
+
+The warning is saying that you have previously `ssh-ed` into a host with the same IP, but a different machine.
+
+Perform the first step, apply the `ssh-keygen` update:
+
+        ssh-keygen -f "/home/USERNAME/.ssh/known_hosts" -R "azure-uav1"
+
+Perform the next step, remove the previous host key in `know_hosts`:
+
+        # Open the known_hosts, to the problematic line.
+        # Example: /home/USERNAME/.ssh/known_hosts:41
+        #   - the problamatic line is 41
+
+        # STEP:  open the file
+        gedit /home/USERNAME/.ssh/known_hosts
+
+        # STEP: Go to line 41
+
+        # STEP:  Remove the ENTIRE line
+
+Perform the final step, ssh into the VM again:
+
+        # Example, enter the Azure UAV1 VM
+        ssh azure.uav1
+
+        # When prompted:
+        #   'Are you sure you want to continue connecting (yes/no)?'
+        # STEP: Say 'yes'
+
+You should not see the above error again and should be logged into the remote VM.
+
+**Terraform Error Acquiring Lock**
+
+If you have a corrupted terraform `state` file, you might end up with a acquiring lock error as such:
+
+        Error locking state: Error acquiring the state lock: storage: service returned error: StatusCode=409, ErrorCode=LeaseAlreadyPresent, ErrorMessage=There is already a lease present.
+        RequestId:3ea11a03-701e-0092-62a0-45c8e9000000
+        Time:2020-06-18T18:46:11.9697526Z, RequestInitiated=Thu, 18 Jun 2020 18:46:11 GMT, RequestId=3ea11a03-701e-0092-62a0-45c8e9000000, API Version=2018-03-28, QueryParameterName=, QueryParameterValue=
+        Lock Info:
+        ID:        ac14e41a-4ca6-01e5-5f1c-36368320b3c5
+        Path:      subtdeploy-statefile-container/workspaces/USERNAME/terraform.tfstate
+        Operation: OperationTypePlan
+        Who:       USERNAME@USER-HOSTNAME
+        Version:   0.12.24
+        Created:   2020-06-18 18:44:10.797134982 +0000 UTC
+        Info:
+
+        Terraform acquires a state lock to protect the state from being written
+        by multiple users at the same time. Please resolve the issue above and try
+        again. For most commands, you can disable locking with the "-lock=false"
+        flag, but this is not recommended.
+
+
+If you are the only user, using thee terraform `state` file, go ahead and force an unlock:
+
+        terraform force-unlock <lock-id-guid>
+
+**More discussion**
+
+For solving ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
+
