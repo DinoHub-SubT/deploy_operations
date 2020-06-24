@@ -64,7 +64,9 @@ variable "vm_default_password" {
   default = "Password1234!"
 }
 
-# /// basestation
+# // /////////////////////////////////////////////////////////////////////////////
+# /// Basestation
+# // /////////////////////////////////////////////////////////////////////////////
 
 variable "basestation_cpu_hostname" {
   description = "Hostname of basestation VM"
@@ -102,13 +104,21 @@ variable "basestation_gpu_vm_instance" {
   default = "Standard_F8s_v2"
 }
 
-variable "enable_basestation_gpu" {
+variable "basestation_create_vm" {
+  description = "toggle (enable or disable) for creating basestation VMs"
+  type = bool
+  default = true
+}
+
+variable "basestation_enable_gpu" {
   description = "toggle (enable or disable) for creating basestation VMs with GPU"
   type = bool
   default = false
 }
 
+# // /////////////////////////////////////////////////////////////////////////////
 # /// UGV
+# // /////////////////////////////////////////////////////////////////////////////
 
 variable "ugv_hostname" {
   description = "Hostname of UGV VM"
@@ -134,7 +144,27 @@ variable "ugv_vm_instance" {
   default = "Standard_F16s_v2"
 }
 
+variable "ugv1_create_vm" {
+  description = "toggle (enable or disable) for creating ugv1 VMs"
+  type = bool
+  default = true
+}
+
+variable "ugv2_create_vm" {
+  description = "toggle (enable or disable) for creating ugv2 VMs"
+  type = bool
+  default = false
+}
+
+variable "ugv3_create_vm" {
+  description = "toggle (enable or disable) for creating ugv3 VMs"
+  type = bool
+  default = false
+}
+
+# // /////////////////////////////////////////////////////////////////////////////
 # /// UAV
+# // /////////////////////////////////////////////////////////////////////////////
 
 variable "uav_hostname" {
   description = "Hostname of UAV VM"
@@ -160,7 +190,33 @@ variable "uav_vm_instance" {
   default = "Standard_F16s_v2"
 }
 
-# /// perception
+variable "uav1_create_vm" {
+  description = "toggle (enable or disable) for creating uav1 VMs"
+  type = bool
+  default = true
+}
+
+variable "uav2_create_vm" {
+  description = "toggle (enable or disable) for creating uav2 VMs"
+  type = bool
+  default = false
+}
+
+variable "uav3_create_vm" {
+  description = "toggle (enable or disable) for creating uav3 VMs"
+  type = bool
+  default = false
+}
+
+variable "uav4_create_vm" {
+  description = "toggle (enable or disable) for creating uav4 VMs"
+  type = bool
+  default = false
+}
+
+# // /////////////////////////////////////////////////////////////////////////////
+# /// Perception
+# // /////////////////////////////////////////////////////////////////////////////
 
 variable "perception_hostname" {
   description = "Hostname of UAV VM"
@@ -184,6 +240,12 @@ variable "perception_vm_instance" {
   description = "Perception VM Instance Type"
   type = string
   default = "Standard_NC6"
+}
+
+variable "perception1_create_vm" {
+  description = "toggle (enable or disable) for creating perception1 VMs"
+  type = bool
+  default = true
 }
 
 # // /////////////////////////////////////////////////////////////////////////////

@@ -90,7 +90,7 @@ module "example" {
 
   # VM disk sizes (in GB)
   # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
-  basestation_disk_size             = 64
+  basestation_disk_size             = 100
   ugv_disk_size                     = 64
   uav_disk_size                     = 64
   perception_disk_size              = 100
@@ -103,49 +103,37 @@ module "example" {
   # Basestation available options:
   #   - choose 'Standard_F8s_v2' to only test the GUI only for the basestation
   #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
-  basestation_cpu_vm_instance       = "Standard_F16s_v2"
+  basestation_cpu_vm_instance       = "Standard_F8s_v2"
   basestation_gpu_vm_instance       = "Standard_NC6"
-
-  # VM creation enable/disance
-  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
-  # Basesation: create a GPU or CPU VM
-  #   - after choosing the 'basestation_vm_instance' type, please also enable/disable 'enable_basestation_gpu'
-  #   variable below -- depending on what type of 'basestation_vm_instance' instance was chosen
-  #   - set false:  when choosing a CPU only VM instance (such as 'Standard_F8s_v2')
-  #   - set true:   when choosing a GPU VM instance (such as 'Standard_NC6')
-  enable_basestation_gpu            = false
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Creation -- number of VMs to create options
   # // /////////////////////////////////////////////////////////////////////////////
 
-  # !! -- PLEASE CHANGE THE TOGGLES TO YOUR PREFERENCE -- !!
-  # Recommendation:
-  #   - Please keep 'basic' enabled always.
-  #   - Enable 'coord' if you wish to test the full coordination simulation.
-  #   - Enable 'perception' if you wish to test perception simulation.
+  # Create the Basestation VMs
+  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
+  basestation_create_vm             = true
 
-  # About:
-  #   - basic simulation:         basestation, ugv1, uav1
-  #   - perception simulation:    perception
-  #   - coordination simulation:  ugv2, ugv3, ..., uav2, uav3, ...
-  # Comments:
-  #   - ENABLING ALL: creates the entire full simulation
-  #   - DISABLE ANY: will remove that set of VMs from azure
-  # Usage:
-  #   - Enable: 1 == true
-  #   - Disable: 0 == false
+  # Basesation: create a GPU or CPU VM
+  #   - set true:   when choosing to create a GPU VM instance (such as 'Standard_NC6')
+  #   - set false:  when choosing to create a CPU only VM instance (such as 'Standard_F8s_v2')
+  # -- note: your VM instaces types are defined by `basestation_cpu_vm_instance` and `basestation_gpu_vm_instance`
+  basestation_enable_gpu            = false
 
-  # Create all the robot VMs for basic simulation setup
-  # Robot VMs: basestation, ugv1, uav1
-  basic_robots_toggle                 = 1
+  # Create the UGV VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  ugv1_create_vm                    = true
+  ugv2_create_vm                    = false
+  ugv3_create_vm                    = false
 
-  # Create all the robot VMs for full coordination simulation setup
-  # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
-  coord_robots_toggle                 = 0
+  # Create the UAV VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  uav1_create_vm                    = true
+  uav2_create_vm                    = false
+  uav3_create_vm                    = false
+  uav4_create_vm                    = false
 
-  # Create all the robot VMs for full coordination simulation setup
-  # Robot VMs: ugv2, ugv3, ..., uav2, uav3, ...
-  perception_robots_toggle            = 0
-
+  # Create the Perception VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  perception1_create_vm             = false
 }

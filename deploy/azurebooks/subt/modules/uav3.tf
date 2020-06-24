@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "uav3" {
   location                    = var.resource_location
 
   # toggle creation of a resource
-  count                       = var.coord_robots_toggle
+  count                       = var.uav3_create_vm ? 1 : 0
 
   ip_configuration {
     # name of NIC configuration
@@ -40,7 +40,7 @@ resource "azurerm_network_interface_security_group_association" "uav3" {
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
   # toggle creation of a resource
-  count                     = var.coord_robots_toggle
+  count                     = var.uav3_create_vm ? 1 : 0
 }
 
 # Create virtual machine -- uav3
@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine" "uav3" {
   location              = var.resource_location
 
   # toggle creation of a resource
-  count                 = var.coord_robots_toggle
+  count                 = var.uav3_create_vm ? 1 : 0
 
   # NIC interface id
   network_interface_ids = [azurerm_network_interface.uav3[count.index].id]

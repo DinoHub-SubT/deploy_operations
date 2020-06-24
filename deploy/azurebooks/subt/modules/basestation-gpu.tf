@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "basestation-gpu" {
   location                    = var.resource_location
 
   # toggle creation of a resource
-  count                       = var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                       = var.basestation_enable_gpu && var.basestation_create_vm ? 1 : 0
 
   ip_configuration {
     # name of NIC configuration
@@ -40,7 +40,7 @@ resource "azurerm_network_interface_security_group_association" "basestation-gpu
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
   # toggle creation of a resource
-  count                     = var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                     = var.basestation_enable_gpu && var.basestation_create_vm ? 1 : 0
 }
 
 # Create virtual machine -- basestation
@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "basestation-gpu" {
   network_interface_ids = [azurerm_network_interface.basestation-gpu[count.index].id]
 
   # toggle creation of a resource
-  count                 = var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                 = var.basestation_enable_gpu && var.basestation_create_vm ? 1 : 0
 
   # == VM instance Settings ==
 
@@ -112,7 +112,7 @@ resource "azurerm_managed_disk" "basestation-gpu" {
   disk_size_gb         = 1000
   image_reference_id   = "/Subscriptions/b1e974e5-8229-44c3-a472-235a580d611a/Providers/Microsoft.Compute/Locations/westus/Publishers/Canonical/ArtifactTypes/VMImage/Offers/UbuntuServer/Skus/18.04-LTS/Versions/18.04.202004080"
   # toggle creation of a resource
-  count                = var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                = var.basestation_enable_gpu && var.basestation_create_vm ? 1 : 0
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "basestation-gpu" {
@@ -121,5 +121,5 @@ resource "azurerm_virtual_machine_data_disk_attachment" "basestation-gpu" {
   lun                   = "10"
   caching               = "ReadWrite"
   # toggle creation of a resource
-  count                 = var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                 = var.basestation_enable_gpu && var.basestation_create_vm ? 1 : 0
 }

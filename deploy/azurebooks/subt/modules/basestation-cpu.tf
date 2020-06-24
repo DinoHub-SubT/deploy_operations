@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "basestation-cpu" {
   location                    = var.resource_location
 
   # toggle creation of a resource
-  count                       = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                       = (!var.basestation_enable_gpu) && var.basestation_create_vm ? 1 : 0
 
   ip_configuration {
     # name of NIC configuration
@@ -40,7 +40,7 @@ resource "azurerm_network_interface_security_group_association" "basestation-cpu
   network_security_group_id = azurerm_network_security_group.example_ssh.id
 
   # toggle creation of a resource
-  count                     = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                     = (!var.basestation_enable_gpu) && var.basestation_create_vm ? 1 : 0
 }
 
 # Create virtual machine -- basestation
@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "basestation-cpu" {
   network_interface_ids = [azurerm_network_interface.basestation-cpu[count.index].id]
 
   # toggle creation of a resource
-  count                 = !var.enable_basestation_gpu ? var.basic_robots_toggle : 0
+  count                 = (!var.basestation_enable_gpu) && var.basestation_create_vm ? 1 : 0
 
   # == VM instance Settings ==
 

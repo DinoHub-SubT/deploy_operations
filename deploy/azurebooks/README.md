@@ -146,7 +146,7 @@ Source your `bashrc` or `zshrc` directly:
 
     - Change `*_vm_instance` to the type of VM instance to create (defaults are already setup)
 
-    - Change `enable_basestation_gpu` to enable creating a basestation GPU VM.
+    - Change `basestation_enable_gpu` to enable creating a basestation GPU VM.
 
     - Change `vpn_ca_cert`  to the output seen in the terminal in the previous *Setup the VPN Connection certificates* step.
 
