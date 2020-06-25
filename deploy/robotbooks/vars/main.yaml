@@ -116,6 +116,7 @@ ros:
     key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     packages:
       prereq:
+        - python
         - python-rosdep
         - python-rosinstall-generator
         - python-wstool
