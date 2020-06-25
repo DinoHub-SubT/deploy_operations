@@ -75,7 +75,22 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
         # az login will prompt a browser window. Enter your user credentials to login.
         az login
 
-**Add you subscription and tenant ids as environment variables**
+**Azcopy Initial Login**
+
+        # azcopy login
+        azcopy login --tenant-id [YOUR TENANT ID]
+
+        # azcopy login will show the following output:
+        # -> To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code [SOME KEY CODE] to authenticate.
+
+        # Follow these steps:
+        # - go to the given webpage "https://microsoft.com/devicelogin"
+        # - then enter the given "CODE" in your browser.
+        # - then select your Azure user account (if prompted).
+
+- You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
+
+**Add your subscription and tenant ids as environment variables**
 
         # List the ids
         az account list
