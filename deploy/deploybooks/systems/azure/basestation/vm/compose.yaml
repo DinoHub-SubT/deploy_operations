@@ -9,10 +9,20 @@
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-  # == creating docker access containers ==
-  - shell:
-    # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
-    - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
+  # == creating docker containers ==
+  - container:
+    # starting docker containers
+    - shell:
+      # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
+      - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
+    # stopping containers
+    - stop:
+      - all:
+        - docker stop $(docker ps -a -q)
+    # removing containers
+    - rm:
+      - all:
+        - docker rm $(docker ps -a -q)
 
   # == creating docker run containers ==
   - container.run:
