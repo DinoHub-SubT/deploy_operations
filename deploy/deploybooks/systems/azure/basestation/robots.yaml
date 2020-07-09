@@ -17,6 +17,7 @@
     - export scenario=" --scenario $filename"
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
 
   # ////////////////////////////////////////////////////////////////////////////
   # @brief basestation GUI deployment

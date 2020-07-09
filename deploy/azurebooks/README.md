@@ -90,18 +90,53 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
-**Add your subscription and tenant ids as environment variables**
+- **Setup the VPN CA certificates**
+
+        # == Install Dependency Libraries ==
+        sudo apt-get update
+        sudo apt-get install strongswan strongswan-pki libstrongswan-extra-plugins network-manager-strongswan
+
+        # == Create the Root & User Certificates ==
+
+        # create the cert path
+        mkdir -p ~/.ssh/azure/vpn
+        cd ~/.ssh/azure/vpn
+
+        # Create the Root CA cert
+        ipsec pki --gen --outform pem > caKey.pem
+        ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
+
+        # Save this output for the next step, setting up environment variables
+        openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
+
+        # == Create the user certificate ==
+
+        # Change 'password' to something more secure
+        export PASSWORD="password"
+        # Change 'username' to your username (change to your azure username)
+        export USERNAME="client"
+
+        # generate the user certificate
+        ipsec pki --gen --outform pem > "${USERNAME}Key.pem"
+        ipsec pki --pub --in "${USERNAME}Key.pem" | ipsec pki --issue --cacert caCert.pem --cakey caKey.pem --dn "CN=${USERNAME}" --san "${USERNAME}" --flag clientAuth --outform pem > "${USERNAME}Cert.pem"
+
+        # generate the p12 bunder
+        openssl pkcs12 -in "${USERNAME}Cert.pem" -inkey "${USERNAME}Key.pem" -certfile caCert.pem -export -out "${USERNAME}.p12" -password "pass:${PASSWORD}"
+
+**Add your info to environment variables**
 
         # List the ids
         az account list
 
-        # Open bashrc or zshrc
-        gedit ~/.bashrc
+        # Install the terraform environment variables
+        install-terraform-current.sh
 
-        # write the subscription id
-        export TF_VAR_subscription_id=SUBSCRIPTION_ID_GOES_HERE
-        # write the tenant id
-        export TF_VAR_tenant_id=TENANT_ID_GOES_HERE
+        # Modify the variables in .terraform_id.bashrc to match your setup
+        # Set TF_VAR_subscription_id and TF_VAR_tenant_id to what the results of az account list
+        # Then set TF_VAR_azure_username to the username provided by Kat
+        # Set TF_VAR_azure_resource_name_prefix to your prefered prefix (usually your andrew ID, must be unique to you)
+        # Set TF_VAR_azure_vpn_cert to the output of the openssl command from above
+        gedit ~/.terraform_id.bashrc
 
 **Export your subscription and tenant ids as environment variables in your current terminal**
 
@@ -123,42 +158,13 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
 
 - **Initialize the terraform workspace**
 
-        terraform init
-
-- **Setup the VPN CA certificates**
-
-        # == Install Dependency Libraries ==
-        sudo apt-get update
-        sudo apt-get install strongswan strongswan-pki libstrongswan-extra-plugins network-manager-strongswan
-
-        # == Create the Root & User Certificates ==
-
-        # create the cert path
-        mkdir -p ~/.ssh/azure/vpn
-        cd ~/.ssh/azure/vpn
-
-        # Create the Root CA cert
-        ipsec pki --gen --outform pem > caKey.pem
-        ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
-
-        # Copy the output to the 'vpn_ca_cert' variable in 'subt/main.tf'
-        openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
-
-        # == Create the user certificate ==
-
-        # Change 'password' to something more secure
-        export PASSWORD="password"
-        # Change 'username' to your username (change to your azure username)
-        export USERNAME="client"
-
-        # generate the user certificate
-        ipsec pki --gen --outform pem > "${USERNAME}Key.pem"
-        ipsec pki --pub --in "${USERNAME}Key.pem" | ipsec pki --issue --cacert caCert.pem --cakey caKey.pem --dn "CN=${USERNAME}" --san "${USERNAME}" --flag clientAuth --outform pem > "${USERNAME}Cert.pem"
-
-        # generate the p12 bunder
-        openssl pkcs12 -in "${USERNAME}Cert.pem" -inkey "${USERNAME}Key.pem" -certfile caCert.pem -export -out "${USERNAME}.p12" -password "pass:${PASSWORD}"
+        ./terraform-init.sh
 
 - **Personalize the variables**
+
+        # Modify the common terraform flags
+        # *_create_vm determines what vms are created
+        gedit ~/.terraform_flags.bashrc
 
         # Go back to the deploy repo azurebooks
         cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
@@ -166,25 +172,13 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
         # Edit the main entrypoint terraform configuration file
         gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
 
-    - Change all the variables that have the comment: `# !! -- PLEASE CHANGE THE ... -- !!` to your preference:
-
-        - Change `terraform:key` to include your azure username.
-
-        - Change `resource_name_prefix` to include your azure username.
-
-        - Change `tag_name_prefix` to include your azure username.
-
-        - Change `vpn_ca_cert`  to the output found in the terminal in the previous *Setup the VPN Connection certificates* step.
+        - Change all the variables that have the comment: `# !! -- PLEASE CHANGE THE ... -- !!` to your preference:
 
         - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
 
         - Change `*_disk_size` to the disk size for each VM type (default values are already set).
 
-        - Change `*_create_vm` to enable creating that VM (default values are already set). Feel free to create whichever VMs you need.
-
-        - Change `basestation_enable_gpu` to true if creating a basestation VM with a GPU *(otherwise leave as false)*.
-
-    - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`.
+        - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`.
 
         - Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
 

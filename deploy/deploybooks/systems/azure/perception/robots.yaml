@@ -16,6 +16,7 @@
     - export scenario=" --scenario $filename"
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
 
   # ////////////////////////////////////////////////////////////////////////////
   - perception1.cpu:
@@ -46,7 +47,7 @@
 
       - vm:
         - compose:
-          - +ssh:{ azure.perception1 }
+          - +ssh:{ azure.perception1 }ssh
           - +extend: systems/azure/perception/vm/compose
         - catkin:
           - +ssh:{ azure.perception1 }

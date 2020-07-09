@@ -22,7 +22,6 @@ provider "azurerm" {
 # // /////////////////////////////////////////////////////////////////////////////
 terraform {
   # setup the backend remote for maintaining state file storage
-
   backend "azurerm" {
 
     # existing storage account (make sure exists on azure)
@@ -36,7 +35,9 @@ terraform {
 
     # path to the statefiles on the remote backend storage container
     # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
-    key                  = "workspaces/USERNAME/terraform.tfstate"
+    # we will not actually fill this out since it must be static... this will prevent
+    # each user from having a different version of this file...
+    # key                  = "workspaces/${var.azure_username}/terraform.tfstate"
   }
 }
 
@@ -58,11 +59,11 @@ module "example" {
 
   # name prefix to be used for all resources
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
-  resource_name_prefix              = "USERNAME-example"
+  resource_name_prefix              = var.azure_resource_name_prefix
 
   # tag prefix
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
-  tag_name_prefix                   = "tag-USERNAME-example"
+  tag_name_prefix                   = var.azure_resource_name_prefix
 
   # resource VNET, address space
   vnet_address_space                = "10.3.0.0/16"
@@ -78,7 +79,7 @@ module "example" {
 
   # vpn ca certificate
   # !! -- PLEASE CHANGE VPN CA CERTIFCATE -- !!
-  vpn_ca_cert                       = "YOUR VPN CA CERTIFICATE GOES HERE"
+  vpn_ca_cert                       = var.azure_vpn_cert
 
   # // /////////////////////////////////////////////////////////////////////////////
   # General VM Settings
@@ -105,35 +106,4 @@ module "example" {
   #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
   basestation_cpu_vm_instance       = "Standard_F8s_v2"
   basestation_gpu_vm_instance       = "Standard_NC6"
-
-  # // /////////////////////////////////////////////////////////////////////////////
-  # VM Creation -- number of VMs to create options
-  # // /////////////////////////////////////////////////////////////////////////////
-
-  # Create the Basestation VMs
-  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
-  basestation_create_vm             = true
-
-  # Basesation: create a GPU or CPU VM
-  #   - set true:   when choosing to create a GPU VM instance (such as 'Standard_NC6')
-  #   - set false:  when choosing to create a CPU only VM instance (such as 'Standard_F8s_v2')
-  # -- note: your VM instaces types are defined by `basestation_cpu_vm_instance` and `basestation_gpu_vm_instance`
-  basestation_enable_gpu            = false
-
-  # Create the UGV VMs
-  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
-  ugv1_create_vm                    = true
-  ugv2_create_vm                    = false
-  ugv3_create_vm                    = false
-
-  # Create the UAV VMs
-  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
-  uav1_create_vm                    = true
-  uav2_create_vm                    = false
-  uav3_create_vm                    = false
-  uav4_create_vm                    = false
-
-  # Create the Perception VMs
-  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
-  perception1_create_vm             = false
 }
