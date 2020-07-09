@@ -1,0 +1,28 @@
+# //////////////////////////////////////////////////////////////////////////////
+# transfer deploy repo from local host to remote host
+# //////////////////////////////////////////////////////////////////////////////
+
+# About:
+# - 'LOCAL_DEPLOY_PATH' & 'REMOTE_DEPLOY_PATH' are defined in operations/deploy/scenarios/misc.env
+#     - the user change change these paths
+# - 'deploy_ssh' is defined in the corresponding 'system' env scenario file. Example: operations/deploy/scenarios/systems/basestation.env
+
+# deployer, rsync exclude options
+- export copy_opts="-avzh --delete $skel_deploy_rsync_opts"
+
+- to:
+  # create the remote directory
+  - ssh $deploy_ssh "mkdir -p $REMOTE_DEPLOY_PATH"
+
+  # copy command
+  - 'export copy_to="rsync $copy_opts $LOCAL_DEPLOY_PATH $deploy_ssh:$REMOTE_DEPLOY_PATH "'
+  - 'export copy_cmd=$copy_to'
+
+- from:
+  # copy command
+  - 'export copy_from="rsync $copy_opts $deploy_ssh:$REMOTE_DEPLOY_PATH $LOCAL_DEPLOY_PATH"'
+  - 'export copy_cmd=$copy_from'
+
+# evaluate the copy command
+- echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
+- eval $copy_cmd

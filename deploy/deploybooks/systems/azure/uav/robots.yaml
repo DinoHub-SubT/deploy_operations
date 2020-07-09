@@ -17,6 +17,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.uav1 }
         - +extend: systems/azure/uav/vm/compose
@@ -36,6 +37,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.uav2 }
         - +extend: systems/azure/uav/vm/compose
@@ -56,6 +58,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.uav3 }
         - +extend: systems/azure/uav/vm/compose
@@ -76,6 +79,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.uav4 }
         - +extend: systems/azure/uav/vm/compose

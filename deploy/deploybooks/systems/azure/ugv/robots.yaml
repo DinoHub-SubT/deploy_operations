@@ -17,6 +17,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.ugv1 }
         - +extend: systems/azure/ugv/vm/compose
@@ -36,6 +37,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.ugv2 }
         - +extend: systems/azure/ugv/vm/compose
@@ -55,6 +57,7 @@
 
     - vm:
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ azure.ugv3 }
         - +extend: systems/azure/ugv/vm/compose
