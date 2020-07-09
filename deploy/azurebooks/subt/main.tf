@@ -106,4 +106,35 @@ module "example" {
   #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
   basestation_cpu_vm_instance       = "Standard_F8s_v2"
   basestation_gpu_vm_instance       = "Standard_NC6"
+
+  # // /////////////////////////////////////////////////////////////////////////////
+  # VM Creation -- number of VMs to create options
+  # // /////////////////////////////////////////////////////////////////////////////
+
+  # Create the Basestation VMs
+  # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
+  basestation_create_vm             = var.basestation_create_vm
+
+  # Basesation: create a GPU or CPU VM
+  #   - set true:   when choosing to create a GPU VM instance (such as 'Standard_NC6')
+  #   - set false:  when choosing to create a CPU only VM instance (such as 'Standard_F8s_v2')
+  # -- note: your VM instaces types are defined by `basestation_cpu_vm_instance` and `basestation_gpu_vm_instance`
+  basestation_enable_gpu            = var.basestation_enable_gpu
+
+  # Create the UGV VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  ugv1_create_vm                    = var.ugv1_create_vm
+  ugv2_create_vm                    = var.ugv2_create_vm
+  ugv3_create_vm                    = var.ugv3_create_vm
+
+  # Create the UAV VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  uav1_create_vm                    = var.uav1_create_vm
+  uav2_create_vm                    = var.uav2_create_vm
+  uav3_create_vm                    = var.uav3_create_vm
+  uav4_create_vm                    = var.uav4_create_vm
+
+  # Create the Perception VMs
+  # !! -- PLEASE CHANGE THE VALUES TO YOUR PREFERENCE -- !!
+  perception1_create_vm             = var.perception1_create_vm
 }
