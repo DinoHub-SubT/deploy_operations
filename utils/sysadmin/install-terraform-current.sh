@@ -14,14 +14,14 @@ else
     cp $SUBT_PATH/operations/deploy/azurebooks/.default_terraform_bash/.terraform_id.bashrc $HOME/.terraform_id.bashrc
 fi
 
-grep "# source .terraform_id.bashrc" $HOME/.bashrc
+grep -q "# source .terraform_id.bashrc" $HOME/.bashrc
 if [ "$?" == "1" ]; then
     echo "Making ~/.bashrc source ~/.terraform_id.bashrc"
     echo "source ~/.terraform_id.bashrc # source .terraform_id.bashrc" >> $HOME/.bashrc
 fi
 
-if [ -e $HOME/.zshrc ]; 
-    grep "# source .terraform_id.bashrc" $HOME/.zshrc
+if [ -e $HOME/.zshrc ]; then
+    grep -q "# source .terraform_id.bashrc" $HOME/.zshrc
     if [ "$?" == "1" ]; then
         echo "Making ~/.zshrc source ~/.terraform_id.bashrc"
         echo "source ~/.terraform_id.bashrc # source .terraform_id.bashrc" >> $HOME/.zshrc
@@ -32,19 +32,20 @@ echo
 
 if [ -e $HOME/.terraform_flags.bashrc ]; then
     echo "Terraform Flags Bashrc (~/.terraform_flags.bashrc) already exists. Copying existing config to ~/.terraform_flags.bashrc.bkp before copying over default .terraform_flags.bashrc"
+    echo
     mv $HOME/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc.bkp
 fi
-echo "Installing Terraform ID Bashrc (~/.terraform_flags.bashrc)."
+echo "Installing Terraform Flags Bashrc (~/.terraform_flags.bashrc)."
 cp $SUBT_PATH/operations/deploy/azurebooks/.default_terraform_bash/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc
 
-grep "# source .terraform_flags.bashrc" $HOME/.bashrc
+grep -q "# source .terraform_flags.bashrc" $HOME/.bashrc
 if [ "$?" == "1" ]; then
     echo "Making ~/.bashrc source ~/.terraform_flags.bashrc"
     echo "source ~/.terraform_flags.bashrc # source .terraform_flags.bashrc" >> $HOME/.bashrc
 fi
 
-if [ -e $HOME/.zshrc ]; 
-    grep "# source .terraform_flags.bashrc" $HOME/.zshrc
+if [ -e $HOME/.zshrc ]; then
+    grep -q "# source .terraform_flags.bashrc" $HOME/.zshrc
     if [ "$?" == "1" ]; then
         echo "Making ~/.zshrc source ~/.terraform_flags.bashrc"
         echo "source ~/.terraform_flags.bashrc # source .terraform_flags.bashrc" >> $HOME/.zshrc
@@ -52,4 +53,4 @@ if [ -e $HOME/.zshrc ];
 fi
 
 echo
-echo "Make sure to run `source ~/.bashrc` to update your environment every time you change the variables!"
+echo "Make sure to run \`source ~/.bashrc\` or \`source ~/.zshrc\` to update your environment every time you change the variables!"
