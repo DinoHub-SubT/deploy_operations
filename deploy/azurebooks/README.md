@@ -234,8 +234,8 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
 
         # Get the vpn client, this will output a https link, please remember it!
         #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
-        #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
-        #   - an example would be: USERNAME-example-vnet-gateway
+        #   - where the 'resource_name_prefix' was set in the '~/.terraform_flags.bashrc' in the previous steps
+        #   - an example would be: USERNAME-vnet-gateway
         az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
         # download the client (without brackets)
@@ -276,8 +276,8 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
         # verify you can connect to the Azure VM
         ping [ private IP ]
 
-        # ssh into your VM
-        ssh [username]@[private IP]
+        # ssh into your VM (default username for all the VMs is subt)
+        ssh [VM username]@[private IP]
 
     - if you have issues pinging the VMs, please check your VPN connection.
     - if you have issues ssh into the VMs, please see the `Issues` title below.
@@ -311,7 +311,7 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
       ipsec pki --gen --outform pem > caKey.pem
       ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
 
-      # Copy the output to the 'vpn_ca_cert' variable in 'example/main.tf'
+      # Copy the output to the 'vpn_ca_cert' variable to '~/.terraform_flags.bashrc'
       openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
 
       # == Create the user certificate ==
@@ -330,9 +330,9 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
 
 **Update personalized terraform variables**
 
-Change the personalized cert key variable in the `main.tf` terraform:
+Change the personalized cert key variable in the `~/.terraform_flags.bashrc` terraform:
 
-        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
+        gedit ~/.terraform_flags.bashrc
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
@@ -354,7 +354,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
 
       # Get the vpn client, this will output a https link, please remember it!
       #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
-      #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
+      #   - where the 'resource_name_prefix' was set in the '~/.terraform_flags.bashrc' in the previous steps
       #   - an example would be: USERNAME-example-vnet-gateway
       az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
@@ -394,7 +394,7 @@ Summary of above link (please use the link):
 
 - Go to the Azure Portal Website
 
-- Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+- Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
         az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
@@ -425,7 +425,7 @@ The subt terraform example has remote desktop port enabled.
 
     - Go to the Azure Portal Website
 
-    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+    - Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
@@ -556,7 +556,6 @@ List the public IPs found in `SubT` resource group, matching prefix:
       # template: az resource list -g SubT -o table | grep [pattern]
       # example, with pattern:
       az network public-ip list -g SubT -o table | grep USERNAME
-
 
 * * *
 
