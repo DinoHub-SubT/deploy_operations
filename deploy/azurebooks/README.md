@@ -122,11 +122,7 @@ Your Tenant id is:
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
-<<<<<<< HEAD
-- **Setup the VPN CA certificates**
-=======
 **Setup the VPN CA certificates**
->>>>>>> 86c6dc2aae14fa5567431d71fe2b9ba0f6023348
 
         # == Install Dependency Libraries ==
         sudo apt-get update

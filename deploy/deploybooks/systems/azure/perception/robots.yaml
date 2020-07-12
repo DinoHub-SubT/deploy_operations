@@ -47,7 +47,7 @@
 
       - vm:
         - compose:
-          - +ssh:{ azure.perception1 }ssh
+          - +ssh:{ azure.perception1 }
           - +extend: systems/azure/perception/vm/compose
         - catkin:
           - +ssh:{ azure.perception1 }
