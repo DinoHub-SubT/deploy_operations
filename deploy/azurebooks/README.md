@@ -67,13 +67,45 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 - The `azure resource group` that will be used in this tutorial is `SubT`.
 
+- Always source your `~/.bashrc` or `~/.zshrc` when changing the terraform personalized variables.
 
 ### Terraform Subt Project Prerequisites
 
-**Azure CLI Initial Login**
+**Azure CLI Initial Login:**
 
         # az login will prompt a browser window. Enter your user credentials to login.
         az login
+
+**Find your Subscription and Tenant Ids**
+
+        # List the ids
+        az account list
+
+        # you will see the following output:
+        [
+        {
+            "cloudName": "AzureCloud",
+            "homeTenantId": "353ab185-e593-4dd3-9981-5ffe7f5d47eb",
+            "id": "a3a467d5-2467-25a3-q467-247v367q323q",
+            "isDefault": true,
+            "managedByTenants": [],
+            "name": "Microsoft Azure Sponsorship",
+            "state": "Enabled",
+            "tenantId": "121cb257-a394-2cd3-2425-3ase4g5f56da",
+            "user": {
+              "name": "USERNAME@smash0190hotmail.onmicrosoft.com",
+              "type": "user"
+            }
+        }
+        ]
+
+Your Subscription Id is:
+
+        "id": "a3a467d5-2467-25a3-q467-247v367q323q"
+
+Your Tenant id is:
+
+        "homeTenantId": "121cb257-a394-2cd3-2425-3ase4g5f56da"
 
 **Azcopy Initial Login**
 
@@ -90,7 +122,11 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
+<<<<<<< HEAD
 - **Setup the VPN CA certificates**
+=======
+**Setup the VPN CA certificates**
+>>>>>>> 86c6dc2aae14fa5567431d71fe2b9ba0f6023348
 
         # == Install Dependency Libraries ==
         sudo apt-get update
@@ -125,8 +161,6 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 **Add your info to environment variables**
 
-        # List the ids
-        az account list
 
         # Install the terraform environment variables
         install-terraform-current.sh
@@ -138,19 +172,34 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
         # Set TF_VAR_azure_vpn_cert to the output of the openssl command from above
         gedit ~/.terraform_id.bashrc
 
-**Export your subscription and tenant ids as environment variables in your current terminal**
+Source your `bashrc` or `zshrc`:
 
-Source your `bashrc` or `zshrc` directly:
-
-        # source bashrc directly
+        # source bashrc
         source ~/.bashrc
 
-        # source zshrc directly
+        # source zshrc
         source ~/.zshrc
 
 ### Deploy Terraform SubT Project
 
 All terraform commands must be done in the `azurebooks/subt` directory workspace
+
+- **Personalize the variables**
+
+        # Modify the common terraform flags
+        # - Keep the default `region` value. However you can change the region if you wish to.
+        # - Change `*_create_vm` to create the VM or not (if VM already exists, setting to false will destroy the VM)
+        # - Change `*_disk_size` to the disk size for each VM type (default values are already set).
+        # - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
+        gedit ~/.terraform_flags.bashrc
+
+- **Source your `bashrc` or `zshrc`:**
+
+        # source bashrc
+        source ~/.bashrc
+
+        # source zshrc
+        source ~/.zshrc
 
 - **Go to the terraform workspace**
 
@@ -158,38 +207,14 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
 
 - **Initialize the terraform workspace**
 
-        ./terraform-init.sh
-
-- **Personalize the variables**
-
-        # Modify the common terraform flags
-        # *_create_vm determines what vms are created
-        gedit ~/.terraform_flags.bashrc
-
-        # Go back to the deploy repo azurebooks
-        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
-
-        # Edit the main entrypoint terraform configuration file
-        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
-
-        - Change all the variables that have the comment: `# !! -- PLEASE CHANGE THE ... -- !!` to your preference:
-
-        - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
-
-        - Change `*_disk_size` to the disk size for each VM type (default values are already set).
-
-        - Do not change `vm_pub_ssh_key`. Use the default path that is already setup terraform `main.tf`.
-
-        - Please make sure this key exists on your localhost. This is the ssh key used to access the Azure VMs.
-
-        - Default ssh key path: `/home/<USER-NAME>/.ssh/azure_vpn`
+        ./terraform_init.sh
 
 - **Dry-run the terraform deployment**
 
         # Shows the user the azure deployment
         terraform plan
 
-    - Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `terraform init` again.
+    - Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `./terraform_init.sh` again.
 
 - **Apply the terraform infrastructure setup to Azure**
 
@@ -202,7 +227,7 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
 
     - Go to the Azure Portal Website
 
-    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+    - Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
@@ -213,8 +238,8 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
 
         # Get the vpn client, this will output a https link, please remember it!
         #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
-        #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
-        #   - an example would be: USERNAME-example-vnet-gateway
+        #   - where the 'resource_name_prefix' was set in the '~/.terraform_flags.bashrc' in the previous steps
+        #   - an example would be: USERNAME-vnet-gateway
         az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
         # download the client (without brackets)
@@ -255,8 +280,8 @@ All terraform commands must be done in the `azurebooks/subt` directory workspace
         # verify you can connect to the Azure VM
         ping [ private IP ]
 
-        # ssh into your VM
-        ssh [username]@[private IP]
+        # ssh into your VM (default username for all the VMs is subt)
+        ssh [VM username]@[private IP]
 
     - if you have issues pinging the VMs, please check your VPN connection.
     - if you have issues ssh into the VMs, please see the `Issues` title below.
@@ -290,7 +315,7 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
       ipsec pki --gen --outform pem > caKey.pem
       ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
 
-      # Copy the output to the 'vpn_ca_cert' variable in 'example/main.tf'
+      # Copy the output to the 'vpn_ca_cert' variable to '~/.terraform_flags.bashrc'
       openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
 
       # == Create the user certificate ==
@@ -309,9 +334,9 @@ The below instructions can be found on [azure tutorials](https://docs.microsoft.
 
 **Update personalized terraform variables**
 
-Change the personalized cert key variable in the `main.tf` terraform:
+Change the personalized cert key variable in the `~/.terraform_flags.bashrc` terraform:
 
-        gedit ~/deploy_ws/src/operations/deploy/azurebooks/subt/main.tf
+        gedit ~/.terraform_flags.bashrc
 
         # change `vpn_ca_cert` to the output seen in the terminal
 
@@ -333,7 +358,7 @@ Change the personalized cert key variable in the `main.tf` terraform:
 
       # Get the vpn client, this will output a https link, please remember it!
       #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
-      #   - where the 'resource_name_prefix' was set in the 'subt/main.tf' in the previous steps
+      #   - where the 'resource_name_prefix' was set in the '~/.terraform_flags.bashrc' in the previous steps
       #   - an example would be: USERNAME-example-vnet-gateway
       az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
 
@@ -373,7 +398,7 @@ Summary of above link (please use the link):
 
 - Go to the Azure Portal Website
 
-- Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+- Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
         az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
@@ -404,7 +429,7 @@ The subt terraform example has remote desktop port enabled.
 
     - Go to the Azure Portal Website
 
-    - Or, run the command below, with `resource_name_prefix` as set previously in `subt/main.tf`:
+    - Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
             az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
@@ -535,7 +560,6 @@ List the public IPs found in `SubT` resource group, matching prefix:
       # template: az resource list -g SubT -o table | grep [pattern]
       # example, with pattern:
       az network public-ip list -g SubT -o table | grep USERNAME
-
 
 * * *
 

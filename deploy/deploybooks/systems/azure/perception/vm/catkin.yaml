@@ -6,6 +6,7 @@
     - cd $SUBT_PATH/
     - pwd
     - whoami
+    - source /opt/ros/melodic/setup.bash
 
     # ////////////////////////////////////////////////////////////////////////////
     - clean:
@@ -41,7 +42,7 @@
           - cd ~/deploy_ws/src/perception/
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          -  catkin profile set perception-x86
+          - catkin profile set perception-x86
           - catkin config
           - catkin build --force-cmake
 

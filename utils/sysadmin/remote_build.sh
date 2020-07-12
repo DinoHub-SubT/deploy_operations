@@ -10,7 +10,7 @@ if [ -z "$SUBT_PATH" ]; then
     exit 1
 fi
 
-if [ -z "$host" ]; then
+if [ -z "$host" ] || [ "$host" == "--help" ]; then
     echo "remote_build.sh <host> <type>"
     echo "  <host> can be azure.perception1, robots.ugv1.ppc, etc..."
     echo "  <type> can be gpu or cpu (supposing the host has that option, otherwise this can be omitted)"

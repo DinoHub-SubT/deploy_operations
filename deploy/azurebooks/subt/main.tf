@@ -55,7 +55,7 @@ module "example" {
   user_defined_resource_group_name  = "SubT"
 
   # set the resource location
-  resource_location                 = "eastus"
+  resource_location                 = var.region
 
   # name prefix to be used for all resources
   # !! -- PLEASE CHANGE THE USERNAME (azure username) -- !!
@@ -91,21 +91,21 @@ module "example" {
 
   # VM disk sizes (in GB)
   # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
-  basestation_disk_size             = 100
-  ugv_disk_size                     = 64
-  uav_disk_size                     = 64
-  perception_disk_size              = 100
+  basestation_disk_size             = var.basestation_disk_size
+  ugv_disk_size                     = var.ugv_disk_size
+  uav_disk_size                     = var.uav_disk_size
+  perception_disk_size              = var.perception_disk_size
 
   # VM instance types
   # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!
-  ugv_vm_instance                   = "Standard_F16s_v2"
-  uav_vm_instance                   = "Standard_F16s_v2"
-  perception_vm_instance            = "Standard_NC6"
+  ugv_vm_instance                   = var.ugv_vm_instance
+  uav_vm_instance                   = var.uav_vm_instance
+  perception_vm_instance            = var.perception_vm_instance
   # Basestation available options:
   #   - choose 'Standard_F8s_v2' to only test the GUI only for the basestation
   #   - choose 'Standard_NC6' to create a GPU VM, in order to build the perception workspace for the basestation
-  basestation_cpu_vm_instance       = "Standard_F8s_v2"
-  basestation_gpu_vm_instance       = "Standard_NC6"
+  basestation_cpu_vm_instance       = var.basestation_cpu_vm_instance
+  basestation_gpu_vm_instance       = var.basestation_gpu_vm_instance
 
   # // /////////////////////////////////////////////////////////////////////////////
   # VM Creation -- number of VMs to create options

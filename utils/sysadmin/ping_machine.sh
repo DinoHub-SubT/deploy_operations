@@ -5,7 +5,7 @@ ip=$1
 sleep_interval=$2
 
 # Ensure we have a url to ping / test
-if [ -z $ip ] || [ "$ip" == "-h" ]; then
+if [ -z $ip ] || [ "$ip" == "--help" ]; then
     echo "Usage: ping_machine.sh <ip / hostname> <ping interval>"
     echo "  <ip / hostname> exactly what it says, some address to ping"
     echo "  <ping interval> interval at which to ping / test connection (in seconds) (default: 1)"
