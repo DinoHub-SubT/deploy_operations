@@ -203,20 +203,20 @@
   - ugv:
     - cd ugv
     - ppc:
-      - planning-pc/
+      - cd planning-pc/
       - git submodule update --init --recursive .
       - git clean -d -f -f
     - nuc:
-      - nuc
+      - cd nuc
       - git submodule update --init --recursive .
       - git clean -d -f -f
-    - slam:
-      - dev:
-        - slam/
-        - git submodule update --init --recursive .
-        - git clean -d -f -f
-      - robot:
-        - echo "TODO"
+    # - slam:
+    #   - dev:
+    #     - slam/
+    #     - git submodule update --init --recursive .
+    #     - git clean -d -f -f
+    #   - robot:
+    #     - echo "TODO"
     - hardware:
       - cd hardware
       - git submodule update --init --recursive .
