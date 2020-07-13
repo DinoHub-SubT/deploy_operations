@@ -66,6 +66,11 @@
     - git submodule update --recursive --init common
     - cd common
     - git clean -d -f -f
+    # git lfs steps
+    - cd communication_manager
+    - git lfs fetch
+    - git lfs pull
+    - git lfs install
 
   - operations:
     - all:
@@ -92,6 +97,11 @@
     - git submodule update --recursive --init simulation
     - cd simulation
     - git clean -d -f -f
+    # git lfs steps
+    - cd subt_gazebo
+    - git lfs fetch
+    - git lfs pull
+    - git lfs install
 
   - subt_launch:
     - git submodule update --recursive --init subt_launch
@@ -147,6 +157,11 @@
     - cd common
     - git submodule update --recursive --init .
     - git clean -d -f -f
+    # git lfs steps
+    - cd communication_manager
+    - git lfs fetch
+    - git lfs pull
+    - git lfs install
 
   - operations:
     - all:
@@ -174,6 +189,11 @@
     - cd simulation
     - git submodule update --recursive --init .
     - git clean -d -f -f
+    # git lfs steps
+    - cd subt_gazebo
+    - git lfs fetch
+    - git lfs pull
+    - git lfs install
 
   - subt_launch:
     - cd subt_launch
