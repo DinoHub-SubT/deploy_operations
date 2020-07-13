@@ -26,9 +26,9 @@ script_title() {
 }
 title() { echo -e "\t\t\t\t\t $GREEN == $1 == $DEFCOL \n\n"; }
 text() { echo -e "$CYAN $1 $GREEN $2 $DEFCOL"; }
-display_text() { echo -e "$GREEN $1 $DEFCOL\n"; }
+display_text() { echo -e "$GREEN$1 $DEFCOL\n"; }
 minor_text() { echo -e "$GREEN $1 $GREEN $2 $DEFCOL"; }
-warning() { echo -e "$YELLOW$1 $DEFCOL\n"; }
+print_warning() { echo -e "$YELLOW$1 $DEFCOL\n"; }
 print_error() { echo -e "$RED$1 $DEFCOL\n"; }
 exit_success() { exit 0; }
 exit_failure() { exit 1; }
