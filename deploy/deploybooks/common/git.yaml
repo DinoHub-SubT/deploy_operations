@@ -1,0 +1,263 @@
+# //////////////////////////////////////////////////////////////////////////////
+# update all the deploy repo git submodules
+# //////////////////////////////////////////////////////////////////////////////
+
+- pwd
+
+# ////////////////////////////////////////////////////////////////////////
+- init:
+# ////////////////////////////////////////////////////////////////////////
+  - basestation:
+    - git submodule update --init basestation
+
+  - common:
+    - git submodule update --init common
+
+  - operations:
+    - all:
+      - git submodule update --init operations
+    - docker:
+      - git submodule update --init operations/deploy/docker
+    - deployer:
+      - git submodule update --init operations/deploy/deployer
+
+  - perception:
+    - git submodule update --init perception
+
+  - simulation:
+    - git submodule update --init simulation
+
+  - subt_launch:
+    - git submodule update --init subt_launch
+
+  - ugv:
+    - git submodule update --init ugv
+    - cd ugv
+    - ppc:
+      - git submodule update --init planning-pc/
+    - nuc:
+      - git submodule update --init nuc/
+    - slam:
+      - dev:
+        - git submodule update --init slam/
+      - robot:
+        - echo "TODO"
+    - hardware:
+      - git submodule update --init hardware
+
+  - uav:
+    - git submodule update --init uav
+    - cd uav
+    - core:
+      - git submodule deinit -f core
+    - hardware:
+      -  git submodule deinit -f hardware
+
+
+# ////////////////////////////////////////////////////////////////////////
+- head:
+# ////////////////////////////////////////////////////////////////////////
+  - basestation:
+    - git submodule update --recursive --init basestation
+    - cd basestation
+    - git clean -d -f -f
+
+  - common:
+    - git submodule update --recursive --init common
+    - cd common
+    - git clean -d -f -f
+
+  - operations:
+    - all:
+      - git submodule update --recursive --init operations
+      - cd operations
+      - git clean -d -f -f
+    - docker:
+      - git submodule update --recursive --init operations/deploy/docker
+      - cd operations/deploy/docker
+      - git clean -d -f -f
+    - deployer:
+      - git submodule update --recursive --init operations/deploy/deployer
+      - cd operations/deploy/deployer
+      - git clean -d -f -f
+
+  - perception:
+    - git submodule update --recursive --init perception
+    - cd perception
+    - git clean -d -f -f
+    - cd object_detection
+    - git clean -d -f -f
+
+  - simulation:
+    - git submodule update --recursive --init simulation
+    - cd simulation
+    - git clean -d -f -f
+
+  - subt_launch:
+    - git submodule update --recursive --init subt_launch
+    - cd subt_launch
+    - git clean -d -f -f
+
+  - ugv:
+    - git submodule update --recursive --init ugv
+    - cd ugv
+    - git clean -d -f -f
+    - ppc:
+      - git submodule update --recursive --init planning-pc/
+      - cd planning-pc/
+      - git clean -d -f -f
+    - nuc:
+      - git submodule update --recursive --init nuc/
+      - cd nuc/
+      - git clean -d -f -f
+    - slam:
+      - dev:
+        - git submodule update --recursive --init slam/
+        - cd slam/
+        - git clean -d -f -f
+      - robot:
+        - echo "TODO"
+    - hardware:
+      - git submodule update --recursive --init hardware
+      - cd hardware/
+      - git clean -d -f -f
+
+  - uav:
+    - git submodule update --recursive --init uav
+    - cd uav
+    - git clean -d -f -f
+    - core:
+      - git submodule deinit -f core
+      - cd core
+      - git clean -d -f -f
+    - hardware:
+      - git submodule deinit -f hardware
+      - cd hardware
+      - git clean -d -f -f
+
+# ////////////////////////////////////////////////////////////////////////
+- update:
+# ////////////////////////////////////////////////////////////////////////
+  - basestation:
+    - cd basestation
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+
+  - common:
+    - cd common
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+
+  - operations:
+    - all:
+      - cd operations
+      - git submodule update --recursive --init .
+      - git clean -d -f -f
+    - docker:
+      - git submodule update --recursive --init operations/deploy/docker
+      - cd operations/deploy/docker
+      - git clean -d -f -f
+    - deployer:
+      - git submodule update --recursive --init operations/deploy/deployer
+      - cd operations/deploy/deployer
+      - git clean -d -f -f
+
+  - perception:
+    - cd perception
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+    - cd object_detection
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+
+  - simulation:
+    - cd simulation
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+
+  - subt_launch:
+    - cd subt_launch
+    - git submodule update --recursive --init .
+    - git clean -d -f -f
+
+  - ugv:
+    - cd ugv
+    - ppc:
+      - planning-pc/
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+    - nuc:
+      - nuc
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+    - slam:
+      - dev:
+        - slam/
+        - git submodule update --init --recursive .
+        - git clean -d -f -f
+      - robot:
+        - echo "TODO"
+    - hardware:
+      - cd hardware
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+
+  - uav:
+    - cd uav
+    - core:
+      - cd core
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+    - hardware:
+      - cd hardware
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+
+# //////////////////////////////////////////////////////////////////////////////
+- deinit:
+# //////////////////////////////////////////////////////////////////////////////
+
+  - basestation:
+    - git submodule deinit -f basestation
+
+  - common:
+    - git submodule deinit -f common
+
+  - operations:
+    - all:
+      - git submodule deinit -f operations
+    - docker:
+      - git submodule deinit -f operations/deploy/docker
+    - deployer:
+      - git submodule deinit -f operations/deploy/deployer
+
+  - perception:
+    -  git submodule deinit -f perception
+
+  - simulation:
+    -  git submodule deinit -f simulation
+
+  - subt_launch:
+    -  git submodule deinit -f subt_launch
+
+  - ugv:
+    - cd ugv
+    - ppc:
+      - git submodule deinit -f planning-pc
+    - nuc:
+      - git submodule deinit -f nuc
+    - slam:
+      - dev:
+        - git submodule deinit -f slam
+      - robot:
+        - echo "TODO"
+    - hardware:
+      -  git submodule deinit -f hardware
+
+  - uav:
+    - cd uav
+    - core:
+      - git submodule deinit -f core
+    - hardware:
+      -  git submodule deinit -f hardware
+

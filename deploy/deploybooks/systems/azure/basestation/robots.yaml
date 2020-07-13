@@ -18,6 +18,7 @@
     - vm:
       - +extend: common/transfer
       - +extend: common/skel_t
+      - +extend: common/git
 
   # ////////////////////////////////////////////////////////////////////////////
   # @brief basestation GUI deployment
