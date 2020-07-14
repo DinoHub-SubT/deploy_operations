@@ -1,7 +1,11 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
-cd $__dir/../subt
+if chk_flag --help $@; then
+    title "subtf_apply.sh : initializes subt's terraform setup with the correct tfstate file"
+    exit 0
+fi
 
+cd $__dir/../subt
 
 # Echo the path to the state file variable into the terraform init command
 echo "workspaces/${TF_VAR_azure_username}/terraform.tfstate" | terraform init
