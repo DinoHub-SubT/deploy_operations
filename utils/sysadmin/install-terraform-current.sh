@@ -7,7 +7,7 @@ if [ -z "$SUBT_PATH" ]; then
     exit 1
 fi
 
-if [ -z $ip ] || [ "$ip" == "--help" ]; then
+if [ "$1" == "--help" ]; then
     echo "Usage: install-terraform-current.sh"
     echo
     echo "Installs the current terraform bashrc's to ~/"
