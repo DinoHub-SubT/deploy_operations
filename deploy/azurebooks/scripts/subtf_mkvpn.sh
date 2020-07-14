@@ -1,7 +1,7 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
 if chk_flag --help $@; then
-    title "subt_mkvpn.sh [ flags ]: Creates the vpn needed to access azure (both through terraform and with network manager."
+    title "subtf_mkvpn.sh [ flags ]: Creates the vpn needed to access azure (both through terraform and with network manager."
     text "Flags:"
     text "    -y : do not ask for confirmation before running terraform apply"
     text "    -t : Apply only the terraform changes (Takes ~25 minutes)"

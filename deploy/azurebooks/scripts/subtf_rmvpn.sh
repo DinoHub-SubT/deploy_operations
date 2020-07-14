@@ -1,7 +1,7 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
 if chk_flag --help $@; then
-    title "subt_rmvpn.sh [ flags ]: Removes the vpn needed to access azure (both through terraform and with network manager."
+    title "subtf_rmvpn.sh [ flags ]: Removes the vpn needed to access azure (both through terraform and with network manager."
     text "Flags:"
     text "    -y : do not ask for confirmation before running terraform apply"
     text "    -t : Apply only the terraform changes (takes ~12 minutes)"
