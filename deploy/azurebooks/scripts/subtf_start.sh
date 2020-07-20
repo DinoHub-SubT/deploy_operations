@@ -47,7 +47,9 @@ if [[ -z "$vm_spec" ]]; then
     exit 1
 fi
 
-debug $vm_spec
+for line in $vm_spec; do
+    debug $line
+done
 
 # Stop the selected VM's
 title Starting VMs
