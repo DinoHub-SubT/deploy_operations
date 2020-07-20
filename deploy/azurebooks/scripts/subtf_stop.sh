@@ -47,6 +47,8 @@ if [[ -z "$vm_spec" ]]; then
     exit 1
 fi
 
+debug $vm_spec
+
 # Stop the selected VM's
 title Stopping VMS
 az vm stop --ids $vm_spec
