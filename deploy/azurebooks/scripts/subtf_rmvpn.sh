@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
 if chk_flag --help $@; then
