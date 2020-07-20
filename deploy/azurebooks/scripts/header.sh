@@ -4,7 +4,8 @@
 ##
 # Some directory variabls
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-__file="${__dir}/$(basename "${BASH_SOURCE[0]}")"
+__file_path="${__dir}/$(basename "${BASH_SOURCE[0]}")"
+__file_name="$(basename "${BASH_SOURCE[0]}")"
 
 __call_dir="$(pwd)"
 

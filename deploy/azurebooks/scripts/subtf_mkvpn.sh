@@ -2,7 +2,7 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
 if chk_flag --help $@; then
-    title "subtf_mkvpn.sh [ flags ]: Creates the vpn needed to access azure (both through terraform and with network manager."
+    title "$__file_name [ flags ]: Creates the vpn needed to access azure (both through terraform and with network manager."
     text "Flags:"
     text "    -y : do not ask for confirmation before running terraform apply"
     text "    -t : Apply only the terraform changes (Takes ~25 minutes)"
@@ -15,7 +15,7 @@ cd $__dir/../subt
 
 if ! chk_flag -n $@; then
     title Applying Terraform
-    if chk_arg -y $1; then
+    if chk_flag -y $@; then
         # Echo the path to the state file variable into the terraform init command
         echo yes | terraform apply -target module.example.azurerm_virtual_network_gateway.example
     else
@@ -92,6 +92,15 @@ if ! chk_flag -t $@; then
         exit 1
     fi
 
+    title Removing Old Connection if it exists
+    nmcli connection | grep -q "AZURE_VPN_CONNECTION"
+    
+    if last_command_succeeded; then
+        nmcli connection delete "AZURE_VPN_CONNECTION"
+        last_command_failed && error AZURE_VPN_CONNECTION was not deleted! Contact Maintainer
+    fi
+
+    title Creating new connection AZURE_VPN_CONNECTION
     sudo nmcli connection add \
         connection.id AZURE_VPN_CONNECTION \
         connection.type vpn \

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 if chk_flag --help $@; then
-    title "$(basename $0).sh [ flags ]: Creates the vpn ca and user certifcations for creating an Azure VPN connection."
+    title "$__file_name [ flags ]: Creates the vpn ca and user certifcations for creating an Azure VPN connection."
     text "Flags:"
     text "    -c : Create new vpn root & client certificates."
     text "    -s : Show the contents of an existing vpn client certificate."

@@ -2,7 +2,7 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
 if chk_flag --help $@; then
-    title "subtf_rmvpn.sh [ flags ]: Removes the vpn needed to access azure (both through terraform and with network manager."
+    title "$__file_name [ flags ]: Removes the vpn needed to access azure (both through terraform and with network manager."
     text "Flags:"
     text "    -y : do not ask for confirmation before running terraform apply"
     text "    -t : Apply only the terraform changes (takes ~12 minutes)"
@@ -15,7 +15,7 @@ cd $__dir/../subt
 
 if ! chk_flag -n $@; then
     title Applying Terraform
-    if chk_arg -y $1; then
+    if chk_flag -y $@; then
         # Echo the path to the state file variable into the terraform init command
         echo yes | terraform destroy -target module.example.azurerm_virtual_network_gateway.example
     else
