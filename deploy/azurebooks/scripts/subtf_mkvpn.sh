@@ -108,7 +108,7 @@ if ! chk_flag -t $@; then
         +vpn.data proposal=no \
         +vpn.data usercert=$(pwd)/${TF_VAR_azure_username}Cert.pem \
         +vpn.data userkey=$(pwd)/${TF_VAR_azure_username}Key.pem \
-        +vpn.data virtual=no \
+        +vpn.data virtual=yes \
         ifname ""
 
 fi
