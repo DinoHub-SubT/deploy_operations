@@ -8,26 +8,40 @@ if chk_flag --help $@; then
     exit 0
 fi
 
-# utils
-newline() { echo -e "\n"; }
-exit_success() { newline; exit 0; }
-exit_failure() { exit 1; }
-pushd () { command pushd "$@" > /dev/null; }
-popd () { command popd "$@" > /dev/null; }
+# //////////////////////////////////////////////////////////////////////////////
+# script only utilities
+
+# exit on success
+function exit_on_success() {
+  newline
+  popd
+  exit_success
+}
+
+# exit on failure
+function exit_on_error() {
+  error $1
+  popd
+  exit_failure
+}
 
 # //////////////////////////////////////////////////////////////////////////////
 # Create the Root & User Certificates
-
 title == Creating the VPN Root \& User Certificates ==
 
 # vpn ca certs directory
 vpn_cert_dir="$HOME/.ssh/azure/vpn"
 
-# setup client username & password for user certificate
-client_username="$TF_VAR_azure_username"
-client_password="password"
-
+# create the root & client certificates
 if ! chk_flag -s $@; then
+
+  # setup client username & password for user certificate
+  client_username="$TF_VAR_azure_username"
+
+  read -p "Enter password (leave empty for default): " client_password
+  if [[ -z $client_password ]]; then
+      client_password="password"
+  fi
 
   # remove any previously created files
   if [ -d "$vpn_cert_dir" ]; then
@@ -38,31 +52,31 @@ if ! chk_flag -s $@; then
     rm $vpn_cert_dir/${client_username}.p12
   fi
 
-  # create the vpn ca certs directory
+  # create the vpn certs directory
   mkdir -p $vpn_cert_dir
   pushd $vpn_cert_dir
 
-  ### Create the Root CA cert
+  # create the Root CA cert
 
   ipsec pki --gen --outform pem > caKey.pem
   if last_command_failed; then
-    error failed to create caKey.pem. Please see readme and install "strongswan" correctly.
+    exit_on_error failed to create caKey.pem. Please see readme and install "strongswan" correctly.
   fi
 
   ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
   if last_command_failed; then
-    error failed to create caCert.pem. Please notify the maintainer.
+    exit_on_error failed to create caCert.pem. Please notify the maintainer.
   fi
 
   # creation done.
   text Created the root ca certificate.
 
-  ### Create the user certificate
+  # create the user certificate
 
   # generate the user private key
   ipsec pki --gen --outform pem > "${client_username}Key.pem"
   if last_command_failed; then
-    error failed to create user Key.pem. Please notify the maintainer.
+    exit_on_error failed to create user Key.pem. Please notify the maintainer.
   fi
 
   # generate the user public key
@@ -76,7 +90,7 @@ if ! chk_flag -s $@; then
     --outform pem > "${client_username}Cert.pem"
 
   if last_command_failed; then
-    error failed to create user Cert.pem. Please notify the maintainer.
+    exit_on_error failed to create user Cert.pem. Please notify the maintainer.
   fi
 
   # generate the p12 bunder
@@ -89,13 +103,12 @@ if ! chk_flag -s $@; then
     -password "pass:${client_password}"
 
   if last_command_failed; then
-    error failed to create p12 bunder. Please notify the maintainer.
+    exit_on_error failed to create p12 bunder. Please notify the maintainer.
   fi
 
   # creation done.
   text Created the user certificate.
 
-  popd
 fi
 
 # show the contents of vpn client certificate
@@ -109,10 +122,10 @@ if ! chk_flag -c $@; then
   text Please copy the below output to the "'~/.terraform_id.bashrc'" setup file, for the variable "'TF_VAR_azure_vpn_cert'". \\n
   openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
   if last_command_failed; then
-    error failed to show client vpn key. Please see readme and install "strongswan" correctly.
+    exit_on_error failed to show client vpn key. Please see readme and install "strongswan" correctly.
   fi
 
 fi
 
 # cleanup & exit
-exit_success
+exit_on_success

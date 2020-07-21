@@ -145,3 +145,42 @@ urldecode() {
     local url_encoded="${1//+/ }"
     printf '%b' "${url_encoded//%/\\x}"
 }
+
+##
+# Creates a newline
+#
+function newline() {
+    echo -e "\n";
+}
+
+##
+# Exit with success code
+#
+function exit_success() {
+    newline;
+    exit 0;
+}
+
+##
+# Exit with failure code
+#
+function exit_failure() {
+    newline;
+    exit 1;
+}
+
+##
+# Saves the given directory at the top of the directory stack, then cd to directory
+# - stack standard output silenced
+#
+function pushd () {
+    command pushd "$@" > /dev/null;
+}
+
+##
+# Removes the top directory from the stack, then cd to directory
+# - stack standard output silenced
+#
+function popd () {
+    command popd "$@" > /dev/null;
+}
