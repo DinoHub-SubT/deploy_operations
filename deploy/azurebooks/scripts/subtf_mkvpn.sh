@@ -107,6 +107,7 @@ if ! chk_flag -t $@; then
         connection.autoconnect false \
         connection.permissions ${USER} \
         vpn.service-type org.freedesktop.NetworkManager.strongswan \
+        vpn.persistent yes \
         ipv4.method auto \
         ipv6.method auto \
         +vpn.data address=${azure_url} \
