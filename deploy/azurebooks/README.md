@@ -69,6 +69,10 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 - Always source your `~/.bashrc` or `~/.zshrc` when changing the terraform personalized variables.
 
+Your terraform subt workspace is located at:
+
+        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
+
 ### Terraform Subt Project Prerequisites
 
 **Azure CLI Initial Login:**
@@ -122,41 +126,16 @@ Your Tenant id is:
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
-**Setup the VPN CA certificates**
+**Setup the VPN certificates**
 
-        # == Install Dependency Libraries ==
+        # Install Dependency Libraries
         sudo apt-get update
         sudo apt-get install strongswan strongswan-pki libstrongswan-extra-plugins network-manager-strongswan
 
-        # == Create the Root & User Certificates ==
+        # Create the Root & User Certificates
+        subtf_cert.sh
 
-        # create the cert path
-        mkdir -p ~/.ssh/azure/vpn
-        cd ~/.ssh/azure/vpn
-
-        # Create the Root CA cert
-        ipsec pki --gen --outform pem > caKey.pem
-        ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
-
-        # Save this output for the next step, setting up environment variables
-        openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
-
-        # == Create the user certificate ==
-
-        # Change 'password' to something more secure
-        export PASSWORD="password"
-        # Change 'username' to your username (change to your azure username)
-        export USERNAME="client"
-
-        # generate the user certificate
-        ipsec pki --gen --outform pem > "${USERNAME}Key.pem"
-        ipsec pki --pub --in "${USERNAME}Key.pem" | ipsec pki --issue --cacert caCert.pem --cakey caKey.pem --dn "CN=${USERNAME}" --san "${USERNAME}" --flag clientAuth --outform pem > "${USERNAME}Cert.pem"
-
-        # generate the p12 bunder
-        openssl pkcs12 -in "${USERNAME}Cert.pem" -inkey "${USERNAME}Key.pem" -certfile caCert.pem -export -out "${USERNAME}.p12" -password "pass:${PASSWORD}"
-
-**Add your info to environment variables**
-
+**Add your Azure user info to terraform ids**
 
         # Install the terraform environment variables
         install-terraform-current.sh
@@ -168,7 +147,16 @@ Your Tenant id is:
         # Set TF_VAR_azure_vpn_cert to the output of the openssl command from above
         gedit ~/.terraform_id.bashrc
 
-Source your `bashrc` or `zshrc`:
+**Personalize your Azure setup**
+
+        # Modify the common terraform flags
+        # - Keep the default `region` value. However you can change the region if you wish to.
+        # - Change `*_create_vm` to create the VM or not (if VM already exists, setting to false will destroy the VM)
+        # - Change `*_disk_size` to the disk size for each VM type (default values are already set).
+        # - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
+        gedit ~/.terraform_flags.bashrc
+
+**Source your `bashrc` or `zshrc`**:
 
         # source bashrc
         source ~/.bashrc
@@ -178,109 +166,48 @@ Source your `bashrc` or `zshrc`:
 
 ### Deploy Terraform SubT Project
 
-All terraform commands must be done in the `azurebooks/subt` directory workspace
+**Initialize the terraform workspace**
 
-- **Personalize the variables**
+        subtf_init.sh
 
-        # Modify the common terraform flags
-        # - Keep the default `region` value. However you can change the region if you wish to.
-        # - Change `*_create_vm` to create the VM or not (if VM already exists, setting to false will destroy the VM)
-        # - Change `*_disk_size` to the disk size for each VM type (default values are already set).
-        # - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
-        gedit ~/.terraform_flags.bashrc
-
-- **Source your `bashrc` or `zshrc`:**
-
-        # source bashrc
-        source ~/.bashrc
-
-        # source zshrc
-        source ~/.zshrc
-
-- **Go to the terraform workspace**
-
-        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
-
-- **Initialize the terraform workspace**
-
-        ./terraform_init.sh
-
-- **Dry-run the terraform deployment**
+**Dry-run the terraform deployment**
 
         # Shows the user the azure deployment
-        terraform plan
+        subtf_plan.sh
 
-    - Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `./terraform_init.sh` again.
+- Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `./terraform_init.sh` again.
 
-- **Apply the terraform infrastructure setup to Azure**
+**Apply the terraform infrastructure setup to Azure**
 
         # will create all the resources on azure
-        terraform apply
+        subtf_apply.sh
 
-    - **Errors:** if you see `OperationNotAllowed ... quota limits`, **please notify the maintainer to increase quota limits**.
+- **Errors:** if you see `OperationNotAllowed ... quota limits`, **please notify the maintainer to increase quota limits**.
 
-- **Verify your VMs are created**
+**Add the VPN connection to the network manager**
 
-    - Go to the Azure Portal Website
+        subtf_mkvpn.sh -n
 
-    - Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
+- See the "Create a VPN Connection" and "Destroy an existing VPN Connection" below for VPN maintenance.
 
-            az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
+**Verify your VMs are created**
 
-- **Download the VPN Client**
+- Go to the Azure Portal Website
 
-        # go to a ssh folder to contain your vpn keys
-        cd ~/.ssh/azure/vpn
+- Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
 
-        # Get the vpn client, this will output a https link, please remember it!
-        #   - the 'vnet gateway name' is: [resource_name_prefix]-vnet-gateway
-        #   - where the 'resource_name_prefix' was set in the '~/.terraform_flags.bashrc' in the previous steps
-        #   - an example would be: USERNAME-vnet-gateway
-        az network vnet-gateway vpn-client generate --name [vnet gateway name] --processor-architecture x86 --resource-group SubT
+        az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
 
-        # download the client (without brackets)
-        # - the wget command should take only a few seconds to download.
-        # - if the wget command does not work or takes too long, put the https link (from the previous step) in your browser and download it to '~/.ssh/azure/vpn' location
-        wget --directory-prefix=. [https path from previous command WITHOUT QUOTES ]
-
-        # unzip the vpn client package
-        #   - its okay to ignore the warnings '1 archive had warnings but no fatal errors.'
-        unzip -j -d client-download [downloaded.zip]
-
-        # == Connect to the VPN ==
-
-        # Get the VPN server DNS, copy the name between '<VpnServer>' tags
-        cd client-download
-        grep -rni VpnServer
-
-- **Setup Networking GUI Plugin**
-
-    - To setup the GUI, please follow the [instructions here](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert#install).
-
-    - Summary of above link (please use the link):
-
-        - Open the Network Manager Ubuntu GUI
-
-        - Add a new `VPN` connection, make sure it is the `IPsec/IKEv2 (strongswan)` connection
-
-        - Add the `[client]Cert.pem`, `[client]Key.pem` and the VPN server DNS name between `<VpnServer>` tags (from the previous step).
-
-        - Select `Request an inner IP address`
-
-        - Select the VPN connection
-
-        - Select the folder icon at the end of the Certificate field, browse to the Generic folder, and select the VpnServerRoot file.
-
-- **Connect to your VM (over the VPN)**
+**Connect to your VM (over the VPN)**
 
         # verify you can connect to the Azure VM
         ping [ private IP ]
 
-        # ssh into your VM (default username for all the VMs is subt)
+        # ssh into your VM (default username for all the VMs is: subt)
         ssh [VM username]@[private IP]
 
-    - if you have issues pinging the VMs, please check your VPN connection.
-    - if you have issues ssh into the VMs, please see the `Issues` title below.
+- if you have issues pinging the VMs, please check your VPN connection.
+- if you have issues ssh into the VMs, please see the `Issues` title below.
 
 You should now have resources deployed on Azure and be able to connect to them.
 
@@ -290,7 +217,32 @@ You should now have resources deployed on Azure and be able to connect to them.
 
 ## VPN Connection
 
-### Ubuntu
+VPN connections is costly to keep up. So, please destroy the VPN when not using VMs and re-create when ready to connect to the VMs.
+
+### Create a VPN Connection
+
+        subtf_mkvpn.sh
+
+- will take approximately 25 - 35 minutes.
+
+To see more options:
+
+        subtf_mkvpn.sh --help
+
+### Destroy an existing VPN Connection
+
+        subtf_rmvpn.sh
+
+- will take approximately 15 minutes.
+
+To see more options:
+
+        subtf_rmvpn.sh --help
+
+
+### Manual Setup
+
+**Please use `subtf_mkvpn.sh` and `subtf_rmvpn.sh`. The below is just a reference for manual VPN setup.**
 
 The below instructions can be found on [azure tutorials](https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-vpn-client-configuration-azure-cert) for reference.
 
