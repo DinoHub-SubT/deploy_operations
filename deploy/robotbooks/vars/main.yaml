@@ -91,7 +91,7 @@ gnome_desktop_packages:
 # Git Deploy Repository Configuration
 git:
   deploy:
-    branch: feature/launch-restructure
+    branch: develop
 
 # docker version
 docker:
