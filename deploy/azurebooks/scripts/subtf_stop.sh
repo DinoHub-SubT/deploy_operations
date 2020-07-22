@@ -53,7 +53,7 @@ done
 
 # Stop the selected VM's
 title Stopping VMS
-az vm stop --ids $vm_spec
+az vm deallocate --ids $vm_spec
 
 # Make sure we actually have ID's
 if last_command_failed; then
