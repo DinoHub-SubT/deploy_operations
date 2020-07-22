@@ -4,6 +4,63 @@
 
 - pwd
 
+# //////////////////////////////////////////////////////////////////////////////
+- new:
+# //////////////////////////////////////////////////////////////////////////////
+  - common:
+    - cd common
+
+  - basestation:
+    - cd basestation
+
+  # - perception:
+  #   - cd perception
+  #   - git checkout -b $branch
+  #   - git status
+
+  - subt_launch:
+    - cd subt_launch
+
+  - ugv:
+    - cd ugv
+
+  - uav:
+    - cd uav
+
+  # checkout to the specified branch & update submodules
+  - git checkout -b $branch
+  - git status
+
+# //////////////////////////////////////////////////////////////////////////////
+- checkout:
+# //////////////////////////////////////////////////////////////////////////////
+  - common:
+    - cd common
+
+  - basestation:
+    - cd basestation
+
+  # - perception:
+  #   - cd perception
+
+  - subt_launch:
+    - cd subt_launch
+
+  - ugv:
+    - cd ugv
+
+  - uav:
+    - cd uav
+
+  # checkout to the specified branch & update submodules
+  - git fetch --all
+  - git fetch origin
+  - git update-ref refs/heads/$branch origin/$branch
+  - git checkout $branch
+  - git submodule update --recursive --init .
+  - git clean -d -f -f
+  - git status
+
 # ////////////////////////////////////////////////////////////////////////
 - init:
 # ////////////////////////////////////////////////////////////////////////
@@ -52,7 +109,6 @@
       - git submodule deinit -f core
     - hardware:
       -  git submodule deinit -f hardware
-
 
 # ////////////////////////////////////////////////////////////////////////
 - head:
@@ -281,3 +337,30 @@
     - hardware:
       -  git submodule deinit -f hardware
 
+# //////////////////////////////////////////////////////////////////////////////
+- ignore:
+# //////////////////////////////////////////////////////////////////////////////
+
+  - common:
+    - cd common
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+  - basestation:
+    - cd basestation
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+  - perception:
+    - cd perception
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+  - subt_launch:
+    - cd subt_launch
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+  - ugv:
+    - cd ugv
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+  - uav:
+    - cd uav
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
