@@ -52,6 +52,10 @@
 
       # extend
       - +extend: common/transfer
+      - catkin:
+        - +ssh:{ ugv1.xavier }
+        - +docker:perception-arm-shell
+        - +extend: systems/robot/ugv/xavier/catkin
       - compose:
         - +ssh:{ ugv1.xavier }
         - +extend: systems/robot/ugv/xavier/compose
@@ -102,6 +106,10 @@
 
       # extend
       - +extend: common/transfer
+      - catkin:
+        - +ssh:{ ugv2.xavier }
+        - +docker:perception-arm-shell
+        - +extend: systems/robot/ugv/xavier/catkin
       - compose:
         - +ssh:{ ugv2.xavier }
         - +extend: systems/robot/ugv/xavier/compose
@@ -152,6 +160,10 @@
 
       # extend
       - +extend: common/transfer
+      - catkin:
+        - +ssh:{ ugv3.xavier }
+        - +docker:perception-arm-shell
+        - +extend: systems/robot/ugv/xavier/catkin
       - compose:
         - +ssh:{ ugv3.xavier }
         - +extend: systems/robot/ugv/xavier/compose

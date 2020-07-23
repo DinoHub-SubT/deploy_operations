@@ -23,7 +23,7 @@
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set perception-x86
+        - catkin profile set perception-arm
         - catkin config
         - catkin build --force-cmake
 
@@ -33,7 +33,7 @@
           - cd ~/deploy_ws/src/perception/deps/catkin
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          -  catkin profile set perception-x86
+          -  catkin profile set perception-arm
           - catkin config
           - catkin build --force-cmake
         - objdet:
@@ -41,7 +41,7 @@
           - cd ~/deploy_ws/src/perception/
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          -  catkin profile set perception-x86
+          -  catkin profile set perception-arm
           - catkin config
           - catkin build --force-cmake
 
@@ -49,6 +49,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-sim
+        - catkin profile set perception-arm
         - catkin config
         - catkin build --force-cmake

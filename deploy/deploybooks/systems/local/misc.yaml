@@ -3,3 +3,7 @@
 # //////////////////////////////////////////////////////////////////////////////
 
   - +extend: common/git
+  - test:
+    - +docker:perception-gpu-shell
+    - echo hi
+    - env

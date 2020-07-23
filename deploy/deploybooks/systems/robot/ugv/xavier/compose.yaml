@@ -2,6 +2,20 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
+  # == build the chonky base ==
+  - chonky:
+    - cd $SUBT_PATH/$dcompose_relpath
+    - thirdparty:
+      - cd dockerfiles/thirdparty-software
+      - "[ -e aarch64-linux-gnu ] || ./populate_aarch64.sh"
+      - "[ -e cuda ] || ./populate_cuda.sh"
+    - build_image: # build_image instead of image so regex doesn't do anything stupid
+      - docker build -t subt/chonky_l4t -f dockerfiles/perception/services/arm/chonky-base.dockerfile ./dockerfiles
+    - clean:
+      - cd dockerfiles/thirdparty-software
+      - rm -rf aarch64-linux-gnu
+      - rm -rf cuda
+
   # == creating docker images ==
   - image:
     - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
