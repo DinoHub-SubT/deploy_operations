@@ -1,0 +1,22 @@
+# //////////////////////////////////////////////////////////////////////////
+- docker:
+# //////////////////////////////////////////////////////////////////////////
+
+  # == creating docker images ==
+  - image:
+    - docker-compose-wrapper $scenario build --force-rm ros-image
+    # temporary for now, move to 'simulation' docker image
+    - docker-compose-wrapper $scenario build --force-rm uav-sim-image
+    # ignore any error messages (in case there are no dangling images)
+    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+
+  # == creating docker access containers ==
+  - shell:
+    - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
+
+  # == creating docker run containers ==
+  - container.run:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d uav-sim-commander-run
+  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+  - container.exec:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d uav-sim-commander-run-any

@@ -1,0 +1,23 @@
+# //////////////////////////////////////////////////////////////////////////////
+- local:
+  # //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/local/.local.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/ugv
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/ugv/vm/compose
+    - catkin:
+      - +docker:ugv-sim-shell
+      - +extend: systems/local/ugv/vm/catkin
+

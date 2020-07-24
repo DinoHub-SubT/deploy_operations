@@ -1,0 +1,38 @@
+# //////////////////////////////////////////////////////////////////////////////
+- local:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/local/.local.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - perception1.cpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/perception1-cpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/perception/vm/compose
+    - catkin:
+      - +docker:perception-cpu-shell
+      - +extend: systems/local/perception/vm/catkin
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - perception1.gpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+      # source the computer-level scenario file
+      - export filename=systems/local/perception1-gpu
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - compose:
+        - +extend: systems/local/perception/vm/compose
+      - catkin:
+        - +docker:perception-gpu-shell
+        - +extend: systems/local/perception/vm/catkin
+

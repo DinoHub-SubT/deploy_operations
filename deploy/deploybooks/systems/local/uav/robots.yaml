@@ -1,0 +1,34 @@
+# //////////////////////////////////////////////////////////////////////////////
+- local:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/local/.local.env
+
+  - uav:
+
+    # temporary patch of thirdparty code
+    - patch:
+      # apply first patch
+      - cd $SUBT_PATH/uav/core/Firmware/
+      - git apply --reject $SUBT_PATH//uav/patch/patch1.patch
+      # apply second patch
+      - cd $SUBT_PATH/uav/core/Firmware/Tools/sitl_gazebo
+      - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - uav:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/uav
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/uav/vm/compose
+    - catkin:
+      - +docker:uav-sim-shell
+      - +extend: systems/local/uav/vm/catkin
+

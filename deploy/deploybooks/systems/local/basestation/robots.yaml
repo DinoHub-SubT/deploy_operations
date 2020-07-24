@@ -1,0 +1,41 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief Localhost basestation deployment
+- local:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/local/.local.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # @brief basestation GUI deployment
+  - basestation.cpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/basestation-cpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/basestation/vm/compose
+    - catkin:
+      - +docker:basestation-cpu-shell
+      - +extend: systems/local/basestation/vm/catkin
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # @brief basestation perception deployment
+  - basestation.gpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/basestation-gpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/basestation/vm/compose
+    - catkin:
+      - +docker:basestation-gpu-shell
+      - +extend: systems/local/basestation/vm/catkin
+

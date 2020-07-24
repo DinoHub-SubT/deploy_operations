@@ -1,0 +1,64 @@
+# //////////////////////////////////////////////////////////////////////////
+- docker:
+# //////////////////////////////////////////////////////////////////////////
+
+  # == creating docker images ==
+  - image:
+    - all:
+      - docker-compose-wrapper $scenario build --force-rm ros-image
+      - docker-compose-wrapper $scenario build --force-rm ppc-image
+      - docker-compose-wrapper $scenario build --force-rm nuc-image
+      - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
+    - ros:
+      - docker-compose-wrapper $scenario build --force-rm ros-image
+    - ppc:
+      - docker-compose-wrapper $scenario build --force-rm ppc-image
+    - nuc:
+      - docker-compose-wrapper $scenario build --force-rm nuc-image
+    - sim:
+      - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
+    # ignore any build errors (in case there are no dangling images)
+    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+
+  # == creating docker access containers ==
+  - container:
+    - shell:
+      - all:
+        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
+        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
+        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ugv-sim-shell
+      - nuc:
+        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
+      - ppc:
+        - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ppc-shell
+      - sim:
+        - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ugv-sim-shell
+    # == creating docker access containers ==
+    # stopping containers
+    - stop:
+      - all:
+        - docker stop $(docker ps -a -q)
+      - ppc:
+        - docker stop ppc-shell
+      - nuc:
+        - docker stop nuc-shell
+      - sim:
+        - docker stop sim-shell
+    # removing containers
+    - rm:
+      - all:
+        - docker rm $(docker ps -a -q)
+      - ppc:
+        - docker rm ppc-shell
+      - nuc:
+        - docker rm nuc-shell
+      - sim:
+        - docker rm sim-shell
+
+  # == creating docker run containers ==
+  - container.run:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d ugv-sim-commander-run
+  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+  - container.exec:
+    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d ugv-sim-commander-run-any
+
