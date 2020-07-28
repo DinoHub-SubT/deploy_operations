@@ -11,8 +11,22 @@
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
   # == creating docker access containers ==
-  - shell:
-    - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
+  - container:
+    - shell:
+      - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
+    # == creating docker access containers ==
+    # stopping containers
+    - stop:
+      - all:
+        - docker stop $(docker ps -a -q)
+      - sim:
+        - docker stop uav-sim-shell
+    # removing containers
+    - rm:
+      - all:
+        - docker rm $(docker ps -a -q)
+      - sim:
+        - docker rm uav-sim-shell
 
   # == creating docker run containers ==
   - container.run:

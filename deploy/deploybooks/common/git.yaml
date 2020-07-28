@@ -353,9 +353,16 @@
     - cd perception
     - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
 
+  - simulation:
+    - cd perception
+    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+    - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
+
   - subt_launch:
     - cd subt_launch
     - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+    - git update-index --assume-unchanged .catkin_tools/profiles/perception-arm/config.yaml
+    - git update-index --assume-unchanged .catkin_tools/profiles/uav-simulation/config.yaml
 
   - ugv:
     - cd ugv

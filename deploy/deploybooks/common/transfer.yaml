@@ -25,4 +25,14 @@
 
 # evaluate the copy command
 - echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
+
+# pre-transfer command execute
+- echo $pre_transfer_command
+- eval $pre_transfer_command
+
+# execute transfer
 - eval $copy_cmd
+
+# post-transfer command execute
+- echo $post_transfer_command
+- eval $post_transfer_command

@@ -6,6 +6,17 @@
   - source operations/deploy/scenarios/.base.env
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
+  - uav:
+
+    # temporary patch of thirdparty code
+    - patch:
+      # apply first patch
+      - cd $SUBT_PATH/uav/sim/Firmware/
+      - git apply --reject $SUBT_PATH//uav/patch/patch1.patch
+      # apply second patch
+      - cd $SUBT_PATH/uav/sim/Firmware/Tools/sitl_gazebo
+      - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
+
   # ////////////////////////////////////////////////////////////////////////////
   - uav1:
   # ////////////////////////////////////////////////////////////////////////////
