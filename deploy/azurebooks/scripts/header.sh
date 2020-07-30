@@ -184,3 +184,36 @@ function pushd () {
 function popd () {
     command popd "$@" > /dev/null;
 }
+
+##
+# Checks if given value is found in array
+#   - reference: https://stackoverflow.com/a/8574392/3554704
+#
+function val_in_arr() {
+  local iter value="$1"
+  # shift the first argument, to only have the list-values as the arguments
+  shift
+  # for without in, iterates over the given arguements
+  for iter; do [[ "$iter" == "$value" ]] && return 0; done
+  return 1
+}
+
+##
+# Check if given value is set
+#
+function is_empty() {
+    local value=$1
+    # non-empty value
+    [[ -n "$value" ]] && return 1
+    # empty value
+    return 0
+}
+
+##
+# Check if file exists
+#
+function file_exists() {
+    local filename=$1
+    [[ -f $filename ]] && return 0
+    return 1
+}

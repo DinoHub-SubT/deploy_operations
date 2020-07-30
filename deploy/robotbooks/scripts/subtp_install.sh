@@ -2,7 +2,7 @@
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/../../azurebooks/scripts/header.sh)"
 
 if chk_flag --help $@; then
-    title "$__file_name [ flags ] < system_name > < robotbook_name > : Installs ."
+    title "$__file_name [ flags ] < system_name > < playbook > : Installs ."
     text "Flags:"
     text "    -az : Show the available azure ansible system names."
     text "    -r  : Show the available robot ansible system names."
@@ -37,7 +37,13 @@ function get_system_names() {
   filename=$1
 
   # if not given filename, exit on error.
-  if [[ ! -n "$filename" ]]; then
+  if is_empty $filename; then
+    error "error: filename is empty."
+    exit_failure
+  fi
+
+  if ! file_exists $filename; then
+    error "error: filename $filename does not exist."
     exit_failure
   fi
 
@@ -47,7 +53,7 @@ function get_system_names() {
   local systems=()
 
   # find the line numbers for the lines that contain the system headers
-  #   - regex: look-ahead & look-behind for '[', ']' and match text between
+  #   - regex: look-behind & look-ahead for '[', ']' and match text between
   for str in $(grep -Pon "(?<=\[).*(?=\])" $filename | paste -s -); do
     num=$(echo $str | cut -f1 -d:)
 
@@ -69,8 +75,9 @@ function get_system_names() {
     headerline=$(sed -n "${iter1}p" < $filename)
 
     # ignore lines that contains ':vars', those lines do not contain system names.
+    #   regex: look-ahead for ':'. Non-empty result means match found.
     filter=$(printf $headerline | grep -Po ".+?(?=\:)" )
-    [[ -n "$filter" ]] && { iter1=$iter2; continue; }
+    ! is_empty $filter && { iter1=$iter2; continue; }
 
     # get the lines between the two pointers
     systemlines=$(sed -n "$(($iter1+1)),$(($iter2-1))p" < $filename)
@@ -79,14 +86,15 @@ function get_system_names() {
     while read -r system
     do
       # skip empty lines
-      [[ ! -n "$system" ]] && { continue; }
+      is_empty $system && { continue; }
 
       # skip comment lines
+      #   regex: negative look ahead for '#'. Empty result means match found: removes match value found.
       system=$(printf $system | grep -P '^(?!#)' )
-      [[ ! -n "$system" ]] && { continue; }
+      is_empty $system && { continue; }
 
       # add system name
-      if [[ ! " ${systems[@]} " =~ " ${system} " ]]; then
+      if ! val_in_arr "$system" "${systems[@]}"; then
         systems+=( "$system" )
       fi
     done <<< "$systemlines"
@@ -126,15 +134,17 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
   for filename in "${filenames[@]:1}"; do
     systems=($(get_system_names $filename))
     # inventory file contains system name
-    if [[ " ${systems[@]} " =~ " ${system} " ]]; then
+    if val_in_arr "$system" "${systems[@]}"; then
       inv=$filename
       break
     fi
   done
 
   # no inventory file found, exit on error
-  if [[ ! -n "$inv" ]]; then
-    error Something went wrong. Please notify the maintainer.
+  if is_empty $inv; then
+    error Something went wrong.
+    text - check your \'system_name\' or \'playbook\' filename arguments are valid.
+    text - if given valid arguments, then please notify the maintainer.
     exit_on_error
   fi
 
@@ -147,7 +157,7 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
     error Ansible playbook install script failed. \\n
     text - please check your network connection. If you were disconnected, re-connect and try again.
     text - please check if there were any errors during an install command. If so, please notify the maintainer.
-    text - if user-exit invoked \(by CTRL-C\), then you can safely ignore this error exit message.
+    text - if \'user interrupted execution\' invoked \(by CTRL-C\), then you can safely ignore this error message.
     exit_on_error
   fi
 
@@ -161,14 +171,14 @@ if chk_flag -b $@; then
 
   # find all ansible playbooks, in top-level robotbooks path
   for file in $(pwd)/*.yaml; do
-    if [[ -f $file ]]; then
+    if file_exists $file; then
       text \\t $(basename $file)
     fi
   done
 
   # find all ansible playbooks, in tasks robotbooks path
   for file in $(pwd)/tasks/*.yaml; do
-    if [[ -f $file ]]; then
+    if file_exists $file; then
       text \\t tasks/$(basename $file)
     fi
   done
@@ -201,6 +211,7 @@ systems=($(get_system_names $filename))
 
 # verify file parser did not fail
 if last_command_failed; then
+  echo ${systems[@]}  # gets the last error message, since systems is expecting an echo return
   error Something went wrong. Please notify the maintainer.
   exit_on_error
 fi
