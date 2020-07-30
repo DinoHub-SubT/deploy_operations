@@ -107,8 +107,6 @@ title == Running SubT ansible robotbooks ==
 # go to top-level ansible robotbooks path
 pushd $__dir/../
 
-# TODO: verify that the correct flags are given
-
 # install playbook on remote system
 if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@; then
 
@@ -143,6 +141,15 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
   text "using inventory file: $inv"
   # run ansible installer
   ansible-playbook -v -i $inv $playbook --limit $system
+
+  # ansible-playbook install failed
+  if last_command_failed; then
+    error Ansible playbook install script failed. \\n
+    text - please check your network connection. If you were disconnected, re-connect and try again.
+    text - please check if there were any errors during an install command. If so, please notify the maintainer.
+    text - if user-exit invoked \(by CTRL-C\), then you can safely ignore this error exit message.
+    exit_on_error
+  fi
 
   # cleanup & exit
   exit_on_success
