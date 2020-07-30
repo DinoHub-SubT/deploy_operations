@@ -21,6 +21,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv1.ppc }
         - +extend: systems/robot/ugv/ppc/compose
@@ -37,6 +38,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv1.nuc }
         - +extend: systems/robot/ugv/nuc/compose
@@ -52,6 +54,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - catkin:
         - +ssh:{ ugv1.xavier }
         - +docker:perception-arm-shell
@@ -75,6 +78,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv2.ppc }
         - +extend: systems/robot/ugv/ppc/compose
@@ -91,6 +95,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv2.nuc }
         - +extend: systems/robot/ugv/nuc/compose
@@ -106,6 +111,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - catkin:
         - +ssh:{ ugv2.xavier }
         - +docker:perception-arm-shell
@@ -129,6 +135,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv3.ppc }
         - +extend: systems/robot/ugv/ppc/compose
@@ -145,6 +152,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - compose:
         - +ssh:{ ugv3.nuc }
         - +extend: systems/robot/ugv/nuc/compose
@@ -160,6 +168,7 @@
 
       # extend
       - +extend: common/transfer
+      - +extend: common/skel_t
       - catkin:
         - +ssh:{ ugv3.xavier }
         - +docker:perception-arm-shell
