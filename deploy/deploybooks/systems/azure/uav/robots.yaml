@@ -11,10 +11,10 @@
     # temporary patch of thirdparty code
     - patch:
       # apply first patch
-      - cd $SUBT_PATH/uav/sim/Firmware/
+      - cd $SUBT_PATH/uav/core/Firmware/
       - git apply --reject $SUBT_PATH//uav/patch/patch1.patch
       # apply second patch
-      - cd $SUBT_PATH/uav/sim/Firmware/Tools/sitl_gazebo
+      - cd $SUBT_PATH/uav/core/Firmware/Tools/sitl_gazebo
       - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
 
   # ////////////////////////////////////////////////////////////////////////////
