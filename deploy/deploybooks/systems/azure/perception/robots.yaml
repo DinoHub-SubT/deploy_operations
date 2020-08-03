@@ -17,6 +17,9 @@
     - vm:
       - +extend: common/transfer
       - +extend: common/skel_t
+      - teamviewer:
+        - +ssh:{ azure.perception1 }
+        - sudo teamviewer info | grep " ID:"
 
   # ////////////////////////////////////////////////////////////////////////////
   - perception1.cpu:

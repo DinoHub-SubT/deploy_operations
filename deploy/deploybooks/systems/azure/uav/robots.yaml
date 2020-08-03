@@ -36,6 +36,9 @@
         - +ssh:{ azure.uav1 }
         - +docker:uav-sim-shell
         - +extend: systems/azure/uav/vm/catkin
+      - teamviewer:
+        - +ssh:{ azure.uav1 }
+        - sudo teamviewer info | grep " ID:"
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav2:
@@ -56,6 +59,9 @@
         - +ssh:{ azure.uav2 }
         - +docker:uav-sim-shell
         - +extend: systems/azure/uav/vm/catkin
+      - teamviewer:
+        - +ssh:{ azure.uav2 }
+        - sudo teamviewer info | grep " ID:"
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -77,6 +83,9 @@
         - +ssh:{ azure.uav3 }
         - +docker:uav-sim-shell
         - +extend: systems/azure/uav/vm/catkin
+      - teamviewer:
+        - +ssh:{ azure.uav3 }
+        - sudo teamviewer info | grep " ID:"
 
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -98,3 +107,6 @@
         - +ssh:{ azure.uav4 }
         - +docker:uav-sim-shell
         - +extend: systems/azure/uav/vm/catkin
+      - teamviewer:
+        - +ssh:{ azure.uav4 }
+        - sudo teamviewer info | grep " ID:"
