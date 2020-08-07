@@ -64,42 +64,38 @@
     # ////////////////////////////////////////////////////////////////////////////
     - build:
     # ////////////////////////////////////////////////////////////////////////////
+      - source /opt/ros/melodic/setup.bash
+
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set perception-x86
+        - catkin config
+        - catkin build --force-cmake
 
       - perception:
-        - common:
-          # build common
-          - cd ~/deploy_ws/src/common
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile list
-          - catkin profile set perception-x86
-          - catkin config
-          - catkin build --force-cmake
         - deps:
           # build perception deps
           - cd ~/deploy_ws/src/perception/deps/catkin
-          # temporary -- need to fix!
-          - source /opt/ros/melodic/setup.bash
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          - catkin profile set perception-x86
+          -  catkin profile set perception-x86
           - catkin config
           - catkin build --force-cmake
         - objdet:
           # build objdet
           - cd ~/deploy_ws/src/perception/
-          # temporary -- need to fix!
-          - source /opt/ros/melodic/setup.bash
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
           - catkin profile set perception-x86
           - catkin config
           - catkin build --force-cmake
-        - subt_launch:
-          - cd ~/deploy_ws/src/subt_launch
-          # temporary -- need to fix!
-          - source /opt/ros/melodic/setup.bash
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile list
-          - catkin profile set perception-x86
-          - catkin config
-          - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set perception-x86
+        - catkin config
+        - catkin build --force-cmake
