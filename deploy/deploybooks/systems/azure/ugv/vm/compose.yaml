@@ -4,11 +4,6 @@
 
   # == creating docker images ==
   - image:
-    - all:
-      - docker-compose-wrapper $scenario build --force-rm ros-image
-      - docker-compose-wrapper $scenario build --force-rm ppc-image
-      - docker-compose-wrapper $scenario build --force-rm nuc-image
-      - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
     - ros:
       - docker-compose-wrapper $scenario build --force-rm ros-image
     - ppc:
@@ -23,16 +18,12 @@
   # == creating docker access containers ==
   - container:
     - shell:
-      - all:
-        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
-        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
-        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ugv-sim-shell
-      - nuc:
-        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d nuc-shell
       - ppc:
-        - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ppc-shell
+        - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
+      - nuc:
+        - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
       - sim:
-        - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d ugv-sim-shell
+        - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ugv-sim-shell
     # == creating docker access containers ==
     # stopping containers
     - stop:
