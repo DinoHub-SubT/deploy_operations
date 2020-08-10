@@ -14,13 +14,13 @@
       - rm -rf ~/deploy_ws/build/uav
       - rm -rf ~/deploy_ws/install/uav
       - rm -rf ~/deploy_ws/logs/uav
-      - rm -rf ~/deploy_ws/src/uav/core/Firmware/build
+      - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
 
     # ////////////////////////////////////////////////////////////////////////////
-    - px4_firmware:
+    - px4:
     # ////////////////////////////////////////////////////////////////////////////
-      - cd ~/deploy_ws/src/uav/core/Firmware
-      - DONT_RUN=1 make px4_sitl_default gazebo
+      - cd ~/deploy_ws/src/uav/core/firmwaresubt
+      - ./build.sh
 
     # ////////////////////////////////////////////////////////////////////////////
     - build:
@@ -64,6 +64,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set uav-simulation
+        - catkin profile set uav-sim
         - catkin config
         - catkin build --force-cmake

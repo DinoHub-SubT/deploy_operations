@@ -6,7 +6,9 @@
   - source operations/deploy/scenarios/.base.env
   - source operations/deploy/scenarios/systems/local/.local.env
 
+  # ////////////////////////////////////////////////////////////////////////////
   - uav:
+  # ////////////////////////////////////////////////////////////////////////////
 
     # temporary patch of thirdparty code
     - patch:
@@ -16,10 +18,6 @@
       # apply second patch
       - cd $SUBT_PATH/uav/core/Firmware/Tools/sitl_gazebo
       - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - uav:
-  # ////////////////////////////////////////////////////////////////////////////
 
     # source the computer-level scenario file
     - export filename=systems/local/uav
