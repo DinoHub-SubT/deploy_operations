@@ -19,6 +19,7 @@
     - build:
     # ////////////////////////////////////////////////////////////////////////////
 
+      - source /opt/ros/melodic/setup.bash
       - common:
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
@@ -33,7 +34,7 @@
           - cd ~/deploy_ws/src/perception/deps/catkin
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          -  catkin profile set perception-arm
+          - catkin profile set perception-arm
           - catkin config
           - catkin build --force-cmake
         - objdet:
@@ -41,7 +42,7 @@
           - cd ~/deploy_ws/src/perception/
           - rm -f .catkin_tools/profiles/profiles.yaml
           - catkin profile list
-          -  catkin profile set perception-arm
+          - catkin profile set perception-arm
           - catkin config
           - catkin build --force-cmake
 
