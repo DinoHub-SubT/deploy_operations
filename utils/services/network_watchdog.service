@@ -1,0 +1,10 @@
+[Unit]
+Description=Monitors network to restart network
+After=network.target auditd.service
+
+[Service]
+EnvironmentFile=-/etc/subt/network_watchdog/watchdog.conf
+ExecStart=/usr/local/bin/network_watchdog.bash
+
+[Install]
+WantedBy=multi-user.target
