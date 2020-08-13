@@ -4,19 +4,23 @@
 
   # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build --force-rm ros-image
-    # temporary for now, move to 'simulation' docker image
-    - docker-compose-wrapper $scenario build --force-rm uav-sim-image
+    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    - docker-compose-wrapper $scenario build --force-rm uav-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-  # == creating docker access containers ==
-  - shell:
-    - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
+  # == creating docker containers ==
+  - container:
+    # starting docker containers
+    - shell:
+      # - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
+      - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
+    # stopping containers
+    - stop:
+      - all:
+        - docker stop $(docker ps -a -q)
+    # removing containers
+    - rm:
+      - all:
+        - docker rm -f $(docker ps -a -q)
 
-  # == creating docker run containers ==
-  - container.run:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d uav-sim-commander-run
-  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container.exec:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d uav-sim-commander-run-any

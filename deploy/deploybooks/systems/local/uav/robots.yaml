@@ -7,26 +7,33 @@
   - source operations/deploy/scenarios/systems/local/.local.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - uav:
+  - uav.cpu:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # temporary patch of thirdparty code
-    - patch:
-      # apply first patch
-      - cd $SUBT_PATH/uav/core/Firmware/
-      - git apply --reject $SUBT_PATH//uav/patch/patch1.patch
-      # apply second patch
-      - cd $SUBT_PATH/uav/core/Firmware/Tools/sitl_gazebo
-      - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
-
     # source the computer-level scenario file
-    - export filename=systems/local/uav
+    - export filename=systems/local/uav-cpu
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
     - compose:
       - +extend: systems/local/uav/vm/compose
     - catkin:
-      - +docker:uav-sim-shell
+      - +docker:uav-cpu-shell
+      - +extend: systems/local/uav/vm/catkin
+
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - uav.gpu:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # source the computer-level scenario file
+    - export filename=systems/local/uav-gpu
+    - source operations/deploy/scenarios/$filename.env
+    - export scenario=" --scenario $filename"
+
+    - compose:
+      - +extend: systems/local/uav/vm/compose
+    - catkin:
+      - +docker:uav-gpu-shell
       - +extend: systems/local/uav/vm/catkin
 
