@@ -93,7 +93,7 @@
       - git clean -d -f -f
 
     - ugv:
-      - git submodule update --recursive --init ugv
+      - git submodule update --init ugv
       - cd ugv
       - git clean -d -f -f
       - ppc:
@@ -104,29 +104,33 @@
         - git submodule update --recursive --init nuc/
         - cd nuc/
         - git clean -d -f -f
-      - slam:
-        - dev:
-          - git submodule update --recursive --init slam/
-          - cd slam/
-          - git clean -d -f -f
-        - robot:
-          - echo "TODO"
+      # - slam:
+      #   - dev:
+      #     - git submodule update --recursive --init slam/
+      #     - cd slam/
+      #     - git clean -d -f -f
+      #   - robot:
+      #     - echo "TODO"
       - hardware:
         - git submodule update --recursive --init hardware
         - cd hardware/
         - git clean -d -f -f
 
     - uav:
-      - git submodule update --recursive --init uav
+      - git submodule update --init uav
       - cd uav
       - git clean -d -f -f
       - core:
-        - git submodule deinit -f core
+        - git submodule update --recursive --init core
         - cd core
         - git clean -d -f -f
       - hardware:
-        - git submodule deinit -f hardware
+        - git submodule update --recursive --init hardware
         - cd hardware
+        - git clean -d -f -f
+      - slam:
+        - git submodule update --recursive --init slam
+        - cd slam
         - git clean -d -f -f
     # show the git status in the intermediate-repo
     - git status
@@ -219,6 +223,10 @@
         - cd hardware
         - git submodule update --init --recursive .
         - git clean -d -f -f
+      - slam:
+        - cd slam
+        - git submodule update --init --recursive .
+        - git clean -d -f -f
 
     # show the git status in the intermediate-repo
     - git status
@@ -256,11 +264,11 @@
         - git submodule update --init planning-pc/
       - nuc:
         - git submodule update --init nuc/
-      - slam:
-        - dev:
-          - git submodule update --init slam/
-        - robot:
-          - echo "TODO"
+      # - slam:
+      #   - dev:
+      #     - git submodule update --init slam/
+      #   - robot:
+      #     - echo "TODO"
       - hardware:
         - git submodule update --init hardware
 
@@ -268,9 +276,11 @@
       - git submodule update --init uav
       - cd uav
       - core:
-        - git submodule deinit -f core
+        - git submodule update --init core
       - hardware:
-        -  git submodule deinit -f hardware
+        - git submodule update --init hardware
+      - slam:
+        - git submodule update --init slam
 
   # //////////////////////////////////////////////////////////////////////////////
   - deinit:
@@ -305,11 +315,11 @@
         - git submodule deinit -f planning-pc
       - nuc:
         - git submodule deinit -f nuc
-      - slam:
-        - dev:
-          - git submodule deinit -f slam
-        - robot:
-          - echo "TODO"
+      # - slam:
+      #   - dev:
+      #     - git submodule deinit -f slam
+      #   - robot:
+      #     - echo "TODO"
       - hardware:
         -  git submodule deinit -f hardware
 
@@ -319,6 +329,8 @@
         - git submodule deinit -f core
       - hardware:
         -  git submodule deinit -f hardware
+      - slam:
+        -  git submodule deinit -f slam
 
   # //////////////////////////////////////////////////////////////////////////////
   - branch:
