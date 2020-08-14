@@ -18,7 +18,7 @@
     # extend
     - +extend: common/transfer
     - ds:
-      - +ssh:{ azure.uav1 }
+      - +ssh:{ uav.ds1 }
       - +extend: systems/robot/uav/ds/catkin
       - +extend: systems/robot/uav/ds/compose
 
@@ -34,7 +34,7 @@
     # extend
     - +extend: common/transfer
     - ds:
-      - +ssh:{ azure.uav2 }
+      - +ssh:{ uav.ds2 }
       - +extend: systems/robot/uav/ds/catkin
       - +extend: systems/robot/uav/ds/compose
 
@@ -50,7 +50,7 @@
     # extend
     - +extend: common/transfer
     - ds:
-      - +ssh:{ azure.uav3 }
+      - +ssh:{ uav.ds3 }
       - +extend: systems/robot/uav/ds/catkin
       - +extend: systems/robot/uav/ds/compose
 
@@ -66,6 +66,6 @@
     # extend
     - +extend: common/transfer
     - ds:
-      - +ssh:{ azure.uav4 }
+      - +ssh:{ uav.ds4 }
       - +extend: systems/robot/uav/ds/catkin
       - +extend: systems/robot/uav/ds/compose

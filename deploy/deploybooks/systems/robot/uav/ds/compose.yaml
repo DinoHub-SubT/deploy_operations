@@ -1,16 +1,26 @@
 # //////////////////////////////////////////////////////////////////////////
-# docker container interface to deployer commander run commands
-# //////////////////////////////////////////////////////////////////////////
 - docker:
-  # add '--force-rm '
+# //////////////////////////////////////////////////////////////////////////
+
+  # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build ros-image
-    - docker-compose-wrapper $scenario build uav-robot-image
-    # any compose command -- user can add '-e arg="launch build-gui"' to specify command
+    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    - docker-compose-wrapper $scenario build --force-rm uav-$deploy_system_type-image
+    # ignore any error messages (in case there are no dangling images)
+    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+
+  # == creating docker containers ==
   - container:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d uav-robot-commander-run
-  - container-run-any:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d uav-robot-commander-run-any
-  - shell:
-    # - docker-compose-wrapper $scenario up --force-recreate -d ros-shell
-    - docker-compose-wrapper $scenario -p uav-robot-shell up --force-recreate -d uav-robot-shell
+    # starting docker containers
+    - shell:
+      # - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
+      - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
+    # stopping containers
+    - stop:
+      - all:
+        - docker stop $(docker ps -a -q)
+    # removing containers
+    - rm:
+      - all:
+        - docker rm -f $(docker ps -a -q)
+

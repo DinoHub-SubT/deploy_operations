@@ -1,36 +1,51 @@
 # ////////////////////////////////////////////////////////////////////////////
-- robot.nuc.catkin:
+- workspace:
 # ////////////////////////////////////////////////////////////////////////////
-  - cd $SUBT_PATH/
-  - pwd
 
-  # ////////////////////////////////////////////////////////////////////////////
-  # perform all tasks that involve 'building'
-  - build:
-  # ////////////////////////////////////////////////////////////////////////////
+  - uav:
+    - cd $SUBT_PATH/
+    - pwd
+    - whoami
 
-    # //////////////////////////////////////////////////////////////////////////
-    - start:
-    # //////////////////////////////////////////////////////////////////////////
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/uav
+      - rm -rf ~/deploy_ws/build/uav
+      - rm -rf ~/deploy_ws/install/uav
+      - rm -rf ~/deploy_ws/logs/uav
+      - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - px4:
+    # ////////////////////////////////////////////////////////////////////////////
+      - cd ~/deploy_ws/src/uav/core/firmwaresubt
+      - ./build.sh
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
       - common:
-        - cd common/
+        - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_catkin_profile}
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
         - catkin build --force-cmake
-      - nuc:
-        - cd ugv/nuc/
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile set ${deploybook_catkin_profile}
-        - catkin build --force-cmake
-      # TODO:
-      # - launch:
-      #   - cd $DEPLOY_SRC/operations/launch/
-      #   - rm -f .catkin_tools/profiles/profiles.yaml
-      #   - catkin profile set ${computer_type_t}-basestation
-      #   - catkin build --force-cmake
-      #   - catkin clean -b --yes
 
-    # //////////////////////////////////////////////////////////////////////////
-    - stop:
-    # //////////////////////////////////////////////////////////////////////////
-      - echo "Nothing to stop, everything is done."
+      - uav:
+        - cd ~/deploy_ws/src/uav
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
