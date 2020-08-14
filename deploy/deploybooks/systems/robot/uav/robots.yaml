@@ -19,8 +19,11 @@
     - +extend: common/transfer
     - ds:
       - +ssh:{ uav.ds1 }
-      - +extend: systems/robot/uav/ds/catkin
-      - +extend: systems/robot/uav/ds/compose
+      - compose:
+        - +extend: systems/robot/uav/ds/compose
+      - catkin:
+        - +docker:uav-cpu-shell
+        - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds2:
@@ -35,8 +38,11 @@
     - +extend: common/transfer
     - ds:
       - +ssh:{ uav.ds2 }
-      - +extend: systems/robot/uav/ds/catkin
-      - +extend: systems/robot/uav/ds/compose
+      - compose:
+        - +extend: systems/robot/uav/ds/compose
+      - catkin:
+        - +docker:uav-cpu-shell
+        - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds3:
@@ -51,8 +57,11 @@
     - +extend: common/transfer
     - ds:
       - +ssh:{ uav.ds3 }
-      - +extend: systems/robot/uav/ds/catkin
-      - +extend: systems/robot/uav/ds/compose
+      - compose:
+        - +extend: systems/robot/uav/ds/compose
+      - catkin:
+        - +docker:uav-cpu-shell
+        - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds4:
@@ -67,5 +76,8 @@
     - +extend: common/transfer
     - ds:
       - +ssh:{ uav.ds4 }
-      - +extend: systems/robot/uav/ds/catkin
-      - +extend: systems/robot/uav/ds/compose
+      - compose:
+        - +extend: systems/robot/uav/ds/compose
+      - catkin:
+        - +docker:uav-cpu-shell
+        - +extend: systems/robot/uav/ds/catkin
