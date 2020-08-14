@@ -5,6 +5,7 @@
   # source the top-level scenario files
   - source operations/deploy/scenarios/.base.env
   - source operations/deploy/scenarios/systems/robot/.robot.env
+  - export $REGISTRY_HOSTNAME=johns-pc
 
   # ////////////////////////////////////////////////////////////////////////////
   - ugv1:

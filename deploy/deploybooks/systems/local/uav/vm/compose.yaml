@@ -24,3 +24,30 @@
       - all:
         - docker rm -f $(docker ps -a -q)
 
+  # == docker registry ==
+
+  # push images to the local docker registry
+  - push:
+    # tag the docker images
+    - docker tag subt/uav-gpu:ros localhost:5000/subt-uav-gpu-ros
+    - docker tag subt/uav-gpu:uav localhost:5000/subt-uav-gpu-uav
+    - docker tag subt/uav-cpu:ros localhost:5000/subt-uav-cpu-ros
+    - docker tag subt/uav-cpu:uav localhost:5000/subt-uav-cpu-uav
+    # push the docker images to the local registry
+    - docker push localhost:5000/subt-uav-gpu-ros
+    - docker push localhost:5000/subt-uav-gpu-uav
+    - docker push localhost:5000/subt-uav-cpu-ros
+    - docker push localhost:5000/subt-uav-cpu-uav
+
+  # pull images from the docker registry
+  - pull:
+    # pull the docker images from the laptop local registry
+    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-gpu-ros
+    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-gpu-uav
+    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-cpu-ros
+    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-cpu-uav
+    # tag the docker images
+    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-gpu-ros subt/uav-gpu:ros
+    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-gpu-uav subt/uav-gpu:uav
+    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-cpu-ros subt/uav-cpu:ros
+    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-cpu-uav subt/uav-cpu:uav
