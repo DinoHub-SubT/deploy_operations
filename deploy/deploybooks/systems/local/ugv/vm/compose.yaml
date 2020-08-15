@@ -46,10 +46,26 @@
       - sim:
         - docker rm sim-shell
 
-  # == creating docker run containers ==
-  - container.run:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d ugv-sim-commander-run
-  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container.exec:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d ugv-sim-commander-run-any
+  # == docker registry ==
 
+  # push images to the local docker registry
+  - push:
+    # tag the docker images
+    - docker tag subt/ugv:ros localhost:5000/subt-ugv-ros
+    - docker tag subt/ugv:ppc localhost:5000/subt-ugv-ppc
+    - docker tag subt/ugv:nuc localhost:5000/subt-ugv-nuc
+    # push the docker images to the local registry
+    - docker push localhost:5000/subt-ugv-ros
+    - docker push localhost:5000/subt-ugv-ppc
+    - docker push localhost:5000/subt-ugv-nuc
+
+  # pull images from the docker registry
+  - pull:
+    # pull the docker images from the laptop local registry
+    - docker pull $AZURE_REGISTRY/subt-ugv-ros
+    - docker pull $AZURE_REGISTRY/subt-ugv-ppc
+    - docker pull $AZURE_REGISTRY/subt-ugv-nuc
+    # tag the docker images
+    - docker tag $AZURE_REGISTRY/subt-ugv-ros subt/ugv:ros
+    - docker tag $AZURE_REGISTRY/subt-ugv-ppc subt/ugv:ppc
+    - docker tag $AZURE_REGISTRY/subt-ugv-nuc subt/ugv:nuc

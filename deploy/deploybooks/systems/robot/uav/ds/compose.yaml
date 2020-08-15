@@ -24,6 +24,11 @@
       - all:
         - docker rm -f $(docker ps -a -q)
 
+  # restarts docker daemon, removes all containers
+  - daemon:
+    - sudo systemctl restart docker
+    - docker rm -f $(docker ps -a -q)
+
   # == docker registry ==
 
   # pull images from the docker registry

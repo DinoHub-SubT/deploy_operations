@@ -9,8 +9,14 @@
   - shell:
     # - docker-compose-wrapper $scenario -p ros-shell up --force-recreate -d ros-shell
     - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
-  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d nuc-commander-run
-  - container-run-any:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d nuc-commander-run-any
+
+  # == docker registry ==
+
+  # pull images from the docker registry
+  - pull:
+    # pull the docker images from the laptop local registry
+    - docker pull $BASESTATION_REGISTRY/subt-ugv-ros
+    - docker pull $BASESTATION_REGISTRY/subt-ugv-nuc
+    # tag the docker images
+    - docker tag $BASESTATION_REGISTRY/subt-ugv-ros subt/ugv:ros
+    - docker tag $BASESTATION_REGISTRY/subt-ugv-nuc subt/ugv:nuc
