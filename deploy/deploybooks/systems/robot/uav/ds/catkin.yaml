@@ -48,6 +48,24 @@
         - catkin config
         - catkin build --force-cmake
 
+      - darpa:
+        - cd ~/deploy_ws/src/simulation/darpa/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
+      - simulation:
+        - cd ~/deploy_ws/src/simulation
+        # TEMPORARY!
+        - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav
+        - catkin config
+        - catkin build --force-cmake
+
       - subt_launch:
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
