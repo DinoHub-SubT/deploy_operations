@@ -42,12 +42,12 @@
   # pull images from the docker registry
   - pull:
     # pull the docker images from the laptop local registry
-    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-gpu-ros
-    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-gpu-uav
-    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-cpu-ros
-    - docker pull $REGISTRY_HOSTNAME:5000/subt-uav-cpu-uav
+    - docker pull $AZURE_REGISTRY:5000/subt-uav-gpu-ros
+    - docker pull $AZURE_REGISTRY:5000/subt-uav-gpu-uav
+    - docker pull $AZURE_REGISTRY:5000/subt-uav-cpu-ros
+    - docker pull $AZURE_REGISTRY:5000/subt-uav-cpu-uav
     # tag the docker images
-    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-gpu-ros subt/uav-gpu:ros
-    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-gpu-uav subt/uav-gpu:uav
-    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-cpu-ros subt/uav-cpu:ros
-    - docker tag $REGISTRY_HOSTNAME:5000/subt-uav-cpu-uav subt/uav-cpu:uav
+    - docker tag $AZURE_REGISTRY:5000/subt-uav-gpu-ros subt/uav-gpu:ros
+    - docker tag $AZURE_REGISTRY:5000/subt-uav-gpu-uav subt/uav-gpu:uav
+    - docker tag $AZURE_REGISTRY:5000/subt-uav-cpu-ros subt/uav-cpu:ros
+    - docker tag $AZURE_REGISTRY:5000/subt-uav-cpu-uav subt/uav-cpu:uav
