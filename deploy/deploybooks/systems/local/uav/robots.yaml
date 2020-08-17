@@ -18,7 +18,7 @@
     - compose:
       - +extend: systems/local/uav/vm/compose
     - catkin:
-      - +docker:uav-cpu-shell
+      # - +docker:uav-cpu-shell
       - +extend: systems/local/uav/vm/catkin
 
 
@@ -34,6 +34,6 @@
     - compose:
       - +extend: systems/local/uav/vm/compose
     - catkin:
-      - +docker:uav-gpu-shell
+      # - +docker:uav-gpu-shell
       - +extend: systems/local/uav/vm/catkin
 

@@ -22,7 +22,7 @@
       - compose:
         - +extend: systems/robot/uav/ds/compose
       - catkin:
-        - +docker:uav-cpu-shell
+        # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@
       - compose:
         - +extend: systems/robot/uav/ds/compose
       - catkin:
-        - +docker:uav-cpu-shell
+        # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@
       - compose:
         - +extend: systems/robot/uav/ds/compose
       - catkin:
-        - +docker:uav-cpu-shell
+        # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -79,5 +79,5 @@
       - compose:
         - +extend: systems/robot/uav/ds/compose
       - catkin:
-        - +docker:uav-cpu-shell
+        # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin

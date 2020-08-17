@@ -2,18 +2,87 @@
 - workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
-  - uav:
-    - cd $SUBT_PATH/
-    - pwd
-    - whoami
+  - cd $SUBT_PATH/
+  - pwd
+  - whoami
+
+  # //////////////////////////////////////////////////////////////////////////
+  - uav.inside:
+  # //////////////////////////////////////////////////////////////////////////
+    - +docker:uav-cpu-shell
 
     # ////////////////////////////////////////////////////////////////////////////
     - clean:
     # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/uav
-      - rm -rf ~/deploy_ws/build/uav
-      - rm -rf ~/deploy_ws/install/uav
-      - rm -rf ~/deploy_ws/logs/uav
+      - rm -rf ~/deploy_ws/devel/uav/inside
+      - rm -rf ~/deploy_ws/build/uav/inside
+      - rm -rf ~/deploy_ws/install/uav/inside
+      - rm -rf ~/deploy_ws/logs/uav/inside
+      - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - px4:
+    # ////////////////////////////////////////////////////////////////////////////
+      - cd ~/deploy_ws/src/uav/core/firmwaresubt
+      - ./build.sh
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-inside
+        - catkin config
+        - catkin build --force-cmake
+
+      - uav:
+        - cd ~/deploy_ws/src/uav
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-inside
+        - catkin config
+        - catkin build --force-cmake
+
+      - darpa:
+        - cd ~/deploy_ws/src/simulation/darpa/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-inside
+        - catkin config
+        - catkin build --force-cmake
+
+      - simulation:
+        - cd ~/deploy_ws/src/simulation
+        # TEMPORARY!
+        - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-inside
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-inside
+        - catkin config
+        - catkin build --force-cmake
+
+  # //////////////////////////////////////////////////////////////////////////
+  - uav.outside:
+  # //////////////////////////////////////////////////////////////////////////
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/uav/outside
+      - rm -rf ~/deploy_ws/build/uav/outside
+      - rm -rf ~/deploy_ws/install/uav/outside
+      - rm -rf ~/deploy_ws/logs/uav/outside
       - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -36,7 +105,7 @@
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set uav
+        - catkin profile set uav-outside
         - catkin config
         - catkin build --force-cmake
 
@@ -44,25 +113,7 @@
         - cd ~/deploy_ws/src/uav
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set uav-sim
-        - catkin config
-        - catkin build --force-cmake
-
-      - darpa:
-        - cd ~/deploy_ws/src/simulation/darpa/catkin
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set uav
-        - catkin config
-        - catkin build --force-cmake
-
-      - simulation:
-        - cd ~/deploy_ws/src/simulation
-        # TEMPORARY!
-        - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set uav
+        - catkin profile set uav-outside
         - catkin config
         - catkin build --force-cmake
 
@@ -70,6 +121,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set uav-sim
+        - catkin profile set uav-outside
         - catkin config
         - catkin build --force-cmake
