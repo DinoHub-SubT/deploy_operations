@@ -17,7 +17,20 @@
     # pull the docker images from the laptop local registry
     - docker pull $BASESTATION_REGISTRY/subt-ugv-ros
     - docker pull $BASESTATION_REGISTRY/subt-ugv-ppc
+    - docker pull $BASESTATION_REGISTRY/subt-ugv-nuc
     # tag the docker images
     - docker tag $BASESTATION_REGISTRY/subt-ugv-ros subt/ugv:ros
     - docker tag $BASESTATION_REGISTRY/subt-ugv-ppc subt/ugv:ppc
+    - docker tag $BASESTATION_REGISTRY/subt-ugv-nuc subt/ugv:nuc
 
+  # pull images from the docker registry
+  - push:
+    # tag the docker images
+    - docker tag subt/ugv:ros $ROBOT_REGISTRY/subt-ugv-ros
+    - docker tag subt/ugv:ppc $ROBOT_REGISTRY/subt-ugv-ppc
+    - docker tag subt/ugv:nuc $ROBOT_REGISTRY/subt-ugv-nuc
+    # pull the docker images from the laptop local registry
+    - docker push $ROBOT_REGISTRY/subt-ugv-ros
+    - docker push $ROBOT_REGISTRY/subt-ugv-ppc
+    - docker push $ROBOT_REGISTRY/subt-ugv-nuc
+    

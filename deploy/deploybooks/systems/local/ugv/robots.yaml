@@ -18,6 +18,6 @@
     - compose:
       - +extend: systems/local/ugv/vm/compose
     - catkin:
-      - +docker:ugv-sim-shell
+      - +docker:nuc-shell
       - +extend: systems/local/ugv/vm/catkin
 

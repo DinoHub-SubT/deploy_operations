@@ -51,13 +51,13 @@
   # push images to the local docker registry
   - push:
     # tag the docker images
-    - docker tag subt/ugv:ros localhost:5000/subt-ugv-ros
-    - docker tag subt/ugv:ppc localhost:5000/subt-ugv-ppc
-    - docker tag subt/ugv:nuc localhost:5000/subt-ugv-nuc
+    - docker tag subt/ugv:ros localhost:5010/subt-ugv-ros
+    - docker tag subt/ugv:ppc localhost:5010/subt-ugv-ppc
+    - docker tag subt/ugv:nuc localhost:5010/subt-ugv-nuc
     # push the docker images to the local registry
-    - docker push localhost:5000/subt-ugv-ros
-    - docker push localhost:5000/subt-ugv-ppc
-    - docker push localhost:5000/subt-ugv-nuc
+    - docker push localhost:5010/subt-ugv-ros
+    - docker push localhost:5010/subt-ugv-ppc
+    - docker push localhost:5010/subt-ugv-nuc
 
   # pull images from the docker registry
   - pull:

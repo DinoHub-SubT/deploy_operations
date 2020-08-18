@@ -26,7 +26,7 @@
         - cd ~/deploy_ws/src/common
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv
+        - catkin profile set ugv-nuc
         - catkin config
         - catkin build --force-cmake
 
