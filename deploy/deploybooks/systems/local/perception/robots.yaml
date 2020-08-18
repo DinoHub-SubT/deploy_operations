@@ -7,11 +7,11 @@
   - source operations/deploy/scenarios/systems/local/.local.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - perception1.cpu:
+  - perception.cpu:
   # ////////////////////////////////////////////////////////////////////////////
 
     # source the computer-level scenario file
-    - export filename=systems/local/perception1-cpu
+    - export filename=systems/local/perception-cpu
     - source operations/deploy/scenarios/$filename.env
     - export scenario=" --scenario $filename"
 
@@ -22,11 +22,11 @@
       - +extend: systems/local/perception/vm/catkin
 
   # ////////////////////////////////////////////////////////////////////////////
-  - perception1.gpu:
+  - perception.gpu:
   # ////////////////////////////////////////////////////////////////////////////
 
       # source the computer-level scenario file
-      - export filename=systems/local/perception1-gpu
+      - export filename=systems/local/perception-gpu
       - source operations/deploy/scenarios/$filename.env
       - export scenario=" --scenario $filename"
 
