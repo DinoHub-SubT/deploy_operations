@@ -11,6 +11,10 @@
   # @brief basestation general deployment
   - basestation:
   # ////////////////////////////////////////////////////////////////////////////
+
+    # azure registry
+    - +extend: systems/azure/basestation/vm/registry
+
     # source the computer-level scenario file
     - export filename=systems/azure/basestation-cpu
     - source operations/deploy/scenarios/$filename.env
