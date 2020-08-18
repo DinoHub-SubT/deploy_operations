@@ -1,0 +1,29 @@
+- docker:
+
+    # == docker registry ==
+
+    # push images to the local docker registry
+    - push:
+      # tag the docker images
+      - docker tag subt/basestation-cpu:ros $AZURE_REGISTRY/subt-basestation-cpu-ros
+      - docker tag subt/basestation-cpu:0.1 $AZURE_REGISTRY/subt-basestation-cpu-0.1
+      - docker tag subt/basestation-gpu:ros $AZURE_REGISTRY/subt-basestation-gpu-ros
+      - docker tag subt/basestation-gpu:0.1 $AZURE_REGISTRY/subt-basestation-gpu-0.1
+      # push the docker images to the local registry
+      - docker push $AZURE_REGISTRY/subt-basestation-cpu-ros
+      - docker push $AZURE_REGISTRY/subt-basestation-cpu-0.1
+      - docker push $AZURE_REGISTRY/subt-basestation-gpu-ros
+      - docker push $AZURE_REGISTRY/subt-basestation-gpu-0.1
+
+    # pull images from the docker registry
+    - pull:
+      # pull the docker images from the laptop local registry
+      - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
+      - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
+      - docker pull $AZURE_REGISTRY/subt-basestation-gpu-ros
+      - docker pull $AZURE_REGISTRY/subt-basestation-gpu-0.1
+      # tag the docker images
+      - docker tag $AZURE_REGISTRY/subt-basestation-cpu-ros subt/basestation-cpu:ros
+      - docker tag $AZURE_REGISTRY/subt-basestation-cpu-0.1 subt/basestation-cpu:0.1
+      - docker tag $AZURE_REGISTRY/subt-basestation-gpu-ros subt/basestation-gpu:ros
+      - docker tag $AZURE_REGISTRY/subt-basestation-gpu-0.1 subt/basestation-gpu:0.1

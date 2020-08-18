@@ -8,14 +8,8 @@
 
   - uav:
 
-    # temporary patch of thirdparty code
-    - patch:
-      # apply first patch
-      - cd $SUBT_PATH/uav/core/Firmware/
-      - git apply --reject $SUBT_PATH//uav/patch/patch1.patch
-      # apply second patch
-      - cd $SUBT_PATH/uav/core/Firmware/Tools/sitl_gazebo
-      - git apply --reject $SUBT_PATH/uav/patch/patch2.patch
+    # azure docker registry
+    - +extend: systems/azure/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav1:

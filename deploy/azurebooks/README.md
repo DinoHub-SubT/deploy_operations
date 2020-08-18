@@ -126,6 +126,11 @@ Your Tenant id is:
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
+**Azure Docker Registry Login**
+
+        # login to the subt docker registry
+        az acr login --name subtexplore
+
 **Setup the VPN certificates**
 
         # Install Dependency Libraries
