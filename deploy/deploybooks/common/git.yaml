@@ -57,17 +57,9 @@
       - git lfs install
 
     - operations:
-      - all:
-        - git submodule update --recursive --init operations
-        - cd operations
-        - git clean -d -f -f
       - docker:
         - git submodule update --recursive --init operations/deploy/docker
         - cd operations/deploy/docker
-        - git clean -d -f -f
-      - deployer:
-        - git submodule update --recursive --init operations/deploy/deployer
-        - cd operations/deploy/deployer
         - git clean -d -f -f
 
     - perception:
@@ -155,17 +147,9 @@
       - git lfs install
 
     - operations:
-      - all:
-        - cd operations
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
       - docker:
         - git submodule update --recursive --init operations/deploy/docker
         - cd operations/deploy/docker
-        - git clean -d -f -f
-      - deployer:
-        - git submodule update --recursive --init operations/deploy/deployer
-        - cd operations/deploy/deployer
         - git clean -d -f -f
 
     - perception:
@@ -241,12 +225,8 @@
       - git submodule update --init common
 
     - operations:
-      - all:
-        - git submodule update --init operations
       - docker:
         - git submodule update --init operations/deploy/docker
-      - deployer:
-        - git submodule update --init operations/deploy/deployer
 
     - perception:
       - git submodule update --init perception
@@ -293,12 +273,8 @@
       - git submodule deinit -f common
 
     - operations:
-      - all:
-        - git submodule deinit -f operations
       - docker:
         - git submodule deinit -f operations/deploy/docker
-      - deployer:
-        - git submodule deinit -f operations/deploy/deployer
 
     - perception:
       -  git submodule deinit -f perception
