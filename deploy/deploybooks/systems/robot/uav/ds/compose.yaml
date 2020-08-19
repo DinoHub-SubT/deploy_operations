@@ -33,14 +33,21 @@
 
   # pull images from the docker registry
   - pull:
-    # pull the docker images from the laptop local registry
-    - docker pull $BASESTATION_REGISTRY:5000/subt-uav-gpu-ros
-    - docker pull $BASESTATION_REGISTRY:5000/subt-uav-gpu-uav
-    - docker pull $BASESTATION_REGISTRY:5000/subt-uav-cpu-ros
-    - docker pull $BASESTATION_REGISTRY:5000/subt-uav-cpu-uav
-    # tag the docker images
-    - docker tag $BASESTATION_REGISTRY:5000/subt-uav-gpu-ros subt/uav-gpu:ros
-    - docker tag $BASESTATION_REGISTRY:5000/subt-uav-gpu-uav subt/uav-gpu:uav
-    - docker tag $BASESTATION_REGISTRY:5000/subt-uav-cpu-ros subt/uav-cpu:ros
-    - docker tag $BASESTATION_REGISTRY:5000/subt-uav-cpu-uav subt/uav-cpu:uav
+    # pull the uav docker images from the laptop local registry
+    - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-ros
+    - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-uav
+    - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-ros
+    - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-uav
+    # pull the perception docker images from the laptop local registry
+    - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-ros
+    - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+
+    # tag the uav docker images
+    - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
+    - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
+    - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
+    - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
+    # tag the perception docker images
+    - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
+    - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
 
