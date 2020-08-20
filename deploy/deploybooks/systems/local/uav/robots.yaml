@@ -23,8 +23,13 @@
     - compose:
       - +extend: systems/local/uav/vm/compose
     - catkin:
-      - +docker:uav-cpu-shell
-      - +extend: systems/local/uav/vm/catkin
+      - core:
+        - +docker:uav-cpu-shell
+        - +extend: systems/local/uav/vm/catkin-core
+      - perception:
+        - +docker:uav-perception-cpu-shell
+        - +extend: systems/local/uav/vm/catkin-perception
+
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav.gpu:
@@ -38,5 +43,10 @@
     - compose:
       - +extend: systems/local/uav/vm/compose
     - catkin:
-      - +docker:uav-gpu-shell
-      - +extend: systems/local/uav/vm/catkin
+      - core:
+        - +docker:uav-gpu-shell
+        - +extend: systems/local/uav/vm/catkin-core
+      - perception:
+        - +docker:uav-perception-gpu-shell
+        - +extend: systems/local/uav/vm/catkin-perception
+
