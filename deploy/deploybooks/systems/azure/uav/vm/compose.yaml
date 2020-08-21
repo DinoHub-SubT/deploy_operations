@@ -2,16 +2,18 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
-  # == creating docker images ==
+  # ////////////////////////////////////////////////////////////////////////////
   - image:
+  # ////////////////////////////////////////////////////////////////////////////
     - docker-compose-wrapper $scenario build --force-rm ros-image
     # temporary for now, move to 'simulation' docker image
     - docker-compose-wrapper $scenario build --force-rm uav-sim-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-  # == creating docker access containers ==
+  # ////////////////////////////////////////////////////////////////////////////
   - container:
+  # ////////////////////////////////////////////////////////////////////////////
     - shell:
       - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
     # == creating docker access containers ==
@@ -27,4 +29,8 @@
         - docker rm $(docker ps -a -q)
       - sim:
         - docker rm uav-sim-shell
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - registry:
+  # ////////////////////////////////////////////////////////////////////////////
 

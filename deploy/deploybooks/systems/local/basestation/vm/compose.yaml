@@ -2,15 +2,17 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
-  # == creating docker images ==
+  # ////////////////////////////////////////////////////////////////////////////
   - image:
+  # ////////////////////////////////////////////////////////////////////////////
     - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
     - docker-compose-wrapper $scenario build --force-rm basestation-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-  # == creating docker containers ==
+  # ////////////////////////////////////////////////////////////////////////////
   - container:
+  # ////////////////////////////////////////////////////////////////////////////
     # starting docker containers
     - shell:
       # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
@@ -24,30 +26,32 @@
       - all:
         - docker rm $(docker ps -a -q)
 
-  # == docker registry ==
+  # ////////////////////////////////////////////////////////////////////////////
+  - registry:
+  # ////////////////////////////////////////////////////////////////////////////
 
-  # push images to the local docker registry
-  - push:
-    # tag the docker images
-    - docker tag subt/basestation-cpu:ros localhost:5000/subt-basestation-cpu-ros
-    - docker tag subt/basestation-cpu:0.1 localhost:5000/subt-basestation-cpu-0.1
-    - docker tag subt/basestation-gpu:ros localhost:5000/subt-basestation-gpu-ros
-    - docker tag subt/basestation-gpu:0.1 localhost:5000/subt-basestation-gpu-0.1
-    # push the docker images to the local registry
-    - docker push localhost:5000/subt-basestation-cpu-ros
-    - docker push localhost:5000/subt-basestation-cpu-0.1
-    - docker push localhost:5000/subt-basestation-gpu-ros
-    - docker push localhost:5000/subt-basestation-gpu-0.1
+    # push images to the local docker registry
+    - push:
+      # tag the docker images
+      - docker tag subt/basestation-cpu:ros $BASESTATION_REGISTRY/subt-basestation-cpu-ros
+      - docker tag subt/basestation-cpu:0.1 $BASESTATION_REGISTRY/subt-basestation-cpu-0.1
+      - docker tag subt/basestation-gpu:ros $BASESTATION_REGISTRY/subt-basestation-gpu-ros
+      - docker tag subt/basestation-gpu:0.1 $BASESTATION_REGISTRY/subt-basestation-gpu-0.1
+      # push the docker images to the local registry
+      - docker push $BASESTATION_REGISTRY/subt-basestation-cpu-ros
+      - docker push $BASESTATION_REGISTRY/subt-basestation-cpu-0.1
+      - docker push $BASESTATION_REGISTRY/subt-basestation-gpu-ros
+      - docker push $BASESTATION_REGISTRY/subt-basestation-gpu-0.1
 
-  # pull images from the docker registry
-  - pull:
-    # pull the docker images from the laptop local registry
-    - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
-    - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
-    - docker pull $AZURE_REGISTRY/subt-basestation-gpu-ros
-    - docker pull $AZURE_REGISTRY/subt-basestation-gpu-0.1
-    # tag the docker images
-    - docker tag $AZURE_REGISTRY/subt-basestation-cpu-ros subt/basestation-cpu:ros
-    - docker tag $AZURE_REGISTRY/subt-basestation-cpu-0.1 subt/basestation-cpu:0.1
-    - docker tag $AZURE_REGISTRY/subt-basestation-gpu-ros subt/basestation-gpu:ros
-    - docker tag $AZURE_REGISTRY/subt-basestation-gpu-0.1 subt/basestation-gpu:0.1
+    # # pull images from the docker registry
+    # - pull:
+    #   # pull the docker images from the laptop local registry
+    #   - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
+    #   - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
+    #   - docker pull $AZURE_REGISTRY/subt-basestation-gpu-ros
+    #   - docker pull $AZURE_REGISTRY/subt-basestation-gpu-0.1
+    #   # tag the docker images
+    #   - docker tag $AZURE_REGISTRY/subt-basestation-cpu-ros subt/basestation-cpu:ros
+    #   - docker tag $AZURE_REGISTRY/subt-basestation-cpu-0.1 subt/basestation-cpu:0.1
+    #   - docker tag $AZURE_REGISTRY/subt-basestation-gpu-ros subt/basestation-gpu:ros
+    #   - docker tag $AZURE_REGISTRY/subt-basestation-gpu-0.1 subt/basestation-gpu:0.1
