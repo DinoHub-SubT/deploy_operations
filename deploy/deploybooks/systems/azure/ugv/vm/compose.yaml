@@ -2,8 +2,9 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
-  # == creating docker images ==
+  # ////////////////////////////////////////////////////////////////////////////
   - image:
+  # ////////////////////////////////////////////////////////////////////////////
     - ros:
       - docker-compose-wrapper $scenario build --force-rm ros-image
     - ppc:
@@ -15,8 +16,9 @@
     # ignore any build errors (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-  # == creating docker access containers ==
+  # ////////////////////////////////////////////////////////////////////////////
   - container:
+  # ////////////////////////////////////////////////////////////////////////////
     - shell:
       - ppc:
         - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
@@ -24,7 +26,6 @@
         - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
       - sim:
         - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ugv-sim-shell
-    # == creating docker access containers ==
     # stopping containers
     - stop:
       - all:
@@ -45,11 +46,3 @@
         - docker rm nuc-shell
       - sim:
         - docker rm sim-shell
-
-  # == creating docker run containers ==
-  - container.run:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-start up --force-recreate -d ugv-sim-commander-run
-  # any compose command -- user can add '-e arg="launch build-gui"' to specify command
-  - container.exec:
-    - docker-compose-wrapper $scenario -p ${deploybook_run}-run up --force-recreate -d ugv-sim-commander-run-any
-

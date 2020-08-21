@@ -2,29 +2,42 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
-  # push images to the azure docker registry
-  - push:
-    # tag the docker images
-    - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
-    - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
-    - docker tag subt/uav-cpu:ros $AZURE_REGISTRY/subt-uav-cpu-ros
-    - docker tag subt/uav-cpu:uav $AZURE_REGISTRY/subt-uav-cpu-uav
-    # push the docker images to the local registry
-    - docker push $AZURE_REGISTRY/subt-uav-gpu-ros
-    - docker push $AZURE_REGISTRY/subt-uav-gpu-uav
-    - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
-    - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
+  # ////////////////////////////////////////////////////////////////////////////
+  - registry:
+  # ////////////////////////////////////////////////////////////////////////////
 
-  # pull images from the azure docker registry
-  - pull:
-    # push the docker images to the local registry
-    - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
-    - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
-    - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
-    - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
-    # tag the docker images
-    - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-    - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-    - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-    - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
-    
+    # push images from the docker registry
+    - push:
+      # tag the docker images
+      - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
+      - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
+      - docker tag subt/uav-cpu:ros $AZURE_REGISTRY/subt-uav-cpu-ros
+      - docker tag subt/uav-cpu:uav $AZURE_REGISTRY/subt-uav-cpu-uav
+      # push the docker images from the laptop local registry
+      - docker push $AZURE_REGISTRY/subt-uav-gpu-ros
+      - docker push $AZURE_REGISTRY/subt-uav-gpu-uav
+      - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
+      - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
+      # remove the azure docker images
+      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-ros
+      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-uav
+      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-ros
+      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-uav
+
+    # pull images from the docker registry
+    - pull:
+      # pull the docker images from the laptop local registry
+      - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
+      - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
+      - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
+      - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
+      # tag the docker images
+      - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
+      - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
+      - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
+      - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
+      # remove the azure docker images
+      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-ros
+      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-uav
+      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-ros
+      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-uav

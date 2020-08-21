@@ -1,36 +1,56 @@
 # //////////////////////////////////////////////////////////////////////////
-# docker container interface to deployer commander run commands
-# //////////////////////////////////////////////////////////////////////////
 - docker:
-  # add '--force-rm '
+# //////////////////////////////////////////////////////////////////////////
+
+  # ////////////////////////////////////////////////////////////////////////////
   - image:
+  # ////////////////////////////////////////////////////////////////////////////
     - docker-compose-wrapper $scenario build ros-image
     - docker-compose-wrapper $scenario build ppc-image
-  - shell:
-    # - docker-compose-wrapper $scenario -p ros-shell up --force-recreate -d ros-shell
-    - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
 
-  # == docker registry ==
+  # ////////////////////////////////////////////////////////////////////////////
+  - container:
+  # ////////////////////////////////////////////////////////////////////////////
+    - shell:
+      # - docker-compose-wrapper $scenario -p ros-shell up --force-recreate -d ros-shell
+      - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
+    # stopping containers
+    - stop:
+      - docker stop $(docker ps -a -q)
+    # removing containers
+    - rm:
+      - docker rm $(docker ps -a -q)
 
-  # pull images from the docker registry
-  - pull:
-    # pull the docker images from the laptop local registry
-    - docker pull $BASESTATION_REGISTRY/subt-ugv-ros
-    - docker pull $BASESTATION_REGISTRY/subt-ugv-ppc
-    - docker pull $BASESTATION_REGISTRY/subt-ugv-nuc
-    # tag the docker images
-    - docker tag $BASESTATION_REGISTRY/subt-ugv-ros subt/ugv:ros
-    - docker tag $BASESTATION_REGISTRY/subt-ugv-ppc subt/ugv:ppc
-    - docker tag $BASESTATION_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+  # ////////////////////////////////////////////////////////////////////////////
+  - registry:
+  # ////////////////////////////////////////////////////////////////////////////
 
-  # pull images from the docker registry
-  - push:
-    # tag the docker images
-    - docker tag subt/ugv:ros $ROBOT_REGISTRY/subt-ugv-ros
-    - docker tag subt/ugv:ppc $ROBOT_REGISTRY/subt-ugv-ppc
-    - docker tag subt/ugv:nuc $ROBOT_REGISTRY/subt-ugv-nuc
-    # pull the docker images from the laptop local registry
-    - docker push $ROBOT_REGISTRY/subt-ugv-ros
-    - docker push $ROBOT_REGISTRY/subt-ugv-ppc
-    - docker push $ROBOT_REGISTRY/subt-ugv-nuc
-    
+    # pull images from the docker registry
+    - pull:
+      # pull the docker images from the laptop local registry
+      - docker pull $BASESTATION_REGISTRY/subt-ugv-ros
+      - docker pull $BASESTATION_REGISTRY/subt-ugv-ppc
+      - docker pull $BASESTATION_REGISTRY/subt-ugv-nuc
+      # tag the docker images
+      - docker tag $BASESTATION_REGISTRY/subt-ugv-ros subt/ugv:ros
+      - docker tag $BASESTATION_REGISTRY/subt-ugv-ppc subt/ugv:ppc
+      - docker tag $BASESTATION_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+      # remove the docker docker registry images
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-ros
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-ppc
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-nuc
+
+    # pull images from the docker registry
+    - push:
+      # tag the docker images
+      - docker tag subt/ugv:ros $ROBOT_REGISTRY/subt-ugv-ros
+      - docker tag subt/ugv:ppc $ROBOT_REGISTRY/subt-ugv-ppc
+      - docker tag subt/ugv:nuc $ROBOT_REGISTRY/subt-ugv-nuc
+      # pull the docker images from the laptop local registry
+      - docker push $ROBOT_REGISTRY/subt-ugv-ros
+      - docker push $ROBOT_REGISTRY/subt-ugv-ppc
+      - docker push $ROBOT_REGISTRY/subt-ugv-nuc
+      # remove the docker docker registry images
+      - docker rmi $ROBOT_REGISTRY/subt-ugv-ros
+      - docker rmi $ROBOT_REGISTRY/subt-ugv-ppc
+      - docker rmi $ROBOT_REGISTRY/subt-ugv-nuc

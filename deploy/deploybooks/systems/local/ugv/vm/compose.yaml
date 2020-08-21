@@ -26,7 +26,6 @@
         - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
       - sim:
         - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ugv-sim-shell
-    # == creating docker access containers ==
     # stopping containers
     - stop:
       - all:
@@ -61,14 +60,7 @@
       - docker push $BASESTATION_REGISTRY/subt-ugv-ros
       - docker push $BASESTATION_REGISTRY/subt-ugv-ppc
       - docker push $BASESTATION_REGISTRY/subt-ugv-nuc
-
-    # pull images from the docker registry
-    # - pull:
-    #   # pull the docker images from the laptop local registry
-    #   - docker pull $AZURE_REGISTRY/subt-ugv-ros
-    #   - docker pull $AZURE_REGISTRY/subt-ugv-ppc
-    #   - docker pull $AZURE_REGISTRY/subt-ugv-nuc
-    #   # tag the docker images
-    #   - docker tag $AZURE_REGISTRY/subt-ugv-ros subt/ugv:ros
-    #   - docker tag $AZURE_REGISTRY/subt-ugv-ppc subt/ugv:ppc
-    #   - docker tag $AZURE_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+      # remove the docker docker registry images
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-ros
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-ppc
+      - docker rmi $BASESTATION_REGISTRY/subt-ugv-nuc

@@ -19,25 +19,7 @@
       - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
     # stopping containers
     - stop:
-      - all:
-        - docker stop $(docker ps -a -q)
+      - docker stop $(docker ps -a -q)
     # removing containers
     - rm:
-      - all:
-        - docker rm $(docker ps -a -q)
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - registry:
-  # ////////////////////////////////////////////////////////////////////////////
-    # pull images from the docker registry
-    - pull:
-      # pull the docker images from the laptop local registry
-      - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
-      - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
-      - docker pull $AZURE_REGISTRY/subt-basestation-gpu-ros
-      - docker pull $AZURE_REGISTRY/subt-basestation-gpu-0.1
-      # tag the docker images
-      - docker tag $AZURE_REGISTRY/subt-basestation-cpu-ros subt/basestation-cpu:ros
-      - docker tag $AZURE_REGISTRY/subt-basestation-cpu-0.1 subt/basestation-cpu:0.1
-      - docker tag $AZURE_REGISTRY/subt-basestation-gpu-ros subt/basestation-gpu:ros
-      - docker tag $AZURE_REGISTRY/subt-basestation-gpu-0.1 subt/basestation-gpu:0.1
+      - docker rm $(docker ps -a -q)
