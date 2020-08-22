@@ -220,7 +220,7 @@ You should now have resources deployed on Azure and be able to connect to them.
 
 * * *
 
-## VPN Connection
+## VPN Connection (Reference)
 
 VPN connections is costly to keep up. So, please destroy the VPN when not using VMs and re-create when ready to connect to the VMs.
 
