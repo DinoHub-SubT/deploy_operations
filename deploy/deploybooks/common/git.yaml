@@ -39,178 +39,212 @@
 
   # ////////////////////////////////////////////////////////////////////////
   # clones the submodules to where the HEAD in the intermediate repo is set to.
-  - reset:
+  - clone:
   # ////////////////////////////////////////////////////////////////////////
-    - basestation:
-      - git submodule update --recursive --init basestation
-      - cd basestation
-      - git clean -d -f -f
+    - extras:
+      - uav:
+        - git submodule update --init uav
+        - cd uav
+        - git clean -d -f -f
+        - hardware:
+          - git submodule update --recursive --init hardware
+          - cd hardware
+          - git clean -d -f -f
+        - slam:
+          - git submodule update --recursive --init slam
+          - cd slam
+          - git clean -d -f -f
 
-    - common:
-      - git submodule update --recursive --init common
-      - cd common
-      - git clean -d -f -f
-      # git lfs steps
-      - cd communication_manager
-      - git lfs fetch
-      - git lfs pull
-      - git lfs install
+      - ugv:
+        - git submodule update --init ugv
+        - cd ugv
+        - git clean -d -f -f
+        - slam:
+          - devel:
+            - git submodule update --recursive --init slam/devel
+            - cd slam/devel
+            - git clean -d -f -f
+          - robot:
+            - git submodule update --recursive --init slam/robot
+            - cd slam/robot
+            - git clean -d -f -f
+        - hardware:
+          - git submodule update --recursive --init hardware
+          - cd hardware/
+          - git clean -d -f -f
 
-    - operations:
-      - docker:
-        - git submodule update --recursive --init operations/deploy/docker
-        - cd operations/deploy/docker
+    - base:
+      - basestation:
+        - git submodule update --recursive --init basestation
+        - cd basestation
         - git clean -d -f -f
 
-    - perception:
-      - git submodule update --recursive --init perception
-      - cd perception
-      - git clean -d -f -f
-      - cd object_detection
-      - git clean -d -f -f
-
-    - simulation:
-      - git submodule update --recursive --init simulation
-      - cd simulation
-      - git clean -d -f -f
-      # git lfs steps
-      - cd subt_gazebo
-      - git lfs fetch
-      - git lfs pull
-      - git lfs install
-
-    - subt_launch:
-      - git submodule update --recursive --init subt_launch
-      - cd subt_launch
-      - git clean -d -f -f
-
-    - ugv:
-      - git submodule update --init ugv
-      - cd ugv
-      - git clean -d -f -f
-      - ppc:
-        - git submodule update --recursive --init planning-pc/
-        - cd planning-pc/
+      - common:
+        - git submodule update --recursive --init common
+        - cd common
         - git clean -d -f -f
-      - nuc:
-        - git submodule update --recursive --init nuc/
-        - cd nuc/
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        # git lfs steps
+        - cd communication_manager
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
+      - operations:
+        - docker:
+          - git submodule update --recursive --init operations/deploy/docker
+          - cd operations/deploy/docker
+          - git clean -d -f -f
+
+      - perception:
+        - git submodule update --recursive --init perception
+        - cd perception
         - git clean -d -f -f
-      # - slam:
-      #   - dev:
-      #     - git submodule update --recursive --init slam/
-      #     - cd slam/
-      #     - git clean -d -f -f
-      #   - robot:
-      #     - echo "TODO"
-      - hardware:
-        - git submodule update --recursive --init hardware
-        - cd hardware/
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        - cd object_detection
         - git clean -d -f -f
 
-    - uav:
-      - git submodule update --init uav
-      - cd uav
-      - git clean -d -f -f
-      - core:
-        - git submodule update --recursive --init core
-        - cd core
+      - simulation:
+        - git submodule update --recursive --init simulation
+        - cd simulation
         - git clean -d -f -f
-      - hardware:
-        - git submodule update --recursive --init hardware
-        - cd hardware
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
+        # git lfs steps
+        - cd subt_gazebo
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
+      - subt_launch:
+        - git submodule update --recursive --init subt_launch
+        - cd subt_launch
         - git clean -d -f -f
-      - slam:
-        - git submodule update --recursive --init slam
-        - cd slam
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+
+      - uav:
+        - git submodule update --init uav
+        - cd uav
         - git clean -d -f -f
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        - core:
+          - git submodule update --recursive --init core
+          - cd core
+          - git clean -d -f -f
+
+      - ugv:
+        - git submodule update --init ugv
+        - cd ugv
+        - git clean -d -f -f
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        - ppc:
+          - git submodule update --recursive --init planning-pc/
+          - cd planning-pc/
+          - git clean -d -f -f
+        - nuc:
+          - git submodule update --recursive --init nuc/
+          - cd nuc/
+          - git clean -d -f -f
+
     # show the git status in the intermediate-repo
     - git status
 
   # ////////////////////////////////////////////////////////////////////////
   # clones the submodules to what the branch in the intermediate repo is set to.
-  - update:
+  - pull:
   # ////////////////////////////////////////////////////////////////////////
-    - basestation:
-      - cd basestation
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
+    - extras:
+      - uav:
+        - cd uav
+        - hardware:
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        - slam:
+          - cd slam
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
 
-    - common:
-      - cd common
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
-      # git lfs steps
-      - cd communication_manager
-      - git lfs fetch
-      - git lfs pull
-      - git lfs install
+      - ugv:
+        - cd ugv
+        - slam:
+          - devel:
+            - slam/devel
+            - git submodule update --init --recursive .
+            - git clean -d -f -f
+          - robot:
+            - slam/robot
+            - git submodule update --init --recursive .
+            - git clean -d -f -f
 
-    - operations:
-      - docker:
-        - git submodule update --recursive --init operations/deploy/docker
-        - cd operations/deploy/docker
+    - base:
+      - basestation:
+        - cd basestation
+        - git submodule update --recursive --init .
         - git clean -d -f -f
 
-    - perception:
-      - cd perception
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
-      - cd object_detection
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
-
-    - simulation:
-      - cd simulation
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
-      # git lfs steps
-      - cd subt_gazebo
-      - git lfs fetch
-      - git lfs pull
-      - git lfs install
-
-    - subt_launch:
-      - cd subt_launch
-      - git submodule update --recursive --init .
-      - git clean -d -f -f
-
-    - ugv:
-      - cd ugv
-      - ppc:
-        - cd planning-pc/
-        - git submodule update --init --recursive .
+      - common:
+        - cd common
+        - git submodule update --recursive --init .
         - git clean -d -f -f
-      - nuc:
-        - cd nuc
-        - git submodule update --init --recursive .
+        # git lfs steps
+        - cd communication_manager
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
+      - operations:
+        - docker:
+          - git submodule update --recursive --init operations/deploy/docker
+          - cd operations/deploy/docker
+          - git clean -d -f -f
+
+      - perception:
+        - cd perception
+        - git submodule update --recursive --init .
         - git clean -d -f -f
-      # - slam:
-      #   - dev:
-      #     - slam/
-      #     - git submodule update --init --recursive .
-      #     - git clean -d -f -f
-      #   - robot:
-      #     - echo "TODO"
-      - hardware:
-        - cd hardware
-        - git submodule update --init --recursive .
+        - cd object_detection
+        - git submodule update --recursive --init .
         - git clean -d -f -f
 
-    - uav:
-      - cd uav
-      - core:
-        - cd core
-        - git submodule update --init --recursive .
+      - simulation:
+        - cd simulation
+        - git submodule update --recursive --init .
         - git clean -d -f -f
-      - hardware:
-        - cd hardware
-        - git submodule update --init --recursive .
+        # git lfs steps
+        - cd subt_gazebo
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
+      - subt_launch:
+        - cd subt_launch
+        - git submodule update --recursive --init .
         - git clean -d -f -f
-      - slam:
-        - cd slam
-        - git submodule update --init --recursive .
-        - git clean -d -f -f
+
+      - ugv:
+        - cd ugv
+        - ppc:
+          - cd planning-pc/
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        - nuc:
+          - cd nuc
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+
+      - uav:
+        - cd uav
+        - core:
+          - cd core
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
 
     # show the git status in the intermediate-repo
     - git status
@@ -244,11 +278,11 @@
         - git submodule update --init planning-pc/
       - nuc:
         - git submodule update --init nuc/
-      # - slam:
-      #   - dev:
-      #     - git submodule update --init slam/
-      #   - robot:
-      #     - echo "TODO"
+      - slam:
+        - devel:
+          - git submodule update --init slam/devel
+        - robot:
+          - git submodule update --init slam/robot
       - hardware:
         - git submodule update --init hardware
 
@@ -263,50 +297,55 @@
         - git submodule update --init slam
 
   # //////////////////////////////////////////////////////////////////////////////
-  - deinit:
+  - rm:
   # //////////////////////////////////////////////////////////////////////////////
+    - extras:
+      - uav:
+        - cd uav
+        - hardware:
+          -  git submodule deinit -f hardware
+        - slam:
+          -  git submodule deinit -f slam
+      - ugv:
+        - slam:
+          - devel:
+            - git submodule deinit -f slam/devel
+          - robot:
+            - git submodule deinit -f slam/robot
+        - hardware:
+          -  git submodule deinit -f hardware
 
-    - basestation:
-      - git submodule deinit -f basestation
+    - base:
+      - basestation:
+        - git submodule deinit -f basestation
 
-    - common:
-      - git submodule deinit -f common
+      - common:
+        - git submodule deinit -f common
 
-    - operations:
-      - docker:
-        - git submodule deinit -f operations/deploy/docker
+      - operations:
+        - docker:
+          - git submodule deinit -f operations/deploy/docker
 
-    - perception:
-      -  git submodule deinit -f perception
+      - perception:
+        -  git submodule deinit -f perception
 
-    - simulation:
-      -  git submodule deinit -f simulation
+      - simulation:
+        -  git submodule deinit -f simulation
 
-    - subt_launch:
-      -  git submodule deinit -f subt_launch
+      - subt_launch:
+        -  git submodule deinit -f subt_launch
 
-    - ugv:
-      - cd ugv
-      - ppc:
-        - git submodule deinit -f planning-pc
-      - nuc:
-        - git submodule deinit -f nuc
-      # - slam:
-      #   - dev:
-      #     - git submodule deinit -f slam
-      #   - robot:
-      #     - echo "TODO"
-      - hardware:
-        -  git submodule deinit -f hardware
+      - uav:
+        - cd uav
+        - core:
+          - git submodule deinit -f core
 
-    - uav:
-      - cd uav
-      - core:
-        - git submodule deinit -f core
-      - hardware:
-        -  git submodule deinit -f hardware
-      - slam:
-        -  git submodule deinit -f slam
+      - ugv:
+        - cd ugv
+        - ppc:
+          - git submodule deinit -f planning-pc
+        - nuc:
+          - git submodule deinit -f nuc
 
   # //////////////////////////////////////////////////////////////////////////////
   - branch:
@@ -355,37 +394,3 @@
       - git clean -d -f -f
       - git status
 
-# //////////////////////////////////////////////////////////////////////////////
-- ignore:
-# //////////////////////////////////////////////////////////////////////////////
-
-  - common:
-    - cd common
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-
-  - basestation:
-    - cd basestation
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-
-  - perception:
-    - cd perception
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-
-  - simulation:
-    - cd perception
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-    - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
-
-  - subt_launch:
-    - cd subt_launch
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-    - git update-index --assume-unchanged .catkin_tools/profiles/perception-arm/config.yaml
-    - git update-index --assume-unchanged .catkin_tools/profiles/uav-simulation/config.yaml
-
-  - ugv:
-    - cd ugv
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-
-  - uav:
-    - cd uav
-    - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml

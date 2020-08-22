@@ -39,7 +39,6 @@
     - vm:
       - git:
         - +ssh:{ azure.basestation }
-        - +extend: common/git
       - compose:
         - +ssh:{ azure.basestation }
         - +extend: systems/azure/basestation/vm/compose
@@ -61,7 +60,6 @@
     - vm:
       - git:
         - +ssh:{ azure.basestation }
-        - +extend: common/git
       - compose:
         - +ssh:{ azure.basestation }
         - +extend: systems/azure/basestation/vm/compose
