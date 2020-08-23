@@ -5,9 +5,14 @@
   # ////////////////////////////////////////////////////////////////////////////
   - image:
   # ////////////////////////////////////////////////////////////////////////////
-    - docker-compose-wrapper $scenario build --force-rm ros-image
-    # temporary for now, move to 'simulation' docker image
-    - docker-compose-wrapper $scenario build --force-rm uav-sim-image
+    # build the cpu docker uav images
+    - docker-compose-wrapper $scenario build --force-rm ros-cpu-image
+    - docker-compose-wrapper $scenario build --force-rm uav-cpu-image
+    # build the gpu docker uav images
+    - docker-compose-wrapper $scenario build --force-rm ros-gpu-image
+    - docker-compose-wrapper $scenario build --force-rm uav-gpu-image
+    # - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    # - docker-compose-wrapper $scenario build --force-rm uav-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
@@ -15,7 +20,7 @@
   - container:
   # ////////////////////////////////////////////////////////////////////////////
     - shell:
-      - docker-compose-wrapper $scenario -p uav-sim-shell up --force-recreate -d uav-sim-shell
+      - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
     # stopping containers
     - stop:
       - docker stop $(docker ps -a -q)

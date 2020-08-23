@@ -20,4 +20,4 @@
     - catkin:
       - +docker:ugv-sim-shell
       - +extend: systems/local/ugv/vm/catkin
-
+    - +extend: systems/local/ugv/vm/registry

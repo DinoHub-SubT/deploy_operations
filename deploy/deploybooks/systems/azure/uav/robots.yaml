@@ -6,11 +6,6 @@
   - source operations/deploy/scenarios/.base.env
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
-  - uav:
-
-    # azure docker registry
-    - +extend: systems/azure/uav/vm/registry
-
   # ////////////////////////////////////////////////////////////////////////////
   - uav1:
   # ////////////////////////////////////////////////////////////////////////////
@@ -33,6 +28,9 @@
       - teamviewer:
         - +ssh:{ azure.uav1 }
         - sudo teamviewer info | grep " ID:"
+      - registry:
+        - export DOCKER_CONTEXT=azure-uav1
+        - +extend: systems/azure/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav2:
@@ -56,7 +54,9 @@
       - teamviewer:
         - +ssh:{ azure.uav2 }
         - sudo teamviewer info | grep " ID:"
-
+      - registry:
+        - export DOCKER_CONTEXT=azure-uav2
+        - +extend: systems/azure/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav3:
@@ -80,7 +80,9 @@
       - teamviewer:
         - +ssh:{ azure.uav3 }
         - sudo teamviewer info | grep " ID:"
-
+      - registry:
+        - export DOCKER_CONTEXT=azure-uav3
+        - +extend: systems/azure/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - uav4:
@@ -104,3 +106,6 @@
       - teamviewer:
         - +ssh:{ azure.uav4 }
         - sudo teamviewer info | grep " ID:"
+      - registry:
+        - export DOCKER_CONTEXT=azure-uav4
+        - +extend: systems/azure/uav/vm/registry

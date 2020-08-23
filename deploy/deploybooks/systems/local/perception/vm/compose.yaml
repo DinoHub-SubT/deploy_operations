@@ -2,16 +2,17 @@
 - docker:
 # //////////////////////////////////////////////////////////////////////////
 
-  # == creating docker images ==
+  # ////////////////////////////////////////////////////////////////////////////
   - image:
+  # ////////////////////////////////////////////////////////////////////////////
     - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
     - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
-
-  # == creating docker containers ==
+  # ////////////////////////////////////////////////////////////////////////////
   - container:
+  # ////////////////////////////////////////////////////////////////////////////
     - shell:
       - docker-compose-wrapper $scenario -p perception-$deploy_system_type-shell up --force-recreate -d perception-$deploy_system_type-shell
     # stopping containers
@@ -22,26 +23,3 @@
     - rm:
       - all:
         - docker rm $(docker ps -a -q)
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - registry:
-  # ////////////////////////////////////////////////////////////////////////////
-
-    # push images to the local docker registry
-    - push:
-      # tag the docker images
-      - docker tag subt/perception-cpu:ros $BASESTATION_REGISTRY/subt-perception-cpu-ros
-      - docker tag subt/perception-cpu:0.1 $BASESTATION_REGISTRY/subt-perception-cpu-0.1
-      - docker tag subt/perception-gpu:ros $BASESTATION_REGISTRY/subt-perception-gpu-ros
-      - docker tag subt/perception-gpu:0.1 $BASESTATION_REGISTRY/subt-perception-gpu-0.1
-      # push the docker images to the local registry
-      - docker push $BASESTATION_REGISTRY/subt-perception-cpu-ros
-      - docker push $BASESTATION_REGISTRY/subt-perception-cpu-0.1
-      - docker push $BASESTATION_REGISTRY/subt-perception-gpu-ros
-      - docker push $BASESTATION_REGISTRY/subt-perception-gpu-0.1
-      # remove the docker docker registry images
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-ros
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-0.1
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-gpu-ros
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-gpu-0.1
-

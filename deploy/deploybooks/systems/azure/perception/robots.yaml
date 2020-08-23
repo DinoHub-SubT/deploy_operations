@@ -27,6 +27,9 @@
       - teamviewer:
         - +ssh:{ azure.perception1 }
         - sudo teamviewer info | grep " ID:"
+        - registry:
+          - export DOCKER_CONTEXT=azure-perception1
+          - +extend: systems/azure/ugv/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - perception1.cpu:

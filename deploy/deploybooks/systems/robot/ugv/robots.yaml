@@ -29,6 +29,9 @@
         - +ssh:{ ugv1.ppc }
         - +docker:ppc-shell
         - +extend: systems/robot/ugv/ppc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv1-ppc
+        - +extend: systems/robot/ugv/vm/ppc/registry
 
     - nuc:
       # source the computer-level scenario file
@@ -45,6 +48,9 @@
       - catkin:
         - +ssh:{ ugv1.nuc }
         - +extend: systems/robot/ugv/nuc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv1-nuc
+        - +extend: systems/robot/ugv/vm/nuc/registry
 
     - xavier:
       # source the computer-level scenario file
@@ -62,6 +68,9 @@
       - compose:
         - +ssh:{ ugv1.xavier }
         - +extend: systems/robot/ugv/xavier/compose
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv1-xavier
+        - +extend: systems/robot/ugv/vm/xavier/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - ugv2:
@@ -86,6 +95,9 @@
         - +ssh:{ ugv2.ppc }
         - +docker:ppc-shell
         - +extend: systems/robot/ugv/ppc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv2-ppc
+        - +extend: systems/robot/ugv/vm/ppc/registry
 
     - nuc:
       # source the computer-level scenario file
@@ -102,6 +114,9 @@
       - catkin:
         - +ssh:{ ugv2.nuc }
         - +extend: systems/robot/ugv/nuc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv2-nuc
+        - +extend: systems/robot/ugv/vm/nuc/registry
 
     - xavier:
       # source the computer-level scenario file
@@ -119,6 +134,9 @@
       - compose:
         - +ssh:{ ugv2.xavier }
         - +extend: systems/robot/ugv/xavier/compose
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv2-xavier
+        - +extend: systems/robot/ugv/vm/xavier/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - ugv3:
@@ -143,6 +161,9 @@
         - +ssh:{ ugv3.ppc }
         - +docker:ppc-shell
         - +extend: systems/robot/ugv/ppc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv3-ppc
+        - +extend: systems/robot/ugv/vm/ppc/registry
 
     - nuc:
       # source the computer-level scenario file
@@ -159,6 +180,9 @@
       - catkin:
         - +ssh:{ ugv3.nuc }
         - +extend: systems/robot/ugv/nuc/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv3-nuc
+        - +extend: systems/robot/ugv/vm/nuc/registry
 
     - xavier:
       # source the computer-level scenario file
@@ -176,3 +200,6 @@
       - compose:
         - +ssh:{ ugv3.xavier }
         - +extend: systems/robot/ugv/xavier/compose
+      - registry:
+        - export DOCKER_CONTEXT=robot-ugv3-xavier
+        - +extend: systems/robot/ugv/vm/xavier/registry

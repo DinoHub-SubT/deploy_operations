@@ -24,6 +24,9 @@
       - catkin:
         # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ds1
+        - +extend: systems/robot/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds2:
@@ -43,6 +46,9 @@
       - catkin:
         # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ds2
+        - +extend: systems/robot/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds3:
@@ -62,6 +68,9 @@
       - catkin:
         # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ds3
+        - +extend: systems/robot/uav/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   - ds4:
@@ -81,3 +90,6 @@
       - catkin:
         # - +docker:uav-cpu-shell
         - +extend: systems/robot/uav/ds/catkin
+      - registry:
+        - export DOCKER_CONTEXT=robot-ds4
+        - +extend: systems/robot/uav/vm/registry

@@ -34,16 +34,3 @@
     # removing containers
     - rm:
       - docker rm -f $(docker ps -a -q)
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - registry:
-  # ////////////////////////////////////////////////////////////////////////////
-
-    # pull images from the docker registry
-    - pull:
-      # pull the docker images from the laptop local registry
-      - docker pull $BASESTATION_REGISTRY/subt-perception-arm:0.1
-      # tag the docker images
-      - docker tag $BASESTATION_REGISTRY/subt-perception-arm:0.1 subt/perception-arm:0.1
-      # remove the docker registry images
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-arm:0.1
