@@ -175,11 +175,11 @@
         - cd ugv
         - slam:
           - devel:
-            - slam/devel
+            - cd slam/devel
             - git submodule update --init --recursive .
             - git clean -d -f -f
           - robot:
-            - slam/robot
+            - cd slam/robot
             - git submodule update --init --recursive .
             - git clean -d -f -f
 
