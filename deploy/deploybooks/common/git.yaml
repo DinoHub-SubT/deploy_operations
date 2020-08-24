@@ -42,6 +42,19 @@
   - clone:
   # ////////////////////////////////////////////////////////////////////////
     - extras:
+      - simulation:
+        - git submodule update --recursive --init simulation
+        - cd simulation
+        - git clean -d -f -f
+        # ignore the catkin profiles
+        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+        - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
+        # git lfs steps
+        - cd subt_gazebo
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
       - uav:
         - git submodule update --init uav
         - cd uav
@@ -106,19 +119,6 @@
         - cd object_detection
         - git clean -d -f -f
 
-      - simulation:
-        - git submodule update --recursive --init simulation
-        - cd simulation
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
-        # git lfs steps
-        - cd subt_gazebo
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
-
       - subt_launch:
         - git submodule update --recursive --init subt_launch
         - cd subt_launch
@@ -160,6 +160,16 @@
   - pull:
   # ////////////////////////////////////////////////////////////////////////
     - extras:
+      - simulation:
+        - cd simulation
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # git lfs steps
+        - cd subt_gazebo
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+
       - uav:
         - cd uav
         - hardware:
@@ -173,6 +183,10 @@
 
       - ugv:
         - cd ugv
+        - hardware:
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
         - slam:
           - devel:
             - cd slam/devel
@@ -213,16 +227,6 @@
         - git submodule update --recursive --init .
         - git clean -d -f -f
 
-      - simulation:
-        - cd simulation
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        # git lfs steps
-        - cd subt_gazebo
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
-
       - subt_launch:
         - cd subt_launch
         - git submodule update --recursive --init .
@@ -248,6 +252,162 @@
 
     # show the git status in the intermediate-repo
     - git status
+
+  # //////////////////////////////////////////////////////////////////////////////
+  - reset:
+  # //////////////////////////////////////////////////////////////////////////////
+    - extras:
+      - simulation:
+        # remove
+        - git submodule deinit -f simulation
+        # re-clone
+        - cd simulation
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # git lfs steps
+        - cd subt_gazebo
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+        # prompt git status
+        - git status
+
+      - uav:
+        - cd uav
+        - hardware:
+          # remove
+          - git submodule deinit -f hardware
+          # re-clone
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        - slam:
+          # remove
+          - git submodule deinit -f slam
+          # re-clone
+          - cd slam
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        # prompt git status
+        - git status
+
+      - ugv:
+        - cd ugv
+        - slam:
+          - devel:
+            # reset
+            - git submodule deinit -f slam/devel
+            # re-clone
+            - cd slam/devel
+            - git submodule update --init --recursive .
+            - git clean -d -f -f
+          - robot:
+            # reset
+            - git submodule deinit -f slam/robot
+            # re-clone
+            - cd slam/robot
+            - git submodule update --init --recursive .
+            - git clean -d -f -f
+        - hardware:
+          # remove
+          - git submodule deinit -f hardware
+          # re-clone
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        # prompt git status
+        - git status
+
+    - base:
+      - basestation:
+        # remove
+        - git submodule deinit -f basestation
+        # re-clone
+        - cd basestation
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # prompt git status
+        - git status
+
+      - common:
+        # remove
+        - git submodule deinit -f common
+        # re-clone
+        - cd common
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # git lfs steps
+        - cd communication_manager
+        - git lfs fetch
+        - git lfs pull
+        - git lfs install
+        # prompt git status
+        - git status
+
+      - operations:
+        - docker:
+          # remove
+          - git submodule deinit -f operations/deploy/docker
+          # re-clone
+          - git submodule update --recursive --init operations/deploy/docker
+          - cd operations/deploy/docker
+          - git clean -d -f -f
+          # prompt git status
+          - git status
+
+      - perception:
+        # remove
+        - git submodule deinit -f perception
+        # re-clone
+        - cd perception
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        - cd object_detection
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # prompt git status
+        - git status
+
+      - subt_launch:
+        # remove
+        - git submodule deinit -f subt_launch
+        # re-clone
+        - cd subt_launch
+        - git submodule update --recursive --init .
+        - git clean -d -f -f
+        # prompt git status
+        - git status
+
+      - ugv:
+        - cd ugv
+        - ppc:
+          # remove
+          - git submodule deinit -f planning-pc
+          # re-clone
+          - cd planning-pc/
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        - nuc:
+          # remove
+          - git submodule deinit -f nuc
+          # re-clone
+          - cd nuc
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        # prompt git status
+        - git status
+
+      - uav:
+        - cd uav
+        - core:
+          # remove
+          - git submodule deinit -f core
+          # re-clone
+          - cd core
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+        # prompt git status
+        - git status
 
   # ////////////////////////////////////////////////////////////////////////
   - init:
@@ -300,6 +460,8 @@
   - rm:
   # //////////////////////////////////////////////////////////////////////////////
     - extras:
+      - simulation:
+        -  git submodule deinit -f simulation
       - uav:
         - cd uav
         - hardware:
@@ -328,9 +490,6 @@
 
       - perception:
         -  git submodule deinit -f perception
-
-      - simulation:
-        -  git submodule deinit -f simulation
 
       - subt_launch:
         -  git submodule deinit -f subt_launch
