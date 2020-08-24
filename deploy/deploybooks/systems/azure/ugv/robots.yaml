@@ -53,7 +53,7 @@
           - +docker:ugv-sim-shell
           - +extend: systems/azure/ugv/vm/catkin
         - registry:
-          - export DOCKER_CONTEXT=azure-ugv1
+          - export DOCKER_CONTEXT=azure-ugv2
           - +extend: systems/azure/ugv/vm/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -76,5 +76,5 @@
           - +docker:ugv-sim-shell
           - +extend: systems/azure/ugv/vm/catkin
         - registry:
-          - export DOCKER_CONTEXT=azure-ugv1
+          - export DOCKER_CONTEXT=azure-ugv3
           - +extend: systems/azure/ugv/vm/registry
