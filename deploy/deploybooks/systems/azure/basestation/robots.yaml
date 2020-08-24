@@ -12,9 +12,6 @@
   - basestation:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # azure registry
-    - +extend: systems/azure/basestation/vm/registry
-
     # source the computer-level scenario file
     - export filename=systems/azure/basestation-cpu
     - source operations/deploy/scenarios/$filename.env
@@ -25,6 +22,9 @@
       - teamviewer:
         - +ssh:{ azure.basestation }
         - sudo teamviewer info | grep " ID:"
+      - registry:
+        - export DOCKER_CONTEXT=azure-basestation
+        - +extend: systems/azure/basestation/vm/registry
 
   # ////////////////////////////////////////////////////////////////////////////
   # @brief basestation GUI deployment

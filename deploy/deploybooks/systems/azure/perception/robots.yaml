@@ -10,51 +10,31 @@
   # @brief perception1 general deployment
   - perception:
   # ////////////////////////////////////////////////////////////////////////////
-    # azure registry
-    - +extend: systems/azure/perception/vm/registry
 
-  # ////////////////////////////////////////////////////////////////////////////
-  # @brief perception1 general deployment
-  - perception1:
-  # ////////////////////////////////////////////////////////////////////////////
-    # source the computer-level scenario file
-    - export filename=systems/azure/perception1-cpu
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - teamviewer:
-        - +ssh:{ azure.perception1 }
-        - sudo teamviewer info | grep " ID:"
-        - registry:
-          - export DOCKER_CONTEXT=azure-perception1
-          - +extend: systems/azure/ugv/vm/registry
+    # ////////////////////////////////////////////////////////////////////////////
+    # @brief perception1 general deployment
+    - perception1:
+    # ////////////////////////////////////////////////////////////////////////////
+      # source the computer-level scenario file
+      - export filename=systems/azure/perception1-cpu
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - teamviewer:
+          - +ssh:{ azure.perception1 }
+          - sudo teamviewer info | grep " ID:"
+          - registry:
+            - export DOCKER_CONTEXT=azure-perception1
+            - +extend: systems/azure/perception/vm/registry
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - perception1.cpu:
-  # ////////////////////////////////////////////////////////////////////////////
-
-    # source the computer-level scenario file
-    - export filename=systems/azure/perception1-cpu
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
-
-    - vm:
-      - compose:
-        - +ssh:{ azure.perception1 }
-        - +extend: systems/azure/perception/vm/compose
-      - catkin:
-        - +ssh:{ azure.perception1 }
-        - +docker:perception-cpu-shell
-        - +extend: systems/azure/perception/vm/catkin
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - perception1.gpu:
-  # ////////////////////////////////////////////////////////////////////////////
+    # ////////////////////////////////////////////////////////////////////////////
+    - perception1.cpu:
+    # ////////////////////////////////////////////////////////////////////////////
 
       # source the computer-level scenario file
-      - export filename=systems/azure/perception1-gpu
+      - export filename=systems/azure/perception1-cpu
       - source operations/deploy/scenarios/$filename.env
       - export scenario=" --scenario $filename"
 
@@ -64,6 +44,24 @@
           - +extend: systems/azure/perception/vm/compose
         - catkin:
           - +ssh:{ azure.perception1 }
-          - +docker:perception-gpu-shell
+          - +docker:perception-cpu-shell
           - +extend: systems/azure/perception/vm/catkin
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - perception1.gpu:
+    # ////////////////////////////////////////////////////////////////////////////
+
+        # source the computer-level scenario file
+        - export filename=systems/azure/perception1-gpu
+        - source operations/deploy/scenarios/$filename.env
+        - export scenario=" --scenario $filename"
+
+        - vm:
+          - compose:
+            - +ssh:{ azure.perception1 }
+            - +extend: systems/azure/perception/vm/compose
+          - catkin:
+            - +ssh:{ azure.perception1 }
+            - +docker:perception-gpu-shell
+            - +extend: systems/azure/perception/vm/catkin
 

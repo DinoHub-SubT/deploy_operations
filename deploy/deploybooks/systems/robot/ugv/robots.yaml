@@ -7,199 +7,203 @@
   - source operations/deploy/scenarios/systems/robot/.robot.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - ugv1:
+  - ugv:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # //////////////////////////////////////////////////////////////////////////
-    # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
-    # //////////////////////////////////////////////////////////////////////////
-    - ppc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-ppc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv1:
+    # ////////////////////////////////////////////////////////////////////////////
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv1.ppc }
-        - +extend: systems/robot/ugv/ppc/compose
-      - catkin:
-        - +ssh:{ ugv1.ppc }
-        - +docker:ppc-shell
-        - +extend: systems/robot/ugv/ppc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv1-ppc
-        - +extend: systems/robot/ugv/ppc/registry
+      # //////////////////////////////////////////////////////////////////////////
+      # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
+      # //////////////////////////////////////////////////////////////////////////
+      - ppc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv1-ppc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - nuc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-nuc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv1.ppc }
+          - +extend: systems/robot/ugv/ppc/compose
+        - catkin:
+          - +ssh:{ ugv1.ppc }
+          - +docker:ppc-shell
+          - +extend: systems/robot/ugv/ppc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv1-ppc
+          - +extend: systems/robot/ugv/ppc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv1.nuc }
-        - +extend: systems/robot/ugv/nuc/compose
-      - catkin:
-        - +ssh:{ ugv1.nuc }
-        - +extend: systems/robot/ugv/nuc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv1-nuc
-        - +extend: systems/robot/ugv/nuc/registry
+      - nuc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv1-nuc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - xavier:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv1-xavier
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv1.nuc }
+          - +extend: systems/robot/ugv/nuc/compose
+        - catkin:
+          - +ssh:{ ugv1.nuc }
+          - +extend: systems/robot/ugv/nuc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv1-nuc
+          - +extend: systems/robot/ugv/nuc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - catkin:
-        - +ssh:{ ugv1.xavier }
-        - +docker:perception-arm-shell
-        - +extend: systems/robot/ugv/xavier/catkin
-      - compose:
-        - +ssh:{ ugv1.xavier }
-        - +extend: systems/robot/ugv/xavier/compose
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv1-xavier
-        - +extend: systems/robot/ugv/xavier/registry
+      - xavier:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv1-xavier
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ugv2:
-  # ////////////////////////////////////////////////////////////////////////////
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - catkin:
+          - +ssh:{ ugv1.xavier }
+          - +docker:perception-arm-shell
+          - +extend: systems/robot/ugv/xavier/catkin
+        - compose:
+          - +ssh:{ ugv1.xavier }
+          - +extend: systems/robot/ugv/xavier/compose
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv1-xavier
+          - +extend: systems/robot/ugv/xavier/registry
 
-    # //////////////////////////////////////////////////////////////////////////
-    # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
-    # //////////////////////////////////////////////////////////////////////////
-    - ppc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv2-ppc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv2:
+    # ////////////////////////////////////////////////////////////////////////////
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv2.ppc }
-        - +extend: systems/robot/ugv/ppc/compose
-      - catkin:
-        - +ssh:{ ugv2.ppc }
-        - +docker:ppc-shell
-        - +extend: systems/robot/ugv/ppc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv2-ppc
-        - +extend: systems/robot/ugv/ppc/registry
+      # //////////////////////////////////////////////////////////////////////////
+      # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
+      # //////////////////////////////////////////////////////////////////////////
+      - ppc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv2-ppc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - nuc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv2-nuc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv2.ppc }
+          - +extend: systems/robot/ugv/ppc/compose
+        - catkin:
+          - +ssh:{ ugv2.ppc }
+          - +docker:ppc-shell
+          - +extend: systems/robot/ugv/ppc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv2-ppc
+          - +extend: systems/robot/ugv/ppc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv2.nuc }
-        - +extend: systems/robot/ugv/nuc/compose
-      - catkin:
-        - +ssh:{ ugv2.nuc }
-        - +extend: systems/robot/ugv/nuc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv2-nuc
-        - +extend: systems/robot/ugv/nuc/registry
+      - nuc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv2-nuc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - xavier:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv2-xavier
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv2.nuc }
+          - +extend: systems/robot/ugv/nuc/compose
+        - catkin:
+          - +ssh:{ ugv2.nuc }
+          - +extend: systems/robot/ugv/nuc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv2-nuc
+          - +extend: systems/robot/ugv/nuc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - catkin:
-        - +ssh:{ ugv2.xavier }
-        - +docker:perception-arm-shell
-        - +extend: systems/robot/ugv/xavier/catkin
-      - compose:
-        - +ssh:{ ugv2.xavier }
-        - +extend: systems/robot/ugv/xavier/compose
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv2-xavier
-        - +extend: systems/robot/ugv/xavier/registry
+      - xavier:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv2-xavier
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ugv3:
-  # ////////////////////////////////////////////////////////////////////////////
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - catkin:
+          - +ssh:{ ugv2.xavier }
+          - +docker:perception-arm-shell
+          - +extend: systems/robot/ugv/xavier/catkin
+        - compose:
+          - +ssh:{ ugv2.xavier }
+          - +extend: systems/robot/ugv/xavier/compose
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv2-xavier
+          - +extend: systems/robot/ugv/xavier/registry
 
-    # //////////////////////////////////////////////////////////////////////////
-    # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
-    # //////////////////////////////////////////////////////////////////////////
-    - ppc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv3-ppc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv3:
+    # ////////////////////////////////////////////////////////////////////////////
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv3.ppc }
-        - +extend: systems/robot/ugv/ppc/compose
-      - catkin:
-        - +ssh:{ ugv3.ppc }
-        - +docker:ppc-shell
-        - +extend: systems/robot/ugv/ppc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv3-ppc
-        - +extend: systems/robot/ugv/ppc/registry
+      # //////////////////////////////////////////////////////////////////////////
+      # tasks (transfer, compose, catkin) tasks for computers: ppc, nuc, xavier
+      # //////////////////////////////////////////////////////////////////////////
+      - ppc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv3-ppc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - nuc:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv3-nuc
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv3.ppc }
+          - +extend: systems/robot/ugv/ppc/compose
+        - catkin:
+          - +ssh:{ ugv3.ppc }
+          - +docker:ppc-shell
+          - +extend: systems/robot/ugv/ppc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv3-ppc
+          - +extend: systems/robot/ugv/ppc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ ugv3.nuc }
-        - +extend: systems/robot/ugv/nuc/compose
-      - catkin:
-        - +ssh:{ ugv3.nuc }
-        - +extend: systems/robot/ugv/nuc/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv3-nuc
-        - +extend: systems/robot/ugv/nuc/registry
+      - nuc:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv3-nuc
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
 
-    - xavier:
-      # source the computer-level scenario file
-      - export filename=systems/robot/ugv3-xavier
-      - source operations/deploy/scenarios/$filename.env
-      - 'export scenario=" --scenario $filename"'
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ ugv3.nuc }
+          - +extend: systems/robot/ugv/nuc/compose
+        - catkin:
+          - +ssh:{ ugv3.nuc }
+          - +extend: systems/robot/ugv/nuc/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv3-nuc
+          - +extend: systems/robot/ugv/nuc/registry
 
-      # extend
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - catkin:
-        - +ssh:{ ugv3.xavier }
-        - +docker:perception-arm-shell
-        - +extend: systems/robot/ugv/xavier/catkin
-      - compose:
-        - +ssh:{ ugv3.xavier }
-        - +extend: systems/robot/ugv/xavier/compose
-      - registry:
-        - export DOCKER_CONTEXT=robot-ugv3-xavier
-        - +extend: systems/robot/ugv/xavier/registry
+      - xavier:
+        # source the computer-level scenario file
+        - export filename=systems/robot/ugv3-xavier
+        - source operations/deploy/scenarios/$filename.env
+        - 'export scenario=" --scenario $filename"'
+
+        # extend
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - catkin:
+          - +ssh:{ ugv3.xavier }
+          - +docker:perception-arm-shell
+          - +extend: systems/robot/ugv/xavier/catkin
+        - compose:
+          - +ssh:{ ugv3.xavier }
+          - +extend: systems/robot/ugv/xavier/compose
+        - registry:
+          - export DOCKER_CONTEXT=robot-ugv3-xavier
+          - +extend: systems/robot/ugv/xavier/registry

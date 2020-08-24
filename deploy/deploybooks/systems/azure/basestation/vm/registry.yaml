@@ -9,7 +9,7 @@
     # push images to the local docker registry
     - push:
       # change the docker context to the basestation azure docker daemon
-      - docker context use azure-basestation
+      - docker context use $DOCKER_CONTEXT
       # tag the docker images
       - docker tag subt/basestation-cpu:ros $AZURE_REGISTRY/subt-basestation-cpu-ros
       - docker tag subt/basestation-cpu:0.1 $AZURE_REGISTRY/subt-basestation-cpu-0.1
@@ -17,15 +17,14 @@
       - docker push $AZURE_REGISTRY/subt-basestation-cpu-ros
       - docker push $AZURE_REGISTRY/subt-basestation-cpu-0.1
       # remove the azure docker images
-      - docker rmi $AZURE_REGISTRY/subt-basestation-cpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-basestation-cpu-0.1
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # change the docker context back to the default docker daemon
       - docker context use default
 
     # pull images from the docker registry
     - pull:
       # change the docker context to the basestation azure docker daemon
-      - docker context use azure-basestation
+      - docker context use $DOCKER_CONTEXT
       # pull the docker images from the laptop local registry
       - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
       - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
@@ -33,8 +32,7 @@
       - docker tag $AZURE_REGISTRY/subt-basestation-cpu-ros subt/basestation-cpu:ros
       - docker tag $AZURE_REGISTRY/subt-basestation-cpu-0.1 subt/basestation-cpu:0.1
       # remove the azure docker images
-      - docker rmi $AZURE_REGISTRY/subt-basestation-cpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-basestation-cpu-0.1
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # show & clean the docker images
       - docker images
       # change the docker context back to the default docker daemon

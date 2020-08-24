@@ -7,89 +7,93 @@
   - source operations/deploy/scenarios/systems/robot/.robot.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - ds1:
+  - ds:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # source the computer-level scenario file
-    - export filename=systems/robot/uav1
-    - source operations/deploy/scenarios/$filename.env
-    - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ds1:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    # extend
-    - +extend: common/transfer
-    - ds:
-      - +ssh:{ uav.ds1 }
-      - compose:
-        - +extend: systems/robot/uav/ds/compose
-      - catkin:
-        # - +docker:uav-cpu-shell
-        - +extend: systems/robot/uav/ds/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ds1
-        - +extend: systems/robot/uav/ds/registry
+      # source the computer-level scenario file
+      - export filename=systems/robot/uav1
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ds2:
-  # ////////////////////////////////////////////////////////////////////////////
+      # extend
+      - +extend: common/transfer
+      - ds:
+        - +ssh:{ uav.ds1 }
+        - compose:
+          - +extend: systems/robot/uav/ds/compose
+        - catkin:
+          # - +docker:uav-cpu-shell
+          - +extend: systems/robot/uav/ds/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ds1
+          - +extend: systems/robot/uav/ds/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/robot/uav2
-    - source operations/deploy/scenarios/$filename.env
-    - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ds2:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    # extend
-    - +extend: common/transfer
-    - ds:
-      - +ssh:{ uav.ds2 }
-      - compose:
-        - +extend: systems/robot/uav/ds/compose
-      - catkin:
-        # - +docker:uav-cpu-shell
-        - +extend: systems/robot/uav/ds/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ds2
-        - +extend: systems/robot/uav/ds/registry
+      # source the computer-level scenario file
+      - export filename=systems/robot/uav2
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ds3:
-  # ////////////////////////////////////////////////////////////////////////////
+      # extend
+      - +extend: common/transfer
+      - ds:
+        - +ssh:{ uav.ds2 }
+        - compose:
+          - +extend: systems/robot/uav/ds/compose
+        - catkin:
+          # - +docker:uav-cpu-shell
+          - +extend: systems/robot/uav/ds/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ds2
+          - +extend: systems/robot/uav/ds/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/robot/uav3
-    - source operations/deploy/scenarios/$filename.env
-    - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ds3:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    # extend
-    - +extend: common/transfer
-    - ds:
-      - +ssh:{ uav.ds3 }
-      - compose:
-        - +extend: systems/robot/uav/ds/compose
-      - catkin:
-        # - +docker:uav-cpu-shell
-        - +extend: systems/robot/uav/ds/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ds3
-        - +extend: systems/robot/uav/ds/registry
+      # source the computer-level scenario file
+      - export filename=systems/robot/uav3
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ds4:
-  # ////////////////////////////////////////////////////////////////////////////
+      # extend
+      - +extend: common/transfer
+      - ds:
+        - +ssh:{ uav.ds3 }
+        - compose:
+          - +extend: systems/robot/uav/ds/compose
+        - catkin:
+          # - +docker:uav-cpu-shell
+          - +extend: systems/robot/uav/ds/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ds3
+          - +extend: systems/robot/uav/ds/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/robot/uav4
-    - source operations/deploy/scenarios/$filename.env
-    - 'export scenario=" --scenario $filename"'
+    # ////////////////////////////////////////////////////////////////////////////
+    - ds4:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    # extend
-    - +extend: common/transfer
-    - ds:
-      - +ssh:{ uav.ds4 }
-      - compose:
-        - +extend: systems/robot/uav/ds/compose
-      - catkin:
-        # - +docker:uav-cpu-shell
-        - +extend: systems/robot/uav/ds/catkin
-      - registry:
-        - export DOCKER_CONTEXT=robot-ds4
-        - +extend: systems/robot/uav/ds/registry
+      # source the computer-level scenario file
+      - export filename=systems/robot/uav4
+      - source operations/deploy/scenarios/$filename.env
+      - 'export scenario=" --scenario $filename"'
+
+      # extend
+      - +extend: common/transfer
+      - ds:
+        - +ssh:{ uav.ds4 }
+        - compose:
+          - +extend: systems/robot/uav/ds/compose
+        - catkin:
+          # - +docker:uav-cpu-shell
+          - +extend: systems/robot/uav/ds/catkin
+        - registry:
+          - export DOCKER_CONTEXT=robot-ds4
+          - +extend: systems/robot/uav/ds/registry

@@ -7,70 +7,74 @@
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - ugv1:
+  - ugv:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/ugv1
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv1:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.ugv1 }
-        - +extend: systems/azure/ugv/vm/compose
-      - catkin:
-        - +ssh:{ azure.ugv1 }
-        - +docker:ugv-sim-shell
-        - +extend: systems/azure/ugv/vm/catkin
-      - registry:
-        - export DOCKER_CONTEXT=azure-ugv1
-        - +extend: systems/azure/ugv/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/ugv1
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ugv2:
-  # ////////////////////////////////////////////////////////////////////////////
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.ugv1 }
+          - +extend: systems/azure/ugv/vm/compose
+        - catkin:
+          - +ssh:{ azure.ugv1 }
+          - +docker:ugv-sim-shell
+          - +extend: systems/azure/ugv/vm/catkin
+        - registry:
+          - export DOCKER_CONTEXT=azure-ugv1
+          - +extend: systems/azure/ugv/vm/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/ugv2
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv2:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.ugv2 }
-        - +extend: systems/azure/ugv/vm/compose
-      - catkin:
-        - +ssh:{ azure.ugv2 }
-        - +docker:ugv-sim-shell
-        - +extend: systems/azure/ugv/vm/catkin
-      - registry:
-        - export DOCKER_CONTEXT=azure-ugv1
-        - +extend: systems/azure/ugv/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/ugv2
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - ugv3:
-  # ////////////////////////////////////////////////////////////////////////////
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.ugv2 }
+          - +extend: systems/azure/ugv/vm/compose
+        - catkin:
+          - +ssh:{ azure.ugv2 }
+          - +docker:ugv-sim-shell
+          - +extend: systems/azure/ugv/vm/catkin
+        - registry:
+          - export DOCKER_CONTEXT=azure-ugv1
+          - +extend: systems/azure/ugv/vm/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/ugv3
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv3:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.ugv3 }
-        - +extend: systems/azure/ugv/vm/compose
-      - catkin:
-        - +ssh:{ azure.ugv3 }
-        - +docker:ugv-sim-shell
-        - +extend: systems/azure/ugv/vm/catkin
-      - registry:
-        - export DOCKER_CONTEXT=azure-ugv1
-        - +extend: systems/azure/ugv/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/ugv3
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.ugv3 }
+          - +extend: systems/azure/ugv/vm/compose
+        - catkin:
+          - +ssh:{ azure.ugv3 }
+          - +docker:ugv-sim-shell
+          - +extend: systems/azure/ugv/vm/catkin
+        - registry:
+          - export DOCKER_CONTEXT=azure-ugv1
+          - +extend: systems/azure/ugv/vm/registry

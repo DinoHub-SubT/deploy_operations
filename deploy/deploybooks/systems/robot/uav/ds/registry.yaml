@@ -32,14 +32,8 @@
         - docker tag $AZURE_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
         - docker tag $AZURE_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
 
-        # remove the uav docker docker registry images
-        - docker rmi $AZURE_REGISTRY/subt-uav-gpu-ros
-        - docker rmi $AZURE_REGISTRY/subt-uav-gpu-uav
-        - docker rmi $AZURE_REGISTRY/subt-uav-cpu-ros
-        - docker rmi $AZURE_REGISTRY/subt-uav-cpu-uav
-        # remove the perception docker docker registry images
-        - docker rmi $AZURE_REGISTRY/subt-perception-cpu-ros
-        - docker rmi $AZURE_REGISTRY/subt-perception-cpu-0.1
+        # remove the azure docker images
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
         # show the docker images
         - docker images
         # change the docker context back to the default docker daemon
@@ -80,24 +74,13 @@
         - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
         - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
 
-        # remove the uav docker docker registry images
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-uav
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-uav
-        # remove the perception docker docker registry images
-        - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+        # remove the basestation docker images
+        - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+
         # show the docker images
         - docker images
         # change the docker context back to the default docker daemon
         - docker context use default
 
-        # remove the docker images on the basestation registry
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-uav
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-uav
-        # remove the perception docker docker registry images
-        - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-ros
-        - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+        # remove the basestation docker images
+        - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)

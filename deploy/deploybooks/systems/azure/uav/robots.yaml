@@ -7,105 +7,109 @@
   - source operations/deploy/scenarios/systems/azure/.azure.env
 
   # ////////////////////////////////////////////////////////////////////////////
-  - uav1:
+  - uav:
   # ////////////////////////////////////////////////////////////////////////////
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/uav1
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - uav1:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.uav1 }
-        - +extend: systems/azure/uav/vm/compose
-      - catkin:
-        - +ssh:{ azure.uav1 }
-        - +docker:uav-sim-shell
-        - +extend: systems/azure/uav/vm/catkin
-      - teamviewer:
-        - +ssh:{ azure.uav1 }
-        - sudo teamviewer info | grep " ID:"
-      - registry:
-        - export DOCKER_CONTEXT=azure-uav1
-        - +extend: systems/azure/uav/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/uav1
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - uav2:
-  # ////////////////////////////////////////////////////////////////////////////
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.uav1 }
+          - +extend: systems/azure/uav/vm/compose
+        - catkin:
+          - +ssh:{ azure.uav1 }
+          - +docker:uav-sim-shell
+          - +extend: systems/azure/uav/vm/catkin
+        - teamviewer:
+          - +ssh:{ azure.uav1 }
+          - sudo teamviewer info | grep " ID:"
+        - registry:
+          - export DOCKER_CONTEXT=azure-uav1
+          - +extend: systems/azure/uav/vm/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/uav2
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - uav2:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.uav2 }
-        - +extend: systems/azure/uav/vm/compose
-      - catkin:
-        - +ssh:{ azure.uav2 }
-        - +docker:uav-sim-shell
-        - +extend: systems/azure/uav/vm/catkin
-      - teamviewer:
-        - +ssh:{ azure.uav2 }
-        - sudo teamviewer info | grep " ID:"
-      - registry:
-        - export DOCKER_CONTEXT=azure-uav2
-        - +extend: systems/azure/uav/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/uav2
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - uav3:
-  # ////////////////////////////////////////////////////////////////////////////
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.uav2 }
+          - +extend: systems/azure/uav/vm/compose
+        - catkin:
+          - +ssh:{ azure.uav2 }
+          - +docker:uav-sim-shell
+          - +extend: systems/azure/uav/vm/catkin
+        - teamviewer:
+          - +ssh:{ azure.uav2 }
+          - sudo teamviewer info | grep " ID:"
+        - registry:
+          - export DOCKER_CONTEXT=azure-uav2
+          - +extend: systems/azure/uav/vm/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/uav3
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - uav3:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.uav3 }
-        - +extend: systems/azure/uav/vm/compose
-      - catkin:
-        - +ssh:{ azure.uav3 }
-        - +docker:uav-sim-shell
-        - +extend: systems/azure/uav/vm/catkin
-      - teamviewer:
-        - +ssh:{ azure.uav3 }
-        - sudo teamviewer info | grep " ID:"
-      - registry:
-        - export DOCKER_CONTEXT=azure-uav3
-        - +extend: systems/azure/uav/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/uav3
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - uav4:
-  # ////////////////////////////////////////////////////////////////////////////
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.uav3 }
+          - +extend: systems/azure/uav/vm/compose
+        - catkin:
+          - +ssh:{ azure.uav3 }
+          - +docker:uav-sim-shell
+          - +extend: systems/azure/uav/vm/catkin
+        - teamviewer:
+          - +ssh:{ azure.uav3 }
+          - sudo teamviewer info | grep " ID:"
+        - registry:
+          - export DOCKER_CONTEXT=azure-uav3
+          - +extend: systems/azure/uav/vm/registry
 
-    # source the computer-level scenario file
-    - export filename=systems/azure/uav4
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
+    # ////////////////////////////////////////////////////////////////////////////
+    - uav4:
+    # ////////////////////////////////////////////////////////////////////////////
 
-    - vm:
-      - +extend: common/transfer
-      - +extend: common/skel_t
-      - compose:
-        - +ssh:{ azure.uav4 }
-        - +extend: systems/azure/uav/vm/compose
-      - catkin:
-        - +ssh:{ azure.uav4 }
-        - +docker:uav-sim-shell
-        - +extend: systems/azure/uav/vm/catkin
-      - teamviewer:
-        - +ssh:{ azure.uav4 }
-        - sudo teamviewer info | grep " ID:"
-      - registry:
-        - export DOCKER_CONTEXT=azure-uav4
-        - +extend: systems/azure/uav/vm/registry
+      # source the computer-level scenario file
+      - export filename=systems/azure/uav4
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - vm:
+        - +extend: common/transfer
+        - +extend: common/skel_t
+        - compose:
+          - +ssh:{ azure.uav4 }
+          - +extend: systems/azure/uav/vm/compose
+        - catkin:
+          - +ssh:{ azure.uav4 }
+          - +docker:uav-sim-shell
+          - +extend: systems/azure/uav/vm/catkin
+        - teamviewer:
+          - +ssh:{ azure.uav4 }
+          - sudo teamviewer info | grep " ID:"
+        - registry:
+          - export DOCKER_CONTEXT=azure-uav4
+          - +extend: systems/azure/uav/vm/registry

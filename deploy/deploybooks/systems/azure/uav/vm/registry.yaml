@@ -21,10 +21,7 @@
       - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
       - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
       # remove the azure docker images
-      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-uav
-      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-uav
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # change the docker context back to the default docker daemon
       - docker context use default
 
@@ -43,10 +40,7 @@
       - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
       - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
       # remove the azure docker images
-      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-uav-gpu-uav
-      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-ros
-      - docker rmi $AZURE_REGISTRY/subt-uav-cpu-uav
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # show the docker images
       - docker images
       # change the docker context back to the default docker daemon
