@@ -22,14 +22,14 @@
       # extend
       - +extend: common/transfer
       - ds:
-        - +ssh:{ uav.ds1 }
         - compose:
+          - +ssh:{ uav.ds1 }
           - +extend: systems/robot/uav/ds/compose
         - catkin:
-          # - +docker:uav-cpu-shell
+          - +ssh:{ uav.ds1 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-ds1
+          - export DOCKER_CONTEXT=robot-uav-ds1
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -44,14 +44,15 @@
       # extend
       - +extend: common/transfer
       - ds:
-        - +ssh:{ uav.ds2 }
         - compose:
+          - +ssh:{ uav.ds2 }
           - +extend: systems/robot/uav/ds/compose
         - catkin:
           # - +docker:uav-cpu-shell
+          -  +ssh:{ uav.ds2 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-ds2
+          - export DOCKER_CONTEXT=robot-uav-ds2
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -66,14 +67,15 @@
       # extend
       - +extend: common/transfer
       - ds:
-        - +ssh:{ uav.ds3 }
         - compose:
+          - +ssh:{ uav.ds3 }
           - +extend: systems/robot/uav/ds/compose
         - catkin:
           # - +docker:uav-cpu-shell
+          - +ssh:{ uav.ds3 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-ds3
+          - export DOCKER_CONTEXT=robot-uav-ds3
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -88,12 +90,12 @@
       # extend
       - +extend: common/transfer
       - ds:
-        - +ssh:{ uav.ds4 }
         - compose:
+          - +ssh:{ uav.ds4 }
           - +extend: systems/robot/uav/ds/compose
         - catkin:
-          # - +docker:uav-cpu-shell
+          - +ssh:{ uav.ds4 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-ds4
+          - export DOCKER_CONTEXT=robot-uav-ds4
           - +extend: systems/robot/uav/ds/registry
