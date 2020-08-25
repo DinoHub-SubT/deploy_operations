@@ -1,0 +1,7 @@
+{% for connection in ssh_config.azure.hosts %}
+Host {{ connection.host }}
+  Hostname {{ connection.hostname }}
+  User {{ connection.username }}
+  IdentitiesOnly yes
+  IdentityFile {{ connection.identity_file }}
+{% endfor %}

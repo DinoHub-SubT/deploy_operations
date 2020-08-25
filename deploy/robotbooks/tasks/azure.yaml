@@ -70,6 +70,40 @@
         msg: "Azure CLI Version: {{az_version_out.stdout}}"
 
     # ////////////////////////////////////////////////////////////////////////
+    # Azcopy
+    # ////////////////////////////////////////////////////////////////////////
+    - name: Download AzCopy
+      shell:
+        cmd: wget -O azcopy_v10.tar.gz https://aka.ms/downloadazcopy-v10-linux && tar -xf azcopy_v10.tar.gz --strip-components=1
+        chdir: /tmp/
+
+    - name: Remove any previous azcopy versions
+      become: true
+      file:
+        path: /usr/bin/azcopy
+        state: absent
+
+    - name: Move azcopy to bin path
+      become: true
+      shell: cp /tmp/azcopy /usr/bin/
+
+    - name: Add execution permissions
+      become: true
+      shell: chmod +x /usr/bin/azcopy
+
+    - name: Remove downloaded azcopy.gz
+      become: true
+      file:
+        path: /tmp/azcopy_v10.tar.gz
+        state: absent
+
+    - name: Remove downloaded azcopy
+      become: true
+      file:
+        path: /tmp/azcopy
+        state: absent
+
+    # ////////////////////////////////////////////////////////////////////////
     # Terraform Tool
     # ////////////////////////////////////////////////////////////////////////
     - name: Update apt packages

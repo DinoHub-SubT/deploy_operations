@@ -35,6 +35,17 @@ prereq_packages:
   - zsh
   - lm-sensors
   - tmuxp
+  # azure vpn
+  - strongswan
+  - strongswan-pki
+  - libstrongswan-extra-plugins
+  - network-manager-strongswan
+  # azure rdp
+  - rdesktop
+  # azure cli
+  - ca-certificates
+  - curl
+  - gnupg
 
 # Prerequisites Ubuntu Packages
 pip_packages:

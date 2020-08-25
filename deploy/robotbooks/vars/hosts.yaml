@@ -1,0 +1,251 @@
+
+# //////////////////////////////////////////////////////////////////////////////
+# updating /etc/hosts on basestation and local laptop
+# //////////////////////////////////////////////////////////////////////////////
+etc_hosts:
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # laptop <-> azure
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    # Basestation
+    - ip: 10.3.1.1
+      name: azure-basestation
+
+    # UGVs
+    - ip: 10.3.1.11
+      name: azure-ugv1
+    - ip: 10.3.1.12
+      name: azure-ugv2
+    - ip: 10.3.1.13
+      name: azure-ugv3
+
+    # perception
+    - ip: 10.3.1.14
+      name: azure-perception1
+
+    # UAVs
+    - ip: 10.3.1.51
+      name: azure-uav1
+    - ip: 10.3.1.52
+      name: azure-uav2
+    - ip: 10.3.1.53
+      name: azure-uav3
+    - ip: 10.3.1.54
+      name: azure-uav4
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # basestation <-> robot
+  # ////////////////////////////////////////////////////////////////////////////
+  robot:
+    # Basestation
+    - ip: 10.3.1.1
+      name: system76-pc
+
+    # UGVs
+    - ip: 10.3.1.11
+      name: ugv1
+    - ip: 10.3.1.12
+      name: ugv2
+    - ip: 10.3.1.13
+      name: ugv3
+
+    # UAVs
+    - ip: 10.3.1.51
+      name: ds1
+    - ip: 10.3.1.52
+      name: ds2
+    - ip: 10.3.1.53
+      name: ds3
+    - ip: 10.3.1.54
+      name: ds4
+
+# //////////////////////////////////////////////////////////////////////////////
+# updating ~/.ssh/config on basestation and local laptop
+# //////////////////////////////////////////////////////////////////////////////
+ssh_config:
+  # ////////////////////////////////////////////////////////////////////////////
+  # laptop <-> azure
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    hosts:
+      - host: azure.basestation
+        hostname: azure-basestation
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.ugv1
+        hostname: azure-ugv1
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.ugv2
+        hostname: azure-ugv2
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.ugv3
+        hostname: azure-ugv3
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.uav1
+        hostname: azure-uav1
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.uav2
+        hostname: azure-uav2
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+      - host: azure.uav3
+        hostname: azure-uav3
+        username: subt
+        identity_file: ~/.ssh/azure_vpn
+  # ////////////////////////////////////////////////////////////////////////////
+  # basestation <-> robot
+  # ////////////////////////////////////////////////////////////////////////////
+  robot:
+    hosts:
+      # UGV1
+      - host: ugv1.ppc
+        hostname: ugv1
+        username: explorer
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: ugv1.nuc
+        hostname: nuc
+        username: nuc
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv1.ppc
+
+      - host: ugv1.xavier
+        hostname: xavier
+        username: nvidia
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv1.ppc
+
+      # UGV2
+      - host: ugv2.ppc
+        hostname: ugv2
+        username: explorer
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: ugv2.nuc
+        hostname: nuc
+        username: nuc
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv2.ppc
+
+      - host: ugv2.xavier
+        hostname: xavier
+        username: nvidia
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv2.ppc
+
+      # UGV3
+      - host: ugv3.ppc
+        hostname: ugv3
+        username: explorer
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: ugv3.nuc
+        hostname: nuc
+        username: nuc
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv3.ppc
+
+      - host: ugv3.xavier
+        hostname: xavier
+        username: nvidia
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: true
+        proxy_jump: ugv3.ppc
+
+# //////////////////////////////////////////////////////////////////////////////
+# updating docker context
+# //////////////////////////////////////////////////////////////////////////////
+docker_context:
+  # ////////////////////////////////////////////////////////////////////////////
+  # localhost <-> azure
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    # Basestation
+    - host: azure-basestation
+      conn: azure.basestation
+      desc: azure basestation
+    # UGVs
+    - host: azure-ugv1
+      conn: azure.ugv1
+      desc: azure ugv1
+    - host: azure-ugv2
+      conn: azure.ugv2
+      desc: azure ugv2
+    - host: azure-ugv3
+      conn: azure.ugv3
+      desc: azure ugv3
+    # UAVs
+    - host: azure-uav1
+      conn: azure.uav1
+      desc: azure uav1
+    - host: azure-uav2
+      conn: azure.uav2
+      desc: azure uav2
+    - host: azure-uav3
+      conn: azure.uav3
+      desc: azure uav3
+    - host: azure-uav4
+      conn: azure.uav4
+      desc: azure uav4
+  # ////////////////////////////////////////////////////////////////////////////
+  # basestation <-> robot
+  # ////////////////////////////////////////////////////////////////////////////
+  robots:
+    # UGVs
+    # UGV1
+    - host: robot-ugv1-ppc
+      conn: ugv1.ppc
+      desc: ugv1 ppc
+    - host: robot-ugv1-nuc
+      conn: ugv1.nuc
+      desc: ugv1 nuc
+    - host: robot-ugv1-xavier
+      conn: ugv1.xavier
+      desc: ugv1 xavier
+    # UGV2
+    - host: robot-ugv2-ppc
+      conn: ugv2.ppc
+      desc: ugv2 ppc
+    - host: robot-ugv2-nuc
+      conn: ugv2.nuc
+      desc: ugv2 nuc
+    - host: robot-ugv2-xavier
+      conn: ugv2.xavier
+      desc: ugv2 xavier
+    # UGV3
+    - host: robot-ugv3-ppc
+      conn: ugv3.ppc
+      desc: ugv3 ppc
+    - host: robot-ugv3-nuc
+      conn: ugv3.nuc
+      desc: ugv3 nuc
+    - host: robot-ugv3-xavier
+      conn: ugv3.xavier
+      desc: ugv3 xavier
+    # UAVs
+    - host: robot-uav-ds1
+      conn: uav.ds1
+      desc: uav ds1
+    - host: robot-uav-ds2
+      conn: uav.ds2
+      desc: uav ds2
+    - host: robot-uav-ds3
+      conn: uav.ds3
+      desc: uav ds3
+    - host: robot-uav-ds4
+      conn: uav.ds4
+      desc: uav ds4
+

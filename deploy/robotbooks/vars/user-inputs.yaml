@@ -7,12 +7,15 @@
 
 # enable if you wish to install nvidia-docker on your localhost
 # - this 'flag' allows for the 'nvidia-docker' install
-localhost_nvidia_docker: false
+install_nvidia_docker: false
 
 # enable if you wish to install ROS [melodic] on your localhost
-localhost_ros: true
+install_ros: false
 
-# default user & password of ansible script install host
+# enable if you wish to install teamviewer
+install_teamviewer: false
+
+# default user & password for remote server login
 # -- remember to change, depending on which host you are installing on
 default_user:
   name: subt

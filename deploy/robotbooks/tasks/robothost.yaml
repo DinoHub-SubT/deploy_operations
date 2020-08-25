@@ -8,6 +8,7 @@
   vars_files:
     - ../vars/main.yaml
     - ../vars/user-inputs.yaml
+    - ../vars/hosts.yaml
 
   # setup hosts to run commands as
   hosts:
@@ -46,10 +47,10 @@
         update_cache: yes   # force apt-get update
 
     # note: can output segmentation fault.
-    - name: install python prerequisite packages
-      pip:
-        name: "{{ pip_packages }}"
-        extra_args: --user
+    # - name: install python prerequisite packages
+    #   pip:
+    #     name: "{{ pip_packages }}"
+    #     extra_args: --user
 
     # ////////////////////////////////////////////////////////////////////////
     # Install Remote Desktop
@@ -179,3 +180,94 @@
       when: >
         copy_git_config and
         not ("localhost" in inventory_hostname)
+
+    # ////////////////////////////////////////////////////////////////////////
+    # /etc/hosts
+    # ////////////////////////////////////////////////////////////////////////
+    - name: remove any previous azure hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ etc_hosts.azure }} "
+
+    - name: remove any previous basestation robot hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ etc_hosts.robot }} "
+
+    - name: update azure /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ etc_hosts.azure }} "
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: update basestation /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ etc_hosts.robot }} "
+      when: >
+        "basestation" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # ~/.ssh/config
+    # ////////////////////////////////////////////////////////////////////////
+    - name: Create ~/.ssh/subt.d directory
+      file:
+        path: ~/.ssh/subt.d
+        state: directory
+
+    - name: Create the Jinja2 based template
+      template:
+        src: ../templates/azure_ssh_config.j2
+        dest: ~/.ssh/subt.d/azure.conf
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: Create the Jinja2 based template
+      template:
+        src: ../templates/robot_ssh_config.j2
+        dest: ~/.ssh/subt.d/robot.conf
+      when: >
+        "localhost" in inventory_hostname
+
+    # add subt.d/ to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/ to ~/.ssh/config
+      shell: grep -c "^Include subt.d/* " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: Include subt.d/*
+        insertbefore: BOF
+      when: test_grep.stdout == "0"
+
+    # add '### SubT ###' to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/ to ~/.ssh/config
+      shell: grep -c "^'\#\#\# SubT \#\#\#' " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: "### SubT ###"
+        insertbefore: BOF
+      when: test_grep.stdout == "0"

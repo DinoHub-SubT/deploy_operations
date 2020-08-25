@@ -1,0 +1,12 @@
+{% for connection in ssh_config.robot.hosts %}
+Host {{ connection.host }}
+    Hostname {{ connection.hostname }}
+    User {{ connection.username }}
+    StrictHostKeyChecking no
+    IdentitiesOnly yes
+    IdentityFile {{ connection.identity_file }}
+  {% if connection.has_proxy_jump == true %}
+  ProxyJump {{ connection.proxy_jump }}
+  {% endif %}
+
+{% endfor %}

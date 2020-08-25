@@ -34,12 +34,12 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
-      when: localhost_ros
+      when: install_ros
 
     - command: lsb_release -sc
       register: ubuntu_distro
     - debug: msg="ubuntu distro is {{ubuntu_distro.stdout}}"
-      when: localhost_ros
+      when: install_ros
 
     # - name: set up your keys
     #   apt_repository:
@@ -47,17 +47,17 @@
     #     state: present
     #     filename: ros-latest
     #   become: true
-    #   when: localhost_ros
+    #   when: install_ros
 
     - name: set up your keys
       shell: echo "deb http://packages.ros.org/ros/ubuntu {{ubuntu_distro.stdout}} main" > /etc/apt/sources.list.d/ros-latest.list
       become: true
-      when: localhost_ros
+      when: install_ros
 
     - name: setup apt keys
       shell: "apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key {{ ros.melodic.key }}"
       become: true
-      when: localhost_ros
+      when: install_ros
 
     - name: update apt packages
       become: true
@@ -66,7 +66,7 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
-      when: localhost_ros
+      when: install_ros
 
     - name: install ros prerequisite packages
       become: true
@@ -77,14 +77,14 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
-      when: localhost_ros
+      when: install_ros
 
     - name: installation ros {{ ros.version }}
       apt:
         name: "ros-{{ ros.version }}-desktop-full"
         update_cache: yes
       become: true
-      when: localhost_ros
+      when: install_ros
 
     - name: install ros extra packages
       become: true
@@ -95,7 +95,7 @@
         force_apt_get: yes
         install_recommends: yes
         update_cache: yes   # force apt-get update
-      when: localhost_ros
+      when: install_ros
 
     # remove previous file
     - name: Remove Previously Added Bitbucket SSH Keys
@@ -103,22 +103,22 @@
       file:
         path: /etc/ros/rosdep/sources.list.d/20-default.list
         state: absent
-      when: localhost_ros
+      when: install_ros
 
     - name: rosdep initialize
       command: rosdep init
       become: true
-      when: localhost_ros
+      when: install_ros
 
     - name: rosdep update
       command: rosdep update
-      when: localhost_ros
+      when: install_ros
 
     - name: bash environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
         - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ default_user.name }}/.bashrc" }
-      when: localhost_ros
+      when: install_ros
 
     - name: check that zshrc exists
       stat:
@@ -129,7 +129,7 @@
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
         - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ default_user.name }}/.zshrc" }
-      when: localhost_ros and stat_result.stat.exists
+      when: install_ros and stat_result.stat.exists
 
     - name: install nuc prerequisite packages
       become: true

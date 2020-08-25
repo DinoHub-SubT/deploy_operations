@@ -30,7 +30,7 @@
     shell: docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
     ignore_errors: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -42,7 +42,7 @@
       force_apt_get: yes
     ignore_errors: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -51,7 +51,7 @@
     apt:
       update_cache: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -62,14 +62,14 @@
       state: present
       force_apt_get: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
   - name: add official GPG key of nvidia docker
     shell: curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -78,7 +78,7 @@
     shell: . /etc/os-release;echo $ID$VERSION_ID
     register: distribution
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -86,7 +86,7 @@
     become: true
     shell: curl -s -L https://nvidia.github.io/nvidia-docker/{{ distribution.stdout }}/nvidia-docker.list | tee /etc/apt/sources.list.d/nvidia-docker.list
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -95,7 +95,7 @@
     apt:
       update_cache: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -106,7 +106,7 @@
       state: present
       force_apt_get: yes
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -117,7 +117,7 @@
       daemon_reload: yes
       name: docker
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -125,7 +125,7 @@
     shell: nvidia-docker --version
     register: docker_version_out
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -133,7 +133,7 @@
     debug:
       msg: "Container Output: {{docker_version_out.stdout}}"
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -141,7 +141,7 @@
     shell: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
     register: hello_world_output
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")
 
@@ -149,6 +149,6 @@
     debug:
       msg: "Container Output: {{hello_world_output.stdout}}"
     when: >
-      localhost_nvidia_docker or
+      install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
       inventory_hostname is match("azure-perception*")

@@ -32,6 +32,7 @@
       become: true
       apt:
         deb: https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+      when: install_teamviewer
 
     - name: enable service TeamViewer
       become: true
@@ -40,6 +41,7 @@
         state: started  # make sure service is running
         enabled: yes    # start service on boot
         masked: no
+      when: install_teamviewer
 
     - name: restart service TeamViewer
       become: true
@@ -48,24 +50,30 @@
         state: restarted  # make sure service is running
         enabled: yes    # start service on boot
         masked: no
+      when: install_teamviewer
 
     - name: set TeamViewer password
       become: true
       command: teamviewer --passwd "{{ teamviewer.password }}"
+      when: install_teamviewer
 
     - name: accept TeamViewer license
       become: true
       command: teamviewer license accept
       ignore_errors: yes
+      when: install_teamviewer
 
     - name: TeamViewer info
       become: true
       command: teamviewer --info
       register: teamviewer_info
+      when: install_teamviewer
 
     - debug: msg="{{ teamviewer_info.stdout }}"
+      when: install_teamviewer
 
     - name: reboot machine
       become: true
       reboot:
         reboot_timeout: 3600
+      when: install_teamviewer

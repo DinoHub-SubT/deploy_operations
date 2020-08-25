@@ -130,7 +130,7 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
 
   # find the inventory file matching system name
   # -- assuming UNIQUE system names between all inventory file (weak assumption?)
-  filenames=("./inventory/localhost.ini" "./inventory/azure.ini" "./inventory/robot.ini")
+  filenames=("" "./inventory/localhost.ini" "./inventory/azure.ini" "./inventory/robot.ini")
   for filename in "${filenames[@]:1}"; do
     systems=($(get_system_names $filename))
     # inventory file contains system name

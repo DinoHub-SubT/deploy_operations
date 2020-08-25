@@ -7,6 +7,7 @@
   vars_files:
     - ../vars/main.yaml
     - ../vars/user-inputs.yaml
+    - ../vars/hosts.yaml
 
   # run playbook on the specified hosts
   hosts:
@@ -92,3 +93,36 @@
     command: mv /tmp/docker-machine /usr/local/bin/
     when: docker_machine_stat.stat.exists
 
+  # ////////////////////////////////////////////////////////////////////////
+  # docker context
+  # ////////////////////////////////////////////////////////////////////////
+
+  # localhost docker context
+  - name: docker context remove
+    shell: docker context rm {{ item.host }}
+    with_items: " {{ docker_context.azure }} "
+    ignore_errors: True
+    when: >
+      "azure-" in inventory_hostname or
+      "localhost" in inventory_hostname
+
+  - name: docker context create
+    shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
+    with_items: " {{ docker_context.azure }} "
+    when: >
+      "azure-" in inventory_hostname or
+      "localhost" in inventory_hostname
+
+  # basestation docker context
+  - name: docker context remove
+    shell: docker context rm {{ item.host }}
+    with_items: " {{ docker_context.robots }} "
+    ignore_errors: True
+    when: >
+      "basestation" in inventory_hostname
+
+  - name: docker context create
+    shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
+    with_items: " {{ docker_context.robots }} "
+    when: >
+      "basestation" in inventory_hostname
