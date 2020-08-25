@@ -14,10 +14,12 @@
       - docker tag subt/ugv:ros $AZURE_REGISTRY/subt-ugv-ros
       - docker tag subt/ugv:ppc $AZURE_REGISTRY/subt-ugv-ppc
       - docker tag subt/ugv:nuc $AZURE_REGISTRY/subt-ugv-nuc
+      - docker tag subt/ugv:sim $AZURE_REGISTRY/subt-ugv-sim
       # push the docker images to the local registry
       - docker push $AZURE_REGISTRY/subt-ugv-ros
       - docker push $AZURE_REGISTRY/subt-ugv-ppc
       - docker push $AZURE_REGISTRY/subt-ugv-nuc
+      - docker push $AZURE_REGISTRY/subt-ugv-sim
       # remove the docker images from the local registry
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # change the docker context back to the default docker daemon
@@ -31,10 +33,12 @@
       - docker pull $AZURE_REGISTRY/subt-ugv-ros
       - docker pull $AZURE_REGISTRY/subt-ugv-ppc
       - docker pull $AZURE_REGISTRY/subt-ugv-nuc
+      - docker pull $AZURE_REGISTRY/subt-ugv-sim
       # tag the docker images
       - docker tag $AZURE_REGISTRY/subt-ugv-ros subt/ugv:ros
       - docker tag $AZURE_REGISTRY/subt-ugv-ppc subt/ugv:ppc
       - docker tag $AZURE_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+      - docker tag $AZURE_REGISTRY/subt-ugv-sim subt/ugv:sim
       # remove the docker images from the local registry
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # show the docker images

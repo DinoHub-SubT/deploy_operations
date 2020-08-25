@@ -8,6 +8,8 @@
 
     # push images to the local docker registry
     - push:
+      # use default docker context
+      - docker context use default
       # tag the docker images
       - docker tag subt/perception-cpu:ros $AZURE_REGISTRY/subt-perception-cpu-ros
       - docker tag subt/perception-cpu:0.1 $AZURE_REGISTRY/subt-perception-cpu-0.1
@@ -23,6 +25,8 @@
 
     # pull images from the docker registry
     - pull:
+      # use default docker context
+      - docker context use default
       # pull the docker images from the local registry
       - docker pull $AZURE_REGISTRY/subt-perception-cpu-ros
       - docker pull $AZURE_REGISTRY/subt-perception-cpu-0.1

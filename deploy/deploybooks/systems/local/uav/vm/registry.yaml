@@ -8,6 +8,8 @@
 
     # push images to the local docker registry
     - push:
+      # use default docker context
+      - docker context use default
       # tag the docker images
       - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
       - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
@@ -23,6 +25,8 @@
 
     # pull images from the docker registry
     - pull:
+      # use default docker context
+      - docker context use default
       # pull the docker images from the local registry
       - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
       - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav

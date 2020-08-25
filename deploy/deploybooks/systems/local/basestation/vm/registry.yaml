@@ -8,6 +8,8 @@
 
     # push images to the local docker registry
     - push:
+      # use default docker context
+      - docker context use default
       # tag the docker images
       - docker tag subt/basestation-cpu:ros $AZURE_REGISTRY/subt-basestation-cpu-ros
       - docker tag subt/basestation-cpu:0.1 $AZURE_REGISTRY/subt-basestation-cpu-0.1
@@ -23,6 +25,8 @@
 
     # push images to the local docker registry
     - pull:
+      # use default docker context
+      - docker context use default
       # push the docker images to the local registry
       - docker pull $AZURE_REGISTRY/subt-basestation-cpu-ros
       - docker pull $AZURE_REGISTRY/subt-basestation-cpu-0.1
