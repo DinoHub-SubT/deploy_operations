@@ -20,6 +20,8 @@
   - image:
     - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
     - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image
+    # - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image-realsense-220
+    # - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image-realsense-235
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 

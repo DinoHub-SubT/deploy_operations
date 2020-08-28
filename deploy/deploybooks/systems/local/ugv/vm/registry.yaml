@@ -8,20 +8,41 @@
 
     # push images to the local docker registry
     - push:
-      # use default docker context
-      - docker context use default
-      # tag the docker images
-      - docker tag subt/ugv:ros $AZURE_REGISTRY/subt-ugv-ros
-      - docker tag subt/ugv:ppc $AZURE_REGISTRY/subt-ugv-ppc
-      - docker tag subt/ugv:nuc $AZURE_REGISTRY/subt-ugv-nuc
-      - docker tag subt/ugv:sim $AZURE_REGISTRY/subt-ugv-sim
-      # push the docker images to the local registry
-      - docker push $AZURE_REGISTRY/subt-ugv-ros
-      - docker push $AZURE_REGISTRY/subt-ugv-ppc
-      - docker push $AZURE_REGISTRY/subt-ugv-nuc
-      - docker push $AZURE_REGISTRY/subt-ugv-sim
-      # remove the azure docker images
-      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      - x86:
+        # use default docker context
+        - docker context use default
+        # tag the docker images
+        - docker tag subt/ugv:ros $AZURE_REGISTRY/subt-ugv-ros
+        - docker tag subt/ugv:ppc $AZURE_REGISTRY/subt-ugv-ppc
+        - docker tag subt/ugv:nuc $AZURE_REGISTRY/subt-ugv-nuc
+        - docker tag subt/ugv:sim $AZURE_REGISTRY/subt-ugv-sim
+        # push the docker images to the local registry
+        - docker push $AZURE_REGISTRY/subt-ugv-ros
+        - docker push $AZURE_REGISTRY/subt-ugv-ppc
+        - docker push $AZURE_REGISTRY/subt-ugv-nuc
+        - docker push $AZURE_REGISTRY/subt-ugv-sim
+        # remove the azure docker images
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      
+      - arm:
+        # change the docker context to the default docker daemon
+        - docker context use default
+        - docker images
+        # tag the docker images
+        - docker tag subt/chonky_l4t $AZURE_REGISTRY/subt/chonky_l4t
+        - docker tag subt/perception-arm:ros $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker tag subt/perception-arm:0.1 $AZURE_REGISTRY/subt/perception-arm:0.1
+        # pull the docker images from the laptop local registry
+        - docker push $AZURE_REGISTRY/subt/chonky_l4t
+        - docker push $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker push $AZURE_REGISTRY/subt/perception-arm:0.1
+        # remove the azure docker images
+        - docker rmi $AZURE_REGISTRY/subt/chonky_l4t
+        - docker rmi $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker rmi $AZURE_REGISTRY/subt/perception-arm:0.1
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+        # show the docker images
+        - docker images
 
     # pull images from the docker registry
     - pull:
