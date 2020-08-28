@@ -2,100 +2,41 @@
 - workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - basestation.gui:
-  # ////////////////////////////////////////////////////////////////////////////
-
-    - cd $SUBT_PATH/
-    - pwd
-    - whoami
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - clean:
-    # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/basestation
-      - rm -rf ~/deploy_ws/build/basestation
-      - rm -rf ~/deploy_ws/install/basestation
-      - rm -rf ~/deploy_ws/logs/basestation
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - build:
-    # ////////////////////////////////////////////////////////////////////////////
-      - common:
-        # build common
-        - cd ~/deploy_ws/src/common
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set basestation
-        - catkin config
-        - catkin build --force-cmake
-      - basestation:
-        # build basestation gui
-        - cd ~/deploy_ws/src/basestation
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set basestation
-        - catkin config
-        - catkin build --force-cmake
-      - subt_launch:
-        - cd ~/deploy_ws/src/subt_launch
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set basestation
-        - catkin config
-        - catkin build --force-cmake
+  - cd $SUBT_PATH/
+  - pwd
+  - whoami
 
   # ////////////////////////////////////////////////////////////////////////////
-  - basestation.perception:
+  - clean:
   # ////////////////////////////////////////////////////////////////////////////
+    - rm -rf ~/deploy_ws/devel/basestation
+    - rm -rf ~/deploy_ws/build/basestation
+    - rm -rf ~/deploy_ws/install/basestation
+    - rm -rf ~/deploy_ws/logs/basestation
 
-    - cd $SUBT_PATH/
-    - pwd
-    - whoami
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - clean:
-    # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/perception
-      - rm -rf ~/deploy_ws/build/perception
-      - rm -rf ~/deploy_ws/install/perception
-      - rm -rf ~/deploy_ws/logs/perception
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - build:
-    # ////////////////////////////////////////////////////////////////////////////
-      - source /opt/ros/melodic/setup.bash
-
-      - common:
-        - cd ~/deploy_ws/src/common
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set perception-x86
-        - catkin config
-        - catkin build --force-cmake
-
-      - perception:
-        - deps:
-          # build perception deps
-          - cd ~/deploy_ws/src/perception/deps/catkin
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile list
-          -  catkin profile set perception-x86
-          - catkin config
-          - catkin build --force-cmake
-        - objdet:
-          # build objdet
-          - cd ~/deploy_ws/src/perception/
-          - rm -f .catkin_tools/profiles/profiles.yaml
-          - catkin profile list
-          - catkin profile set perception-x86
-          - catkin config
-          - catkin build --force-cmake
-
-      - subt_launch:
-        - cd ~/deploy_ws/src/subt_launch
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set perception-x86
-        - catkin config
-        - catkin build --force-cmake
+  # ////////////////////////////////////////////////////////////////////////////
+  - build:
+  # ////////////////////////////////////////////////////////////////////////////
+    - common:
+      # build common
+      - cd ~/deploy_ws/src/common
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set basestation
+      - catkin config
+      - catkin build --force-cmake
+    - basestation:
+      # build basestation gui
+      - cd ~/deploy_ws/src/basestation
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set basestation
+      - catkin config
+      - catkin build --force-cmake
+    - subt_launch:
+      - cd ~/deploy_ws/src/subt_launch
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set basestation
+      - catkin config
+      - catkin build --force-cmake
