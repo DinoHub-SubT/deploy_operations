@@ -45,7 +45,6 @@
 
       # pull images from the docker registry
       - pull:
-        - docker context use default
         # tag the docker images on the basestation registry
         - docker tag subt/uav-gpu:ros $BASESTATION_REGISTRY/subt-uav-gpu-ros
         - docker tag subt/uav-gpu:uav $BASESTATION_REGISTRY/subt-uav-gpu-uav
@@ -55,7 +54,7 @@
         - docker tag subt/perception-cpu:ros $BASESTATION_REGISTRY/subt-perception-cpu-ros
         - docker tag subt/perception-cpu:0.1 $BASESTATION_REGISTRY/subt-perception-cpu-0.1
 
-          # push to local docker registry
+        # push to local docker registry
         - docker push $BASESTATION_REGISTRY/subt-uav-gpu-ros
         - docker push $BASESTATION_REGISTRY/subt-uav-gpu-uav
         - docker push $BASESTATION_REGISTRY/subt-uav-cpu-ros

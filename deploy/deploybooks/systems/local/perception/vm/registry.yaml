@@ -10,16 +10,20 @@
     - push:
       # use default docker context
       - docker context use default
-      # tag the docker images
-      - docker tag subt/perception-cpu:ros $AZURE_REGISTRY/subt-perception-cpu-ros
-      - docker tag subt/perception-cpu:0.1 $AZURE_REGISTRY/subt-perception-cpu-0.1
-      - docker tag subt/perception-gpu:ros $AZURE_REGISTRY/subt-perception-gpu-ros
-      - docker tag subt/perception-gpu:0.1 $AZURE_REGISTRY/subt-perception-gpu-0.1
-      # push the docker images to the local registry
-      - docker push $AZURE_REGISTRY/subt-perception-cpu-ros
-      - docker push $AZURE_REGISTRY/subt-perception-cpu-0.1
-      - docker push $AZURE_REGISTRY/subt-perception-gpu-ros
-      - docker push $AZURE_REGISTRY/subt-perception-gpu-0.1
+      - cpu:
+        # tag the docker images
+        - docker tag subt/perception-cpu:ros $AZURE_REGISTRY/subt-perception-cpu-ros
+        - docker tag subt/perception-cpu:0.1 $AZURE_REGISTRY/subt-perception-cpu-0.1
+        # push the docker images to the local registry
+        - docker push $AZURE_REGISTRY/subt-perception-cpu-ros
+        - docker push $AZURE_REGISTRY/subt-perception-cpu-0.1
+      - gpu:
+        # tag the docker images
+        - docker tag subt/perception-gpu:ros $AZURE_REGISTRY/subt-perception-gpu-ros
+        - docker tag subt/perception-gpu:0.1 $AZURE_REGISTRY/subt-perception-gpu-0.1
+        # push the docker images to the local registry
+        - docker push $AZURE_REGISTRY/subt-perception-gpu-ros
+        - docker push $AZURE_REGISTRY/subt-perception-gpu-0.1
       # remove the azure docker images
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
 
@@ -28,15 +32,18 @@
       # use default docker context
       - docker context use default
       # pull the docker images from the local registry
-      - docker pull $AZURE_REGISTRY/subt-perception-cpu-ros
-      - docker pull $AZURE_REGISTRY/subt-perception-cpu-0.1
-      - docker pull $AZURE_REGISTRY/subt-perception-gpu-ros
-      - docker pull $AZURE_REGISTRY/subt-perception-gpu-0.1
-      # tag the docker images
-      - docker tag $AZURE_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
-      - docker tag $AZURE_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
-      - docker tag $AZURE_REGISTRY/subt-perception-gpu-ros subt/perception-gpu:ros
-      - docker tag $AZURE_REGISTRY/subt-perception-gpu-0.1 subt/perception-gpu:0.1
+      - cpu:
+        - docker pull $AZURE_REGISTRY/subt-perception-cpu-ros
+        - docker pull $AZURE_REGISTRY/subt-perception-cpu-0.1
+        # tag the docker images
+        - docker tag $AZURE_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
+        - docker tag $AZURE_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
+      - gpu:
+        - docker pull $AZURE_REGISTRY/subt-perception-gpu-ros
+        - docker pull $AZURE_REGISTRY/subt-perception-gpu-0.1
+        # tag the docker images
+        - docker tag $AZURE_REGISTRY/subt-perception-gpu-ros subt/perception-gpu:ros
+        - docker tag $AZURE_REGISTRY/subt-perception-gpu-0.1 subt/perception-gpu:0.1
       # remove the azure docker images
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # show the docker images
