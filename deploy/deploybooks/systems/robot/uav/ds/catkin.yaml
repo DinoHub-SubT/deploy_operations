@@ -7,7 +7,7 @@
   - whoami
 
   # //////////////////////////////////////////////////////////////////////////
-  - uav.inside:
+  - uav.core:
   # //////////////////////////////////////////////////////////////////////////
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -70,54 +70,6 @@
         - catkin profile set uav-inside
         - catkin config
         - catkin build --force-cmake
-
-  # //////////////////////////////////////////////////////////////////////////
-  - uav.outside:
-  # //////////////////////////////////////////////////////////////////////////
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - clean:
-    # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/uav/outside
-      - rm -rf ~/deploy_ws/build/uav/outside
-      - rm -rf ~/deploy_ws/install/uav/outside
-      - rm -rf ~/deploy_ws/logs/uav/outside
-      - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
-
-    # //////////////////////////////////////////////////////////////////////////
-    - xsens:
-    # //////////////////////////////////////////////////////////////////////////
-      - cd ~/deploy_ws/src/uav/hardware/xsens_cpp_driver/receive_xsens/config/mt_sdk/
-      - sudo ./mt_sdk_4.8.sh
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - build:
-    # ////////////////////////////////////////////////////////////////////////////
-
-      - common:
-        - cd ~/deploy_ws/src/common
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set uav-outside
-        - catkin config
-        - catkin build --force-cmake
-
-      - uav:
-        - cd ~/deploy_ws/src/uav
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set uav-outside
-        - catkin config
-        - catkin build --force-cmake
-
-      - subt_launch:
-        - cd ~/deploy_ws/src/subt_launch
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set uav-outside
-        - catkin config
-        - catkin build --force-cmake
-
 
   # //////////////////////////////////////////////////////////////////////////
   - uav.perception:
