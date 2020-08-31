@@ -1,27 +1,37 @@
 #!/usr/bin/env bash
+
+# load header helper functions
+. "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
+. "$(dirname $0)/.header.bash"
+
+if chk_flag --help $@ || chk_flag help $@; then
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  title "Usage: $(basename $0) [flag] "
+  text_color  "Flags:"
+  text_color "      -help : shows usage message."
+  text_color "About: "
+  text_color "Show SSH Connections"
+  text_color "    - Shows the configured ssh connections & if they are available to connect."
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+  exit_success
+fi
+
+# check for valid user inputs
+if ! chk_flag -h $@ && ! chk_flag -t $@ ; then
+  error "Missing host -h <arg> and window title -t <title> flags."
+  exit_failure
+fi
+
 # //////////////////////////////////////////////////////////////////////////////
-# display usage
-usage_msg="\
-Usage: $(basename $0)
-
-  Checks which SSH connections are open, found in the local ~/.ssh/config
-
-For more help, please see the README.md or wiki."
-
+# @brief: script main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
-# load helper scripts
+title "Show SSH Connections\n"
 
-# load print-info
-. "$(dirname $0)/.utils.bash"
-validate "load utils failed"
-
-# get the directory of this script -- "build.bash"
-script_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-pushd $script_path  # go so script path
-
-# //////////////////////////////////////////////////////////////////////////////
-# script
-script_title "Testing SSH Connection"
+# push script path
+__dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+pushd $__dir
 
 # check every connection in the user's ssh config
 shopt -s nocasematch
@@ -54,6 +64,4 @@ for str in $(grep -i "^[^#\S]*Host\(name\)\?" ~/.ssh/config | paste -s -); do
 done
 
 # cleanup & exit
-newline
-popd
-exit_success
+exit_on_success

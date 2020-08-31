@@ -19,7 +19,6 @@ if chk_flag --help $@ || chk_flag help $@; then
   text_color "Azure RPD Wrapper"
   text_color "    - Quick GoTo script, to establish a rdp session with an Azure VM."
   text_color "    - Hides rdp 'rdesktop' command line cli options & details."
-  text_color "* optional arguments are enclosed in square brackets"
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
   exit_success
@@ -70,6 +69,7 @@ function get_arg_at_flag() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief: script main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
+title "Azure RDP Wrapper\n"
 
 # push script path
 __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
