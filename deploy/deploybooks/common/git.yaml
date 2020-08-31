@@ -469,6 +469,7 @@
         - slam:
           -  git submodule deinit -f slam
       - ugv:
+        - cd ugv
         - slam:
           - devel:
             - git submodule deinit -f slam/devel
