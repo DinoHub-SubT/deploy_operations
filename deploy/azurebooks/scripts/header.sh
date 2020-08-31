@@ -33,11 +33,16 @@ FG_COLOR_TITLE="${FG_BLUE}"
 FG_COLOR_TEXT="${FG_DEFAULT}"
 FG_COLOR_DEBUG="${FG_LGRAY}"
 FG_COLOR_ERROR="${FG_RED}"
+FG_COLOR_WARNING="${FG_YELLOW}"
 
 DISABLE_TITLE=0
 DISABLE_TEXT=0
 DISABLE_DEBUG=0
 DISABLE_ERROR=0
+DISABLE_WARNING=0
+
+# global text color
+GL_TEXT_COLOR=${FG_DEFAULT}
 
 ##
 # Checks arguments to make sure they exist and are equal
@@ -117,6 +122,15 @@ function error() {
     echo -e "${FG_COLOR_ERROR}${@}${FG_DEFAULT}"
 }
 
+##
+# Writes out colored warning messages
+function warning() {
+  if [[ $DISABLE_WARNING == 1 ]]; then
+    return
+  fi
+  echo -e "${FG_COLOR_WARNING}${@}${FG_DEFAULT}"
+}
+
 # A function that returns the argument provided
 function return_num() {
     if [[ -z $1 ]]; then
@@ -170,6 +184,13 @@ function exit_failure() {
 }
 
 ##
+# Writes out a set colored message
+#
+function text_color() {
+    echo -e "${GL_TEXT_COLOR}${@}${FG_DEFAULT}"
+}
+
+##
 # Saves the given directory at the top of the directory stack, then cd to directory
 # - stack standard output silenced
 #
@@ -217,3 +238,19 @@ function file_exists() {
     [[ -f $filename ]] && return 0
     return 1
 }
+
+##
+# Find the index of a value in an array
+##
+function arr_idx() {
+    # defined iteration variables
+    local count=0 iter value="$1"
+    shift
+    # for without in, iterates over the given arguements
+    for iter; do
+      ((count++))
+      [[ "$iter" == "$value" ]] && echo $count && return 0;
+    done
+    echo -1
+}
+
