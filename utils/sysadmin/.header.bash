@@ -21,3 +21,8 @@ function exit_on_error() {
   exit_failure
 }
 
+# trap control-c
+function ctrl_c() {
+  exit_success
+}
+
