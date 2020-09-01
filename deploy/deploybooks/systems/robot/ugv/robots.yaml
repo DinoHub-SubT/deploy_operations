@@ -36,6 +36,11 @@
         - registry:
           - export DOCKER_CONTEXT=robot-ugv1-ppc
           - +extend: systems/robot/ugv/ppc/registry
+        - ros:
+          - +ssh:{ ugv1.ppc }
+          - +docker:ppc-shell
+          - export ROSBAG_DIR=/home/developer/logging
+          - +extend: systems/robot/common/ros
 
       - nuc:
         # source the computer-level scenario file
@@ -55,6 +60,11 @@
         - registry:
           - export DOCKER_CONTEXT=robot-ugv1-nuc
           - +extend: systems/robot/ugv/nuc/registry
+        - ros:
+          - +ssh:{ ugv1.nuc }
+          - +docker:nuc-shell
+          - export ROSBAG_DIR=/home/developer/logging
+          - +extend: systems/robot/common/ros
 
       - xavier:
         # source the computer-level scenario file
@@ -75,6 +85,11 @@
         - registry:
           - export DOCKER_CONTEXT=robot-ugv1-xavier
           - +extend: systems/robot/ugv/xavier/registry
+        - ros:
+          - +ssh:{ ugv1.xavier }
+          - +docker:perception-arm-shell
+          - export ROSBAG_DIR=/home/developer/logging
+          - +extend: systems/robot/common/ros
 
     # ////////////////////////////////////////////////////////////////////////////
     - ugv2:
