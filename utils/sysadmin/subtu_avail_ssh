@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# load header helper functions
+. "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
+. "$(dirname $0)/.header.bash"
+
+if chk_flag --help $@ || chk_flag help $@; then
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  title "Usage: $(basename $0) [flag] "
+  text_color  "Flags:"
+  text_color "      -help : shows usage message."
+  text_color "Shows which configured ssh connections are are available to connect"
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+  exit_success
+fi
+
+# display open ssh conections
+function display() {
+  local connection=$1
+  if ssh -q -o BatchMode=yes -o ConnectTimeout=1 $connection exit 2>/dev/null; then
+    printf "${FG_LCYAN} %30s %13s ${FG_DEFAULT} \n" "$connection" "OK."
+  else
+    printf "${FG_RED} %30s %13s ${FG_DEFAULT} \n" "$connection" "FAIL."
+  fi
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief: script main entrypoint
+# //////////////////////////////////////////////////////////////////////////////
+title "Available SSH Connections\n"
+
+# push script path
+__dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+pushd $__dir
+
+# trap ctrl-c and call ctrl_c
+trap ctrl_c INT
+
+# check every connection in the user's ssh config
+sshtraverse $GL_SSH_CONFIG display
+
+# cleanup & exit
+exit_on_success
