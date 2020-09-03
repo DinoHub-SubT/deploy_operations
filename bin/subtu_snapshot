@@ -24,12 +24,6 @@ fi
 # globals params
 GL_SNAPSHOT_DIR="operations/field_testing/"
 
-# get all the submodules in the current directory
-function get_all_submodules() {
-  local result=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
-  echo $result
-}
-
 # traverse through all the submodules in the given source directory
 function traverse() {
   # find all the submodules in the current path level
