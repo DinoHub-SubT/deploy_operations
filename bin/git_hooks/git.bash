@@ -39,9 +39,9 @@ git_subt_main() {
   text_color "== Deployer Git Hooks =="
 
   # git status
-  if chk_flag list $@; then
-    shift # shift the 'list' subcommand
-    ($GL_GIT_HOOKS_DIR/list.bash $@)
+  if chk_flag info $@; then
+    shift # shift the 'info' subcommand
+    ($GL_GIT_HOOKS_DIR/info.bash $@)
 
   # git fetch
   elif chk_flag fetch $@; then
@@ -56,8 +56,19 @@ git_subt_main() {
 # //////////////////////////////////////////////////////////////////////////////
 git() {
 
+  # execute actual git command (filter any 'git subt' subcommands)
+  # if ! chk_flag info $@; then
+  if ! check_nth_flag 1 "subt" "$@"; then
+
+    # TODO: make this installed by everyone via ansible
+    # git sync  -- add this to git config using ansible?
+    # make sure to only do a git sync, when doing git status, not other commands?
+    # have a docker image pull check too...
+
+    command git "$@"
+
   # execute 'git subt' subcommand
-  if check_nth_flag 1 "subt" "$@"; then
+  elif check_nth_flag 1 "subt" "$@"; then
     shift # shift the subt flag
 
     if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
@@ -81,17 +92,13 @@ git() {
     git_subt_main $@
 
     # shift the subt arguments (they are standard for all 'git subt' subcommands)
-    for arg do
-      shift
-      chk_eq $arg "-a" || chk_eq $arg "-bs" || chk_eq $arg "-cm" || \
-        chk_eq $arg "-sim" || chk_eq $arg "-uav" || chk_eq $arg "-ugv" \
-        && continue
-      set -- "$@" "$arg"
-    done
+    # for arg do
+    #   shift
+    #   chk_eq $arg "-a" || chk_eq $arg "-bs" || chk_eq $arg "-cm" || \
+    #     chk_eq $arg "-sim" || chk_eq $arg "-uav" || chk_eq $arg "-ugv" \
+    #     && continue
+    #   set -- "$@" "$arg"
+    # done
   fi
 
-  # execute actual git command
-  if ! chk_flag list $@; then
-    command git "$@"
-  fi
 }

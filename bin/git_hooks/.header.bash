@@ -1,7 +1,10 @@
 # globals
 
+##
+# Source: operations/deploy/azurebooks/scripts/header.sh
 # Change text colors
 # Thanks: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+##
 FG_DEFAULT="\e[39m"
 FG_BLACK="\e[30m"
 FG_RED="\e[31m"
@@ -35,22 +38,7 @@ DISABLE_WARNING=0
 GL_TEXT_COLOR=${FG_DEFAULT}
 
 ##
-# Exit with success code
-#
-function exit_success() {
-    newline;
-    exit 0;
-}
-
-##
-# Exit with failure code
-#
-function exit_failure() {
-    newline;
-    exit 1;
-}
-
-##
+# Source: operations/deploy/azurebooks/scripts/header.sh
 # Checks arguments to make sure they exist and are equal
 # $1: flag to check for arguments to contain
 # $>1: arguments to check against
@@ -58,23 +46,23 @@ function exit_failure() {
 #
 # Usage: "if chk_flag -y $@; then ..."
 function chk_flag() {
-    value=$1
+  value=$1
 
-    if [[ -z $value ]]; then
-        return 2
+  if [[ -z $value ]]; then
+    return 2
+  fi
+  for var in "${@:2}"; do
+    if [[ $value == $var ]]; then
+      return 0
     fi
-    for var in "${@:2}"; do
-        if [[ $value == $var ]]; then
-            return 0
-        fi
-    done
-    return 1
+  done
+  return 1
 }
 
 ##
 # Writes out colored text
 function text() {
-    echo -e "${FG_COLOR_TEXT}${@}${FG_DEFAULT}"
+  echo -e "${FG_COLOR_TEXT}${@}${FG_DEFAULT}"
 }
 
 ##
@@ -96,3 +84,53 @@ function chk_eq() {
   fi
   return 1
 }
+
+##
+# Get all the submodules in the current directory
+##
+function get_all_submodules() {
+  local result=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
+  echo $result
+}
+
+function hello() {
+  echo "hello workd?"
+}
+
+# traverse through all the submodules in the given source directory
+function traverse_submodules() {
+  # find all the submodules in the current path level
+  local submodules=$(get_all_submodules)
+  local funcptr=$1
+
+  # recursive traverse for found submodules
+  for submodule in $submodules; do
+    # print warning & ignore if directory does not exist
+    if [ -d "$submodule" ]; then
+      # get submodule git information
+      pushd $submodule
+
+      # execute function
+      ($funcptr)
+
+      # recursive traverse, for any nested submodules
+      traverse_submodules $2
+      popd
+
+    fi
+  done
+}
+
+# Returns "*" if the current git branch is dirty.
+function is_git_dirty() {
+  [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*"
+}
+
+function num_git_untracked() {
+  expr `git status --porcelain 2>/dev/null| grep "^??" | wc -l`
+}
+
+function num_git_uncommited() {
+  expr $(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
+}
+
