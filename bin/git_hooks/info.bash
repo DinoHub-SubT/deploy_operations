@@ -7,10 +7,11 @@ GL_RED=$(tput setaf 1)
 GL_BLUE=$(tput setaf 4)
 GL_NORMAL=$(tput sgr0)
 
-##
-# displays the 'git status' of a submodule
-##
+# //////////////////////////////////////////////////////////////////////////////
+# @brief displays the 'git status' of a submodule
+# //////////////////////////////////////////////////////////////////////////////
 function info() {
+  # get the git info
   local submodule=$(realpath --relative-to="$SUBT_PATH" "$(pwd)")
   local commit_hash=$(git rev-parse --verify HEAD)
   local branch=$(git rev-parse --abbrev-ref HEAD)
@@ -41,10 +42,10 @@ function info() {
     "$url"
 }
 
-##
-# traverse over all submodules in the intermediate repos
-##
-function flat_traverse() {
+# //////////////////////////////////////////////////////////////////////////////
+# @brief traverse over all submodules in the intermediate repos
+# //////////////////////////////////////////////////////////////////////////////
+function traverse() {
   local interrepo=$1
   pushd "$SUBT_PATH/$interrepo"
   # title
@@ -69,22 +70,26 @@ larger_text "== SubT Git Status =="
 
 # check all the specific inter-repo flags
 if chk_flag -bs $@ || chk_flag -a $@; then
-  flat_traverse "basestation"
+  traverse "basestation"
 fi
 
 if chk_flag -cm $@ || chk_flag -a $@; then
-  flat_traverse "common"
+  traverse "common"
+fi
+
+if chk_flag -per $@ || chk_flag -a $@; then
+  traverse "perception"
 fi
 
 if chk_flag -sim $@ || chk_flag -a $@; then
-  flat_traverse "simulation"
+  traverse "simulation"
 fi
 
 if chk_flag -ugv $@ || chk_flag -a $@; then
-  flat_traverse "ugv"
+  traverse "ugv"
 fi
 
 if chk_flag -uav $@ || chk_flag -a $@; then
-  flat_traverse "uav"
+  traverse "uav"
 fi
 

@@ -1,0 +1,58 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup robot host system packages
+# ////////////////////////////////////////////////////////////////////////
+- name: robothost setup
+
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/main.yaml
+    - ../vars/user-inputs.yaml
+    - ../vars/hosts.yaml
+    - ../vars/robot.yaml
+
+  # setup hosts to run commands as
+  hosts:
+    - laptop
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install ubuntu prerequisite packages
+      become: true
+      apt:
+        name: "{{ ugv.common.apt }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-ugv.*")
+
+    # note: can output segmentation fault.
+    # - name: install python prerequisite packages
+    #   pip:
+    #     name: "{{ ugv.common.pip_packages }}"
+    #     extra_args: --user
+    #   when: >
+    #     inventory_hostname is match("robot-ugv.*")

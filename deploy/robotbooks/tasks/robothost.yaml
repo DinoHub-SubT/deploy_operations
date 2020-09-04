@@ -39,7 +39,7 @@
     - name: install ubuntu prerequisite packages
       become: true
       apt:
-        name: "{{ prereq_packages }}"
+        name: "{{ localhost.apt }}"
         state: present
         force: yes          # force yes
         force_apt_get: yes
@@ -49,7 +49,7 @@
     # note: can output segmentation fault.
     # - name: install python prerequisite packages
     #   pip:
-    #     name: "{{ pip_packages }}"
+    #     name: "{{ localhost.pip_packages }}"
     #     extra_args: --user
 
     # ////////////////////////////////////////////////////////////////////////

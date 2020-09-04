@@ -1,58 +1,59 @@
 # == System Packages ==
 
 # Prerequisites Ubuntu Packages
-prereq_packages:
-  - python2.7
-  - python-setuptools
-  - python-pip
-  - python-requests
-  - build-essential
-  - cmake
-  - cppcheck
-  - gdb
-  - git
-  - lsb-release
-  - software-properties-common
-  - sudo
-  - vim
-  - nano
-  - emacs
-  - wget
-  - curl
-  - less
-  - net-tools
-  - tmux
-  - byobu
-  - iputils-ping
-  - locales
-  - xvfb
-  - tzdata
-  - debian-archive-keyring
-  - apt-transport-https
-  - git-lfs
-  - freerdp-x11
-  - traceroute
-  - zsh
-  - lm-sensors
-  - tmuxp
-  # azure vpn
-  - strongswan
-  - strongswan-pki
-  - libstrongswan-extra-plugins
-  - network-manager-strongswan
-  # azure rdp
-  - rdesktop
-  # azure cli
-  - ca-certificates
-  - curl
-  - gnupg
+localhost:
+  apt:
+    - python2.7
+    - python-setuptools
+    - python-pip
+    - python-requests
+    - build-essential
+    - cmake
+    - cppcheck
+    - gdb
+    - git
+    - lsb-release
+    - software-properties-common
+    - sudo
+    - vim
+    - nano
+    - emacs
+    - wget
+    - curl
+    - less
+    - net-tools
+    - tmux
+    - byobu
+    - iputils-ping
+    - locales
+    - xvfb
+    - tzdata
+    - debian-archive-keyring
+    - apt-transport-https
+    - git-lfs
+    - freerdp-x11
+    - traceroute
+    - zsh
+    - lm-sensors
+    - tmuxp
+    # azure vpn
+    - strongswan
+    - strongswan-pki
+    - libstrongswan-extra-plugins
+    - network-manager-strongswan
+    # azure rdp
+    - rdesktop
+    # azure cli
+    - ca-certificates
+    - curl
+    - gnupg
 
-# Prerequisites Ubuntu Packages
-pip_packages:
-  - wheel
-  - setuptools
-  - PyYAML
-  - pexpect
+  # Prerequisites Ubuntu Packages
+  pip_packages:
+    - wheel
+    - setuptools
+    - PyYAML
+    - pexpect
 
 # Prerequisites Docker Packages
 docker_dependency_packages:
@@ -143,35 +144,3 @@ ros:
         - ros-melodic-rqt-gui-cpp
         - ros-melodic-rqt-gui-py
         - ros-melodic-catch-ros
-  # ROS packages for ugv[nuc] install
-  nuc:
-    packages:
-      - libboost-all-dev
-      - libeigen3-dev
-      - assimp-utils
-      - libcgal-dev
-      - libcgal-qt5-dev
-      - libproj-dev
-      - libnlopt-dev
-      - python-wstool
-      - python-catkin-tools
-      - libglfw3-dev
-      - libblosc-dev
-      - libopenexr-dev
-      - liblog4cplus-dev
-      - libsuitesparse-dev
-      - libsdl1.2-dev
-      - ros-melodic-smach-viewer
-      - ros-melodic-tf-conversions
-      - ros-melodic-random-numbers
-      - ros-melodic-ros-type-introspection
-      - ros-melodic-pcl-ros
-      - ros-melodic-rosfmt
-      - ros-melodic-rosserial
-      - ros-melodic-serial
-      - libncurses5-dev
-      - libpcap-dev
-      - graphviz
-      - doxygen
-      - sharutils
-

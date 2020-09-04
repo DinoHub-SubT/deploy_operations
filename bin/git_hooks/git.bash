@@ -32,9 +32,9 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
 # git subt checkout -b branch name
 
 # //////////////////////////////////////////////////////////////////////////////
-# git subt main entrypoint, switch the subcommand
+# @brief evaluate which subcommand to switch and execute
 # //////////////////////////////////////////////////////////////////////////////
-git_subt_main() {
+subcommand_switch() {
   GL_TEXT_COLOR=$FG_LCYAN
   text_color "== Deployer Git Hooks =="
 
@@ -52,7 +52,7 @@ git_subt_main() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# git wrapper, to enable 'subt' subcommand options.
+# @brief 'git subt' wrapper entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 git() {
 
@@ -89,7 +89,7 @@ git() {
     fi
 
     # execute git subt main entrypoint
-    git_subt_main $@
+    subcommand_switch $@
 
     # shift the subt arguments (they are standard for all 'git subt' subcommands)
     # for arg do
