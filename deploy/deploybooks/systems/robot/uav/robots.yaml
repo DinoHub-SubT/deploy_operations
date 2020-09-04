@@ -29,7 +29,7 @@
           - +ssh:{ uav.ds1 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-uav-ds1
+          - export DCTX=robot-uav-ds1
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@
           -  +ssh:{ uav.ds2 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-uav-ds2
+          - export DCTX=robot-uav-ds2
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@
           - +ssh:{ uav.ds3 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-uav-ds3
+          - export DCTX=robot-uav-ds3
           - +extend: systems/robot/uav/ds/registry
 
     # ////////////////////////////////////////////////////////////////////////////
@@ -97,5 +97,5 @@
           - +ssh:{ uav.ds4 }
           - +extend: systems/robot/uav/ds/catkin
         - registry:
-          - export DOCKER_CONTEXT=robot-uav-ds4
+          - export DCTX=robot-uav-ds4
           - +extend: systems/robot/uav/ds/registry

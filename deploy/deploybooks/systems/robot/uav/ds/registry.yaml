@@ -13,7 +13,7 @@
       # pull images from the docker registry
       - pull:
         # change the docker context to the ugv azure docker daemon
-        - docker context use $DOCKER_CONTEXT
+        - docker context use $DCTX
         # pull the uav docker images from the laptop local registry
         - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
         - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
@@ -45,6 +45,8 @@
 
       # pull images from the docker registry
       - pull:
+        - docker context use default
+        - docker context ls
         # tag the docker images on the basestation registry
         - docker tag subt/uav-gpu:ros $BASESTATION_REGISTRY/subt-uav-gpu-ros
         - docker tag subt/uav-gpu:uav $BASESTATION_REGISTRY/subt-uav-gpu-uav
@@ -64,7 +66,7 @@
         - docker push $BASESTATION_REGISTRY/subt-perception-cpu-0.1
 
         # change the docker context to the uav azure docker daemon
-        - docker context use $DOCKER_CONTEXT
+        - docker context use $DCTX
         # pull the uav docker images from the laptop local registry
         - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-ros
         - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-uav
