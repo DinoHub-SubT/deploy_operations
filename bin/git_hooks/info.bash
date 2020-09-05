@@ -69,19 +69,19 @@ function __traverse() {
 larger_text "== SubT Git Status =="
 
 # check all the specific inter-repo flags
-if chk_flag -bs $@ || [ -z "$1" ]; then
+if chk_flag -b $@ || [ -z "$1" ]; then
   __traverse "basestation"
 fi
 
-if chk_flag -cm $@ || [ -z "$1" ]; then
+if chk_flag -c $@ || [ -z "$1" ]; then
   __traverse "common"
 fi
 
-if chk_flag -per $@ || [ -z "$1" ]; then
+if chk_flag -p $@ || [ -z "$1" ]; then
   __traverse "perception"
 fi
 
-if chk_flag -sim $@ || [ -z "$1" ]; then
+if chk_flag -s $@ || [ -z "$1" ]; then
   __traverse "simulation"
 fi
 

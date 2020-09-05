@@ -34,8 +34,9 @@ subt_subcommand() {
 
   # git status
   if chk_flag info $@; then
+    shift # shift the 'git' subcommand
     shift # shift the 'info' subcommand
-    # ($GL_GIT_HOOKS_DIR/info.bash $@)
+    ($GL_GIT_HOOKS_DIR/info.bash $@)
     # . $GL_GIT_HOOKS_DIR/info.bash $@
     # info.bash
     # complete -F _dothis_completions git subt $@
@@ -53,38 +54,37 @@ subt_subcommand() {
 # @brief 'git subt' wrapper entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 subt() {
+  # echo "main?"
 
   # execute actual git command (filter any 'git subt' subcommands)
   # if ! chk_flag info $@; then
-  if ! chk_nth_flag 1 "subt" "$@"; then
+  if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
+    text
+    title "Usage: $(basename $0) subt [command] [<arg>] "
+    text_color "Subcommands:"
+    text_color "git"
+    text_color "      info: show the working tree status for all level git repos."
+    text_color "      status: show the working tree status for all level git repos."
+    text_color "      fetch:  download objects and refs for all level git repos."
+    text_color "      checkout: TODO"
+    text_color "      sync: TODO"
+    text_color "      pull: TODO"
+    text_color "      push: TODO"
+    text_color "      -h, --help, help  : shows usage help for 'subt git'"
+    text_color "deploy"
+    text_color "      status: show the working tree status for all level git repos."
+    text_color "      fetch:  download objects and refs for all level git repos."
+    text_color "      checkout: TODO"
+    text_color "      sync: TODO"
+    text_color "      pull: TODO"
+    text_color "      push: TODO"
+    text_color "      -h, --help, help  : shows usage help for 'git subt'"
+    text_color "For more help, please see the README.md or wiki."
+    GL_TEXT_COLOR=$FG_DEFAULT
+    return 0
 
-    # TODO: make this installed by everyone via ansible
-    # git sync  -- add this to git config using ansible?
-    # make sure to only do a git sync, when doing git status, not other commands?
-    # have a docker image pull check too...
-
-    command git "$@"
-
-  # execute 'git subt' subcommand
   elif chk_nth_flag 1 "git" "$@"; then
-    shift # shift the subt flag
-
-    if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
-      GL_TEXT_COLOR=$FG_LCYAN
-      text
-      title "Usage: $(basename $0) subt [command] [<arg>] "
-      text_color "Commands:"
-      text_color "      status: show the working tree status for all level git repos."
-      text_color "      fetch:  download objects and refs for all level git repos."
-      text_color "      checkout: TODO"
-      text_color "      sync: TODO"
-      text_color "      pull: TODO"
-      text_color "      push: TODO"
-      text_color "      -h, --help, help  : shows usage help for 'git subt'"
-      text_color "For more help, please see the README.md or wiki."
-      GL_TEXT_COLOR=$FG_DEFAULT
-      return 0
-    fi
+    echo "git?"
 
     # execute git subt main entrypoint
     subt_subcommand $@
@@ -97,10 +97,33 @@ subt() {
     #     && continue
     #   set -- "$@" "$arg"
     # done
+
+    # TODO: make this installed by everyone via ansible
+    # git sync  -- add this to git config using ansible?
+    # make sure to only do a git sync, when doing git status, not other commands?
+    # have a docker image pull check too...
+
+    # command git "$@"
+
+  # execute 'git subt' subcommand
+  elif chk_nth_flag 1 "deploy" "$@"; then
+    echo "deploy?"
   fi
 }
 
-complete -F _dothis_completions subt
+# if [ 1 = 1 ]; then
+# if chk_flag --help $@ ; then
+#   echo "we are in help"
+#   # complete -F __subt_completion subt
+#   complete -F __subt_help_completion subt
+# elif chk_flag --help $@ ; then
+#   complete -F __subt_completion subt
+# else
+#   # complete -F __subt_completion_short subt
+# fi
 
-# subt
+# complete -F __subt_completion subt
+complete -F _subt_completion_v2 subt
 
+# restore default completion: complete -F _rr rr
+  # https://unix.stackexchange.com/questions/63171/restore-default-completion
