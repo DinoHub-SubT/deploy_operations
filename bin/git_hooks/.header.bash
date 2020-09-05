@@ -1,10 +1,8 @@
 # globals
 
-##
-# Source: operations/deploy/azurebooks/scripts/header.sh
+# @source: operations/deploy/azurebooks/scripts/header.sh
 # Change text colors
 # Thanks: https://misc.flogisoft.com/bash/tip_colors_and_formatting
-##
 FG_DEFAULT="\e[39m"
 FG_BLACK="\e[30m"
 FG_RED="\e[31m"
@@ -37,14 +35,13 @@ DISABLE_WARNING=0
 
 GL_TEXT_COLOR=${FG_DEFAULT}
 
-##
-# Source: operations/deploy/azurebooks/scripts/header.sh
-# Checks arguments to make sure they exist and are equal
-# $1: flag to check for arguments to contain
-# $>1: arguments to check against
-# Returns 0 if $1 matches anything $>1, returns 1 if no matches, 2 if $1 is empty
+# @source: operations/deploy/azurebooks/scripts/header.sh
+# @brief Checks arguments to make sure they exist and are equal
+# @params $1  flag to check for arguments to contain
+# @params $>1 arguments to check against
+# @return 0 if $1 matches anything $>1, returns 1 if no matches, 2 if $1 is empty
 #
-# Usage: "if chk_flag -y $@; then ..."
+# @usage: "if chk_flag -y $@; then ..."
 function chk_flag() {
   value=$1
 
@@ -59,78 +56,64 @@ function chk_flag() {
   return 1
 }
 
-##
-# Writes out colored text
+# @brief Writes out colored text
 function text() {
   echo -e "${FG_COLOR_TEXT}${@}${FG_DEFAULT}"
 }
 
-##
-# Writes out a set colored message
-#
+# @brief Writes out a set colored message
 function text_color() {
     echo -e "${GL_TEXT_COLOR}${@}${FG_DEFAULT}"
 }
 
-##
-# Writes out a colored title
-function larger_text() {
+# @brief Writes out a colored title
+_larger_text() {
     echo -e "${FG_COLOR_TITLE}${@}${FG_DEFAULT}"
 }
 
-function chk_eq() {
+# @brief check for equality: two values are equal as strings
+_chk_eq() {
   if [ "$1" = "$2" ]; then
     return 0
   fi
   return 1
 }
 
-##
-# Get all the submodules in the current directory
-##
-function get_all_submodules() {
-  local result=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
-  echo $result
+# @brief get all the submodules in the current directory
+__get_all_submodules() {
+  echo $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
 }
 
-function hello() {
-  echo "hello workd?"
-}
-
-# traverse through all the submodules in the given source directory
-function traverse_submodules() {
+# @brief traverse through all the submodules in the given source directory
+_traverse_submodules() {
   # find all the submodules in the current path level
-  local submodules=$(get_all_submodules)
-  local funcptr=$1
+  local _sub=$(__get_all_submodules)
+  local _funptr=$1
 
   # recursive traverse for found submodules
-  for submodule in $submodules; do
-    # print warning & ignore if directory does not exist
-    if [ -d "$submodule" ]; then
-      # get submodule git information
-      pushd $submodule
-
-      # execute function
-      ($funcptr)
-
-      # recursive traverse, for any nested submodules
-      traverse_submodules $2
-      popd
-
+  for _sub in $_sub; do
+    # if exists, traverse submodule for any nested submodules & execute _funptr
+    if [ -d "$_sub" ]; then
+      pushd $_sub  # cd to the submodule directory
+      ($_funptr)      # execute function
+      _traverse_submodules $2 # recursively traverse the submodules, for any nested submodules
+      popd  # return to the previous current directory (before recursive traversal)
     fi
   done
 }
 
-# Returns "*" if the current git branch is dirty.
-function is_git_dirty() {
+# @brief returns "*" if the current git branch is dirty.
+_git_is_dirty() {
   [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*"
 }
 
-function num_git_untracked() {
+# @brief returns number of untracked files
+_git_nuntrack() {
   expr `git status --porcelain 2>/dev/null| grep "^??" | wc -l`
 }
 
-function num_git_uncommited() {
+# @brief returns number of uncommitted files
+_git_nuncommit() {
   expr $(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 }
 

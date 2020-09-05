@@ -2,73 +2,95 @@
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/git_hooks/.header.bash"
 
-# globals (printf colors)
-GL_RED=$(tput setaf 1)
-GL_BLUE=$(tput setaf 4)
-GL_NORMAL=$(tput sgr0)
-
-# //////////////////////////////////////////////////////////////////////////////
-# @brief displays the 'git status' of a submodule
-# //////////////////////////////////////////////////////////////////////////////
-function info() {
-  # get the git info
-  local submodule=$(realpath --relative-to="$SUBT_PATH" "$(pwd)")
-  local commit_hash=$(git rev-parse --verify HEAD)
-  local branch=$(git rev-parse --abbrev-ref HEAD)
-  local url=$(git config --get remote.origin.url)
-  local dirty=$(is_git_dirty)
-  local untracked=$(num_git_untracked)
-  local uncommitted=$(num_git_uncommited)
-  local status=""
-
-  # check if detached head
-  if [[ "$branch" != "HEAD" ]]; then
-    branch="$GL_BLUE$branch$GL_NORMAL"
-  else
-    branch="$GL_NORMAL-$GL_NORMAL"
-  fi
-
-  # check if git untracked
-  [[ "$untracked" != "0" ]] && status=" $untracked untracked"
-  # check if git status is dirty
-  [[ "$dirty" = "*" ]] && status="$(git diff --shortstat), $untracked untracked"
-
-  # column print git info
-  printf "%-50s | %-30s | %-75s | %-30s | %-30s \n"  \
-    "$submodule" \
-    "$branch" \
-    "$GL_RED$status$GL_NORMAL" \
-    "$commit_hash" \
-    "$url"
+# @brief display help usage message
+__info_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: info [<flag>] [<flag>] "
+  text_color
+  text_color "flags:"
+  text_color "-b     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "-c     : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "-p     : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "-s     : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "-ugv   : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "-uav   : uav intermediate level repo -> ~/deploy_ws/src/uav"
+  text_color "help   : View help usage message for each sub command."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
 }
 
-# //////////////////////////////////////////////////////////////////////////////
-# @brief __traverse over all submodules in the intermediate repos
-# //////////////////////////////////////////////////////////////////////////////
-function __traverse() {
-  local interrepo=$1
-  pushd "$SUBT_PATH/$interrepo"
-  # title
-  text "\n$FG_LCYAN|--$interrepo--|"
-  # info for intermediate repo
-  info
+# @brief displays the 'git status' of a submodule
+_info() {
+  # printf colors
+  local _pfred=$(tput setaf 1)
+  local _pfblue=$(tput setaf 4)
+  local _pfnormal=$(tput sgr0)
 
-  # git the dirty of inter-repo, pass that as an array to info fun
-  # - if name matches submodule repo, then mark as uncommitted submodule (or 'new commits')
+  # collect git submodule status information
+  local _submodule=$(realpath --relative-to="$SUBT_PATH" "$(pwd)")
+  local _hash=$(git rev-parse --verify HEAD)
+  local _branch=$(git rev-parse --abbrev-ref HEAD)
+  local _url=$(git config --get remote.origin.url)
+  local _dirty=$(_git_is_dirty)
+  local _untrack=$(_git_nuntrack)
+  local _uncommit=$(_git_nuncommit)
+  local _status=""
+
+  # determine the type of output display format for detached or non-detached head
+  if [[ "$_branch" != "HEAD" ]]; then
+    _branch="$_pfblue$_branch$_pfnormal"
+  else
+    _branch="$_pfnormal-$_pfnormal"
+  fi
+
+  # check if git submodule has any untracked files
+  [[ "$_untrack" != "0" ]] && _status=" $_untrack _untrack"
+  # check if git submodule status is dirty
+  [[ "$_dirty" = "*" ]] && _status="$(git diff --shortstat), $_untrack _untrack"
+
+  # display submodule information as a column table print style
+  printf "%-50s | %-30s | %-75s | %-30s | %-30s \n"  \
+    "$_submodule" \
+    "$_branch" \
+    "$_pfred$_status$_pfnormal" \
+    "$_hash" \
+    "$_url"
+}
+
+# @brief traverse over all submodules in the intermediate repos, apply the given function on _submodule
+__traverse() {
+  local _inter_repo=$1
+  pushd "$SUBT_PATH/$_inter_repo"
+  # title
+  text "\n$FG_LCYAN|--$_inter_repo--|"
+  # info for intermediate repo
+  _info
+
+  # git the _dirty of inter-repo, pass that as an array to info fun
+  # - if name matches _submodule repo, then mark as _uncommit _submodule (or 'new commits')
   # tab complete the argument options...
-  # TODO: not submodule cloned...
+  # TODO: not _submodule cloned...
 
   # info for module repo
-  traverse_submodules info
+  _traverse_submodules _info
   popd
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief: script main entrypoint
+# @brief: display submodule git information
+# - given a intermediate repo flag for submodule repo group selection
+# - displays submodule info recursively
+# - allow selection for multiple intermediate repo submodules
 # //////////////////////////////////////////////////////////////////////////////
-larger_text "== SubT Git Status =="
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
+  __info_help
+  exit
+fi
 
-# check all the specific inter-repo flags
+_larger_text "== SubT Git Info =="
+
 if chk_flag -b $@ || [ -z "$1" ]; then
   __traverse "basestation"
 fi
@@ -93,3 +115,4 @@ if chk_flag -uav $@ || [ -z "$1" ]; then
   __traverse "uav"
 fi
 
+exit_success

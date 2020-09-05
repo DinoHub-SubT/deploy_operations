@@ -4,10 +4,13 @@
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/git_hooks/.header.bash"
 
+# import all the submodules
+
 # globals
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
 
-_subt_help() {
+# @brief autocomplete usage message for subt command
+__ac_subt() {
   local usage=(
     "deploy : Deployer tool to setup localhost, azure or robots system."
     "git    : Helper subcommands for maintaining deploy 3 level repo."
@@ -19,10 +22,23 @@ _subt_help() {
   COMPREPLY=("${usage[@]}")
 }
 
-_git_help() {
+# @brief autocomplete usage message for 'subt deploy' command
+__ac_deploy() {
+  local usage=(
+    "robots     : deploy robots."
+    "help, -h : View help usage message for each sub command."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+# @brief autocomplete usage message for 'subt git' command
+__ac_git() {
   local usage=(
     "info     : Show the general git info for every submodule (inter and lower)."
     "status   : Show the git status for every submodule (inter and lower)."
+    "sync     : Fetchs & Syncs the local branches with the remote branches."
     "checkout : Checks out a given branch for an intermediate repo or submodule."
     "clean    : Cleans an intermediate repo or submodule."
     "reset    : Resets intermediate repo or submodule to detached HEAD."
@@ -34,24 +50,16 @@ _git_help() {
   COMPREPLY=("${usage[@]}")
 }
 
-_git_info_help() {
+# @brief autocomplete usage message for 'subt deploy info' command
+__ac_git_info() {
   local usage=(
-    "-b     : Basestation intermediate -> ~/deploy_ws/src/basestation"
-    "-c     : Common intermediate -> ~/deploy_ws/src/common"
-    "-p     : Perception intermediate repo."
-    "-s     : Simulation intermediate repo."
-    "-ugv   : Ugv intermediate repo."
-    "-uav   : Uav intermediate repo."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
-_deploy_help() {
-  local usage=(
-    "robots     : deploy robots."
-    "help, -h : View help usage message for each sub command."
+    "-b       : Basestation intermediate -> ~/deploy_ws/src/basestation"
+    "-c       : Common intermediate -> ~/deploy_ws/src/common"
+    "-p       : Perception intermediate repo."
+    "-s       : Simulation intermediate repo."
+    "-ugv     : Ugv intermediate repo."
+    "-uav     : Uav intermediate repo."
+    "help     : View help usage message for each sub command."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -77,8 +85,10 @@ _subt_completion() {
       COMPREPLY=("deploy")
     elif [[ $curr =~ ^(g|gi|git)$ ]] ; then
       COMPREPLY=("git")
+    elif [[ $curr =~ ^(h|he|hel|help)$ ]] ; then
+      COMPREPLY=("help")
     else
-      _subt_help
+      __ac_subt
     fi
 
   # we have completed the first and second tokens. i.e. we have a subcommand
@@ -88,8 +98,11 @@ _subt_completion() {
       if [[ $curr =~ ^(i|in|inf|info)$ ]] ; then  # TODO: better regex match, leading characters (for example)
         COMPREPLY=("info")
 
-      elif [[ $curr =~ ^(s|st|sta|stat|statu|status)$ ]] ; then
+      elif [[ $curr =~ ^(st|sta|stat|statu|status)$ ]] ; then
         COMPREPLY=("status")
+
+      elif [[ $curr =~ ^(sy|syn|sync)$ ]] ; then
+        COMPREPLY=("sync")
 
       elif [[ $curr =~ ^(ch|chec|check|checko|checkou|checkout)$ ]] ; then
         COMPREPLY=("checkout")
@@ -104,19 +117,19 @@ _subt_completion() {
         COMPREPLY=("push")
 
       else  # nothing matched, display usage
-        _git_help
+        __ac_git
       fi
     elif [ $prev = "deploy" ]; then
       # todo: check current token, then apply completion. otherwise show help...
-      _deploy_help
+      __ac_deploy
     else
-      _subt_help
+      __ac_subt
     fi
 
   # we were given a subcommand, show the usage message for subcommands
-  elif [ $COMP_CWORD = 3 ]; then
+  elif [ $COMP_CWORD -ge 3 ]; then
 
-    if [ $prev = "info" ]; then
+    if [ $prev = "info" ]; then # cant be previous, must check a few previous until hit 'git'... to enable multiple params...
       if [[ $curr =~ ^(-b)$ ]] ; then
         COMPREPLY=("-b")
 
@@ -135,8 +148,11 @@ _subt_completion() {
       elif [[ $curr =~ ^(-ua|-uav)$ ]] ; then
         COMPREPLY=("-uav")
 
+      elif [[ $curr =~ ^(-h|h|he|hel|help)$ ]] ; then
+        COMPREPLY=("help")
+
       else
-        _git_info_help
+        __ac_git_info
       fi
     fi
 

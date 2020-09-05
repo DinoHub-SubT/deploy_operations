@@ -14,6 +14,29 @@ function popd () {
 }
 
 ##
+# Creates a newline
+#
+function newline() {
+    echo -e "\n";
+}
+
+##
+# Exit with success code
+#
+function exit_success() {
+    newline;
+    exit 0;
+}
+
+##
+# Exit with failure code
+#
+function exit_failure() {
+    newline;
+    exit 1;
+}
+
+##
 # exit on success
 ##
 function exit_on_success() {
