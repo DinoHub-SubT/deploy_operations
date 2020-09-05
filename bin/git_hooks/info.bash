@@ -43,9 +43,9 @@ function info() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief traverse over all submodules in the intermediate repos
+# @brief __traverse over all submodules in the intermediate repos
 # //////////////////////////////////////////////////////////////////////////////
-function traverse() {
+function __traverse() {
   local interrepo=$1
   pushd "$SUBT_PATH/$interrepo"
   # title
@@ -69,27 +69,27 @@ function traverse() {
 larger_text "== SubT Git Status =="
 
 # check all the specific inter-repo flags
-if chk_flag -bs $@ || chk_flag -a $@; then
-  traverse "basestation"
+if chk_flag -bs $@ || [ -z "$1" ]; then
+  __traverse "basestation"
 fi
 
-if chk_flag -cm $@ || chk_flag -a $@; then
-  traverse "common"
+if chk_flag -cm $@ || [ -z "$1" ]; then
+  __traverse "common"
 fi
 
-if chk_flag -per $@ || chk_flag -a $@; then
-  traverse "perception"
+if chk_flag -per $@ || [ -z "$1" ]; then
+  __traverse "perception"
 fi
 
-if chk_flag -sim $@ || chk_flag -a $@; then
-  traverse "simulation"
+if chk_flag -sim $@ || [ -z "$1" ]; then
+  __traverse "simulation"
 fi
 
-if chk_flag -ugv $@ || chk_flag -a $@; then
-  traverse "ugv"
+if chk_flag -ugv $@ || [ -z "$1" ]; then
+  __traverse "ugv"
 fi
 
-if chk_flag -uav $@ || chk_flag -a $@; then
-  traverse "uav"
+if chk_flag -uav $@ || [ -z "$1" ]; then
+  __traverse "uav"
 fi
 

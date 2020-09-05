@@ -102,7 +102,7 @@ function sshtraverse() {
 # $>2: given arguments to check against
 # Returns 0 if check is valid, otherwise some error exit code
 ##
-function check_nth_flag() {
+function chk_nth_flag() {
   n=$1 value=$2
   shift 2
   check=${@:$n:1}

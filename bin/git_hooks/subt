@@ -10,38 +10,36 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
 # example:
 # list all submodules
 # git subt list -- lists all modules
-
 # show the git subt status, no recursive?
 # git subt status -ug -ua -c -l -s -d -b
 # git subt status -ugv -uav -cmn -launch -sim -docker -basestation
 # git subt status -r -ug # recursive
 # git subt status -m base_node
-
 # git subt fetch -r -ug -ua -c -l -s -d -b
 # git subt fetch -r -ug -ua -c -l -s -d -b
-
 # syncs all local branches with remote. i.e. does a hard reset
 # git subt sync -r -ugv
-
 # ??
 # git subt pull -ugv
 # git subt push -ugv
-
 # git subt add /path/to/submodule
-
 # git subt checkout -b branch name
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief evaluate which subcommand to switch and execute
 # //////////////////////////////////////////////////////////////////////////////
-subcommand_switch() {
+subt_subcommand() {
   GL_TEXT_COLOR=$FG_LCYAN
   text_color "== Deployer Git Hooks =="
 
   # git status
   if chk_flag info $@; then
     shift # shift the 'info' subcommand
-    ($GL_GIT_HOOKS_DIR/info.bash $@)
+    # ($GL_GIT_HOOKS_DIR/info.bash $@)
+    # . $GL_GIT_HOOKS_DIR/info.bash $@
+    # info.bash
+    # complete -F _dothis_completions git subt $@
+    # system("/bin/bash", "-c", "compgen -F _dothis_completions info.bash")
 
   # git fetch
   elif chk_flag fetch $@; then
@@ -54,11 +52,11 @@ subcommand_switch() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'git subt' wrapper entrypoint
 # //////////////////////////////////////////////////////////////////////////////
-git() {
+subt() {
 
   # execute actual git command (filter any 'git subt' subcommands)
   # if ! chk_flag info $@; then
-  if ! check_nth_flag 1 "subt" "$@"; then
+  if ! chk_nth_flag 1 "subt" "$@"; then
 
     # TODO: make this installed by everyone via ansible
     # git sync  -- add this to git config using ansible?
@@ -68,7 +66,7 @@ git() {
     command git "$@"
 
   # execute 'git subt' subcommand
-  elif check_nth_flag 1 "subt" "$@"; then
+  elif chk_nth_flag 1 "git" "$@"; then
     shift # shift the subt flag
 
     if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
@@ -89,7 +87,7 @@ git() {
     fi
 
     # execute git subt main entrypoint
-    subcommand_switch $@
+    subt_subcommand $@
 
     # shift the subt arguments (they are standard for all 'git subt' subcommands)
     # for arg do
@@ -100,5 +98,9 @@ git() {
     #   set -- "$@" "$arg"
     # done
   fi
-
 }
+
+complete -F _dothis_completions subt
+
+# subt
+

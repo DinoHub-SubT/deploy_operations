@@ -17,7 +17,7 @@
 # check every connection in the user's ssh config
 # sshtraverse $GL_SSH_CONFIG display
 
-if check_nth_flag 1 "subt" "$@"; then
+if chk_nth_flag 1 "subt" "$@"; then
   echo "check nth success"
 else
   echo "check nth failed"
