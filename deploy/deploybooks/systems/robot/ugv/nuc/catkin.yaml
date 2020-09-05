@@ -94,10 +94,10 @@
     # ////////////////////////////////////////////////////////////////////////////
     - clean:
     # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/ugv/perception
-      - rm -rf ~/deploy_ws/build/ugv/perception
-      - rm -rf ~/deploy_ws/install/ugv/perception
-      - rm -rf ~/deploy_ws/logs/ugv/perception
+      - rm -rf ~/deploy_ws/devel/perception
+      - rm -rf ~/deploy_ws/build/perception
+      - rm -rf ~/deploy_ws/install/perception
+      - rm -rf ~/deploy_ws/logs/perception
 
     # ////////////////////////////////////////////////////////////////////////////
     - build:
