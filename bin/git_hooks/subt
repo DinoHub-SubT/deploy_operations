@@ -37,10 +37,6 @@ subt_subcommand() {
     shift # shift the 'git' subcommand
     shift # shift the 'info' subcommand
     ($GL_GIT_HOOKS_DIR/info.bash $@)
-    # . $GL_GIT_HOOKS_DIR/info.bash $@
-    # info.bash
-    # complete -F _dothis_completions git subt $@
-    # system("/bin/bash", "-c", "compgen -F _dothis_completions info.bash")
 
   # git fetch
   elif chk_flag fetch $@; then
@@ -111,19 +107,6 @@ subt() {
   fi
 }
 
-# if [ 1 = 1 ]; then
-# if chk_flag --help $@ ; then
-#   echo "we are in help"
-#   # complete -F __subt_completion subt
-#   complete -F __subt_help_completion subt
-# elif chk_flag --help $@ ; then
-#   complete -F __subt_completion subt
-# else
-#   # complete -F __subt_completion_short subt
-# fi
-
 # complete -F __subt_completion subt
-complete -F _subt_completion_v2 subt
+complete -F _subt_completion subt
 
-# restore default completion: complete -F _rr rr
-  # https://unix.stackexchange.com/questions/63171/restore-default-completion

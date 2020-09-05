@@ -7,59 +7,6 @@
 # globals
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
 
-
-# //////////////////////////////////////////////////////////////////////////////
-# tab autocompletion for subt subcommands
-# //////////////////////////////////////////////////////////////////////////////
-__subt_completion() {
-
-  local cur prev
-  cur=${COMP_WORDS[COMP_CWORD]}
-  prev=${COMP_WORDS[COMP_CWORD-1]}
-
-  # echo "hello?"
-  case ${COMP_CWORD} in
-    (1)
-      # echo "prev is: ${prev}"
-      # echo "curr is: ${curr}"
-      local main_help=(
-        "deploy : Deployer tool to setup localhost, azure or robots system."
-        "git    : Helper subcommands for maintaining deploy 3 level repo."
-        "help   : View help usage message."
-      )
-      main_help[0]="$(printf '%*s' "-$COLUMNS"  "${main_help[0]}")"
-      COMPREPLY=("${main_help[@]}")
-      # echo $main_help
-      ;;
-    (2)
-      case ${prev} in
-        git)
-          # COMPREPLY=($(compgen -W "some git args" -- ${cur}))
-          local git_help=(
-            "info     : Show the general git info for every submodule (inter and lower)."
-            "status   : Show the git status for every submodule (inter and lower)."
-            "help, -h : View help usage message for each sub command."
-          )
-          git_help[0]="$(printf '%*s' "-$COLUMNS"  "${git_help[0]}")"
-          COMPREPLY=("${git_help[@]}")
-          COMPREPLY=("hello")
-          ;;
-        deploy)
-          echo "we here??"
-          local deploy_help=(
-            "robots     : deploy robots."
-          )
-          deploy_help[0]="$(printf '%*s' "-$COLUMNS"  "${deploy_help[0]}")"
-          COMPREPLY=("${deploy_help[@]}")
-          ;;
-      esac
-      ;;
-    (*)
-      COMPREPLY=()
-      ;;
-  esac
-}
-
 _subt_help() {
   local usage=(
     "deploy : Deployer tool to setup localhost, azure or robots system."
@@ -112,66 +59,54 @@ _deploy_help() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# 
+# tab autocompletion for subt subcommands
+# TODO: make a proper regex matcher everywhere!
 # //////////////////////////////////////////////////////////////////////////////
-_subt_completion_v2() {
+_subt_completion() {
 
-  COMPREPLY=() # Initialize the array variable through which completions must be passed out.
+  COMPREPLY=() # initialize completion result array.
 
   # Retrieve the current command-line token, i.e., the one on which completion is being invoked.
-  local curToken=${COMP_WORDS[COMP_CWORD]}
-  local prevToken=${COMP_WORDS[COMP_CWORD-1]}
-
-  # local cur prev
-  # cur=${COMP_WORDS[COMP_CWORD]}
-  # prev=${COMP_WORDS[COMP_CWORD-1]}
-  # echo "curr Tok: $curToken?"
-  # curToken=${curToken//'\'}
+  local curr=${COMP_WORDS[COMP_CWORD]}
+  local prev=${COMP_WORDS[COMP_CWORD-1]}
 
   # given only one completion token, it is, by default the 'subt' token -- since 'complete' main call from subt.bash already signals it
   if [ $COMP_CWORD = 1 ]; then
     # since given only 'subt' token, show the usage message
-  
-  # given another token, parse te kind of token to match
-  # elif [ $COMP_CWORD = 2 ]; then
-  # regex match current token, to match close to 'deploy' works
-  # if [[ $curToken =~ ^[0-9]+/? ]]; then
-  # if [[ $curToken == "d" ]] || ; then
-  
-    # TODO: make a proper regex matcher
-    if [[ $curToken =~ ^(d|de|dep|depl|deplo|deploy)$ ]] ; then
+    if [[ $curr =~ ^(d|de|dep|depl|deplo|deploy)$ ]] ; then
       COMPREPLY=("deploy")
-    elif [[ $curToken =~ ^(g|gi|git)$ ]] ; then
+    elif [[ $curr =~ ^(g|gi|git)$ ]] ; then
       COMPREPLY=("git")
     else
       _subt_help
     fi
+
   # we have completed the first and second tokens. i.e. we have a subcommand
   elif [ $COMP_CWORD = 2 ]; then
-    if [ $prevToken = "git" ]; then
+    if [ $prev = "git" ]; then
 
-      if [[ $curToken =~ ^(i|in|inf|info)$ ]] ; then  # TODO: better regex match, leading characters (for example)
+      if [[ $curr =~ ^(i|in|inf|info)$ ]] ; then  # TODO: better regex match, leading characters (for example)
         COMPREPLY=("info")
 
-      elif [[ $curToken =~ ^(s|st|sta|stat|statu|status)$ ]] ; then
+      elif [[ $curr =~ ^(s|st|sta|stat|statu|status)$ ]] ; then
         COMPREPLY=("status")
 
-      elif [[ $curToken =~ ^(ch|chec|check|checko|checkou|checkout)$ ]] ; then
+      elif [[ $curr =~ ^(ch|chec|check|checko|checkou|checkout)$ ]] ; then
         COMPREPLY=("checkout")
 
-      elif [[ $curToken =~ ^(cl|cle|clea|clean)$ ]] ; then
+      elif [[ $curr =~ ^(cl|cle|clea|clean)$ ]] ; then
         COMPREPLY=("clean")
 
-      elif [[ $curToken =~ ^(r|re|res|rese|reset)$ ]] ; then
+      elif [[ $curr =~ ^(r|re|res|rese|reset)$ ]] ; then
         COMPREPLY=("reset")
 
-      elif [[ $curToken =~ ^(p|pu|pus|push)$ ]] ; then
+      elif [[ $curr =~ ^(p|pu|pus|push)$ ]] ; then
         COMPREPLY=("push")
 
       else  # nothing matched, display usage
         _git_help
       fi
-    elif [ $prevToken = "deploy" ]; then
+    elif [ $prev = "deploy" ]; then
       # todo: check current token, then apply completion. otherwise show help...
       _deploy_help
     else
@@ -181,23 +116,23 @@ _subt_completion_v2() {
   # we were given a subcommand, show the usage message for subcommands
   elif [ $COMP_CWORD = 3 ]; then
 
-    if [ $prevToken = "info" ]; then
-      if [[ $curToken =~ ^(-b)$ ]] ; then
+    if [ $prev = "info" ]; then
+      if [[ $curr =~ ^(-b)$ ]] ; then
         COMPREPLY=("-b")
 
-      elif [[ $curToken =~ ^(-c)$ ]] ; then
+      elif [[ $curr =~ ^(-c)$ ]] ; then
         COMPREPLY=("-c")
 
-      elif [[ $curToken =~ ^(-p)$ ]] ; then
+      elif [[ $curr =~ ^(-p)$ ]] ; then
         COMPREPLY=("-p")
 
-      elif [[ $curToken =~ ^(-s)$ ]] ; then
+      elif [[ $curr =~ ^(-s)$ ]] ; then
         COMPREPLY=("-s")
 
-      elif [[ $curToken =~ ^(-ug|-ugv)$ ]] ; then
+      elif [[ $curr =~ ^(-ug|-ugv)$ ]] ; then
         COMPREPLY=("-ugv")
 
-      elif [[ $curToken =~ ^(-ua|-uav)$ ]] ; then
+      elif [[ $curr =~ ^(-ua|-uav)$ ]] ; then
         COMPREPLY=("-uav")
 
       else
@@ -206,14 +141,4 @@ _subt_completion_v2() {
     fi
 
   fi
-  # fi
-  # case ${COMP_CWORD} in
-  #   # given only 1 completion word. meaning only the 'subt' has been given.
-  #   (1)
-  #     _subt_help
-  #     ;;
-  #   (*)
-  #     COMPREPLY=()
-  #     ;;
-  # esac
 }
