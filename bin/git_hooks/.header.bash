@@ -117,3 +117,7 @@ _git_nuncommit() {
   expr $(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 }
 
+_git_branches(){
+  echo "$(git for-each-ref --shell --format="%(refname)" refs/$1/)"
+}
+

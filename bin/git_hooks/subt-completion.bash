@@ -53,12 +53,29 @@ __ac_git() {
 # @brief autocomplete usage message for 'subt deploy info' command
 __ac_git_info() {
   local usage=(
-    "-b       : Basestation intermediate -> ~/deploy_ws/src/basestation"
-    "-c       : Common intermediate -> ~/deploy_ws/src/common"
-    "-p       : Perception intermediate repo."
-    "-s       : Simulation intermediate repo."
-    "-ugv     : Ugv intermediate repo."
-    "-uav     : Uav intermediate repo."
+    "-b       : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "-c       : common intermediate level repo -> ~/deploy_ws/src/common"
+    "-p       : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "-s       : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "-ugv     : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+    "-uav     : uav intermediate level repo -> ~/deploy_ws/src/uav"
+    "help     : View help usage message for each sub command."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+# @brief autocomplete usage message for 'subt deploy info' command
+__ac_git_sync() {
+  local usage=(
+    "-b       : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "-c       : common intermediate level repo -> ~/deploy_ws/src/common"
+    "-p       : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "-s       : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "-ugv     : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+    "-uav     : uav intermediate level repo -> ~/deploy_ws/src/uav"
+    "-del     : delete any local branches not found on the origin remote."
     "help     : View help usage message for each sub command."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -129,6 +146,7 @@ _subt_completion() {
   # we were given a subcommand, show the usage message for subcommands
   elif [ $COMP_CWORD -ge 3 ]; then
 
+    # == info ==
     if [ $prev = "info" ]; then # cant be previous, must check a few previous until hit 'git'... to enable multiple params...
       if [[ $curr =~ ^(-b)$ ]] ; then
         COMPREPLY=("-b")
@@ -155,6 +173,37 @@ _subt_completion() {
         __ac_git_info
       fi
     fi
+    # == sync ==
+    if [ $prev = "sync" ]; then # cant be previous, must check a few previous until hit 'git'... to enable multiple params...
+      if [[ $curr =~ ^(-b)$ ]] ; then
+        COMPREPLY=("-b")
+
+      elif [[ $curr =~ ^(-c)$ ]] ; then
+        COMPREPLY=("-c")
+
+      elif [[ $curr =~ ^(-p)$ ]] ; then
+        COMPREPLY=("-p")
+
+      elif [[ $curr =~ ^(-s)$ ]] ; then
+        COMPREPLY=("-s")
+
+      elif [[ $curr =~ ^(-ug|-ugv)$ ]] ; then
+        COMPREPLY=("-ugv")
+
+      elif [[ $curr =~ ^(-ua|-uav)$ ]] ; then
+        COMPREPLY=("-uav")
+
+      elif [[ $curr =~ ^(-d|-de|del)$ ]] ; then
+        COMPREPLY=("-del")
+
+      elif [[ $curr =~ ^(-h|h|he|hel|help)$ ]] ; then
+        COMPREPLY=("help")
+
+      else
+        __ac_git_sync
+      fi
+    fi
+
 
   fi
 }

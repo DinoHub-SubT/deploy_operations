@@ -63,9 +63,8 @@ _info() {
 __traverse() {
   local _inter_repo=$1
   pushd "$SUBT_PATH/$_inter_repo"
-  # title
   text "\n$FG_LCYAN|--$_inter_repo--|"
-  # info for intermediate repo
+  # info intermedite repo only
   _info
 
   # git the _dirty of inter-repo, pass that as an array to info fun
@@ -73,7 +72,7 @@ __traverse() {
   # tab complete the argument options...
   # TODO: not _submodule cloned...
 
-  # info for module repo
+  # info  all recursive submodule repos
   _traverse_submodules _info
   popd
 }

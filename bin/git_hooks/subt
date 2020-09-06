@@ -56,9 +56,9 @@ __subt_subcmd_execute() {
     shift 2 # shift the 'git', 'info' tokens
     ($GL_GIT_HOOKS_DIR/info.bash $@)
 
-  elif chk_flag fetch $@; then
-    shift 2 # shift the 'git', 'info' tokens
-    . $GL_GIT_HOOKS_DIR/sync.bash
+  elif chk_flag sync $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/sync.bash $@)
   fi
 }
 
