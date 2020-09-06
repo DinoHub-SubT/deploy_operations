@@ -74,6 +74,7 @@ __ac_git_sync() {
     "-ugv     : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
     "-uav     : uav intermediate level repo -> ~/deploy_ws/src/uav"
     "-del     : delete any local branches not found on the origin remote."
+    "-hard    : sync the currently checkout branch."
     "help     : View help usage message for each sub command."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -145,7 +146,7 @@ _subt_completion() {
   elif [ $COMP_CWORD -ge 3 ]; then
 
     # == info ==
-    if [ $prev = "info" ]; then # cant be previous, must check a few previous until hit 'git'... to enable multiple params...
+    if [ $prev = "status" ]; then # cant be previous, must check a few previous until hit 'git'... to enable multiple params...
       if [[ $curr =~ ^(-b)$ ]] ; then
         COMPREPLY=("-b")
 
@@ -193,6 +194,9 @@ _subt_completion() {
 
       elif [[ $curr =~ ^(-d|-de|del)$ ]] ; then
         COMPREPLY=("-del")
+
+      elif [[ $curr =~ ^(-h|ha|har|hard)$ ]] ; then
+        COMPREPLY=("-hard")
 
       elif [[ $curr =~ ^(-h|h|he|hel|help)$ ]] ; then
         COMPREPLY=("help")

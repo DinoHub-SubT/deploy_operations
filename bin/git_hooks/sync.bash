@@ -24,37 +24,47 @@ __sync_help() {
 
 # globals
 _GL_DELETE_BRANCH=false
+_GL_IGNORE_CURR=true
 
 # @brief syncs local repository to match remote
 # - resets hard all local branches to match remote branches
 # - removes all deleted branches
 __sync_reset_hard() {
 
-  # collect git submodule status information
-  local _heads=($(_git_branches heads))       # get the local branches
-  local _remotes=($(_git_branches remotes))   # get the remote branches
-  local _co=$(git symbolic-ref -q HEAD)       # get the current checked out branch
-  _co=${_co#"refs/heads/"}                    # find the short branch name
-  [ -z $_co ] && _co=$(git rev-parse --verify HEAD)  # co as hash commit, if co as detached head
+  # collect the local & remote branches
+  local _heads=($(_git_branches heads))
+  local _remotes=($(_git_branches remotes))
 
+  # get the current checked out branch
+  local _co=$(git symbolic-ref -q HEAD)
+  # ignore current branch (if given as user argument)
+  $_GL_IGNORE_CURR && _heads=( "${_heads[@]/$_co}" )
+
+  # find the short branch name
+  _co=${_co#"refs/heads/"}
+  # echo "what is this? ${_heads[@]} "
   # go through all local branches and reset hard local branch to origin/remote
   for branch in "${_heads[@]}"; do
     branch=$( echo "$branch" | tr -d "\'")  # remove the single quotes from the branch string
     short=${branch#"refs/heads/"}           # find the short branch name
-    branch="refs/remotes/origin/$short"     # for now, use origin as the remote...
 
     # match the local & remote branches
-    if val_in_arr "'$branch'" "${_remotes[@]}"; then
+    if val_in_arr "'refs/remotes/origin/$short'" "${_remotes[@]}"; then
       # reset the local branch to the remote
-      git checkout -q -f $short
-      git reset -q "origin/$short"
+      # git checkout -q -f $short
+      # git reset -q "origin/$short"
+      git update-ref "$branch" "refs/remotes/origin/$short"
     else
       [ $_GL_DELETE_BRANCH = true ] && git branch -d $short
     fi
   done
 
   # go back to original commit hash
-  git checkout -q -f $_co
+  if ! $_GL_IGNORE_CURR; then
+    [ -z $_co ] && _co=$(git rev-parse --verify HEAD)  # co as hash commit, if co as detached head
+    git checkout -q -f $_co
+  fi
+
 }
 
 # @brief displays the 'git status' of a submodule
@@ -108,6 +118,10 @@ if chk_flag -del $@; then
   _GL_DELETE_BRANCH=true
 fi
 
+if chk_flag -hard $@; then
+  _GL_IGNORE_CURR=false
+fi
+
 if chk_flag -b $@ || [ -z "$1" ]; then
   __traverse "basestation"
 fi
@@ -130,6 +144,12 @@ fi
 
 if chk_flag -uav $@ || [ -z "$1" ]; then
   __traverse "uav"
+fi
+
+if chk_flag -d $@ || [ -z "$1" ]; then
+  # sync every branch except the current branch....
+  text "\n$FG_LCYAN|--deploy--|$FG_DEFAULT"
+  _sync # sync top level deploy repo only
 fi
 
 # TODO: sync the top level branch...
