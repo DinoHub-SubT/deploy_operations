@@ -132,4 +132,7 @@ if chk_flag -uav $@ || [ -z "$1" ]; then
   __traverse "uav"
 fi
 
+# TODO: sync the top level branch...
+#       - have it remove all intermediate level branches too...
+
 exit_success

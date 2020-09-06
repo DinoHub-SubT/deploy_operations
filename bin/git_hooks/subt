@@ -25,6 +25,21 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
 # git subt add /path/to/submodule
 # git subt checkout -b branch name
 
+# push to deploy, will push to all inter repos
+# checkout to deploy, will push to all inter repos
+
+# git checkout, will checkout the same branch in all the intermediate repos at that HEAD
+
+# git pr will open a PR with only the repos with the local & remote branches
+
+# go in the inter repo and do a `git add'
+# go to top level and do a git push
+  # -- git push with see all submodule added repos & commit them with dummy messages
+  # -- then will commit the inter repo with those added modules
+  # -- then let user continue with top level commit message
+  # -- then ammend all commit messages in inter level w/ same message as top level
+  # -- then amend top level with new updated inter-repo messages
+
 # @brief display help usage message
 __subt_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -33,14 +48,12 @@ __subt_help() {
   text_color
   text_color "commands:"
   text_color "git [subcommand] [<arg>] "
-  text_color "      info     : Show the general git info for every submodule (inter and lower)."
-  text_color "      status   : Show the git status for every submodule (inter and lower)."
-  text_color "      sync     : Fetchs & Syncs the local branches with the remote branches."
-  text_color "      checkout : Checks out a given branch for an intermediate repo or submodule."
-  text_color "      clean    : Cleans an intermediate repo or submodule."
-  text_color "      reset    : Resets intermediate repo or submodule to detached HEAD."
-  text_color "      push     : Pushes local branch to origin, for intermediate repo or submodule repos."
-  text_color "      help, -h : View help usage message for each sub command."
+  text_color "    status   : Show the general git info for every submodule (inter and lower)."
+  text_color "    sync     : Fetchs & Syncs the local branches with the remote branches."
+  text_color "    reset    : Resets intermediate repo or submodule to detached HEAD."
+  text_color "    clean    : Cleans an intermediate repo or submodule."
+  text_color "    pr       : Create a pull request for top & intermeidate repo branches."
+  text_color "    help, -h : View help usage message for each sub command."
   text_color "deploy [subcommand] [<arg>] "
   text_color "      -h, --help, help  : shows usage help for 'git subt'"
   text_color
@@ -52,9 +65,9 @@ __subt_help() {
 __subt_subcmd_execute() {
   # check & execute the subt git subcommand
 
-  if chk_flag info $@; then
+  if chk_flag status $@; then
     shift 2 # shift the 'git', 'info' tokens
-    ($GL_GIT_HOOKS_DIR/info.bash $@)
+    ($GL_GIT_HOOKS_DIR/status.bash $@)
 
   elif chk_flag sync $@; then
     shift 2 # shift the 'git', 'sync' tokens

@@ -36,13 +36,11 @@ __ac_deploy() {
 # @brief autocomplete usage message for 'subt git' command
 __ac_git() {
   local usage=(
-    "info     : Show the general git info for every submodule (inter and lower)."
-    "status   : Show the git status for every submodule (inter and lower)."
+    "status   : Show the general git info for every submodule (inter and lower)."
     "sync     : Fetchs & Syncs the local branches with the remote branches."
-    "checkout : Checks out a given branch for an intermediate repo or submodule."
-    "clean    : Cleans an intermediate repo or submodule."
     "reset    : Resets intermediate repo or submodule to detached HEAD."
-    "push     : Pushes local branch to origin, for intermediate repo or submodule repos."
+    "clean    : Cleans an intermediate repo or submodule."
+    "pr       : Create a pull request for top & intermeidate repo branches."
     "help, -h : View help usage message for each sub command."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
