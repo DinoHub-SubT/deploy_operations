@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 . "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/git_hooks/.header.bash"
+. "$SUBT_PATH/operations/bin/hooks/.header.bash"
 
 # @brief display help usage message
 __status_help() {

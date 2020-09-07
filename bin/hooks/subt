@@ -2,10 +2,10 @@
 
 # load header helper functions
 . "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/git_hooks/.header.bash"
+. "$SUBT_PATH/operations/bin/hooks/.header.bash"
 
 # globals
-GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/git_hooks/
+GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 
 # example:
 # list all submodules

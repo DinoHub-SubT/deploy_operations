@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 . "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/git_hooks/.header.bash"
+. "$SUBT_PATH/operations/bin/hooks/.header.bash"
 
 # @brief display help usage message
 __reset_help() {
@@ -69,12 +69,57 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
   exit_success
 fi
 
-result=$(__regex_expand "ug" "basestation ugv uav")
-echo "matchers are: $result"
+# result=$(__regex_expand "ug" "basestation ugv uav")
+# echo "matchers are: $result"
 
 
 # declare the intermediate repo variable
 __inrepo=""
+
+# @brief autocomplete usage message for subt command
+__ac_subt_flags(){
+  echo "deploy git help"
+}
+__ac_subt() {
+  echo "help here?"
+}
+
+# match a set of arguments (i.e subcommand flags) to the input token
+__regex_expand() {
+  local _flags=($2)           # given subcommand flags to match
+  local _regex="^.*$1.*$"  # match from start -> end, match any char unlimited times
+  local _match=""
+
+  for _flag in "${_flags[@]}"; do
+    if [[ $_flag =~ $_regex ]] ; then
+      _match="$_flag $_match"
+    fi
+  done
+  echo $_match
+}
+
+# evaluate the regex match as an autocomplete or display section usage help message
+__ac_regex_eval() {
+  local _str=$1
+  local _funptr=$2
+  local _help=$3
+
+  echo "start? $_str"
+  local _result=$(__regex_expand $_str "$(__ac_subt_flags)" )
+  
+  if [ ! -z "$_result" ]; then
+    echo "first"
+    echo "_result: $_result"
+    # COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) )
+  else
+    echo "second"
+    $_help
+  fi
+  echo "done"
+}
+
+_curr="a"
+__ac_regex_eval $_curr __ac_subt_flags __ac_subt
 
 # chk_flag -b $@ || [ -z "$1" ] && __inrepo="basestation"
 
