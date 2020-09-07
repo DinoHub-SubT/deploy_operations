@@ -3,6 +3,7 @@
 # load header helper functions
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
+. "$SUBT_PATH/operations/bin/hooks/.auto_completion.bash"
 
 # globals
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
@@ -72,6 +73,8 @@ __subt_subcmd_execute() {
   elif chk_flag sync $@; then
     shift 2 # shift the 'git', 'sync' tokens
     ($GL_GIT_HOOKS_DIR/sync.bash $@)
+  elif chk_flag help $@; then
+    __git_help
   fi
 }
 
@@ -109,5 +112,5 @@ subt() {
   fi
 }
 
-# complete -F __subt_completion subt
-complete -F _subt_completion subt
+# enable tab autocompletion
+complete -F _ac_subt_completion subt

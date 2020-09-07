@@ -1,25 +1,7 @@
 #!/usr/bin/env bash
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
-
-# @brief display help usage message
-__status_help() {
-  GL_TEXT_COLOR=$FG_LCYAN
-  text
-  text_color "usage: status [<flag>] [<flag>] "
-  text_color
-  text_color "flags:"
-  text_color "-b     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "-c     : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "-p     : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "-s     : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "-ugv   : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "-uav   : uav intermediate level repo -> ~/deploy_ws/src/uav"
-  text_color "help   : View help usage message for each sub command."
-  text_color
-  text_color "For more help, please see the README.md or wiki."
-  GL_TEXT_COLOR=$FG_DEFAULT
-}
+. "$SUBT_PATH/operations/bin/hooks/.help.bash"
 
 # @brief displays the 'git status' of a submodule
 _status() {
@@ -93,27 +75,27 @@ fi
 
 _larger_text "== SubT Git Status =="
 
-if chk_flag -b $@ || [ -z "$1" ]; then
+if chk_flag -b $@ || chk_flag basestation $@ || [ -z "$1" ]; then
   __traverse "basestation"
 fi
 
-if chk_flag -c $@ || [ -z "$1" ]; then
+if chk_flag -c $@ || chk_flag common $@ || [ -z "$1" ]; then
   __traverse "common"
 fi
 
-if chk_flag -p $@ || [ -z "$1" ]; then
+if chk_flag -p $@ || chk_flag perception $@ || [ -z "$1" ]; then
   __traverse "perception"
 fi
 
-if chk_flag -s $@ || [ -z "$1" ]; then
+if chk_flag -s $@ || chk_flag simulation $@ || [ -z "$1" ]; then
   __traverse "simulation"
 fi
 
-if chk_flag -ugv $@ || [ -z "$1" ]; then
+if chk_flag -ugv $@ || chk_flag ugv $@ || [ -z "$1" ]; then
   __traverse "ugv"
 fi
 
-if chk_flag -uav $@ || [ -z "$1" ]; then
+if chk_flag -uav $@ || chk_flag uav $@ || [ -z "$1" ]; then
   __traverse "uav"
 fi
 

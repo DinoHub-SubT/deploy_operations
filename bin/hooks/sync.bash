@@ -2,26 +2,6 @@
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
 
-# @brief display help usage message
-__sync_help() {
-  GL_TEXT_COLOR=$FG_LCYAN
-  text
-  text_color "usage: sync [<flag>] [<flag>] "
-  text_color
-  text_color "flags:"
-  text_color "-b     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "-c     : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "-p     : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "-s     : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "-ugv   : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "-uav   : uav intermediate level repo -> ~/deploy_ws/src/uav"
-  text_color "-del   : delete any local branches not found on the origin remote."
-  text_color "-hard  : sync the currently checkout branch."
-  text_color "help   : View help usage message for each sub command."
-  text_color
-  text_color "For more help, please see the README.md or wiki."
-  GL_TEXT_COLOR=$FG_DEFAULT
-}
 
 # globals
 _GL_DELETE_BRANCH=false
