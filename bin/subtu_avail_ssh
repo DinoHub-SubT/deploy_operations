@@ -4,13 +4,13 @@
 . "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
 . "$(dirname $0)/.header.bash"
 
-if chk_flag --help $@ || chk_flag help $@; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   GL_TEXT_COLOR=$FG_LCYAN
   text
   title "Usage: $(basename $0) [flag] "
   text_color  "Flags:"
   text_color "      -help : shows usage message."
-  text_color "Shows which configured ssh connections are are available to connect"
+  text_color "Shows which configured ssh connections are are available to connect."
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
   exit_success

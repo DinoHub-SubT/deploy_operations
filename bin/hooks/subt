@@ -9,61 +9,77 @@
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 
 # example:
-# list all submodules
-# git subt list -- lists all modules
-# show the git subt status, no recursive?
-# git subt status -ug -ua -c -l -s -d -b
-# git subt status -ugv -uav -cmn -launch -sim -docker -basestation
-# git subt status -r -ug # recursive
-# git subt status -m base_node
-# git subt fetch -r -ug -ua -c -l -s -d -b
-# git subt fetch -r -ug -ua -c -l -s -d -b
-# syncs all local branches with remote. i.e. does a hard reset
-# git subt sync -r -ugv
-# ??
-# git subt pull -ugv
-# git subt push -ugv
-# git subt add /path/to/submodule
-# git subt checkout -b branch name
+  # list all submodules
+  # git subt list -- lists all modules
+  # show the git subt status, no recursive?
+  # git subt status -ug -ua -c -l -s -d -b
+  # git subt status -ugv -uav -cmn -launch -sim -docker -basestation
+  # git subt status -r -ug # recursive
+  # git subt status -m base_node
+  # git subt fetch -r -ug -ua -c -l -s -d -b
+  # git subt fetch -r -ug -ua -c -l -s -d -b
+  # syncs all local branches with remote. i.e. does a hard reset
+  # git subt sync -r -ugv
+  # ??
+  # git subt pull -ugv
+  # git subt push -ugv
+  # git subt add /path/to/submodule
+  # git subt checkout -b branch name
 
-# push to deploy, will push to all inter repos
-# checkout to deploy, will push to all inter repos
+  # push to deploy, will push to all inter repos
+  # checkout to deploy, will push to all inter repos
 
-# git checkout, will checkout the same branch in all the intermediate repos at that HEAD
+  # git checkout, will checkout the same branch in all the intermediate repos at that HEAD
 
-# git pr will open a PR with only the repos with the local & remote branches
+  # git pr will open a PR with only the repos with the local & remote branches
 
-# go in the inter repo and do a `git add'
-# go to top level and do a git push
-  # -- git push with see all submodule added repos & commit them with dummy messages
-  # -- then will commit the inter repo with those added modules
-  # -- then let user continue with top level commit message
-  # -- then ammend all commit messages in inter level w/ same message as top level
-  # -- then amend top level with new updated inter-repo messages
+  # go in the inter repo and do a `git add'
+  # go to top level and do a git push
+    # -- git push with see all submodule added repos & commit them with dummy messages
+    # -- then will commit the inter repo with those added modules
+    # -- then let user continue with top level commit message
+    # -- then ammend all commit messages in inter level w/ same message as top level
+    # -- then amend top level with new updated inter-repo messages
 
-# @brief display help usage message
-__subt_help() {
-  GL_TEXT_COLOR=$FG_LCYAN
-  text
-  text_color "usage: subt [command] [<arg>] "
-  text_color
-  text_color "commands:"
-  text_color "git [subcommand] [<arg>] "
-  text_color "    status   : Show the general git info for every submodule (inter and lower)."
-  text_color "    sync     : Fetchs & Syncs the local branches with the remote branches."
-  text_color "    reset    : Resets intermediate repo or submodule to detached HEAD."
-  text_color "    clean    : Cleans an intermediate repo or submodule."
-  text_color "    pr       : Create a pull request for top & intermeidate repo branches."
-  text_color "    help, -h : View help usage message for each sub command."
-  text_color "deploy [subcommand] [<arg>] "
-  text_color "      -h, --help, help  : shows usage help for 'git subt'"
-  text_color
-  text_color "For more help, please see the README.md or wiki."
-  GL_TEXT_COLOR=$FG_DEFAULT
+  # TODO: make this installed by everyone via ansible
+  # git sync  -- add this to git config using ansible?
+  # make sure to only do a git sync, when doing git status, not other commands?
+  # have a docker image pull check too...
+
+
+##
+
+# @brief evaluate which subcommand to switch and execute
+__subt_cloud_execute() {
+  # ansible azure install
+  if chk_flag ansible $@; then
+    shift 2 # shift the 'git', 'info' tokens
+    (subtani_install.sh $@)
+  # terraform azure setup
+  elif chk_flag terraform $@; then
+    shift 2 # shift the 'git', 'info' tokens
+    if chk_flag init $@; then
+      (subtf_init.sh $@)
+    elif chk_flag cert $@; then
+      (subtf_cert.sh $@)
+    elif chk_flag plan $@; then
+      (subtf_plan.sh $@)
+    elif chk_flag apply $@; then
+      (subtf_apply.sh $@)
+    elif chk_flag mkvpn $@; then
+      (subtf_mkvpn.sh $@)
+    elif chk_flag rmvpn $@; then
+      (subtf_rmvpn.sh $@)
+    elif chk_flag start $@; then
+      (subtf_start.sh $@)
+    elif chk_flag stop $@; then
+      (subtf_stop.sh $@)
+    fi
+  fi
 }
 
 # @brief evaluate which subcommand to switch and execute
-__subt_subcmd_execute() {
+__subt_git_execute() {
   # check & execute the subt git subcommand
 
   if chk_flag status $@; then
@@ -73,8 +89,33 @@ __subt_subcmd_execute() {
   elif chk_flag sync $@; then
     shift 2 # shift the 'git', 'sync' tokens
     ($GL_GIT_HOOKS_DIR/sync.bash $@)
+
   elif chk_flag help $@; then
     __git_help
+  fi
+}
+
+# @brief evaluate which subcommand to switch and execute
+__subt_tools_execute() {
+
+  if chk_flag ssh $@; then
+    shift 2 # shift the 'tools', 'ssh' tokens
+    (subtu_avail_ssh $@)
+
+  elif chk_flag teamviewer $@; then
+    shift 2 # shift the 'tools', 'teamviewer' tokens
+    (subtu_avail_teamviewer $@)
+
+  elif chk_flag rdp $@; then
+    shift 2 # shift the 'tools', 'teamviewer' tokens
+    (subtu_azure_rdp $@)
+
+  elif chk_flag snapshot $@; then
+    shift 2 # shift the 'tools', 'snapshot' tokens
+    (subtu_snapshot $@)
+
+  else
+    # TODO:  __tools_help
   fi
 }
 
@@ -85,27 +126,24 @@ subt() {
   # execute actual git command (filter any 'git subt' subcommands)
   if chk_nth_flag 1 "git" "$@"; then
     # execute git subt main entrypoint
-    __subt_subcmd_execute $@
-
-    # shift the subt arguments (they are standard for all 'git subt' subcommands)
-    # for arg do
-    #   shift
-    #   _chk_eq $arg "-a" || _chk_eq $arg "-bs" || _chk_eq $arg "-cm" || \
-    #     _chk_eq $arg "-sim" || _chk_eq $arg "-uav" || _chk_eq $arg "-ugv" \
-    #     && continue
-    #   set -- "$@" "$arg"
-    # done
-
-    # TODO: make this installed by everyone via ansible
-    # git sync  -- add this to git config using ansible?
-    # make sure to only do a git sync, when doing git status, not other commands?
-    # have a docker image pull check too...
-
+    __subt_git_execute $@
     # command git "$@"
 
   # execute 'git subt' subcommand
   elif chk_nth_flag 1 "deploy" "$@"; then
     echo "deploy?"
+
+  elif chk_nth_flag 1 "cloud" "$@"; then
+    __subt_cloud_execute $@
+
+  elif chk_nth_flag 1 "tools" "$@"; then
+    __subt_tools_execute $@
+
+  elif chk_nth_flag 1 "update" "$@"; then
+    cd $SUBT_PATH
+    ./install-deployer.bash --uninstall
+    ./install-deployer.bash --install
+
   elif chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __subt_help $@
     return 0

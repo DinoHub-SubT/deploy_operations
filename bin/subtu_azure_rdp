@@ -4,7 +4,7 @@
 . "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
 . "$(dirname $0)/.header.bash"
 
-if chk_flag --help $@ || chk_flag help $@; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   GL_TEXT_COLOR=$FG_LCYAN
   text
   title "Usage: $(basename $0) [flag] <arg> [flag] <arg> ..."

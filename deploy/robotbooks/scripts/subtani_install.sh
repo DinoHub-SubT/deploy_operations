@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/../../azurebooks/scripts/header.sh)"
 
-if chk_flag --help $@; then
-    title "$__file_name [ flags ] < system_name > < playbook > : Installs ."
-    text "Flags:"
-    text "    -az : Show the available azure ansible system names."
-    text "    -r  : Show the available robot ansible system names."
-    text "    -l  : Show the available localhost system names."
-    text "    -b  : Show the available playbooks."
-    text "Args:"
-    text "    system_name: the name of the remote system to install on"
-    text "    playbook: the name of the robot ansible playbook to run"
-    exit 0
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
+  title "$__file_name [ flags ] < system_name > < playbook > : Installs ."
+  text "Flags:"
+  text "    -az : Show the available azure ansible system names."
+  text "    -r  : Show the available robot ansible system names."
+  text "    -l  : Show the available localhost system names."
+  text "    -b  : Show the available playbooks."
+  text "    -p  : Provide system password, to allow sudo installs."
+  text "Args:"
+  text "    system_name: the name of the remote system to install on"
+  text "    playbook: the name of the robot ansible playbook to run"
+  exit 0
 fi
 
 # //////////////////////////////////////////////////////////////////////////////
+
+# globals
+_GL_EXTRA_OPTS= # extra ansible options
 # script only utilities
 
 # exit on success
@@ -107,13 +111,18 @@ function get_system_names() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# Run the ansible robot playbook
+# @brief run the ansible robot playbook
 # //////////////////////////////////////////////////////////////////////////////
-
 title == Running SubT ansible robotbooks ==
 
 # go to top-level ansible robotbooks path
 pushd $__dir/../
+
+# set the password, if given to enable by user input
+if chk_flag -p $@; then
+  read -p "Enter system password (leave empty for default): " client_password
+  _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
+fi
 
 # install playbook on remote system
 if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@; then
@@ -150,7 +159,7 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
 
   text "using inventory file: $inv"
   # run ansible installer
-  ansible-playbook -v -i $inv $playbook --limit $system
+  ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS
 
   # ansible-playbook install failed
   if last_command_failed; then
