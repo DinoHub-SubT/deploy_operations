@@ -16,6 +16,7 @@ __sync_help() {
   text_color "-ugv   : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
   text_color "-uav   : uav intermediate level repo -> ~/deploy_ws/src/uav"
   text_color "-del   : delete any local branches not found on the origin remote."
+  text_color "-hard  : sync the currently checkout branch."
   text_color "help   : View help usage message for each sub command."
   text_color
   text_color "For more help, please see the README.md or wiki."
@@ -90,9 +91,9 @@ _sync() {
 
 # @brief traverse over all submodules in the intermediate repos, apply the given function on _submodule
 __traverse() {
-  local _inter_repo=$1
-  pushd "$SUBT_PATH/$_inter_repo"
-  text "\n$FG_LCYAN|--$_inter_repo--|$FG_DEFAULT"
+  local _inrepo=$1
+  pushd "$SUBT_PATH/$_inrepo"
+  text "\n$FG_LCYAN|--$_inrepo--|$FG_DEFAULT"
   _sync                       # sync intermedite repo only
   _traverse_submodules _sync  # sync all recursive submodule repos
   # text "$FG_LCYAN...git status $FG_DEFAULT"
@@ -112,7 +113,7 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   exit
 fi
 
-_larger_text "== SubT Git sync =="
+_larger_text "== SubT git sync =="
 
 if chk_flag -del $@; then
   _GL_DELETE_BRANCH=true
