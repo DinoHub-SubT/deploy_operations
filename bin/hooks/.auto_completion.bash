@@ -89,6 +89,22 @@ _ac_subt_completion() {
       elif chk_flag sync "${COMP_WORDS[@]}"; then
         ! __regex_eval $_curr __ac_git_sync_flags && __ac_git_sync_help
 
+      # evaluate the matcher -> 'subt git clone'
+      elif chk_flag clone "${COMP_WORDS[@]}"; then
+        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+
+      # evaluate the matcher -> 'subt git reset'
+      elif chk_flag reset "${COMP_WORDS[@]}"; then
+        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+
+      # evaluate the matcher -> 'subt git clean'
+      elif chk_flag clean "${COMP_WORDS[@]}"; then
+        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+
+      # evaluate the matcher -> 'subt git rm'
+      elif chk_flag rm "${COMP_WORDS[@]}"; then
+        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+
       else  # 'subt <subcommand>' match failed, then show display usage help.
         __ac_git_help
       fi

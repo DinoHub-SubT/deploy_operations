@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
-
+. "$SUBT_PATH/operations/bin/hooks/.help.bash"
 
 # globals
 _GL_DELETE_BRANCH=false
@@ -103,27 +103,27 @@ if chk_flag -hard $@; then
   _GL_IGNORE_CURR=false
 fi
 
-if chk_flag -b $@ || [ -z "$1" ]; then
+if chk_flag -b $@ || chk_flag basestation $@ || [ -z "$1" ]; then
   __traverse "basestation"
 fi
 
-if chk_flag -c $@ || [ -z "$1" ]; then
+if chk_flag -c $@ || chk_flag common $@ || [ -z "$1" ]; then
   __traverse "common"
 fi
 
-if chk_flag -p $@ || [ -z "$1" ]; then
+if chk_flag -p $@ || chk_flag perception $@ || [ -z "$1" ]; then
   __traverse "perception"
 fi
 
-if chk_flag -s $@ || [ -z "$1" ]; then
+if chk_flag -s $@ || chk_flag simulation $@ || [ -z "$1" ]; then
   __traverse "simulation"
 fi
 
-if chk_flag -ugv $@ || [ -z "$1" ]; then
+if chk_flag -ugv $@ || chk_flag ugv $@ || [ -z "$1" ]; then
   __traverse "ugv"
 fi
 
-if chk_flag -uav $@ || [ -z "$1" ]; then
+if chk_flag -uav $@ || chk_flag uav $@ || [ -z "$1" ]; then
   __traverse "uav"
 fi
 

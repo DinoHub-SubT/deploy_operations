@@ -50,6 +50,39 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 ##
 
 # @brief evaluate which subcommand to switch and execute
+__subt_git_execute() {
+  # check & execute the subt git subcommand
+
+  if chk_flag status $@; then
+    shift 2 # shift the 'git', 'info' tokens
+    ($GL_GIT_HOOKS_DIR/status.bash $@)
+
+  elif chk_flag sync $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/sync.bash $@)
+
+  elif chk_flag clone $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/clone.bash $@)
+
+  elif chk_flag reset $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/reset.bash $@)
+
+  elif chk_flag rm $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/rm.bash $@)
+
+  elif chk_flag clean $@; then
+    shift 2 # shift the 'git', 'sync' tokens
+    ($GL_GIT_HOOKS_DIR/clean.bash $@)
+
+  elif chk_flag help $@; then
+    __git_help
+  fi
+}
+
+# @brief evaluate which subcommand to switch and execute
 __subt_cloud_execute() {
   # ansible azure install
   if chk_flag ansible $@; then
@@ -75,23 +108,6 @@ __subt_cloud_execute() {
     elif chk_flag stop $@; then
       (subtf_stop.sh $@)
     fi
-  fi
-}
-
-# @brief evaluate which subcommand to switch and execute
-__subt_git_execute() {
-  # check & execute the subt git subcommand
-
-  if chk_flag status $@; then
-    shift 2 # shift the 'git', 'info' tokens
-    ($GL_GIT_HOOKS_DIR/status.bash $@)
-
-  elif chk_flag sync $@; then
-    shift 2 # shift the 'git', 'sync' tokens
-    ($GL_GIT_HOOKS_DIR/sync.bash $@)
-
-  elif chk_flag help $@; then
-    __git_help
   fi
 }
 

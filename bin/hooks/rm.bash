@@ -3,9 +3,9 @@
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.help.bash"
 
-__clone() {
+__rm() {
   pushd "$SUBT_PATH/"
-  ./deployer -s git.clone.$1
+  ./deployer -s git.rm.$1
   popd
 }
 
@@ -22,6 +22,6 @@ fi
 # TODO: loop through all given repos....
 __inrepo=""
 chk_flag -b $@ || chk_flag basestation $@ ||  [ -z "$1" ] && __inrepo="basestation"
-__clone $__inrepo
+__rm $__inrepo
 
 exit_success

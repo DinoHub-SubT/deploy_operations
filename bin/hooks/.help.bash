@@ -3,7 +3,9 @@
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt'
 # //////////////////////////////////////////////////////////////////////////////
-
+__ac_subt_flags() {
+  echo "cloud deployer git tools update help"
+}
 __subt_help() {
   GL_TEXT_COLOR=$FG_LCYAN
   text
@@ -20,10 +22,6 @@ __subt_help() {
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
-}
-
-__ac_subt_flags(){
-  echo "cloud deployer git tools update help"
 }
 __ac_subt_help() {
   local usage=(
@@ -42,7 +40,6 @@ __ac_subt_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt deployer'
 # //////////////////////////////////////////////////////////////////////////////
-
 __ac_deploy_help() {
   local usage=(
     "robots     : deploy robots."
@@ -56,8 +53,9 @@ __ac_deploy_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git'
 # //////////////////////////////////////////////////////////////////////////////
-
-# @brief git help usage message
+__ac_git_flags(){
+  echo "status sync clone rm reset clean pr help"
+}
 __git_help() {
   GL_TEXT_COLOR=$FG_LCYAN
   text
@@ -66,8 +64,8 @@ __git_help() {
   text_color "flags:"
   text_color "status   : show the general git info for every submodule (all three levels)."
   text_color "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
-  text_color "reset    : reset intermediate repo or submodule to detached HEAD."
-  text_color "clean    : clean an intermediate repo or submodule."
+  text_color "clone    : clones or resets intermediate repo or submodules."
+  text_color "clean    : clean an intermediate or submodule repo."
   # text_color "pr       : create a pull request for top & intermeidate repo branches."
   text_color "help     : view help usage message."
   text_color
@@ -82,15 +80,14 @@ __git_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-__ac_git_flags(){
-  echo "status sync reset clean pr help"
-}
 __ac_git_help() {
   local usage=(
-    "status   : Show the general git info for every submodule (inter and lower)."
-    "sync     : Fetchs & Syncs the local branches with the remote branches."
-    "reset    : Resets intermediate repo or submodule to detached HEAD."
-    "clean    : Cleans an intermediate repo or submodule."
+    "status   : show the general git info for every submodule (all three levels)."
+    "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
+    "clone    : clones intermediate repo or submodules."
+    "rm       : removes intermediate repo or submodules."
+    "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
+    "clean    : clean an intermediate or submodule repo ."
     # "pr       : Create a pull request for top & intermeidate repo branches."
     "help, -h : view help usage message."
   )
@@ -102,8 +99,7 @@ __ac_git_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud'
 # //////////////////////////////////////////////////////////////////////////////
-# TODO: help
-__ac_cloud_flags(){
+__ac_cloud_flags() { # TODO: help
   echo "terraform ansible help"
 }
 __ac_cloud_help() {
@@ -120,8 +116,7 @@ __ac_cloud_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt tools'
 # //////////////////////////////////////////////////////////////////////////////
-# TODO: help
-__ac_tools_flags(){
+__ac_tools_flags(){ # TODO: help
   echo "ssh teamviewer rdp snapshot"
 }
 __ac_tools_help() {
@@ -140,7 +135,9 @@ __ac_tools_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git status'
 # //////////////////////////////////////////////////////////////////////////////
-
+__ac_git_status_flags(){
+  echo "basestation common perception simulation ugv uav help"
+}
 __status_help() {
   GL_TEXT_COLOR=$FG_LCYAN
   text
@@ -162,10 +159,6 @@ __status_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-
-__ac_git_status_flags(){
-  echo "basestation common perception simulation ugv uav help"
-}
 __ac_git_status_help() {
   local usage=(
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
@@ -184,7 +177,9 @@ __ac_git_status_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git sync'
 # //////////////////////////////////////////////////////////////////////////////
-
+__ac_git_sync_flags(){
+  echo "basestation common perception simulation ugv uav help"
+}
 __sync_help() {
   GL_TEXT_COLOR=$FG_LCYAN
   text
@@ -208,10 +203,6 @@ __sync_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-
-__ac_git_sync_flags(){
-  echo "basestation common perception simulation ugv uav help"
-}
 __ac_git_sync_help() {
   local usage=(
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
@@ -230,22 +221,64 @@ __ac_git_sync_help() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt git sync'
+# @brief 'subt git clone'
 # //////////////////////////////////////////////////////////////////////////////
-
-__ac_git_clone() {
-  "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  "ugv                : all of ugv -> ~/deploy_ws/src/ugv"
-  "ugv.base           : ugv base only intermediate level repo -> ~/deploy_ws/src/ugv/ppc & ~/deploy_ws/src/ugv/nuc"
-  "ugv.slam           : ugv slam only intermediate level repo -> ~/deploy_ws/src/ugv/slam"
-  "ugv.hardware       : ugv hardware intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
+__ac_git_clone_flags(){
+  echo "basestation common perception simulation ugv ugv.base ugv.hardware ugv.slam uav uav.core uav.slam uav.hardware help"
+}
+__clone_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: clone [<subcommand>] [<flag>] [<flag>] ... "
+  text_color
+  text_color "subcommands:"
+  text_color "          : no subcommand will default to clone all submodules."
+  text_color "reset     : resets the submodules to their detached HEAD as with intial clone,"
+  text_color "rm        : removes all the submodules and intermediate level repos."
+  text_color "clean     : cleans all the submodules from any uncommitted changes."
+  text_color "branch    : creates a new branch or checks out an existing branch."
+  text_color
+  text_color "flags:"
+  text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "-s, simulation  : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "-ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "-ugv.slam       : ugv intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+  text_color "-ugv.hardware   : ugv intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
+  text_color "-uav            : uav intermediate level repo -> ~/deploy_ws/src/uav/"
+  text_color "-uav.slam       : uav intermediate level repo -> ~/deploy_ws/src/uav/slam"
+  text_color "-uav.hardware   : uav intermediate level repo -> ~/deploy_ws/src/uav/hardware"
+  text_color "-h, help        : View help usage message for each sub command."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+__ac_git_clone_help() {
+  local usage=(
+    "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common             : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simulation         : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "ugv                : all of ugv -> ~/deploy_ws/src/ugv"
+    "ugv.base           : ugv base only intermediate level repo -> ~/deploy_ws/src/ugv/ppc & ~/deploy_ws/src/ugv/nuc"
+    "ugv.slam           : ugv slam only intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+    "ugv.hardware       : ugv hardware intermediate level repo  -> ~/deploy_ws/src/ugv/hardware"
+    "uav                : all of ugv -> ~/deploy_ws/src/ugv"
+    "uav.core           : uav base only intermediate level repo -> ~/deploy_ws/src/uav/core"
+    "uav.slam           : uav slam only intermediate level repo -> ~/deploy_ws/src/uav/slam"
+    "uav.hardware       : uav hardware intermediate level repo  -> ~/deploy_ws/src/uav/hardware"
+    "help         : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
 }
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud ansible'
 # //////////////////////////////////////////////////////////////////////////////
-
-__ac_cloud_ansible_flags(){
+__ac_cloud_ansible_flags() {
   echo "-az -r -l -b -p"
 }
 __ac_cloud_ansible_help() {
@@ -265,7 +298,6 @@ __ac_cloud_ansible_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud terraform'
 # //////////////////////////////////////////////////////////////////////////////
-
 __ac_cloud_terra_flags(){
   echo "init cert plan apply mkvpn rmvpn start stop"
 }
@@ -285,4 +317,3 @@ __ac_cloud_terra_help() {
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
   COMPREPLY=("${usage[@]}")
 }
-
