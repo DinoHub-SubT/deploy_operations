@@ -326,17 +326,7 @@ __deploy_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-__ac_deploy_help() {
-  local usage=(
-    "azure     : deployment subt on azure VMs."
-    "local     : deployment subt on localhost system."
-    "robots    : deployment subt on robots (ugv, uav, basestation)."
-    "help, -h : View help usage message for each sub command."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt deployer robots'
@@ -347,34 +337,17 @@ __ac_deploy_help() {
 __ac_deploy_robots_ugv_uav_flags() {
   echo "robots.ugv. robots.uav. help"
 }
-__ac_deploy_robots_ugv_uav_help() {
-  local usage=(
-    "ugv       : deployment subt on azure VMs."
-    "uav       : deployment subt on azure VMs."
-    "help      : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
 
-# robot.UGVs
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt deployer robots.ugv*'
+# //////////////////////////////////////////////////////////////////////////////
+
+# robot.ugv*
 __ac_deploy_robots_ugv_flags() {
-  echo "robots.ugv.ugv1. robots.ugv.ugv2. robots.ugv.ugv3.  help"
-}
-__ac_deploy_robots_ugv_help() {
-  local usage=(
-    "ugv1       : deployment subt on azure VMs."
-    "ugv2       : deployment subt on azure VMs."
-    "ugv3       : deployment subt on azure VMs."
-    "help       : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
+  echo "robots.ugv.ugv1. robots.ugv.ugv2. robots.ugv.ugv3. help"
 }
 
-# robot.UGV[N].ppc or .nuc or .xavier
+# robot.*.ppc , robot.*.nuc , robot.*.xavier
 __ac_deploy_robots_ugv1_flags() {
   echo "robots.ugv.ugv1.ppc. \
         robots.ugv.ugv1.nuc. \
@@ -393,24 +366,10 @@ __ac_deploy_robots_ugv3_flags() {
         robots.ugv.ugv3.xavier. \
         help"
 }
-__ac_deploy_robots_ugv_comp_help() {
-  local usage=(
-    "ppc       : deployment subt on azure VMs."
-    "nuc       : deployment subt on azure VMs."
-    "xavuer    : deployment subt on azure VMs."
-    "help      : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
 
-# robot.UGV[N].ppc commands
+# robot.ugv1.ppc commands
 __ac_deploy_robots_ugv1_ppc_flags() {
-  echo "robots.ugv.ugv1.ppc.transfer.to \
-        robots.ugv.ugv1.ppc.docker. \
-        robots.ugv.ugv1.ppc.catkin. \
-      "
+  echo "robots.ugv.ugv1.ppc.transfer.to robots.ugv.ugv1.ppc.docker. robots.ugv.ugv1.ppc.catkin."
 }
 __ac_deploy_robots_ugv1_ppc_docker_flags() {
   echo "robots.ugv.ugv1.ppc.docker.shell \
@@ -419,48 +378,127 @@ __ac_deploy_robots_ugv1_ppc_docker_flags() {
         robots.ugv.ugv1.ppc.docker.registry.azure.pull \
         robots.ugv.ugv1.ppc.docker.registry.basestation.pull"
 }
-
 __ac_deploy_robots_ugv1_ppc_catkin_flags() {
   echo "robots.ugv.ugv1.ppc.catkin.build robots.ugv.ugv1.ppc.catkin.clean "
 }
 
-
-# robot.UGV[N].nuc commands
+# robot.ugv1.nuc commands
 __ac_deploy_robots_ugv1_nuc_flags() {
-  echo "robots.ugv.ugv1.nuc.transfer.to \
-        robots.ugv.ugv1.nuc.docker.shell \
+  echo "robots.ugv.ugv1.nuc.transfer.to robots.ugv.ugv1.nuc.docker. robots.ugv.ugv1.nuc.catkin."
+}
+__ac_deploy_robots_ugv1_nuc_docker_flags() {
+  echo "robots.ugv.ugv1.nuc.docker.shell \
         robots.ugv.ugv1.nuc.docker.stop \
         robots.ugv.ugv1.nuc.docker.rm \
         robots.ugv.ugv1.nuc.docker.registry.azure.pull \
-        robots.ugv.ugv1.nuc.docker.registry.basestation.pull \
-        help"
+        robots.ugv.ugv1.nuc.docker.registry.basestation.pull"
 }
-# robot.UGV[N].xavier commands
+__ac_deploy_robots_ugv1_nuc_catkin_flags() {
+  echo "robots.ugv.ugv1.nuc.catkin.build robots.ugv.ugv1.nuc.catkin.clean "
+}
+
+# robot.ugv1.xavier commands
 __ac_deploy_robots_ugv1_xavier_flags() {
-  echo "robots.ugv.ugv1.xavier.transfer.to \
-        robots.ugv.ugv1.xavier.docker.shell \
+  echo "robots.ugv.ugv1.xavier.transfer.to robots.ugv.ugv1.xavier.docker. robots.ugv.ugv1.xavier.catkin."
+}
+__ac_deploy_robots_ugv1_xavier_docker_flags() {
+  echo "robots.ugv.ugv1.xavier.docker.shell \
         robots.ugv.ugv1.xavier.docker.stop \
         robots.ugv.ugv1.xavier.docker.rm \
         robots.ugv.ugv1.xavier.docker.registry.azure.pull \
-        robots.ugv.ugv1.xavier.docker.registry.basestation.pull \
-        help"
+        robots.ugv.ugv1.xavier.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv1_xavier_catkin_flags() {
+  echo "robots.ugv.ugv1.xavier.catkin.build robots.ugv.ugv1.xavier.catkin.clean "
 }
 
-__ac_deploy_robots_ugv1_cmds_help() {
+# //////////////////////////////////////////////////////////////////////////////
+# deployer ugv help
+# //////////////////////////////////////////////////////////////////////////////
+__ac_deploy_general_help() {
   local usage=(
-    "transfer.to                                : deployment subt on azure VMs."
-    "docker.shell                               : deployment subt on azure VMs."
-    "docker.stop                                : deployment subt on azure VMs."
-    "docker.rm                                  : deployment subt on azure VMs."
-    "docker.docker.registry.azure.pull          : deployment subt on azure VMs."
-    "docker.docker.registry.basestation.pull    : deployment subt on azure VMs."
+    "azure    : deployment subt on azure VMs."
+    "local    : deployment subt on localhost system."
+    "robots   : deployment subt on robots (ugv, uav, basestation)."
+    # "-p       : preview (dry-run) the deployer commands to be run on the system."
+    # "-v       : show the verbose deployer command exact steps to be run on the system"
+    "help, -h : View help usage message for each sub command."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}") 
+}
+
+__ac_deploy_robots_ugv_uav_help() {
+  local usage=(
+    "ugv       : deployment subt on azure VMs (expand to see details)."
+    "uav       : deployment subt on azure VMs (expand to see details)."
     "help      : view help usage message."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
   COMPREPLY=("${usage[@]}")
 }
+__ac_deploy_robots_ugv_help() {
+  local usage=(
+    "ugv1       : deployment subt on ugv1 robot (expand to see details)."
+    "ugv2       : deployment subt on ugv2 robot (expand to see details)."
+    "ugv3       : deployment subt on ugv3 robot (expand to see details)."
+    "help       : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__ac_deploy_robots_ugv_computer_help() {
+  local usage=(
+    "ppc       : ppc robot computer commands (expand to see details)."
+    "nuc       : nuc robot computer commands (expand to see details)."
+    "xavier    : xavier robot computer commands (expand to see details)."
+    "help      : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__ac_deploy_robots_ugv_cmd_help() {
+  local usage=(
+    "transfer.to  : transfers code from localhost to ugv robot."
+    "docker       : automated docker setup for robot (expand to see details)"
+    "catkin       : automated catkin builder for all workspaces (expand to see details)."
+    "help         : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__ac_deploy_robots_ugv_docker_help() {
+  local usage=(
+    "docker.shell                     : starts the docker container on the remote ugv robot computer."
+    "docker.rm                        : removes the docker container on the remote ugv robot computer."
+    "docker.stop                      : stops the docker container on the remote ugv robot computer."
+    "docker.registry.azure.pull       : pulls docker images from the azure registry to the robot computer (needs internet)."
+    "docker.registry.basestation.pull : pulls docker images from the basestation registry to the robot computer."
+    "help                             : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__ac_deploy_robots_ugv_catkin_help() {
+  local usage=(
+    "catkin.build                     : catkin build (catkin profile workspace already setup)."
+    "catkin.clean                     : catkin clean (catkin profile workspace already setup)."
+    "help                             : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
 
+# //////////////////////////////////////////////////////////////////////////////
+# deployer uav
+# //////////////////////////////////////////////////////////////////////////////
 
 # robot.UAVs
 __ac_deploy_robots_uav_flags() {

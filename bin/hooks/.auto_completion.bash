@@ -30,18 +30,24 @@ __regex_eval() {
   return 1
 }
 
-# temporary, hard-coded, autocompete for deployer commands
+__ac_deploy_help() {
+  local _prev=$1
+  if contains "$prev" "docker."; then
+    __ac_deploy_robots_ugv_docker_help
+  fi
+}
+
+# temporary, ugly, really bad, hard-coded, autocompete for deployer commands. will fix later.
 __ac_deploy() {
   local _curr=$1
-  # UGV1.ppc.docker
+  local _prev=$2
+  # UGV1
   if contains "$_curr" "robots.ugv.ugv1.ppc.docker"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
 
-  # UGV1.ppc.catkin
   elif contains "$_curr" "robots.ugv.ugv1.ppc.catkin"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
 
-  # UGV1.ppc, UGV1.nuc, UGV1.xavier,
   elif contains "$_curr" "robots.ugv.ugv1.ppc"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_flags && __ac_deploy_robots_ugv_comp_help
 
@@ -55,17 +61,42 @@ __ac_deploy() {
     ! __regex_eval $_curr __ac_deploy_robots_ugv1_flags && __ac_deploy_robots_ugv_comp_help
 
   # UGV2
+  elif contains "$_curr" "robots.ugv.ugv2.ppc.docker"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv2.ppc.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+
   elif contains "$_curr" "robots.ugv.ugv2.ppc"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_flags && __ac_deploy_robots_ugv_comp_help
 
   elif contains "$_curr" "robots.ugv.ugv2.nuc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_nuc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_nuc_flags && __ac_deploy_robots_ugv_comp_help
 
   elif contains "$_curr" "robots.ugv.ugv2.xavier"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv2_xavier_flags && __ac_deploy_robots_ugv_comp_help
 
   elif contains "$_curr" "robots.ugv.ugv2"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv2_flags && __ac_deploy_robots_ugv_comp_help
+
+  # UGV3
+  elif contains "$_curr" "robots.ugv.ugv3.ppc.docker"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv3.ppc.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv3.ppc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv3.nuc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_nuc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv3.xavier"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_xavier_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv3"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_robots_ugv_comp_help
 
 
   elif contains "$_curr" "robots.ugv.ugv3"; then
@@ -78,8 +109,39 @@ __ac_deploy() {
     ! __regex_eval $_curr __ac_deploy_robots_ugv_uav_flags && __ac_deploy_robots_ugv_uav_help
 
   else
-    # check previous, then call the correct help...
-    ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_help
+    # show help messages
+    if contains "$_prev" "docker" && ! contains "$_prev" "docker." ; then
+      __ac_deploy_robots_ugv_docker_help
+
+    elif contains "$_prev" "catkin" && ! contains "$_prev" "catkin." ; then
+      __ac_deploy_robots_ugv_catkin_help
+
+    elif contains "$_prev" "ugv1.ppc" && ! contains "$_prev" "ugv1.ppc." \
+      || contains "$_prev" "ugv2.ppc" && ! contains "$_prev" "ugv2.ppc." \
+      || contains "$_prev" "ugv3.ppc" && ! contains "$_prev" "ugv3.ppc." \
+      || contains "$_prev" "ugv1.nuc" && ! contains "$_prev" "ugv1.nuc." \
+      || contains "$_prev" "ugv2.nuc" && ! contains "$_prev" "ugv2.nuc." \
+      || contains "$_prev" "ugv3.nuc" && ! contains "$_prev" "ugv3.nuc." \
+      || contains "$_prev" "ugv1.xavier" && ! contains "$_prev" "ugv1.xavier." \
+      || contains "$_prev" "ugv2.xavier" && ! contains "$_prev" "ugv2.xavier." \
+      || contains "$_prev" "ugv3.xavier" && ! contains "$_prev" "ugv3.xavier."; then
+
+      __ac_deploy_robots_ugv_cmd_help
+
+    elif contains "$_prev" "ugv1" && ! contains "$_prev" "ugv1." \
+      || contains "$_prev" "ugv2" && ! contains "$_prev" "ugv2." \
+      || contains "$_prev" "ugv3" && ! contains "$_prev" "ugv3."; then
+      __ac_deploy_robots_ugv_computer_help
+
+    elif contains "$_prev" "ugv" && ! contains "$_prev" "ugv." ; then
+      __ac_deploy_robots_ugv_help
+
+    elif contains "$_prev" "robots" && ! contains "$_prev" "robots." ; then
+      __ac_deploy_robots_ugv_uav_help
+
+    else
+      ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_general_help
+    fi
   fi
 }
 
@@ -109,7 +171,7 @@ _ac_subt_completion() {
     # this is going to be so ugly... -- need to make a regex for partial prefix match...
     # evaluate the matcher -> 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      __ac_deploy $_curr
+      __ac_deploy "$_curr" "$_prev"
 
     # evaluate the matcher -> 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
@@ -125,7 +187,7 @@ _ac_subt_completion() {
 
   ## given three autocomplete tokens -> 'subt git status', ...
   elif [ $COMP_CWORD -ge 3 ]; then
-    
+
     # TODO: cleanup -- check_ONLY not with ! check
 
     # autocomplete subcommand -> 'git'
@@ -168,7 +230,7 @@ _ac_subt_completion() {
       && ! chk_flag cloud "${COMP_WORDS[@]}" \
       && ! chk_flag tools "${COMP_WORDS[@]}" ; then
 
-      __ac_deploy $_curr
+      __ac_deploy "$_curr" "$_prev"
 
     # autocomplete subcommand -> 'cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}" \
@@ -185,14 +247,13 @@ _ac_subt_completion() {
         ! __regex_eval $_curr __ac_cloud_terra_flags && __ac_cloud_terra_help
       fi
 
-
     else
 
       if chk_flag deployer "${COMP_WORDS[@]}" \
         && ! chk_flag git "${COMP_WORDS[@]}"    \
         && ! chk_flag cloud "${COMP_WORDS[@]}" \
         && ! chk_flag tools "${COMP_WORDS[@]}" ; then
-        __ac_deploy
+        __ac_deploy "$_curr" "$_prev"
       fi
 
     fi
