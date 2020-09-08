@@ -11,15 +11,18 @@
       # use default docker context
       - docker context use default
       # tag the docker images
-      - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
-      - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
-      - docker tag subt/uav-cpu:ros $AZURE_REGISTRY/subt-uav-cpu-ros
-      - docker tag subt/uav-cpu:uav $AZURE_REGISTRY/subt-uav-cpu-uav
-      # push the docker images to the local registry
-      - docker push $AZURE_REGISTRY/subt-uav-gpu-ros
-      - docker push $AZURE_REGISTRY/subt-uav-gpu-uav
-      - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
-      - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
+      - gpu:
+        - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
+        - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
+        # push the docker images to the local registry
+        - docker push $AZURE_REGISTRY/subt-uav-gpu-ros
+        - docker push $AZURE_REGISTRY/subt-uav-gpu-uav
+      - cpu:
+        - docker tag subt/uav-cpu:ros $AZURE_REGISTRY/subt-uav-cpu-ros
+        - docker tag subt/uav-cpu:uav $AZURE_REGISTRY/subt-uav-cpu-uav
+        # tag the docker images
+        - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
+        - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
       # remove the azure docker images
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
 
@@ -28,15 +31,18 @@
       # use default docker context
       - docker context use default
       # pull the docker images from the local registry
-      - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
-      - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
-      - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
-      - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
-      # tag the docker images
-      - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-      - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-      - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-      - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
+      - gpu:
+        - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
+        - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
+        # tag the docker images
+        - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
+        - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
+      - cpu:
+        - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
+        - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
+        # tag the docker images
+        - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
+        - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
       # remove the azure docker images
       - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
       # show the docker images
