@@ -152,3 +152,11 @@ function val_in_arr() {
   for iter; do [[ "$iter" == "$value" ]] && return 0; done
   return 1
 }
+
+
+function contains() {
+  local _check="$1"
+  local _match="$2"
+  [[ $_check == *$_match* ]] && return 0
+  return 1
+}

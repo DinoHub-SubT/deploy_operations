@@ -26,21 +26,61 @@ __regex_expand() {
 __regex_eval() {
   local _str=$1 _funptr=$2
   local _result=$(__regex_expand $_str "$(${_funptr})" )
-  # evaluate the tab completion if regex had any matches
   [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
-  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && compopt -o nospace && return 0
-  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && complete -o nospace && return 0
-  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
-  # compadd -S '' -a completions_array
   return 1
 }
 
-# @brief evaluate the regex match as an autocomplete
-__regex_deploy_eval() {
-  local _str=$1 _funptr=$2
-  local _result=$(__regex_expand $_str "$(${_funptr})" )
-  [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "robots.foo robots.joe" -- "$_str" ) ) && return 0
-  return 1
+# temporary, hard-coded, autocompete for deployer commands
+__ac_deploy() {
+  local _curr=$1
+  # UGV1.ppc.docker
+  if contains "$_curr" "robots.ugv.ugv1.ppc.docker"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+
+  # UGV1.ppc.catkin
+  elif contains "$_curr" "robots.ugv.ugv1.ppc.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+
+  # UGV1.ppc, UGV1.nuc, UGV1.xavier,
+  elif contains "$_curr" "robots.ugv.ugv1.ppc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv1.nuc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_nuc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv1.xavier"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_xavier_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv1"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_flags && __ac_deploy_robots_ugv_comp_help
+
+  # UGV2
+  elif contains "$_curr" "robots.ugv.ugv2.ppc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv2.nuc"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_nuc_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv2.xavier"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_xavier_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv.ugv2"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_flags && __ac_deploy_robots_ugv_comp_help
+
+
+  elif contains "$_curr" "robots.ugv.ugv3"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_robots_ugv_comp_help
+
+  elif contains "$_curr" "robots.ugv"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv_flags && __ac_deploy_robots_ugv_help
+
+  elif contains "$_curr" "robots"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv_uav_flags && __ac_deploy_robots_ugv_uav_help
+
+  else
+    # check previous, then call the correct help...
+    ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_help
+  fi
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -66,14 +106,10 @@ _ac_subt_completion() {
     if chk_flag git "${COMP_WORDS[@]}"; then
       ! __regex_eval $_curr __ac_git_flags && __ac_git_help
 
+    # this is going to be so ugly... -- need to make a regex for partial prefix match...
     # evaluate the matcher -> 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-
-      if chk_flag robots. "${COMP_WORDS[@]}"; then
-        ! __regex_deploy_eval $_curr __ac_deploy_robots_flags && __ac_deploy_robots_help
-      else
-        ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_help
-      fi
+      __ac_deploy $_curr
 
     # evaluate the matcher -> 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
@@ -132,18 +168,7 @@ _ac_subt_completion() {
       && ! chk_flag cloud "${COMP_WORDS[@]}" \
       && ! chk_flag tools "${COMP_WORDS[@]}" ; then
 
-      # evaluate the matcher -> 'subt cloud ansible'
-      # if chk_flag robots "${COMP_WORDS[@]}"; then
-      # if chk_flag robots. "$_curr"; then
-        # remove the whitespace tab
-        # local i=0
-        # while [[ $i -lt 5 ]]; do
-        #   i=(($i+1))
-        #   COMPREPLY[$i]=${COMPREPLY[$i]}
-        # done
-
-      # ! __regex_eval $_curr __ac_deploy_robots_flags && __ac_deploy_robots_help
-      # fi
+      __ac_deploy $_curr
 
     # autocomplete subcommand -> 'cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}" \
@@ -162,7 +187,14 @@ _ac_subt_completion() {
 
 
     else
-      echo "cannot parse both git & deploy. please just give one subcommand."
+
+      if chk_flag deployer "${COMP_WORDS[@]}" \
+        && ! chk_flag git "${COMP_WORDS[@]}"    \
+        && ! chk_flag cloud "${COMP_WORDS[@]}" \
+        && ! chk_flag tools "${COMP_WORDS[@]}" ; then
+        __ac_deploy
+      fi
+
     fi
   fi
 }
