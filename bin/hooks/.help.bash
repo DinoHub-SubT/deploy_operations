@@ -327,15 +327,71 @@ __deploy_help() {
   GL_TEXT_COLOR=$FG_DEFAULT
 }
 
-
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt deployer robots'
 # //////////////////////////////////////////////////////////////////////////////
 # below is going to be ugly. for now is what is done. need to cleanup...
 
-# robots.UGV or robots.UAV
+# robots.*
 __ac_deploy_robots_ugv_uav_flags() {
   echo "robots.ugv. robots.uav. help"
+}
+
+# azure.*
+__ac_deploy_azure_ugv_uav_flags() {
+  echo "azure.ugv. azure.uav. azure.basestation azure.perception help"
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt deployer azure.*'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_deploy_azure_ugv_flags() {
+  echo "azure.ugv.ugv1. azure.ugv.ugv2. azure.ugv.ugv3. help"
+}
+__ac_deploy_azure_uav_flags() {
+  echo "azure.uav.uav1. azure.uav.uav2. azure.uav.uav3. azure.uav.uav4. help"
+}
+__ac_deploy_azure_ugv1_flags() {
+  echo "azure.ugv.ugv1.transfer.to azure.ugv.ugv1.docker. azure.ugv.ugv1.catkin."
+}
+__ac_deploy_azure_ugv2_flags() {
+  echo "azure.ugv.ugv2.transfer.to azure.ugv.ugv2.docker. azure.ugv.ugv2.catkin."
+}
+__ac_deploy_azure_ugv3_flags() {
+  echo "azure.ugv.ugv3.transfer.to azure.ugv.ugv3.docker. azure.ugv.ugv3.catkin."
+}
+
+# subt deployer azure.ugv1.*
+__ac_deploy_azure_ugv1_docker_flags() {
+  echo "azure.ugv.ugv1.docker.shell \
+        azure.ugv.ugv1.docker.stop \
+        azure.ugv.ugv1.docker.rm \
+        azure.ugv.ugv1.docker.registry.pull"
+}
+__ac_deploy_azure_ugv1_catkin_flags() {
+  echo "azure.ugv.ugv1.catkin.build azure.ugv.ugv1.catkin.clean "
+}
+
+# subt deployer azure.ugv2.*
+__ac_deploy_azure_ugv2_docker_flags() {
+  echo "azure.ugv.ugv2.docker.shell \
+        azure.ugv.ugv2.docker.stop \
+        azure.ugv.ugv2.docker.rm \
+        azure.ugv.ugv2.docker.registry.pull"
+}
+__ac_deploy_azure_ugv2_catkin_flags() {
+  echo "azure.ugv.ugv2.catkin.build azure.ugv.ugv2.catkin.clean "
+}
+
+# subt deployer azure.ugv3.*
+__ac_deploy_azure_ugv3_docker_flags() {
+  echo "azure.ugv.ugv3.docker.shell \
+        azure.ugv.ugv3.docker.stop \
+        azure.ugv.ugv3.docker.rm \
+        azure.ugv.ugv3.docker.registry.pull"
+}
+__ac_deploy_azure_ugv3_catkin_flags() {
+  echo "azure.ugv.ugv3.catkin.build azure.ugv.ugv3.catkin.clean "
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -349,22 +405,13 @@ __ac_deploy_robots_ugv_flags() {
 
 # robot.*.ppc , robot.*.nuc , robot.*.xavier
 __ac_deploy_robots_ugv1_flags() {
-  echo "robots.ugv.ugv1.ppc. \
-        robots.ugv.ugv1.nuc. \
-        robots.ugv.ugv1.xavier. \
-        help"
+  echo "robots.ugv.ugv1.ppc. robots.ugv.ugv1.nuc. robots.ugv.ugv1.xavier. help"
 }
 __ac_deploy_robots_ugv2_flags() {
-  echo "robots.ugv.ugv2.ppc. \
-        robots.ugv.ugv2.nuc. \
-        robots.ugv.ugv2.xavier. \
-        help"
+  echo "robots.ugv.ugv2.ppc. robots.ugv.ugv2.nuc. robots.ugv.ugv2.xavier. help"
 }
 __ac_deploy_robots_ugv3_flags() {
-  echo "robots.ugv.ugv3.ppc. \
-        robots.ugv.ugv3.nuc. \
-        robots.ugv.ugv3.xavier. \
-        help"
+  echo "robots.ugv.ugv3.ppc. robots.ugv.ugv3.nuc. robots.ugv.ugv3.xavier. help"
 }
 
 # robot.ugv1.ppc commands
@@ -410,6 +457,100 @@ __ac_deploy_robots_ugv1_xavier_docker_flags() {
 }
 __ac_deploy_robots_ugv1_xavier_catkin_flags() {
   echo "robots.ugv.ugv1.xavier.catkin.build robots.ugv.ugv1.xavier.catkin.clean "
+}
+
+### robots.ugv2 ###
+
+# robot.ugv2.ppc commands
+__ac_deploy_robots_ugv2_ppc_flags() {
+  echo "robots.ugv.ugv2.ppc.transfer.to robots.ugv.ugv2.ppc.docker. robots.ugv.ugv2.ppc.catkin."
+}
+__ac_deploy_robots_ugv2_ppc_docker_flags() {
+  echo "robots.ugv.ugv2.ppc.docker.shell \
+        robots.ugv.ugv2.ppc.docker.stop \
+        robots.ugv.ugv2.ppc.docker.rm \
+        robots.ugv.ugv2.ppc.docker.registry.azure.pull \
+        robots.ugv.ugv2.ppc.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv2_ppc_catkin_flags() {
+  echo "robots.ugv.ugv2.ppc.catkin.build robots.ugv.ugv2.ppc.catkin.clean "
+}
+
+# robot.ugv2.nuc commands
+__ac_deploy_robots_ugv2_nuc_flags() {
+  echo "robots.ugv.ugv2.nuc.transfer.to robots.ugv.ugv2.nuc.docker. robots.ugv.ugv2.nuc.catkin."
+}
+__ac_deploy_robots_ugv2_nuc_docker_flags() {
+  echo "robots.ugv.ugv2.nuc.docker.shell \
+        robots.ugv.ugv2.nuc.docker.stop \
+        robots.ugv.ugv2.nuc.docker.rm \
+        robots.ugv.ugv2.nuc.docker.registry.azure.pull \
+        robots.ugv.ugv2.nuc.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv2_nuc_catkin_flags() {
+  echo "robots.ugv.ugv2.nuc.catkin.build robots.ugv.ugv2.nuc.catkin.clean "
+}
+
+# robot.ugv2.xavier commands
+__ac_deploy_robots_ugv2_xavier_flags() {
+  echo "robots.ugv.ugv2.xavier.transfer.to robots.ugv.ugv2.xavier.docker. robots.ugv.ugv2.xavier.catkin."
+}
+__ac_deploy_robots_ugv2_xavier_docker_flags() {
+  echo "robots.ugv.ugv2.xavier.docker.shell \
+        robots.ugv.ugv2.xavier.docker.stop \
+        robots.ugv.ugv2.xavier.docker.rm \
+        robots.ugv.ugv2.xavier.docker.registry.azure.pull \
+        robots.ugv.ugv2.xavier.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv2_xavier_catkin_flags() {
+  echo "robots.ugv.ugv2.xavier.catkin.build robots.ugv.ugv2.xavier.catkin.clean "
+}
+
+### robots.ugv3 ###
+
+# robot.ugv3.ppc commands
+__ac_deploy_robots_ugv3_ppc_flags() {
+  echo "robots.ugv.ugv3.ppc.transfer.to robots.ugv.ugv3.ppc.docker. robots.ugv.ugv3.ppc.catkin."
+}
+__ac_deploy_robots_ugv3_ppc_docker_flags() {
+  echo "robots.ugv.ugv3.ppc.docker.shell \
+        robots.ugv.ugv3.ppc.docker.stop \
+        robots.ugv.ugv3.ppc.docker.rm \
+        robots.ugv.ugv3.ppc.docker.registry.azure.pull \
+        robots.ugv.ugv3.ppc.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv3_ppc_catkin_flags() {
+  echo "robots.ugv.ugv3.ppc.catkin.build robots.ugv.ugv3.ppc.catkin.clean "
+}
+
+# robot.ugv3.nuc commands
+__ac_deploy_robots_ugv3_nuc_flags() {
+  echo "robots.ugv.ugv3.nuc.transfer.to robots.ugv.ugv3.nuc.docker. robots.ugv.ugv3.nuc.catkin."
+}
+__ac_deploy_robots_ugv3_nuc_docker_flags() {
+  echo "robots.ugv.ugv3.nuc.docker.shell \
+        robots.ugv.ugv3.nuc.docker.stop \
+        robots.ugv.ugv3.nuc.docker.rm \
+        robots.ugv.ugv3.nuc.docker.registry.azure.pull \
+        robots.ugv.ugv3.nuc.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv3_nuc_catkin_flags() {
+  echo "robots.ugv.ugv3.nuc.catkin.build robots.ugv.ugv3.nuc.catkin.clean "
+}
+
+# robot.ugv3.xavier commands
+__ac_deploy_robots_ugv3_xavier_flags() {
+  echo "robots.ugv.ugv3.xavier.transfer.to robots.ugv.ugv3.xavier.docker. robots.ugv.ugv3.xavier.catkin."
+}
+__ac_deploy_robots_ugv3_xavier_docker_flags() {
+  echo "robots.ugv.ugv3.xavier.docker.shell \
+        robots.ugv.ugv3.xavier.docker.stop \
+        robots.ugv.ugv3.xavier.docker.rm \
+        robots.ugv.ugv3.xavier.docker.registry.azure.pull \
+        robots.ugv.ugv3.xavier.docker.registry.basestation.pull"
+}
+__ac_deploy_robots_ugv3_xavier_catkin_flags() {
+  echo "robots.ugv.ugv3.xavier.catkin.build robots.ugv.ugv3.xavier.catkin.clean "
 }
 
 # //////////////////////////////////////////////////////////////////////////////

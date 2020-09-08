@@ -153,7 +153,6 @@ function val_in_arr() {
   return 1
 }
 
-
 function contains() {
   local _check="$1"
   local _match="$2"

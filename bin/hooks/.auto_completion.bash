@@ -37,70 +37,109 @@ __ac_deploy_help() {
   fi
 }
 
-# temporary, ugly, really bad, hard-coded, autocompete for deployer commands. will fix later.
+# TEMPORARY!!, VERY ugly, really bad, hard-coded, autocompete for deployer commands. will fix later. will fix.
 __ac_deploy() {
   local _curr=$1
   local _prev=$2
+
+  ### azure ###
+  if contains "$_curr" "azure.ugv.ugv1.docker"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv1_docker_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv2.docker"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv2_docker_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv3.docker"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv3_docker_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv1.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv1_catkin_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv2.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv2_catkin_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv3.catkin"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv3_catkin_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv1"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv1_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv2"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv2_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv.ugv3"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv3_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.ugv"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure.uav"; then
+    ! __regex_eval $_curr __ac_deploy_azure_uav_flags && __ac_deploy_general_help
+
+  elif contains "$_curr" "azure"; then
+    ! __regex_eval $_curr __ac_deploy_azure_ugv_uav_flags && __ac_deploy_general_help
+
+  ### robots ###
+
   # UGV1
-  if contains "$_curr" "robots.ugv.ugv1.ppc.docker"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+  elif contains "$_curr" "robots.ugv.ugv1.ppc.docker"; then
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_docker_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv1.ppc.catkin"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_catkin_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv1.ppc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_ppc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv1.nuc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_nuc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_nuc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv1.xavier"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_xavier_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_xavier_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv1"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv1_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv1_flags && __ac_deploy_general_help
 
   # UGV2
   elif contains "$_curr" "robots.ugv.ugv2.ppc.docker"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_docker_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv2.ppc.catkin"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_catkin_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv2.ppc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_ppc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv2.nuc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_nuc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_nuc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv2.xavier"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_xavier_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_xavier_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv2"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv2_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv2_flags && __ac_deploy_general_help
 
   # UGV3
   elif contains "$_curr" "robots.ugv.ugv3.ppc.docker"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_docker_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_docker_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3.ppc.catkin"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_catkin_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_catkin_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3.ppc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_ppc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3.nuc"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_nuc_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_nuc_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3.xavier"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_xavier_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_xavier_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_robots_ugv_comp_help
-
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv.ugv3"; then
-    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_robots_ugv_comp_help
+    ! __regex_eval $_curr __ac_deploy_robots_ugv3_flags && __ac_deploy_general_help
 
   elif contains "$_curr" "robots.ugv"; then
     ! __regex_eval $_curr __ac_deploy_robots_ugv_flags && __ac_deploy_robots_ugv_help

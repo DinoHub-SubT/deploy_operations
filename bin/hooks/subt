@@ -90,50 +90,56 @@ __subt_cloud_execute() {
     (subtani_install.sh $@)
   # terraform azure setup
   elif chk_flag terraform $@; then
-    shift 2 # shift the 'git', 'info' tokens
+    shift 2 # shift the 'cloud terraform' tokens
     if chk_flag init $@; then
+      shift # shift the subcommand
       (subtf_init.sh $@)
     elif chk_flag cert $@; then
+      shift # shift the subcommand
       (subtf_cert.sh $@)
     elif chk_flag plan $@; then
+      shift # shift the subcommand
       (subtf_plan.sh $@)
     elif chk_flag apply $@; then
+      shift # shift the subcommand
       (subtf_apply.sh $@)
     elif chk_flag mkvpn $@; then
+      shift # shift the subcommand
       (subtf_mkvpn.sh $@)
     elif chk_flag rmvpn $@; then
+      shift # shift the subcommand
       (subtf_rmvpn.sh $@)
     elif chk_flag start $@; then
+      shift # shift the subcommand
       (subtf_start.sh $@)
     elif chk_flag stop $@; then
+      shift # shift the subcommand
       (subtf_stop.sh $@)
     fi
   fi
 }
 
 # @brief evaluate which subcommand to switch and execute
-# __subt_tools_execute() {
-# 
-#   if chk_flag ssh $@; then
-#     shift 2 # shift the 'tools', 'ssh' tokens
-#     (subtu_avail_ssh $@)
-# 
-#   elif chk_flag teamviewer $@; then
-#     shift 2 # shift the 'tools', 'teamviewer' tokens
-#     (subtu_avail_teamviewer $@)
-# 
-#   elif chk_flag rdp $@; then
-#     shift 2 # shift the 'tools', 'teamviewer' tokens
-#     (subtu_azure_rdp $@)
-# 
-#   elif chk_flag snapshot $@; then
-#     shift 2 # shift the 'tools', 'snapshot' tokens
-#     (subtu_snapshot $@)
-# 
-#   else
-#     # TODO:  __tools_help
-#   fi
-# }
+__subt_tools_execute() {
+
+  if chk_flag ssh $@; then
+    shift 2 # shift the 'tools', 'ssh' tokens
+    (subtu_avail_ssh $@)
+
+  elif chk_flag teamviewer $@; then
+    shift 2 # shift the 'tools', 'teamviewer' tokens
+    (subtu_avail_teamviewer $@)
+
+  elif chk_flag rdp $@; then
+    shift 2 # shift the 'tools', 'teamviewer' tokens
+    (subtu_azure_rdp $@)
+
+  elif chk_flag snapshot $@; then
+    shift 2 # shift the 'tools', 'snapshot' tokens
+    (subtu_snapshot $@)
+
+  fi
+}
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'git subt' wrapper entrypoint
@@ -146,8 +152,9 @@ subt() {
     # command git "$@"
 
   # execute 'git subt' subcommand
-  elif chk_nth_flag 1 "deploy" "$@"; then
-    echo "deploy?"
+  elif chk_nth_flag 1 "deployer" "$@"; then
+    shift 1 # shift 'deployer'
+    ($GL_GIT_HOOKS_DIR/deployer.bash $@)
 
   elif chk_nth_flag 1 "cloud" "$@"; then
     __subt_cloud_execute $@
