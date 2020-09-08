@@ -112,28 +112,28 @@ __subt_cloud_execute() {
 }
 
 # @brief evaluate which subcommand to switch and execute
-__subt_tools_execute() {
-
-  if chk_flag ssh $@; then
-    shift 2 # shift the 'tools', 'ssh' tokens
-    (subtu_avail_ssh $@)
-
-  elif chk_flag teamviewer $@; then
-    shift 2 # shift the 'tools', 'teamviewer' tokens
-    (subtu_avail_teamviewer $@)
-
-  elif chk_flag rdp $@; then
-    shift 2 # shift the 'tools', 'teamviewer' tokens
-    (subtu_azure_rdp $@)
-
-  elif chk_flag snapshot $@; then
-    shift 2 # shift the 'tools', 'snapshot' tokens
-    (subtu_snapshot $@)
-
-  else
-    # TODO:  __tools_help
-  fi
-}
+# __subt_tools_execute() {
+# 
+#   if chk_flag ssh $@; then
+#     shift 2 # shift the 'tools', 'ssh' tokens
+#     (subtu_avail_ssh $@)
+# 
+#   elif chk_flag teamviewer $@; then
+#     shift 2 # shift the 'tools', 'teamviewer' tokens
+#     (subtu_avail_teamviewer $@)
+# 
+#   elif chk_flag rdp $@; then
+#     shift 2 # shift the 'tools', 'teamviewer' tokens
+#     (subtu_azure_rdp $@)
+# 
+#   elif chk_flag snapshot $@; then
+#     shift 2 # shift the 'tools', 'snapshot' tokens
+#     (subtu_snapshot $@)
+# 
+#   else
+#     # TODO:  __tools_help
+#   fi
+# }
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'git subt' wrapper entrypoint
@@ -159,6 +159,7 @@ subt() {
     cd $SUBT_PATH
     ./install-deployer.bash --uninstall
     ./install-deployer.bash --install
+    text "Please source your bash or zsh rc: 'source ~/.bashrc'"
 
   elif chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __subt_help $@

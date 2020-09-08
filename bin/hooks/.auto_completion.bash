@@ -28,6 +28,18 @@ __regex_eval() {
   local _result=$(__regex_expand $_str "$(${_funptr})" )
   # evaluate the tab completion if regex had any matches
   [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
+  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && compopt -o nospace && return 0
+  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && complete -o nospace && return 0
+  # [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
+  # compadd -S '' -a completions_array
+  return 1
+}
+
+# @brief evaluate the regex match as an autocomplete
+__regex_deploy_eval() {
+  local _str=$1 _funptr=$2
+  local _result=$(__regex_expand $_str "$(${_funptr})" )
+  [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "robots.foo robots.joe" -- "$_str" ) ) && return 0
   return 1
 }
 
@@ -56,7 +68,12 @@ _ac_subt_completion() {
 
     # evaluate the matcher -> 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      __ac_deploy_help
+
+      if chk_flag robots. "${COMP_WORDS[@]}"; then
+        ! __regex_deploy_eval $_curr __ac_deploy_robots_flags && __ac_deploy_robots_help
+      else
+        ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_help
+      fi
 
     # evaluate the matcher -> 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
@@ -72,7 +89,7 @@ _ac_subt_completion() {
 
   ## given three autocomplete tokens -> 'subt git status', ...
   elif [ $COMP_CWORD -ge 3 ]; then
-
+    
     # TODO: cleanup -- check_ONLY not with ! check
 
     # autocomplete subcommand -> 'git'
@@ -115,7 +132,18 @@ _ac_subt_completion() {
       && ! chk_flag cloud "${COMP_WORDS[@]}" \
       && ! chk_flag tools "${COMP_WORDS[@]}" ; then
 
-      echo "deploy not yet implemented."
+      # evaluate the matcher -> 'subt cloud ansible'
+      # if chk_flag robots "${COMP_WORDS[@]}"; then
+      # if chk_flag robots. "$_curr"; then
+        # remove the whitespace tab
+        # local i=0
+        # while [[ $i -lt 5 ]]; do
+        #   i=(($i+1))
+        #   COMPREPLY[$i]=${COMPREPLY[$i]}
+        # done
+
+      # ! __regex_eval $_curr __ac_deploy_robots_flags && __ac_deploy_robots_help
+      # fi
 
     # autocomplete subcommand -> 'cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}" \

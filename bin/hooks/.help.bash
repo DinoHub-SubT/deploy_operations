@@ -37,18 +37,6 @@ __ac_subt_help() {
   COMPREPLY=("${usage[@]}")
 }
 
-# //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt deployer'
-# //////////////////////////////////////////////////////////////////////////////
-__ac_deploy_help() {
-  local usage=(
-    "robots     : deploy robots."
-    "help, -h : View help usage message for each sub command."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git'
@@ -312,6 +300,82 @@ __ac_cloud_terra_help() {
     "start  : starts any or all VMs on Azure"
     "stop   : stops any or all VMs on Azure"
     "--help : View help usage message for each sub command."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt deployer'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_deploy_flags() {
+  # echo "azure local robots robots.ugv1 robots.ugv1.ppc robots.ugv1.nuc robots.ugv1.xavier robots.ugv2 help"
+  echo "robots. robots.. azure. help"
+}
+__deploy_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: subt deploy [sub-command] [<arg>] "
+  text_color
+  text_color "subcommands:"
+  text_color "azure     : deployment subt on azure VMs."
+  text_color "local     : deployment subt on localhost system."
+  text_color "robots    : deployment subt on robots (ugv, uav, basestation)."
+  text_color "help      : view help usage message."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+__ac_deploy_help() {
+  local usage=(
+    "azure     : deployment subt on azure VMs."
+    "local     : deployment subt on localhost system."
+    "robots    : deployment subt on robots (ugv, uav, basestation)."
+    "help, -h : View help usage message for each sub command."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt deployer robots'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_deploy_robots_flags() {
+  # echo "ugv ugv1 ugv1.ppc ugv1.nuc ugv1.xavier ugv2 ugv3 help"
+  echo "robots.ugv robots.uav help"
+}
+__deploy_robots_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: subt deploy robots [sub-command] [<arg>] "
+  text_color
+  text_color "subcommands:"
+  text_color "ugv       : deployment subt on azure VMs."
+  text_color "ugv1       : deployment subt on azure VMs."
+  text_color "ugv1.ppc       : deployment subt on azure VMs."
+  text_color "ugv1.nuc       : deployment subt on azure VMs."
+  text_color "ugv1.xavier       : deployment subt on azure VMs."
+  text_color "ugv2       : deployment subt on azure VMs."
+  text_color "ugv3       : deployment subt on azure VMs."
+  text_color "help      : view help usage message."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+__ac_deploy_robots_help() {
+  local usage=(
+    "ugv       : deployment subt on azure VMs."
+    "uav       : deployment subt on azure VMs."
+    # "ugv1       : deployment subt on azure VMs."
+    # "ugv1.ppc       : deployment subt on azure VMs."
+    # "ugv1.nuc       : deployment subt on azure VMs."
+    # "ugv1.xavier       : deployment subt on azure VMs."
+    # "ugv2       : deployment subt on azure VMs."
+    # "ugv3       : deployment subt on azure VMs."
+    "help      : view help usage message."
+    "help, -h : View help usage message for each sub command."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
