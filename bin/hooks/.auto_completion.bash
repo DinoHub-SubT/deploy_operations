@@ -150,7 +150,11 @@ __ac_deploy() {
   else
     # show help messages
     if contains "$_prev" "docker" && ! contains "$_prev" "docker." ; then
-      __ac_deploy_robots_ugv_docker_help
+      if contains "$_prev" "robots"; then
+        __ac_deploy_robots_ugv_docker_help
+      else
+        __ac_deploy_azure_ugv_docker_help
+      fi
 
     elif contains "$_prev" "catkin" && ! contains "$_prev" "catkin." ; then
       __ac_deploy_robots_ugv_catkin_help
@@ -167,16 +171,28 @@ __ac_deploy() {
 
       __ac_deploy_robots_ugv_cmd_help
 
-    elif contains "$_prev" "ugv1" && ! contains "$_prev" "ugv1." \
-      || contains "$_prev" "ugv2" && ! contains "$_prev" "ugv2." \
-      || contains "$_prev" "ugv3" && ! contains "$_prev" "ugv3."; then
+    elif contains "$_prev" "azure.ugv.ugv1" && ! contains "$_prev" "azure.ugv.ugv1." \
+      || contains "$_prev" "azure.ugv.ugv2" && ! contains "$_prev" "azure.ugv.ugv2." \
+      || contains "$_prev" "azure.ugv.ugv3" && ! contains "$_prev" "azure.ugv.ugv3."; then
+      __ac_deploy_robots_ugv_cmd_help
+
+    elif contains "$_prev" "robots.ugv.ugv1" && ! contains "$_prev" "robots.ugv.ugv1." \
+      || contains "$_prev" "robots.ugv.ugv2" && ! contains "$_prev" "robots.ugv.ugv2." \
+      || contains "$_prev" "robots.ugv.ugv3" && ! contains "$_prev" "robots.ugv.ugv3."; then
       __ac_deploy_robots_ugv_computer_help
 
     elif contains "$_prev" "ugv" && ! contains "$_prev" "ugv." ; then
-      __ac_deploy_robots_ugv_help
+      if contains "$_prev" "robots"; then
+        __ac_deploy_robots_ugv_help
+      else
+        __ac_deploy_azure_ugv_help
+      fi
 
     elif contains "$_prev" "robots" && ! contains "$_prev" "robots." ; then
       __ac_deploy_robots_ugv_uav_help
+
+    elif contains "$_prev" "azure" && ! contains "$_prev" "azure." ; then
+      __ac_deploy_azure_ugv_uav_help
 
     else
       ! __regex_eval $_curr __ac_deploy_flags && __ac_deploy_general_help

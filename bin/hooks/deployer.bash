@@ -3,9 +3,8 @@
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.help.bash"
 
-__inrepo=""
  pushd "$SUBT_PATH/"
-./deployer -s $1
+./deployer -s $@
 popd
 
 exit_success

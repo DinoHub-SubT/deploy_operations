@@ -166,7 +166,7 @@ __ac_git_status_help() {
 # @brief 'subt git sync'
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_sync_flags(){
-  echo "basestation common perception simulation ugv uav help"
+  echo "basestation common perception simulation ugv uav launch help"
 }
 __sync_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -178,6 +178,7 @@ __sync_help() {
   text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
   text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
   text_color "-s, simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "-l, launch      : central intermediate level repo -> ~/deploy_ws/src/subt_launch"
   text_color "-ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
   text_color "-uav, uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
   text_color "-del            : delete any local branches not found on the origin remote."
@@ -197,6 +198,7 @@ __ac_git_sync_help() {
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
     "simuation    : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "launch       : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
     "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
     "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
     "-del         : delete any local branches not found on the origin remote."
@@ -352,13 +354,13 @@ __ac_deploy_azure_uav_flags() {
   echo "azure.uav.uav1. azure.uav.uav2. azure.uav.uav3. azure.uav.uav4. help"
 }
 __ac_deploy_azure_ugv1_flags() {
-  echo "azure.ugv.ugv1.transfer.to azure.ugv.ugv1.docker. azure.ugv.ugv1.catkin."
+  echo "azure.ugv.ugv1.transfer.to azure.ugv.ugv1.skel_t.to azure.ugv.ugv1.docker. azure.ugv.ugv1.catkin."
 }
 __ac_deploy_azure_ugv2_flags() {
-  echo "azure.ugv.ugv2.transfer.to azure.ugv.ugv2.docker. azure.ugv.ugv2.catkin."
+  echo "azure.ugv.ugv2.transfer.to azure.ugv.ugv2.skel_t.to azure.ugv.ugv2.docker. azure.ugv.ugv2.catkin."
 }
 __ac_deploy_azure_ugv3_flags() {
-  echo "azure.ugv.ugv3.transfer.to azure.ugv.ugv3.docker. azure.ugv.ugv3.catkin."
+  echo "azure.ugv.ugv3.transfer.to azure.ugv.ugv3.skel_t.to azure.ugv.ugv3.docker. azure.ugv.ugv3.catkin."
 }
 
 # subt deployer azure.ugv1.*
@@ -416,7 +418,7 @@ __ac_deploy_robots_ugv3_flags() {
 
 # robot.ugv1.ppc commands
 __ac_deploy_robots_ugv1_ppc_flags() {
-  echo "robots.ugv.ugv1.ppc.transfer.to robots.ugv.ugv1.ppc.docker. robots.ugv.ugv1.ppc.catkin."
+  echo "robots.ugv.ugv1.ppc.transfer.to robots.ugv.ugv1.ppc.skel_t.to robots.ugv.ugv1.ppc.docker. robots.ugv.ugv1.ppc.catkin."
 }
 __ac_deploy_robots_ugv1_ppc_docker_flags() {
   echo "robots.ugv.ugv1.ppc.docker.shell \
@@ -431,7 +433,7 @@ __ac_deploy_robots_ugv1_ppc_catkin_flags() {
 
 # robot.ugv1.nuc commands
 __ac_deploy_robots_ugv1_nuc_flags() {
-  echo "robots.ugv.ugv1.nuc.transfer.to robots.ugv.ugv1.nuc.docker. robots.ugv.ugv1.nuc.catkin."
+  echo "robots.ugv.ugv1.nuc.transfer.to robots.ugv.ugv1.nuc.skel_t.to robots.ugv.ugv1.nuc.docker. robots.ugv.ugv1.nuc.catkin."
 }
 __ac_deploy_robots_ugv1_nuc_docker_flags() {
   echo "robots.ugv.ugv1.nuc.docker.shell \
@@ -446,7 +448,7 @@ __ac_deploy_robots_ugv1_nuc_catkin_flags() {
 
 # robot.ugv1.xavier commands
 __ac_deploy_robots_ugv1_xavier_flags() {
-  echo "robots.ugv.ugv1.xavier.transfer.to robots.ugv.ugv1.xavier.docker. robots.ugv.ugv1.xavier.catkin."
+  echo "robots.ugv.ugv1.xavier.transfer.to robots.ugv.ugv1.xavier.skel_t.to robots.ugv.ugv1.xavier.docker. robots.ugv.ugv1.xavier.catkin."
 }
 __ac_deploy_robots_ugv1_xavier_docker_flags() {
   echo "robots.ugv.ugv1.xavier.docker.shell \
@@ -463,7 +465,7 @@ __ac_deploy_robots_ugv1_xavier_catkin_flags() {
 
 # robot.ugv2.ppc commands
 __ac_deploy_robots_ugv2_ppc_flags() {
-  echo "robots.ugv.ugv2.ppc.transfer.to robots.ugv.ugv2.ppc.docker. robots.ugv.ugv2.ppc.catkin."
+  echo "robots.ugv.ugv2.ppc.transfer.to robots.ugv.ugv2.ppc.skel_t.to robots.ugv.ugv2.ppc.docker. robots.ugv.ugv2.ppc.catkin."
 }
 __ac_deploy_robots_ugv2_ppc_docker_flags() {
   echo "robots.ugv.ugv2.ppc.docker.shell \
@@ -478,7 +480,7 @@ __ac_deploy_robots_ugv2_ppc_catkin_flags() {
 
 # robot.ugv2.nuc commands
 __ac_deploy_robots_ugv2_nuc_flags() {
-  echo "robots.ugv.ugv2.nuc.transfer.to robots.ugv.ugv2.nuc.docker. robots.ugv.ugv2.nuc.catkin."
+  echo "robots.ugv.ugv2.nuc.transfer.to robots.ugv.ugv2.nuc.skel_t.to robots.ugv.ugv2.nuc.docker. robots.ugv.ugv2.nuc.catkin."
 }
 __ac_deploy_robots_ugv2_nuc_docker_flags() {
   echo "robots.ugv.ugv2.nuc.docker.shell \
@@ -493,7 +495,7 @@ __ac_deploy_robots_ugv2_nuc_catkin_flags() {
 
 # robot.ugv2.xavier commands
 __ac_deploy_robots_ugv2_xavier_flags() {
-  echo "robots.ugv.ugv2.xavier.transfer.to robots.ugv.ugv2.xavier.docker. robots.ugv.ugv2.xavier.catkin."
+  echo "robots.ugv.ugv2.xavier.transfer.to robots.ugv.ugv2.xavier.skel_t.to robots.ugv.ugv2.xavier.docker. robots.ugv.ugv2.xavier.catkin."
 }
 __ac_deploy_robots_ugv2_xavier_docker_flags() {
   echo "robots.ugv.ugv2.xavier.docker.shell \
@@ -510,7 +512,7 @@ __ac_deploy_robots_ugv2_xavier_catkin_flags() {
 
 # robot.ugv3.ppc commands
 __ac_deploy_robots_ugv3_ppc_flags() {
-  echo "robots.ugv.ugv3.ppc.transfer.to robots.ugv.ugv3.ppc.docker. robots.ugv.ugv3.ppc.catkin."
+  echo "robots.ugv.ugv3.ppc.transfer.to robots.ugv.ugv3.ppc.skel_t.to robots.ugv.ugv3.ppc.docker. robots.ugv.ugv3.ppc.catkin."
 }
 __ac_deploy_robots_ugv3_ppc_docker_flags() {
   echo "robots.ugv.ugv3.ppc.docker.shell \
@@ -525,7 +527,7 @@ __ac_deploy_robots_ugv3_ppc_catkin_flags() {
 
 # robot.ugv3.nuc commands
 __ac_deploy_robots_ugv3_nuc_flags() {
-  echo "robots.ugv.ugv3.nuc.transfer.to robots.ugv.ugv3.nuc.docker. robots.ugv.ugv3.nuc.catkin."
+  echo "robots.ugv.ugv3.nuc.transfer.to robots.ugv.ugv3.nuc.skel_t.to robots.ugv.ugv3.nuc.docker. robots.ugv.ugv3.nuc.catkin."
 }
 __ac_deploy_robots_ugv3_nuc_docker_flags() {
   echo "robots.ugv.ugv3.nuc.docker.shell \
@@ -540,7 +542,7 @@ __ac_deploy_robots_ugv3_nuc_catkin_flags() {
 
 # robot.ugv3.xavier commands
 __ac_deploy_robots_ugv3_xavier_flags() {
-  echo "robots.ugv.ugv3.xavier.transfer.to robots.ugv.ugv3.xavier.docker. robots.ugv.ugv3.xavier.catkin."
+  echo "robots.ugv.ugv3.xavier.transfer.to robots.ugv.ugv3.xavier.skel_t.to robots.ugv.ugv3.xavier.docker. robots.ugv.ugv3.xavier.catkin."
 }
 __ac_deploy_robots_ugv3_xavier_docker_flags() {
   echo "robots.ugv.ugv3.xavier.docker.shell \
@@ -572,9 +574,10 @@ __ac_deploy_general_help() {
 
 __ac_deploy_robots_ugv_uav_help() {
   local usage=(
-    "ugv       : deployment subt on azure VMs (expand to see details)."
-    "uav       : deployment subt on azure VMs (expand to see details)."
-    "help      : view help usage message."
+    "basestation  : deployment subt on basestation (expand to see details)."
+    "ugv          : deployment subt on ugv hardware robots (expand to see details)."
+    "uav          : deployment subt on uav hardware robots (expand to see details)."
+    "help         : view help usage message."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -604,7 +607,8 @@ __ac_deploy_robots_ugv_computer_help() {
 }
 __ac_deploy_robots_ugv_cmd_help() {
   local usage=(
-    "transfer.to  : transfers code from localhost to ugv robot."
+    "transfer.to  : transfers code from localhost to ugv system."
+    "skel_t.to    : transfers code (slim & faster -- no .git) from localhost to ugv system."
     "docker       : automated docker setup for robot (expand to see details)"
     "catkin       : automated catkin builder for all workspaces (expand to see details)."
     "help         : view help usage message."
@@ -631,6 +635,43 @@ __ac_deploy_robots_ugv_catkin_help() {
     "catkin.build                     : catkin build (catkin profile workspace already setup)."
     "catkin.clean                     : catkin clean (catkin profile workspace already setup)."
     "help                             : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+__ac_deploy_azure_ugv_docker_help() {
+  local usage=(
+    "docker.shell                     : starts the docker container on the remote ugv VM computer."
+    "docker.rm                        : removes the docker container on the remote ugv VM computer."
+    "docker.stop                      : stops the docker container on the remote ugv VM computer."
+    "docker.registry.pull             : pulls docker images from the azure registry to the VM computer (needs internet)."
+    "help                             : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+
+__ac_deploy_azure_ugv_help() {
+  local usage=(
+    "ugv1       : deployment subt on ugv1 Azure VM (expand to see details)."
+    "ugv2       : deployment subt on ugv2 Azure VM (expand to see details)."
+    "ugv3       : deployment subt on ugv3 Azure VM (expand to see details)."
+    "help       : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__ac_deploy_azure_ugv_uav_help() {
+  local usage=(
+    "ugv          : deployment subt ugv on azure VMs (expand to see details)."
+    "uav          : deployment subt uav on azure VMs (expand to see details)."
+    "basestation  : deployment subt basestation on azure VMs (expand to see details)."
+    "perception   : deployment subt perception on azure VMs (expand to see details)."
+    "help      : view help usage message."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
