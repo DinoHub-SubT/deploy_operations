@@ -166,7 +166,7 @@ __ac_git_status_help() {
 # @brief 'subt git sync'
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_sync_flags(){
-  echo "basestation common perception simulation ugv uav launch help"
+  echo "deploy basestation common perception simulation ugv uav launch help"
 }
 __sync_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -174,6 +174,7 @@ __sync_help() {
   text_color "usage: sync [<flag>] [<flag>] "
   text_color
   text_color "flags:"
+  text_color "-d, deploy      : top level repo -> ~/deploy_ws/src/"
   text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
   text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
   text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -194,6 +195,7 @@ __sync_help() {
 }
 __ac_git_sync_help() {
   local usage=(
+    "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"

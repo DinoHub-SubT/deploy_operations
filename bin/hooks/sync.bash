@@ -131,13 +131,9 @@ if chk_flag -l $@ || chk_flag launch $@ || [ -z "$1" ]; then
   __traverse "subt_launch"
 fi
 
-if chk_flag -d $@ || [ -z "$1" ]; then
-  # sync every branch except the current branch....
+if chk_flag -d $@ || chk_flag deploy $@ || [ -z "$1" ]; then
   text "\n$FG_LCYAN|--deploy--|$FG_DEFAULT"
   _sync # sync top level deploy repo only
 fi
-
-# TODO: sync the top level branch...
-#       - have it remove all intermediate level branches too...
 
 exit_success
