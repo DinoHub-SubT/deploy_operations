@@ -3,8 +3,18 @@
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_subt_flags() {
-  echo "cloud deployer git tools update help"
+__ac_subt_help() {
+  local usage=(
+    "deployer   : Deployer tool to setup localhost, azure or robots systems."
+    "git        : Helper git tools for maintaining subt deploy three level repo."
+    "cloud      : Cloud tools for creating & managing azure cloud setups."
+    "tools      : Helpful general tools."
+    "update     : Update the deployer operations scripts."
+    "help       : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
 }
 __subt_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -23,26 +33,24 @@ __subt_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-__ac_subt_help() {
-  local usage=(
-    "deployer   : Deployer tool to setup localhost, azure or robots systems."
-    "git        : Helper git tools for maintaining subt deploy three level repo."
-    "cloud      : Cloud tools for creating & managing azure cloud setups."
-    "tools      : Helpful general tools."
-    "update     : Update the deployer operations scripts."
-    "help       : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_git_flags(){
-  echo "status sync clone rm reset clean pr help"
+__ac_git_help() {
+  local usage=(
+    "status   : show the general git info for every submodule (all three levels)."
+    "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
+    "clone    : clones intermediate repo or submodules."
+    "rm       : removes intermediate repo or submodules."
+    "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
+    "clean    : clean an intermediate or submodule repo ."
+    # "pr       : Create a pull request for top & intermeidate repo branches."
+    "help, -h : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
 }
 __git_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -68,28 +76,10 @@ __git_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-__ac_git_help() {
-  local usage=(
-    "status   : show the general git info for every submodule (all three levels)."
-    "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
-    "clone    : clones intermediate repo or submodules."
-    "rm       : removes intermediate repo or submodules."
-    "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
-    "clean    : clean an intermediate or submodule repo ."
-    # "pr       : Create a pull request for top & intermeidate repo branches."
-    "help, -h : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_cloud_flags() { # TODO: help
-  echo "terraform ansible help"
-}
 __ac_cloud_help() {
   local usage=(
     "ansible      : ansible install base packages on the cloud vms."
@@ -104,9 +94,6 @@ __ac_cloud_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt tools'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_tools_flags(){ # TODO: help
-  echo "ssh teamviewer rdp snapshot"
-}
 __ac_tools_help() {
   local usage=(
     "shh          : Shows which configured ssh connections are are available to connect."
@@ -123,8 +110,19 @@ __ac_tools_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git status'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_git_status_flags(){
-  echo "basestation common perception simulation ugv uav help"
+__ac_git_status_help() {
+  local usage=(
+    "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common       : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simuation    : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+    "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
+    "help         : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
 }
 __status_help() {
   GL_TEXT_COLOR=$FG_LCYAN
@@ -147,20 +145,7 @@ __status_help() {
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
-__ac_git_status_help() {
-  local usage=(
-    "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-    "common       : common intermediate level repo -> ~/deploy_ws/src/common"
-    "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
-    "simuation    : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-    "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-    "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
-    "help         : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt git sync'

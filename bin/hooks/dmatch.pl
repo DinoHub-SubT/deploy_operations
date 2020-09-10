@@ -1,5 +1,13 @@
 #!/usr/local/bin/perl
 
+
+my @_subt     = ( "cloud", "deployer", "git", "tools", "update", "help" );
+my @_git      = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
+my @_git_status  = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
+
+my @_cloud    = ( "terraform", "ansible", "help" );
+my @_terra    = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
+my @_tools    = ( "ssh", "teamviewer", "rdp", "snapshot" );
 my @_deployer = (
   # ////////////////////////////////////////////////////////////////////////////
   # UGVs
@@ -168,13 +176,6 @@ my @_deployer = (
   "robots.uav.ds4.docker.registry.pull"
 );
 
-
-my @_subt = ( "cloud2", "deployer", "git", "tools", "update", "help" );
-my @_git = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
-my @_cloud = ( "terraform", "ansible", "help" );
-my @_terra = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
-my @_tools = ( "ssh", "teamviewer", "rdp", "snapshot" );
-
 # @brief check string equalities
 sub chk_flag {
   my ($_flag, $_args) = @_;
@@ -227,11 +228,13 @@ my ($_func, $_target) = @ARGV;
 
 # match subcommands for each top command type
 if (chk_flag($_func, "subt")  ) {
-  general_matcher($_target, @_subt);
+  print general_matcher($_target, @_subt);
 
 } elsif (chk_flag($_func, "git")  ) {
-  # print "we are in git??";
   print general_matcher($_target, @_git);
+
+} elsif (chk_flag($_func, "git_status")  ) {
+  print general_matcher($_target, @_git_status);
 
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);

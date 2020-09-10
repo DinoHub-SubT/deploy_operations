@@ -8,36 +8,15 @@
 # globals
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 
-# @brief match a set of arguments (i.e subcommand flags) to the input token
-__regex_expand() {
-  # match from start -> end, match any char unlimited times
-  local _regex="^.*$1.*$" _flags=($2) _match=""
-  for _flag in "${_flags[@]}"; do
-    [[ $_flag =~ $_regex ]] && _match="$_flag $_match"
-  done
-  echo $_match
-}
-
-# @brief evaluate the regex match as an autocomplete
-__regex_eval() {
-  local _str=$1 _funptr=$2
-  local _result=$(__regex_expand $_str "$(${_funptr})" )
-  [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
-  return 1
-}
-
-# __ac_edployer_matcher() {
-#   local _curr=$1 _match=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl deployer $_curr)
-#   COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
-# }
-
+# @brief find the the current auto-complete token matches
 __matcher() {
-  local _matcher_t=$1 _curr=$2 
-  _result=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl "$_matcher_t" "$_curr")
+  local _matcher_t=$1 _curr=$2
+  [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
+  # evaluate the matcher
+  local _result=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl "$_matcher_t" "$_curr")
   [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
   return 1
 }
-
 
 # TEMPORARY!!, VERY ugly, really bad, hard-coded, autocompete for deployer commands. will fix later. will fix.
 __ac_deploy() {
@@ -214,41 +193,44 @@ _ac_subt_completion() {
   local _curr=${COMP_WORDS[COMP_CWORD]}
   local _prev=${COMP_WORDS[COMP_CWORD-1]}
 
-  # given one autocomplete token -> 'subt'
+  # first level menu: 'subt'
   if [ $COMP_CWORD = 1 ]; then
-    # evaluate the matcher for 'subt'
-    ! __regex_eval $_curr __ac_subt_flags && __ac_subt_help
+    ! __matcher "subt" $_curr && __ac_subt_help
 
-  # TODO: check that ac token contains only 1 of the top level flags
-  # elif match_more_than_one "subt deployer git cloud tools update help" "$_curr" ; then
-  #   COMPREPLY=( $( compgen -W "$__ac_subt_flags" -- "$_curr" ) )
-
-  ## given two autocomplete tokens -> 'subt git', ...
+  # second level menu: 'subt <subcommand> '
   elif [ $COMP_CWORD = 2 ]; then
-
-    # evaluate the matcher -> 'subt git'
     if chk_flag git "${COMP_WORDS[@]}"; then
-      ! __matcher "git" $_curr && __ac_git_help
+      ! __matcher "git" "$_curr" && __ac_git_help
 
-    # this is going to be so ugly... -- need to make a regex for partial prefix match...
-    # evaluate the matcher -> 'subt deployer'
+    # cloud menu
+    elif chk_flag cloud "${COMP_WORDS[@]}"; then
+      ! __matcher "cloud" $_curr && __ac_cloud_help
+
+    # tools menu
+    elif chk_flag tools "${COMP_WORDS[@]}"; then
+      ! __matcher "tools" $_curr && __ac_tools_help
+
+    # deployer menu
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
       ! __matcher "deployer" $_curr && __ac_git_help
 
-    # evaluate the matcher -> 'subt cloud'
-    elif chk_flag cloud "${COMP_WORDS[@]}"; then
-      ! __matcher "cloud" $_curr && __ac_git_help
-
-    # evaluate the matcher -> 'subt tools'
-    elif chk_flag tools "${COMP_WORDS[@]}"; then
-      ! __matcher "tools" $_curr && __ac_git_help
-
-    else  # 'subt <subcommand>' match failed, then show display usage help.
+    # 'subt <subcommand>' match failed -- show display usage help menu
+    else
       __ac_subt_help
     fi
 
-  ## given three autocomplete tokens -> 'subt git status', ...
-#   else
+  # third level menu: 'subt <subcommand> <subcommand> '
+  else
+
+    if chk_flag git "${COMP_WORDS[@]}"; then
+
+      if chk_flag status "${COMP_WORDS[@]}"; then
+        ! __matcher "git_status" "$_curr" && __ac_git_status_help
+      fi
+
+    fi
+
+
 # 
 #     # autocomplete subcommand -> 'git'
 #     if chk_flag git "${COMP_WORDS[@]}" then

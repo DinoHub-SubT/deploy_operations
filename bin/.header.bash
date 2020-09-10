@@ -143,7 +143,7 @@ function chk_nth_flag() {
 ##
 # Checks if given value is found in array
 #   - reference: https://stackoverflow.com/a/8574392/3554704
-#
+##
 function val_in_arr() {
   local iter value="$1"
   # shift the first argument, to only have the list-values as the arguments
