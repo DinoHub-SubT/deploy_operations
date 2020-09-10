@@ -212,7 +212,7 @@ _ac_subt_completion() {
 
     # deployer menu
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      ! __matcher "deployer" $_curr && __ac_git_help
+      ! __matcher "deployer" $_curr && __ac_deploy_help
 
     # 'subt <subcommand>' match failed -- show display usage help menu
     else
@@ -222,10 +222,24 @@ _ac_subt_completion() {
   # third level menu: 'subt <subcommand> <subcommand> '
   else
 
+    # second level 'subt git'
     if chk_flag git "${COMP_WORDS[@]}"; then
 
       if chk_flag status "${COMP_WORDS[@]}"; then
         ! __matcher "git_status" "$_curr" && __ac_git_status_help
+      elif chk_flag sync "${COMP_WORDS[@]}"; then
+        ! __matcher "git_sync" "$_curr" && __ac_git_sync_help
+      elif chk_flag clone "${COMP_WORDS[@]}"; then
+        ! __matcher "git_clone" "$_curr" && __ac_git_clone_help
+      fi
+
+    # second level 'subt cloud'
+    elif chk_flag cloud "${COMP_WORDS[@]}"; then
+
+      if chk_flag terraform "${COMP_WORDS[@]}"; then
+        ! __matcher "cloud_terra" "$_curr" && __ac_cloud_terra_help
+      elif chk_flag ansible "${COMP_WORDS[@]}"; then
+        ! __matcher "cloud_ani" "$_curr" && __ac_cloud_ansible_help
       fi
 
     fi

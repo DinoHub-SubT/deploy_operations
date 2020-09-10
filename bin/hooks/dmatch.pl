@@ -1,14 +1,17 @@
 #!/usr/local/bin/perl
 
-
-my @_subt     = ( "cloud", "deployer", "git", "tools", "update", "help" );
-my @_git      = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
-my @_git_status  = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
-
-my @_cloud    = ( "terraform", "ansible", "help" );
-my @_terra    = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
-my @_tools    = ( "ssh", "teamviewer", "rdp", "snapshot" );
-my @_deployer = (
+my @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
+my @_git          = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
+my @_git_status   = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
+my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "ugv", "uav",
+                      "launch", "help" );
+my @_git_clone    = ( "basestation", "common", "perception", "simulation", "ugv", "ugv.base",
+                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+my @_cloud        = ( "terraform", "ansible", "help" );
+my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
+my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
+my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
+my @_deployer     = (
   # ////////////////////////////////////////////////////////////////////////////
   # UGVs
   # ugv1 general
@@ -236,11 +239,20 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "git_status")  ) {
   print general_matcher($_target, @_git_status);
 
+} elsif (chk_flag($_func, "git_sync")  ) {
+  print general_matcher($_target, @_git_sync);
+
+} elsif (chk_flag($_func, "git_clone")  ) {
+  print general_matcher($_target, @_git_clone);
+
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);
 
-} elsif (chk_flag($_func, "terra")  ) {
-  print general_matcher($_target, @_terra);
+} elsif (chk_flag($_func, "cloud_terra")  ) {
+  print general_matcher($_target, @_cloud_terra);
+
+} elsif (chk_flag($_func, "cloud_ani")  ) {
+  print general_matcher($_target, @_cloud_ani);
 
 } elsif (chk_flag($_func, "tools")  ) {
   print general_matcher($_target, @_tools);
