@@ -2,6 +2,16 @@
 
 my @_deployer = (
   # ////////////////////////////////////////////////////////////////////////////
+  # UGVs
+  # ugv1 general
+  "robots.ugv.transfer.to",
+  "robots.ugv.catkin.build",
+  "robots.ugv.catkin.clean",
+  "robots.ugv.docker.shell",
+  "robots.ugv.docker.rm",
+  "robots.ugv.docker.stop",
+  "robots.ugv.docker.registry.pull",
+
   # UGV1
 
   # ugv1 general
@@ -158,9 +168,13 @@ my @_deployer = (
   "robots.uav.ds4.docker.registry.pull"
 );
 
-# //////////////////////////////////////////////////////////////////////////////
+# @brief check string equalities
+sub chk_flag {
+  my ($_flag, $_args) = @_;
+  $_args =~ /$$_flag/ ? return 1 : return 0;
+}
+
 # @brief match the suffix of the target token
-# //////////////////////////////////////////////////////////////////////////////
 sub smatch {
   my ($_target,  $_suffix) = @_;
   my $_regex="(?<=$_target).*";
@@ -168,30 +182,12 @@ sub smatch {
   return $&;
 }
 
-# //////////////////////////////////////////////////////////////////////////////
-# @brief match the prefix of already matched suffix
-# //////////////////////////////////////////////////////////////////////////////
-sub pmatch {
-  my ($_suffix) = @_;
-  my $_prefix=$_suffix;
-  my $_prefix =~ m/^([^\.]+)/;
-  return $&;
-}
-
-sub chk_flag {
-  my ($_flag, $_args) = @_;
-  $_args =~ /$$_flag/ ? return 1 : return 0;
-}
-
-# //////////////////////////////////////////////////////////////////////////////
 # @brief deployer regex matcher, main entrypoint
-# //////////////////////////////////////////////////////////////////////////////
 sub main_deploy {
   my ($_target) = @_, $_match;
   foreach my $_deploy (@_deployer) {
     my $_suffix_match = smatch($_target, $_deploy);
     if (! $_suffix_match eq "") {
-      # my $_prefix_match = pmatch($_suffix_match);
       $_match="$_match $_target$_suffix_match";
     }
   }
@@ -202,7 +198,6 @@ sub main_deploy {
 # @brief main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 my ($_func, $_target) = @ARGV;
-
 if (chk_flag($_func, "deployer") ) {
   # print $_, "\n" for split ' ', "$_match";
   print main_deploy($_target);

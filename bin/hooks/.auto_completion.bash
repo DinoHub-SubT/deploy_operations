@@ -5,8 +5,6 @@
 . "$SUBT_PATH/operations/bin/hooks/.header.bash"
 . "$SUBT_PATH/operations/bin/hooks/.help.bash"
 
-# import all the submodules
-
 # globals
 GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 
@@ -38,29 +36,7 @@ __ac_deploy_help() {
 }
 
 __ac_deployer_expand() {
-  local _curr=$1
-  local _match=$(perl /home/katarina/deploy_ws/src/operations/bin/hooks/match.pl)
-  COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
-}
-
-__ac_deployer_expand2() {
-  local _curr=$1
-  _regex="(?<=$_curr).*"
-  local _results=""
-  COMPREPLY=() # initialize completion result array.
-
-  for deploy in "${_GL_DEPLOYER_CMDS[@]}"; do
-
-    # get the suffix match, i.e. find which full deployer command matches the given target token
-    _suffix=$(echo "$deploy" | grep -oP "$_regex")
-    # no match found, continue the iteration.
-    [[ -z "$_suffix" ]] && continue
-
-    # found matching deployer command, get the next prefix
-    _prefix=$(echo "$_suffix" | grep -oP "^([^\.]+)")
-
-    _match="$_match $_curr$_prefix"
-  done
+  local _curr=$1 _match=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl)
   COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
 }
 
@@ -253,9 +229,7 @@ _ac_subt_completion() {
     # this is going to be so ugly... -- need to make a regex for partial prefix match...
     # evaluate the matcher -> 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      # echo "we are here??"
       __ac_deployer_expand "$_curr"
-      # __ac_deploy "$_curr" "$_prev"
 
     # evaluate the matcher -> 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
@@ -314,7 +288,6 @@ _ac_subt_completion() {
       && ! chk_flag cloud "${COMP_WORDS[@]}" \
       && ! chk_flag tools "${COMP_WORDS[@]}" ; then
 
-      # __ac_deploy "$_curr" "$_prev"
       __ac_deployer_expand "$_curr"
 
     # autocomplete subcommand -> 'cloud'
@@ -339,7 +312,6 @@ _ac_subt_completion() {
         && ! chk_flag cloud "${COMP_WORDS[@]}" \
         && ! chk_flag tools "${COMP_WORDS[@]}" ; then
           __ac_deployer_expand "$_curr"
-          # __ac_deploy "$_curr" "$_prev"
       fi
 
     fi
