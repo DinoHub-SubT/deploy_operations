@@ -273,6 +273,64 @@ my @_deployer     = (
   "robots.uav.ds4.docker.registry.pull"
 );
 
+# various deployer help messages...
+my @_deployer_robots_help = (   # match for robots
+  "basestation  : deployment subt on basestation.",
+  "ugv          : deployment subt on ugv hardware robots.",
+  "uav          : deployment subt on uav hardware robots."
+);
+my @_deployer_azure_help = (  # match for azure
+  "ugv          : deployment subt ugv on azure VMs.",
+  "uav          : deployment subt uav on azure VMs.",
+  "basestation  : deployment subt basestation on azure VMs.",
+  "perception   : deployment subt perception on azure VMs."
+);
+my @_deployer_robots_ugv_help = (  # match for robots.ugv
+  "ugv1       : deployment subt on ugv1 robot.",
+  "ugv2       : deployment subt on ugv2 robot.",
+  "ugv3       : deployment subt on ugv3 robot."
+);
+my @_deployer_azure_ugv_help = ( # match for azure.ugv
+  "ugv1       : deployment subt on ugv1 Azure VM.",
+  "ugv2       : deployment subt on ugv2 Azure VM.",
+  "ugv3       : deployment subt on ugv3 Azure VM."
+);
+my @_deployer_robots_uav_help = ( # match for robots.uav
+  "ds1       : deployment subt on ds1 robot.",
+  "ds2       : deployment subt on ds2 robot.",
+  "ds3       : deployment subt on ds3 robot.",
+  "ds4       : deployment subt on ds4 robot."
+);
+my @_deployer_azure_uav_help = ( # match for azure.uav
+  "uav1       : deployment subt on uav1 Azure VM.",
+  "uav2       : deployment subt on uav2 Azure VM.",
+  "uav3       : deployment subt on uav3 Azure VM.",
+  "uav4       : deployment subt on uav4 Azure VM."
+);
+my @_deployer_robots_ugv_computer_help = ( # match for robots.ugv.ugv
+  "ppc       : ppc ugv robot computer (hardware, planning, comms).",
+  "nuc       : nuc ugv robot computer (state estimation).",
+  "xavier    : xavier ugv robot computer (perception)."
+);
+my @_deployer_commands_help = ( # match for robots.ugv.ugv*.[ppc ,nuc, xavier]
+  "transfer.to  : transfers code from localhost to remote system.",
+  "skel_t.to    : transfers code (slim & faster -- no .git transfer) from localhost to remote system.",
+  "docker       : automated docker setup such as containers, images, registry pull",
+  "catkin       : automated catkin build & clean for all catkin profiled workspaces."
+);
+my @_deployer_commands_docker_help = ( # match for *.docker
+  "docker.shell                     : starts the docker container on the remote or local system.",
+  "docker.rm                        : removes the docker container on the remote or local system.",
+  "docker.stop                      : stops the docker container on the remote or local system.",
+  "docker.registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).",
+  "docker.registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
+);
+
+my @_deployer_commands_catkin_help = ( # match for *.catkin
+  "catkin.build                     : catkin build (catkin profile workspace already pre-configured).",
+  "catkin.clean                     : catkin clean (catkin profile workspace already pre-configured)."
+);
+
 # @brief check string equalities
 sub chk_flag {
   my ($_flag, $_args) = @_;
@@ -354,6 +412,12 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "deployer") ) {
   # print $_, "\n" for split ' ', "$_match";
   print deploy_matcher($_target);
+
+} elsif (chk_flag($_func, "deployer_help") ) {
+  # TODO
+  foreach (@_deployer_robots_help) {
+    print "$_\n";
+  }
 
 } else {
   print "";  # return empy string on failure

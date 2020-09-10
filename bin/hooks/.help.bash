@@ -305,146 +305,24 @@ __ac_deploy_help() {
     "About: 8... end."
     "azure      : deploys subt on azure cloud."
     "robots     : deploys subt on harware ugv & uav robots."
-    "localhost  : deploys subt on your localhost."
+    "local      : deploys subt on your localhost."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
   COMPREPLY=("${usage[@]}")
 }
 
-# //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt deployer robots'
-# //////////////////////////////////////////////////////////////////////////////
+__ac_deploy_submenu_help() {
+  local _prev=$1
+  local _result=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl "deployer_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
 
-__ac_deploy_general_help() {
-  local usage=(
-    "azure    : deployment subt on azure VMs."
-    "local    : deployment subt on localhost system."
-    "robots   : deployment subt on robots (ugv, uav, basestation)."
-    # "-p       : preview (dry-run) the deployer commands to be run on the system."
-    # "-v       : show the verbose deployer command exact steps to be run on the system"
-    "help, -h : View help usage message for each sub command."
-  )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}") 
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
 }
 
-__ac_deploy_robots_ugv_uav_help() {
-  local usage=(
-    "basestation  : deployment subt on basestation (expand to see details)."
-    "ugv          : deployment subt on ugv hardware robots (expand to see details)."
-    "uav          : deployment subt on uav hardware robots (expand to see details)."
-    "help         : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_robots_ugv_help() {
-  local usage=(
-    "ugv1       : deployment subt on ugv1 robot (expand to see details)."
-    "ugv2       : deployment subt on ugv2 robot (expand to see details)."
-    "ugv3       : deployment subt on ugv3 robot (expand to see details)."
-    "help       : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_robots_ugv_computer_help() {
-  local usage=(
-    "ppc       : ppc robot computer commands (expand to see details)."
-    "nuc       : nuc robot computer commands (expand to see details)."
-    "xavier    : xavier robot computer commands (expand to see details)."
-    "help      : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_robots_ugv_cmd_help() {
-  local usage=(
-    "transfer.to  : transfers code from localhost to ugv system."
-    "skel_t.to    : transfers code (slim & faster -- no .git) from localhost to ugv system."
-    "docker       : automated docker setup for robot (expand to see details)"
-    "catkin       : automated catkin builder for all workspaces (expand to see details)."
-    "help         : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_robots_ugv_docker_help() {
-  local usage=(
-    "docker.shell                     : starts the docker container on the remote ugv robot computer."
-    "docker.rm                        : removes the docker container on the remote ugv robot computer."
-    "docker.stop                      : stops the docker container on the remote ugv robot computer."
-    "docker.registry.azure.pull       : pulls docker images from the azure registry to the robot computer (needs internet)."
-    "docker.registry.basestation.pull : pulls docker images from the basestation registry to the robot computer."
-    "help                             : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_robots_ugv_catkin_help() {
-  local usage=(
-    "catkin.build                     : catkin build (catkin profile workspace already setup)."
-    "catkin.clean                     : catkin clean (catkin profile workspace already setup)."
-    "help                             : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
-__ac_deploy_azure_ugv_docker_help() {
-  local usage=(
-    "docker.shell                     : starts the docker container on the remote ugv VM computer."
-    "docker.rm                        : removes the docker container on the remote ugv VM computer."
-    "docker.stop                      : stops the docker container on the remote ugv VM computer."
-    "docker.registry.pull             : pulls docker images from the azure registry to the VM computer (needs internet)."
-    "help                             : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
-__ac_deploy_azure_ugv_help() {
-  local usage=(
-    "ugv1       : deployment subt on ugv1 Azure VM (expand to see details)."
-    "ugv2       : deployment subt on ugv2 Azure VM (expand to see details)."
-    "ugv3       : deployment subt on ugv3 Azure VM (expand to see details)."
-    "help       : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-__ac_deploy_azure_ugv_uav_help() {
-  local usage=(
-    "ugv          : deployment subt ugv on azure VMs (expand to see details)."
-    "uav          : deployment subt uav on azure VMs (expand to see details)."
-    "basestation  : deployment subt basestation on azure VMs (expand to see details)."
-    "perception   : deployment subt perception on azure VMs (expand to see details)."
-    "help      : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
-__ac_deploy_robots_uav_help() {
-  local usage=(
-    "ds1       : deployment subt on azure VMs."
-    "ds2       : deployment subt on azure VMs."
-    "ds3       : deployment subt on azure VMs."
-    "ds4       : deployment subt on azure VMs."
-    "help      : view help usage message."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
