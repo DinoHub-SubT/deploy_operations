@@ -39,6 +39,12 @@ __ac_deploy_help() {
 
 __ac_deployer_expand() {
   local _curr=$1
+  local _match=$(perl /home/katarina/deploy_ws/src/operations/bin/hooks/match.pl)
+  COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
+}
+
+__ac_deployer_expand2() {
+  local _curr=$1
   _regex="(?<=$_curr).*"
   local _results=""
   COMPREPLY=() # initialize completion result array.
