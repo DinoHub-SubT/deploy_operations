@@ -357,6 +357,25 @@ sub deploy_matcher {
   return $_match;
 }
 
+sub deployer_help_matcher {
+  my ($_target) = @_, $_match;
+
+  if (chk_flag($_target, "robots.ugv")) {
+    print "robots ugv";
+
+  } elsif (chk_flag($_target, "azure.ugv")) {
+    print "azure ugv";
+
+  } elsif (chk_flag($_target, "robots")) {
+    print "robots";
+
+  } elsif (chk_flag($_target, "azure")) {
+    print "azure";
+  } else {
+    print "nothing"
+  }
+}
+
 # @brief match the suffix of the target token
 sub gregex {
   my ($_target,  $_str) = @_;
@@ -375,6 +394,8 @@ sub general_matcher {
   }
   return $_result
 }
+
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief main entrypoint
@@ -414,10 +435,10 @@ if (chk_flag($_func, "subt")  ) {
   print deploy_matcher($_target);
 
 } elsif (chk_flag($_func, "deployer_help") ) {
-  # TODO
-  foreach (@_deployer_robots_help) {
-    print "$_\n";
-  }
+  # foreach (@_deployer_robots_help) {
+  #   print "$_\n";
+  # }
+  deployer_help_matcher($_target);
 
 } else {
   print "";  # return empy string on failure
