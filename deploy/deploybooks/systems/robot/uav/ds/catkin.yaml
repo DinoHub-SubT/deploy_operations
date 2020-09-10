@@ -121,3 +121,44 @@
         - catkin profile set perception-x86
         - catkin config
         - catkin build --force-cmake
+
+  # //////////////////////////////////////////////////////////////////////////
+  - uav.wifi:
+  # //////////////////////////////////////////////////////////////////////////
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/wifi
+      - rm -rf ~/deploy_ws/build/wifi
+      - rm -rf ~/deploy_ws/install/wifi
+      - rm -rf ~/deploy_ws/logs/wifi
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-wifi
+        - catkin config
+        - catkin build --force-cmake
+
+      - perception:
+        # build objdet
+        - cd ~/deploy_ws/src/perception/
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-wifi
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set uav-wifi
+        - catkin config
+        - catkin build --force-cmake
