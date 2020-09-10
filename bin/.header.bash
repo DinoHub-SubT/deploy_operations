@@ -153,9 +153,28 @@ function val_in_arr() {
   return 1
 }
 
+##
+# Checks if a string contains another
+##
 function contains() {
-  local _check="$1"
-  local _match="$2"
-  [[ $_check == *$_match* ]] && return 0
+  local _str="$1" _substr="$2"
+  [[ $_str == *$_substr* ]] && return 0
+  return 1
+}
+
+##
+# Checks if more then one element in $1 is found in ${@:2}, where both are strings converted to arrays
+##
+function match_more_than_one() {
+  # check that the given contains args are not empty
+  local _args=($1) match=false
+  [[ -z $1 ]] && return 2
+
+  for arg in ${_args[@]}; do
+    for var in "${@:2}"; do
+      [[ $arg == $var ]] && [ $match = true ] && return 0
+      [[ $arg == $var ]] && match=true
+    done
+  done
   return 1
 }

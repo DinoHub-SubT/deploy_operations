@@ -10,10 +10,8 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
 
 # @brief match a set of arguments (i.e subcommand flags) to the input token
 __regex_expand() {
-  local _regex="^.*$1.*$"  # match from start -> end, match any char unlimited times
-  local _flags=($2)        # given subcommand flags to match
-  local _match=""
-  # regex match with all flags
+  # match from start -> end, match any char unlimited times
+  local _regex="^.*$1.*$" _flags=($2) _match=""
   for _flag in "${_flags[@]}"; do
     [[ $_flag =~ $_regex ]] && _match="$_flag $_match"
   done
@@ -28,17 +26,18 @@ __regex_eval() {
   return 1
 }
 
-__ac_deploy_help() {
-  local _prev=$1
-  if contains "$prev" "docker."; then
-    __ac_deploy_robots_ugv_docker_help
-  fi
+# __ac_edployer_matcher() {
+#   local _curr=$1 _match=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl deployer $_curr)
+#   COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
+# }
+
+__matcher() {
+  local _matcher_t=$1 _curr=$2 
+  _result=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl "$_matcher_t" "$_curr")
+  [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
+  return 1
 }
 
-__ac_deployer_expand() {
-  local _curr=$1 _match=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl)
-  COMPREPLY=( $( compgen -W "$_match" -- "$_curr" ) )
-}
 
 # TEMPORARY!!, VERY ugly, really bad, hard-coded, autocompete for deployer commands. will fix later. will fix.
 __ac_deploy() {
@@ -204,7 +203,8 @@ __ac_deploy() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief tab autocompletion for subt subcommands
+# @brief tab autocompletion for subt 'command center'
+#   - three level menu of subcommands
 # //////////////////////////////////////////////////////////////////////////////
 _ac_subt_completion() {
 
@@ -214,106 +214,89 @@ _ac_subt_completion() {
   local _curr=${COMP_WORDS[COMP_CWORD]}
   local _prev=${COMP_WORDS[COMP_CWORD-1]}
 
-  ## given one autocomplete token -> 'subt'
+  # given one autocomplete token -> 'subt'
   if [ $COMP_CWORD = 1 ]; then
     # evaluate the matcher for 'subt'
     ! __regex_eval $_curr __ac_subt_flags && __ac_subt_help
+
+  # TODO: check that ac token contains only 1 of the top level flags
+  # elif match_more_than_one "subt deployer git cloud tools update help" "$_curr" ; then
+  #   COMPREPLY=( $( compgen -W "$__ac_subt_flags" -- "$_curr" ) )
 
   ## given two autocomplete tokens -> 'subt git', ...
   elif [ $COMP_CWORD = 2 ]; then
 
     # evaluate the matcher -> 'subt git'
     if chk_flag git "${COMP_WORDS[@]}"; then
-      ! __regex_eval $_curr __ac_git_flags && __ac_git_help
+      ! __matcher "git" $_curr && __ac_git_help
 
     # this is going to be so ugly... -- need to make a regex for partial prefix match...
     # evaluate the matcher -> 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      __ac_deployer_expand "$_curr"
+      ! __matcher "deployer" $_curr && __ac_git_help
 
     # evaluate the matcher -> 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
-      ! __regex_eval $_curr __ac_cloud_flags && __ac_cloud_help
+      ! __matcher "cloud" $_curr && __ac_git_help
 
     # evaluate the matcher -> 'subt tools'
     elif chk_flag tools "${COMP_WORDS[@]}"; then
-      ! __regex_eval $_curr __ac_tools_flags && __ac_tools_help
+      ! __matcher "tools" $_curr && __ac_git_help
 
     else  # 'subt <subcommand>' match failed, then show display usage help.
       __ac_subt_help
     fi
 
   ## given three autocomplete tokens -> 'subt git status', ...
-  elif [ $COMP_CWORD -ge 3 ]; then
-
-    # TODO: cleanup -- check_ONLY not with ! check
-
-    # autocomplete subcommand -> 'git'
-    if chk_flag git "${COMP_WORDS[@]}"          \
-      && ! chk_flag deployer "${COMP_WORDS[@]}" \
-      && ! chk_flag cloud "${COMP_WORDS[@]}" \
-      && ! chk_flag tools "${COMP_WORDS[@]}" ; then
-
-      # evaluate the matcher -> 'subt git status'
-      if chk_flag status "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_status_flags && __ac_git_status_help
-
-      # evaluate the matcher -> 'subt git sync'
-      elif chk_flag sync "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_sync_flags && __ac_git_sync_help
-
-      # evaluate the matcher -> 'subt git clone'
-      elif chk_flag clone "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-
-      # evaluate the matcher -> 'subt git reset'
-      elif chk_flag reset "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-
-      # evaluate the matcher -> 'subt git clean'
-      elif chk_flag clean "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-
-      # evaluate the matcher -> 'subt git rm'
-      elif chk_flag rm "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-
-      else  # 'subt <subcommand>' match failed, then show display usage help.
-        __ac_git_help
-      fi
-
-    # autocomplete subcommand -> 'deployer'
-    elif chk_flag deployer "${COMP_WORDS[@]}" \
-      && ! chk_flag git "${COMP_WORDS[@]}"    \
-      && ! chk_flag cloud "${COMP_WORDS[@]}" \
-      && ! chk_flag tools "${COMP_WORDS[@]}" ; then
-
-      __ac_deployer_expand "$_curr"
-
-    # autocomplete subcommand -> 'cloud'
-    elif chk_flag cloud "${COMP_WORDS[@]}" \
-      && ! chk_flag git "${COMP_WORDS[@]}" \
-      && ! chk_flag deployer "${COMP_WORDS[@]}" \
-      && ! chk_flag tools "${COMP_WORDS[@]}" ; then
-
-      # evaluate the matcher -> 'subt cloud ansible'
-      if chk_flag ansible "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_cloud_ansible_flags && __ac_cloud_ansible_help
-
-      # evaluate the matcher -> 'subt cloud ansible'
-      elif chk_flag terraform "${COMP_WORDS[@]}"; then
-        ! __regex_eval $_curr __ac_cloud_terra_flags && __ac_cloud_terra_help
-      fi
-
-    else
-
-      if chk_flag deployer "${COMP_WORDS[@]}" \
-        && ! chk_flag git "${COMP_WORDS[@]}"    \
-        && ! chk_flag cloud "${COMP_WORDS[@]}" \
-        && ! chk_flag tools "${COMP_WORDS[@]}" ; then
-          __ac_deployer_expand "$_curr"
-      fi
-
-    fi
+#   else
+# 
+#     # autocomplete subcommand -> 'git'
+#     if chk_flag git "${COMP_WORDS[@]}" then
+# 
+#       # evaluate the matcher -> 'subt git status'
+#       if chk_flag status "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_status_flags && __ac_git_status_help
+# 
+#       # evaluate the matcher -> 'subt git sync'
+#       elif chk_flag sync "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_sync_flags && __ac_git_sync_help
+# 
+#       # evaluate the matcher -> 'subt git clone'
+#       elif chk_flag clone "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+# 
+#       # evaluate the matcher -> 'subt git reset'
+#       elif chk_flag reset "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+# 
+#       # evaluate the matcher -> 'subt git clean'
+#       elif chk_flag clean "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+# 
+#       # evaluate the matcher -> 'subt git rm'
+#       elif chk_flag rm "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
+# 
+#       else  # 'subt <subcommand>' match failed, then show display usage help.
+#         __ac_git_help
+#       fi
+# 
+#     # autocomplete subcommand -> 'deployer'
+#     elif chk_flag deployer "${COMP_WORDS[@]}"; then
+#       __ac_matcher $_curr "deployer" && __ac_git_help
+# 
+#     # autocomplete subcommand -> 'cloud'
+#     elif chk_flag cloud "${COMP_WORDS[@]}"  ; then
+# 
+#       # evaluate the matcher -> 'subt cloud ansible'
+#       if chk_flag ansible "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_cloud_ansible_flags && __ac_cloud_ansible_help
+# 
+#       # evaluate the matcher -> 'subt cloud ansible'
+#       elif chk_flag terraform "${COMP_WORDS[@]}"; then
+#         ! __regex_eval $_curr __ac_cloud_terra_flags && __ac_cloud_terra_help
+#       fi
+# 
+#     fi
   fi
 }

@@ -168,14 +168,21 @@ my @_deployer = (
   "robots.uav.ds4.docker.registry.pull"
 );
 
+
+my @_subt = ( "cloud2", "deployer", "git", "tools", "update", "help" );
+my @_git = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
+my @_cloud = ( "terraform", "ansible", "help" );
+my @_terra = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
+my @_tools = ( "ssh", "teamviewer", "rdp", "snapshot" );
+
 # @brief check string equalities
 sub chk_flag {
   my ($_flag, $_args) = @_;
-  $_args =~ /$$_flag/ ? return 1 : return 0;
+  $_args =~ m/$_flag/ ? return 1 : return 0;
 }
 
 # @brief match the suffix of the target token
-sub smatch {
+sub dregex {
   my ($_target,  $_suffix) = @_;
   my $_regex="(?<=$_target).*";
   $_suffix =~ m/$_regex/;
@@ -183,10 +190,10 @@ sub smatch {
 }
 
 # @brief deployer regex matcher, main entrypoint
-sub main_deploy {
+sub deploy_matcher {
   my ($_target) = @_, $_match;
   foreach my $_deploy (@_deployer) {
-    my $_suffix_match = smatch($_target, $_deploy);
+    my $_suffix_match = dregex($_target, $_deploy);
     if (! $_suffix_match eq "") {
       $_match="$_match $_target$_suffix_match";
     }
@@ -194,11 +201,52 @@ sub main_deploy {
   return $_match;
 }
 
+# @brief match the suffix of the target token
+sub gregex {
+  my ($_target,  $_str) = @_;
+  my $_regex="^$_target.*.*?";
+  $_str =~ m/$_regex/;
+  return $&;
+}
+
+sub general_matcher {
+  my ($_target, @_subcommands) = @_, $_result;
+  foreach my $_check (@_subcommands) {
+    my $_match = gregex($_target, $_check);
+    if (! $_match eq "") {
+      $_result="$_result $_match";
+    }
+  }
+  return $_result
+}
+
 # //////////////////////////////////////////////////////////////////////////////
 # @brief main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 my ($_func, $_target) = @ARGV;
-if (chk_flag($_func, "deployer") ) {
+
+# match subcommands for each top command type
+if (chk_flag($_func, "subt")  ) {
+  general_matcher($_target, @_subt);
+
+} elsif (chk_flag($_func, "git")  ) {
+  # print "we are in git??";
+  print general_matcher($_target, @_git);
+
+} elsif (chk_flag($_func, "cloud")  ) {
+  print general_matcher($_target, @_cloud);
+
+} elsif (chk_flag($_func, "terra")  ) {
+  print general_matcher($_target, @_terra);
+
+} elsif (chk_flag($_func, "tools")  ) {
+  print general_matcher($_target, @_tools);
+
+} elsif (chk_flag($_func, "deployer") ) {
   # print $_, "\n" for split ' ', "$_match";
-  print main_deploy($_target);
+  print deploy_matcher($_target);
+
+} else {
+  print "";  # return empy string on failure
 }
+
