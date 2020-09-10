@@ -11,10 +11,113 @@ my @_cloud        = ( "terraform", "ansible", "help" );
 my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
 my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
 my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
+
+# TODO: dynamically create this for the different robots, to not hard-code as much...
 my @_deployer     = (
+
   # ////////////////////////////////////////////////////////////////////////////
-  # UGVs
+  # Azure
+
+  ### ugvs ###
+
   # ugv1 general
+  "azure.ugv.transfer.to",
+  "azure.ugv.catkin.build",
+  "azure.ugv.catkin.clean",
+  "azure.ugv.docker.shell",
+  "azure.ugv.docker.rm",
+  "azure.ugv.docker.stop",
+  "azure.ugv.docker.registry.pull",
+
+  # ugv1
+  "azure.ugv.ugv1.transfer.to",
+  "azure.ugv.ugv1.catkin.build",
+  "azure.ugv.ugv1.catkin.clean",
+  "azure.ugv.ugv1.docker.shell",
+  "azure.ugv.ugv1.docker.rm",
+  "azure.ugv.ugv1.docker.stop",
+  "azure.ugv.ugv1.docker.registry.pull",
+
+  # ugv2
+  "azure.ugv.ugv2.transfer.to",
+  "azure.ugv.ugv2.catkin.build",
+  "azure.ugv.ugv2.catkin.clean",
+  "azure.ugv.ugv2.docker.shell",
+  "azure.ugv.ugv2.docker.rm",
+  "azure.ugv.ugv2.docker.stop",
+  "azure.ugv.ugv2.docker.registry.pull",
+
+  # ugv3
+  "azure.ugv.ugv3.transfer.to",
+  "azure.ugv.ugv3.catkin.build",
+  "azure.ugv.ugv3.catkin.clean",
+  "azure.ugv.ugv3.docker.shell",
+  "azure.ugv.ugv3.docker.rm",
+  "azure.ugv.ugv3.docker.stop",
+  "azure.ugv.ugv3.docker.registry.pull",
+
+  ### uavs ###
+
+  # uav general
+  "azure.uav.transfer.to",
+  "azure.uav.catkin.build",
+  "azure.uav.catkin.clean",
+  "azure.uav.docker.shell",
+  "azure.uav.docker.rm",
+  "azure.uav.docker.stop",
+  "azure.uav.docker.registry.pull",
+
+  # uav1
+  "azure.uav.uav1.transfer.to",
+  "azure.uav.uav1.catkin.build",
+  "azure.uav.uav1.catkin.clean",
+  "azure.uav.uav1.docker.shell",
+  "azure.uav.uav1.docker.rm",
+  "azure.uav.uav1.docker.stop",
+  "azure.uav.uav1.docker.registry.pull",
+
+  # uav2
+  "azure.uav.uav2.transfer.to",
+  "azure.uav.uav2.catkin.build",
+  "azure.uav.uav2.catkin.clean",
+  "azure.uav.uav2.docker.shell",
+  "azure.uav.uav2.docker.rm",
+  "azure.uav.uav2.docker.stop",
+  "azure.uav.uav2.docker.registry.pull",
+
+  # uav3
+  "azure.uav.uav3.transfer.to",
+  "azure.uav.uav3.catkin.build",
+  "azure.uav.uav3.catkin.clean",
+  "azure.uav.uav3.docker.shell",
+  "azure.uav.uav3.docker.rm",
+  "azure.uav.uav3.docker.stop",
+  "azure.uav.uav3.docker.registry.pull",
+
+  # uav4
+  "azure.uav.uav4.transfer.to",
+  "azure.uav.uav4.catkin.build",
+  "azure.uav.uav4.catkin.clean",
+  "azure.uav.uav4.docker.shell",
+  "azure.uav.uav4.docker.rm",
+  "azure.uav.uav4.docker.stop",
+  "azure.uav.uav4.docker.registry.pull",
+
+  ### perception ###
+  "azure.perception.perception1.transfer.to",
+  "azure.perception.perception1.catkin.build",
+  "azure.perception.perception1.catkin.clean",
+  "azure.perception.perception1.docker.shell",
+  "azure.perception.perception1.docker.rm",
+  "azure.perception.perception1.docker.stop",
+  "azure.perception.perception1.docker.registry.pull",
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # Robots
+
+  ### ugvs ###
+
+  # ugv general
   "robots.ugv.transfer.to",
   "robots.ugv.catkin.build",
   "robots.ugv.catkin.clean",
@@ -22,8 +125,6 @@ my @_deployer     = (
   "robots.ugv.docker.rm",
   "robots.ugv.docker.stop",
   "robots.ugv.docker.registry.pull",
-
-  # UGV1
 
   # ugv1 general
   "robots.ugv.ugv1.transfer.to",
@@ -34,7 +135,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.docker.stop",
   "robots.ugv.ugv1.docker.registry.pull",
 
-  # UGV1:ppc
+  # ugv1:ppc
   "robots.ugv.ugv1.ppc.transfer.to",
   "robots.ugv.ugv1.ppc.catkin.build",
   "robots.ugv.ugv1.ppc.catkin.clean",
@@ -43,7 +144,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.ppc.docker.stop",
   "robots.ugv.ugv1.ppc.docker.registry.pull",
 
-  # UGV1:nuc
+  # ugv1:nuc
   "robots.ugv.ugv1.nuc.transfer.to",
   "robots.ugv.ugv1.nuc.catkin.build",
   "robots.ugv.ugv1.nuc.catkin.clean",
@@ -52,7 +153,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.nuc.docker.stop",
   "robots.ugv.ugv1.nuc.docker.registry.pull",
 
-  # UGV1:xavier
+  # ugv1:xavier
   "robots.ugv.ugv1.xavier.transfer.to",
   "robots.ugv.ugv1.xavier.catkin.build",
   "robots.ugv.ugv1.xavier.catkin.clean",
@@ -60,9 +161,6 @@ my @_deployer     = (
   "robots.ugv.ugv1.xavier.docker.rm",
   "robots.ugv.ugv1.xavier.docker.stop",
   "robots.ugv.ugv1.xavier.docker.registry.pull",
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # UGV2
 
   # ugv2 general
   "robots.ugv.ugv2.transfer.to",
@@ -73,7 +171,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.docker.stop",
   "robots.ugv.ugv2.docker.registry.pull",
 
-  # UGV2:ppc
+  # ugv2:ppc
   "robots.ugv.ugv2.ppc.transfer.to",
   "robots.ugv.ugv2.ppc.catkin.build",
   "robots.ugv.ugv2.ppc.catkin.clean",
@@ -82,7 +180,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.ppc.docker.stop",
   "robots.ugv.ugv2.ppc.docker.registry.pull",
 
-  # UGV2:nuc
+  # ugv2:nuc
   "robots.ugv.ugv2.nuc.transfer.to",
   "robots.ugv.ugv2.nuc.catkin.build",
   "robots.ugv.ugv2.nuc.catkin.clean",
@@ -91,7 +189,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.nuc.docker.stop",
   "robots.ugv.ugv2.nuc.docker.registry.pull",
 
-  # UGV2:xavier
+  # ugv2:xavier
   "robots.ugv.ugv2.xavier.transfer.to",
   "robots.ugv.ugv2.xavier.catkin.build",
   "robots.ugv.ugv2.xavier.catkin.clean",
@@ -99,9 +197,6 @@ my @_deployer     = (
   "robots.ugv.ugv2.xavier.docker.rm",
   "robots.ugv.ugv2.xavier.docker.stop",
   "robots.ugv.ugv2.xavier.docker.registry.pull",
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # UGV3
 
   # ugv3 general
   "robots.ugv.ugv3.transfer.to",
@@ -112,7 +207,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.docker.stop",
   "robots.ugv.ugv3.docker.registry.pull",
 
-  # UGV2:ppc
+  # ugv3:ppc
   "robots.ugv.ugv3.ppc.transfer.to",
   "robots.ugv.ugv3.ppc.catkin.build",
   "robots.ugv.ugv3.ppc.catkin.clean",
@@ -121,7 +216,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.ppc.docker.stop",
   "robots.ugv.ugv3.ppc.docker.registry.pull",
 
-  # UGV2:nuc
+  # ugv3:nuc
   "robots.ugv.ugv3.nuc.transfer.to",
   "robots.ugv.ugv3.nuc.catkin.build",
   "robots.ugv.ugv3.nuc.catkin.clean",
@@ -130,7 +225,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.nuc.docker.stop",
   "robots.ugv.ugv3.nuc.docker.registry.pull",
 
-  # UGV2:xavier
+  # ugv3:xavier
   "robots.ugv.ugv3.xavier.transfer.to",
   "robots.ugv.ugv3.xavier.catkin.build",
   "robots.ugv.ugv3.xavier.catkin.clean",
@@ -139,8 +234,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.xavier.docker.stop",
   "robots.ugv.ugv3.xavier.docker.registry.pull",
 
-  # ////////////////////////////////////////////////////////////////////////////
-  # UAV
+  ### uavs ###
 
   # uav1
   "robots.uav.ds1.transfer.to",
@@ -188,7 +282,7 @@ sub chk_flag {
 # @brief match the suffix of the target token
 sub dregex {
   my ($_target,  $_suffix) = @_;
-  my $_regex="(?<=$_target).*";
+  my $_regex="(?<=^$_target).*";
   $_suffix =~ m/$_regex/;
   return $&;
 }

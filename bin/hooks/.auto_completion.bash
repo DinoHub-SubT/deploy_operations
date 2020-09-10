@@ -242,57 +242,12 @@ _ac_subt_completion() {
         ! __matcher "cloud_ani" "$_curr" && __ac_cloud_ansible_help
       fi
 
+    elif chk_flag deployer "${COMP_WORDS[@]}"; then
+
+      echo "deployer"
+
     fi
 
 
-# 
-#     # autocomplete subcommand -> 'git'
-#     if chk_flag git "${COMP_WORDS[@]}" then
-# 
-#       # evaluate the matcher -> 'subt git status'
-#       if chk_flag status "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_status_flags && __ac_git_status_help
-# 
-#       # evaluate the matcher -> 'subt git sync'
-#       elif chk_flag sync "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_sync_flags && __ac_git_sync_help
-# 
-#       # evaluate the matcher -> 'subt git clone'
-#       elif chk_flag clone "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-# 
-#       # evaluate the matcher -> 'subt git reset'
-#       elif chk_flag reset "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-# 
-#       # evaluate the matcher -> 'subt git clean'
-#       elif chk_flag clean "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-# 
-#       # evaluate the matcher -> 'subt git rm'
-#       elif chk_flag rm "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_git_clone_flags && __ac_git_clone_help
-# 
-#       else  # 'subt <subcommand>' match failed, then show display usage help.
-#         __ac_git_help
-#       fi
-# 
-#     # autocomplete subcommand -> 'deployer'
-#     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-#       __ac_matcher $_curr "deployer" && __ac_git_help
-# 
-#     # autocomplete subcommand -> 'cloud'
-#     elif chk_flag cloud "${COMP_WORDS[@]}"  ; then
-# 
-#       # evaluate the matcher -> 'subt cloud ansible'
-#       if chk_flag ansible "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_cloud_ansible_flags && __ac_cloud_ansible_help
-# 
-#       # evaluate the matcher -> 'subt cloud ansible'
-#       elif chk_flag terraform "${COMP_WORDS[@]}"; then
-#         ! __regex_eval $_curr __ac_cloud_terra_flags && __ac_cloud_terra_help
-#       fi
-# 
-#     fi
   fi
 }
