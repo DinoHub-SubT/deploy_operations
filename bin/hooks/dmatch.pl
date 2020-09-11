@@ -273,90 +273,104 @@ my @_deployer     = (
   "robots.uav.ds4.docker.registry.pull"
 );
 
-# various deployer help messages...
-my @_deployer_robots_help = (   # match for robots
-  "basestation  : deployment subt on basestation.",
-  "ugv          : deployment subt on ugv hardware robots.",
-  "uav          : deployment subt on uav hardware robots."
+# //////////////////////////////////////////////////////////////////////////////
+# @brief various help messages
+# //////////////////////////////////////////////////////////////////////////////
+my $_deployer_robots_help = ("
+basestation  : deployment subt on basestation.
+ugv          : deployment subt on ugv hardware robots.
+uav          : deployment subt on uav hardware robots."
 );
-my @_deployer_azure_help = (  # match for azure
-  "ugv          : deployment subt ugv on azure VMs.",
-  "uav          : deployment subt uav on azure VMs.",
-  "basestation  : deployment subt basestation on azure VMs.",
-  "perception   : deployment subt perception on azure VMs."
+my $_deployer_azure_help = ("
+ugv          : deployment subt ugv on azure VMs.
+uav          : deployment subt uav on azure VMs.
+basestation  : deployment subt basestation on azure VMs.
+perception   : deployment subt perception on azure VMs"
 );
-my @_deployer_robots_ugv_help = (  # match for robots.ugv
-  "ugv1       : deployment subt on ugv1 robot.",
-  "ugv2       : deployment subt on ugv2 robot.",
-  "ugv3       : deployment subt on ugv3 robot."
+my $_deployer_robots_ugv_help = ("
+ugv1       : deployment subt on ugv1 robot.
+ugv2       : deployment subt on ugv2 robot.
+ugv3       : deployment subt on ugv3 robot."
 );
-my @_deployer_azure_ugv_help = ( # match for azure.ugv
-  "ugv1       : deployment subt on ugv1 Azure VM.",
-  "ugv2       : deployment subt on ugv2 Azure VM.",
-  "ugv3       : deployment subt on ugv3 Azure VM."
+my $_deployer_azure_ugv_help = ("
+ugv1       : deployment subt on ugv1 Azure VM.
+ugv2       : deployment subt on ugv2 Azure VM.
+ugv3       : deployment subt on ugv3 Azure VM."
 );
-my @_deployer_robots_uav_help = ( # match for robots.uav
-  "ds1       : deployment subt on ds1 robot.",
-  "ds2       : deployment subt on ds2 robot.",
-  "ds3       : deployment subt on ds3 robot.",
-  "ds4       : deployment subt on ds4 robot."
+my $_deployer_robots_uav_help = ("
+ds1       : deployment subt on ds1 robot.
+ds2       : deployment subt on ds2 robot.
+ds3       : deployment subt on ds3 robot.
+ds4       : deployment subt on ds4 robot."
 );
-my @_deployer_azure_uav_help = ( # match for azure.uav
-  "uav1       : deployment subt on uav1 Azure VM.",
-  "uav2       : deployment subt on uav2 Azure VM.",
-  "uav3       : deployment subt on uav3 Azure VM.",
-  "uav4       : deployment subt on uav4 Azure VM."
+my $_deployer_azure_uav_help = ("
+uav1       : deployment subt on uav1 Azure VM.
+uav2       : deployment subt on uav2 Azure VM.
+uav3       : deployment subt on uav3 Azure VM.
+uav4       : deployment subt on uav4 Azure VM."
 );
-my @_deployer_robots_ugv_computer_help = ( # match for robots.ugv.ugv
-  "ppc       : ppc ugv robot computer (hardware, planning, comms).",
-  "nuc       : nuc ugv robot computer (state estimation).",
-  "xavier    : xavier ugv robot computer (perception)."
+my $_deployer_robots_ugv_computer_help = ("
+ppc       : ppc ugv robot computer (hardware, planning, comms).
+nuc       : nuc ugv robot computer (state estimation).
+xavier    : xavier ugv robot computer (perception)."
 );
-my @_deployer_commands_help = ( # match for robots.ugv.ugv*.[ppc ,nuc, xavier]
-  "transfer.to  : transfers code from localhost to remote system.",
-  "skel_t.to    : transfers code (slim & faster -- no .git transfer) from localhost to remote system.",
-  "docker       : automated docker setup such as containers, images, registry pull",
-  "catkin       : automated catkin build & clean for all catkin profiled workspaces."
+my $_deployer_commands_help = ("
+transfer.to  : transfers code from localhost to remote system.
+skel_t.to    : transfers code (slim & faster -- no .git transfer) from localhost to remote system.
+docker       : automated docker setup such as containers, images, registry pull.
+catkin       : automated catkin build & clean for all catkin profiled workspaces."
 );
-my @_deployer_commands_docker_help = ( # match for *.docker
-  "docker.shell                     : starts the docker container on the remote or local system.",
-  "docker.rm                        : removes the docker container on the remote or local system.",
-  "docker.stop                      : stops the docker container on the remote or local system.",
-  "docker.registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).",
-  "docker.registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
+my $_deployer_commands_docker_help = ("
+docker.shell                     : starts the docker container on the remote or local system.
+docker.rm                        : removes the docker container on the remote or local system.
+docker.stop                      : stops the docker container on the remote or local system.
+docker.registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).
+docker.registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
 );
+my $_deployer_commands_catkin_help = ("
+catkin.build                     : catkin build (catkin profile workspace already pre-configured).
+catkin.clean                     : catkin clean (catkin profile workspace already pre-configured)."
+);
+# @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
+my @_help_array = ({
+  id      => "azure.",
+  help    => $_deployer_robots_help,
+},{
+  id      => "azure.ugv.",
+  help    => $_deployer_azure_help,
+},{
+  id      => "azure.uav.",
+  help    => $_deployer_robots_uav_help,
+},{
+  id      => "robots.",
+  help    => $_deployer_robots_help
+});
+# @brief covert the array to hashmap
+my %_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_help_array;
 
-my @_deployer_commands_catkin_help = ( # match for *.catkin
-  "catkin.build                     : catkin build (catkin profile workspace already pre-configured).",
-  "catkin.clean                     : catkin clean (catkin profile workspace already pre-configured)."
-);
-
-my @_deployer_test = (
-
-  # ugv1 general
-  "azure.ugv.transfer.to",
-  "azure.ugv.catkin.build",
-  "azure.ugv.catkin.clean",
-  "azure.ugv.docker.shell",
-  "azure.ugv.docker.rm",
-  "azure.ugv.docker.stop",
-  "azure.ugv.docker.registry.pull",
-
-  # ugv1
-  "azure.ugv.ugv1.transfer.to",
-  "azure.ugv.ugv1.catkin.build",
-  "azure.ugv.ugv1.catkin.clean",
-  "azure.ugv.ugv1.docker.shell",
-  "azure.ugv.ugv1.docker.rm",
-  "azure.ugv.ugv1.docker.stop",
-  "azure.ugv.ugv1.docker.registry.pull"
-);
+# //////////////////////////////////////////////////////////////////////////////
+# @brief general tools
+# //////////////////////////////////////////////////////////////////////////////
 
 # @brief check string equalities
 sub chk_flag {
   my ($_flag, $_args) = @_;
   $_args =~ m/$_flag/ ? return 1 : return 0;
 }
+
+# @brief filter unique strings from array
+# @reference: https://perldoc.perl.org/perlfaq4.html#How-can-I-remove-duplicate-elements-from-a-list-or-array%3f
+sub uniq {
+  my %seen;
+  my @unique = grep { ! $seen{ $_ }++ } @_;
+  return @unique
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief regex functionality
+# //////////////////////////////////////////////////////////////////////////////
 
 # @brief match the suffix of the target token
 sub sregex {
@@ -368,7 +382,6 @@ sub sregex {
 
 sub pregex {
   my ($_prefix) = @_;
-  # my $_regex='^(.*?)(?=\.)';
   my $_regex='^([^\.]+)';
   $_prefix =~ qr/$_regex/;
   return $&;
@@ -380,15 +393,13 @@ sub deploy_matcher {
   foreach my $_deploy (@_deployer) {
     my $_smatch = sregex($_target, $_deploy);
     if (! $_smatch eq "") {
-      # get prefix match...
       my $_pmatch = pregex($_smatch);
-      # print "suffix match is: $_smatch\n";
-      # print "prefix match is: $_pmatch\n";
-      if ($_smatch eq $_pmatch) {
-        $_result="$_result $_target$_pmatch";
-      } else {
-        $_result="$_result $_target$_pmatch.";
-      }
+      # result:
+      # -- given target is partial match, append target to result
+      # -- add trailing '.' unless last token -- last token is when suffix & prefix match
+      # $_result = $_smatch eq $_pmatch ? "$_result $_target$_pmatch" : "$_result $_target$_pmatch.";
+      $_match = $_smatch eq $_pmatch ? "$_target$_pmatch" : "$_target$_pmatch.";
+      $_result = "$_result $_match"
     }
   }
   return $_result;
@@ -398,16 +409,16 @@ sub deployer_help_matcher {
   my ($_target) = @_, $_match;
 
   if (chk_flag($_target, "robots.ugv")) {
-    print "robots ugv";
+    print "robots ugv help";
 
   } elsif (chk_flag($_target, "azure.ugv")) {
-    print "azure ugv";
+    print "azure ugv help";
 
   } elsif (chk_flag($_target, "robots")) {
-    print "robots";
+    print "robots help";
 
   } elsif (chk_flag($_target, "azure")) {
-    print "azure";
+    print "azure help";
   } else {
     print "nothing"
   }
@@ -467,7 +478,6 @@ if (chk_flag($_func, "subt")  ) {
 
 } elsif (chk_flag($_func, "deployer") ) {
   my $_match = deploy_matcher($_target);
-  # print "----------\n";
   # print $_, "\n" for split ' ', "$_match";
   print deploy_matcher($_target);
 
@@ -475,7 +485,31 @@ if (chk_flag($_func, "subt")  ) {
   # foreach (@_deployer_robots_help) {
   #   print "$_\n";
   # }
-  deployer_help_matcher($_target);
+  # deployer_help_matcher($_target);
+
+  $_target=~ s/\.+$//;
+  print "trim is: $_target|\n";
+  my $_matches = deploy_matcher($_target);
+  print "-------------- suffix:\n";
+  my @array = split(' ', $_matches, x);
+  my @filtered = uniq(@array);
+  foreach (@filtered) {
+    print "$_\n";
+    # my @name = $_help_hash{$_}->{help};
+    # print "User $id: @name\n";
+    # foreach (@name) {
+    #   print "$_\n";
+    # }
+  }
+  print "-------------- help:\n";
+  foreach my $key (keys %_help_hash) {
+    print "$key\n";
+  }
+
+  # print $_, "\n" for split ' ', "$_matches";
+  print "\n";
+  # my $name = $hash{"azure.ugv."}->{name};
+  # print "User $id: $name\n";
 
 } else {
   print "";  # return empy string on failure
