@@ -331,6 +331,27 @@ my @_deployer_commands_catkin_help = ( # match for *.catkin
   "catkin.clean                     : catkin clean (catkin profile workspace already pre-configured)."
 );
 
+my @_deployer_test = (
+
+  # ugv1 general
+  "azure.ugv.transfer.to",
+  "azure.ugv.catkin.build",
+  "azure.ugv.catkin.clean",
+  "azure.ugv.docker.shell",
+  "azure.ugv.docker.rm",
+  "azure.ugv.docker.stop",
+  "azure.ugv.docker.registry.pull",
+
+  # ugv1
+  "azure.ugv.ugv1.transfer.to",
+  "azure.ugv.ugv1.catkin.build",
+  "azure.ugv.ugv1.catkin.clean",
+  "azure.ugv.ugv1.docker.shell",
+  "azure.ugv.ugv1.docker.rm",
+  "azure.ugv.ugv1.docker.stop",
+  "azure.ugv.ugv1.docker.registry.pull"
+);
+
 # @brief check string equalities
 sub chk_flag {
   my ($_flag, $_args) = @_;
@@ -338,23 +359,39 @@ sub chk_flag {
 }
 
 # @brief match the suffix of the target token
-sub dregex {
+sub sregex {
   my ($_target,  $_suffix) = @_;
   my $_regex="(?<=^$_target).*";
   $_suffix =~ m/$_regex/;
   return $&;
 }
 
+sub pregex {
+  my ($_prefix) = @_;
+  # my $_regex='^(.*?)(?=\.)';
+  my $_regex='^([^\.]+)';
+  $_prefix =~ qr/$_regex/;
+  return $&;
+}
+
 # @brief deployer regex matcher, main entrypoint
 sub deploy_matcher {
-  my ($_target) = @_, $_match;
+  my ($_target) = @_, $_result;
   foreach my $_deploy (@_deployer) {
-    my $_suffix_match = dregex($_target, $_deploy);
-    if (! $_suffix_match eq "") {
-      $_match="$_match $_target$_suffix_match";
+    my $_smatch = sregex($_target, $_deploy);
+    if (! $_smatch eq "") {
+      # get prefix match...
+      my $_pmatch = pregex($_smatch);
+      # print "suffix match is: $_smatch\n";
+      # print "prefix match is: $_pmatch\n";
+      if ($_smatch eq $_pmatch) {
+        $_result="$_result $_target$_pmatch";
+      } else {
+        $_result="$_result $_target$_pmatch.";
+      }
     }
   }
-  return $_match;
+  return $_result;
 }
 
 sub deployer_help_matcher {
@@ -395,8 +432,6 @@ sub general_matcher {
   return $_result
 }
 
-
-
 # //////////////////////////////////////////////////////////////////////////////
 # @brief main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
@@ -431,6 +466,8 @@ if (chk_flag($_func, "subt")  ) {
   print general_matcher($_target, @_tools);
 
 } elsif (chk_flag($_func, "deployer") ) {
+  my $_match = deploy_matcher($_target);
+  # print "----------\n";
   # print $_, "\n" for split ' ', "$_match";
   print deploy_matcher($_target);
 
