@@ -296,13 +296,14 @@ __ac_cloud_terra_help() {
 __ac_deploy_help() {
   local usage=(
     "About: 1... deploys subt to a remote or local system."
-    "About: 2... this includes: "
-    "About: 3...    - pulling docker images from remoe azure registries or local basestation registries"
+    "About: 2... deployment operations include: "
+    "About: 3...    - pulling docker images from azure registries or local basestation registries"
     "About: 4...    - building docker images"
     "About: 5...    - starting, stopping, removing docker containers"
-    "About: 6...    - transfering code to remote system"
+    "About: 6...    - transferring code to remote system (azure or robots)"
     "About: 7...    - catkin build & clean the different (already pre-configured) catkin profile workspaces."
-    "About: 8... end."
+    "About: 8... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)"
+    "About: 9... == You Options Are =="
     "azure      : deploys subt on azure cloud."
     "robots     : deploys subt on harware ugv & uav robots."
     "local      : deploys subt on your localhost."

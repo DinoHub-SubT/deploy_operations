@@ -278,17 +278,32 @@ my @_deployer     = (
 # //////////////////////////////////////////////////////////////////////////////
 # azure
 my $_deployer_azure_help = ("
+About: 1... deploys subt to Azure Virtual Machines (VMs).
+About: 2... different VMs run different parts of the system.
+About: 4... this includes ugv (ground robot), uav (drone), basestation (gui) and perception (objdet).
+About: 5... the different systems run their own gazebo, rviz, etc, but can all communication with each other.
+About: 6... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 7... == You Options Are ==
 ugv          : deployment subt ugv on azure VMs.
 uav          : deployment subt uav on azure VMs.
 basestation  : deployment subt basestation on azure VMs.
 perception   : deployment subt perception on azure VMs"
 );
 my $_deployer_azure_ugv_help = ("
+About: 1... deploys subt to any one of the remote 'ground robot' Azure VMs.
+About: 2... the same deploy is installed on all ground robot VMs.
+About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 4... == You Options Are ==
+Options:
 ugv1       : deployment subt on ugv1 Azure VM.
 ugv2       : deployment subt on ugv2 Azure VM.
 ugv3       : deployment subt on ugv3 Azure VM."
 );
 my $_deployer_azure_uav_help = ("
+About: 1... deploys subt to any one of the remote 'drone' Azure VMs.
+About: 2... the same deploy is installed on all drone VMs.
+About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 4... == You Options Are ==
 uav1       : deployment subt on uav1 Azure VM.
 uav2       : deployment subt on uav2 Azure VM.
 uav3       : deployment subt on uav3 Azure VM.
@@ -296,43 +311,78 @@ uav4       : deployment subt on uav4 Azure VM."
 );
 # robots
 my $_deployer_robots_help = ("
+About: 1... deploys subt to one of the remote hardware robots or laptop basestation.
+About: 2... different types of robots (and basestation) run different parts of the code.
+About: 3... the same deploy is installed on all systems.
+About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 5... == You Options Are ==
 basestation  : deployment subt on basestation.
 ugv          : deployment subt on ugv hardware robots.
 uav          : deployment subt on uav hardware robots."
 );
 my $_deployer_robots_ugv_help = ("
+About: 1... deploys subt to any one of the remote hardware ground robots.
+About: 2... the ugvs have 3 different computers, to run different parts of the system.
+About: 3... the same deploy is installed on all ground robots.
+About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 5... == You Options Are ==
 ugv1       : deployment subt on ugv1 robot.
 ugv2       : deployment subt on ugv2 robot.
 ugv3       : deployment subt on ugv3 robot."
 );
 my $_deployer_robots_uav_help = ("
+About: 1... deploys subt to any one of the remote hardware drones.
+About: 2... the same deploy is installed on all drone robots.
+About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 4... == You Options Are ==
 ds1       : deployment subt on ds1 robot.
 ds2       : deployment subt on ds2 robot.
 ds3       : deployment subt on ds3 robot.
 ds4       : deployment subt on ds4 robot."
 );
 my $_deployer_robots_ugv_computer_help = ("
+About: 1... deploys subt to any one of the remote hardware ground robots, to their specific computers.
+About: 2... the ugvs have 3 different computers, to run different parts of the system.
+About: 3... planning pc (ppc) runs the hardware, planning & comms stack.
+About: 4... nuc runs state estimation stack.
+About: 5... xavier runs perception stack.
+About: 6... all three computers can communication with each other and can reach the basestation.
+About: 7... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 8... == You Options Are ==
 ppc       : ppc ugv robot computer (hardware, planning, comms).
 nuc       : nuc ugv robot computer (state estimation).
 xavier    : xavier ugv robot computer (perception)."
 );
 # general commands
 my $_deployer_commands_help = ("
-transfer.to  : transfers code from localhost to remote system.
+About: 1... general deployment operations commands.
+About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 3... == You Options Are ==
+transfer.to  : transfers code from localhost to remote system (just an rsync).
 skel_t.to    : transfers code (slim & faster -- no .git transfer) from localhost to remote system.
 docker       : automated docker setup such as containers, images, registry pull.
 catkin       : automated catkin build & clean for all catkin profiled workspaces."
 );
 my $_deployer_commands_docker_help = ("
-docker.shell                     : starts the docker container on the remote or local system.
-docker.rm                        : removes the docker container on the remote or local system.
-docker.stop                      : stops the docker container on the remote or local system.
-docker.registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).
-docker.registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
+About: 1... general docker operation commands.
+About: 2... you can add -p (preview) to show which deployment commands that will run.
+About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
+About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 5... == You Options Are ==
+shell                     : starts the docker container on the remote or local system.
+rm                        : removes the docker container on the remote or local system.
+stop                      : stops the docker container on the remote or local system.
+registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).
+registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
 );
 my $_deployer_commands_catkin_help = ("
-catkin.build                     : catkin build (catkin profile workspace already pre-configured).
-catkin.clean                     : catkin clean (catkin profile workspace already pre-configured)."
+About: 1... general catkin operation commands.
+About: 2... you can add -p (preview) to show which deployment commands that will run.
+About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
+About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 5... == You Options Are ==
+build                     : catkin build (catkin profile workspace already pre-configured).
+clean                     : catkin clean (catkin profile workspace already pre-configured)."
 );
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
 my @_help_array = ({
@@ -485,90 +535,37 @@ sub deploy_matcher {
   return $_result;
 }
 
-
+# @brief TODO
 sub find_deployer_help_usage {
   my ($_str) = @_, $_result;
   foreach my $_help (keys %_help_hash) {
-    print ".. help: $_help \n";
     if ( $_help eq $_str ) {
       my $_usage = $_help_hash{$_help}->{help};
-      print "$_usage\n";
-      return;
+      if (! $_usage eq "") { return $_usage; }
     }
   }
+  return;
 }
 
+# @brief TODO
 sub deployer_help_matcher {
   my ($_target) = @_, $_match;
-  # remove_trail_dot($_target);                 # remove trailing dot
-  # my $_matches = deploy_matcher($_target);  # get matched suffixes
-  # my @_matches = split(' ', $_matches, x);  # create array from string matches
-  # my @_matches = uniq(@_matches);           # filter for unique matches
-  my $_prefix = help_pregex($_target);
-  remove_trail_dot($_prefix);                 # remove trailing dot
-  # print "matches: $_prefix \n";
-
-  # go through each help key
+  my $_prefix = help_pregex($_target);  # get the largest prefix (i.e. all tokens before the last '.')
+  remove_trail_dot($_prefix);           # remove trailing '.'
+  # find the first suffix of given tab-completed token
   my $_dot_counter=1;
   my $_suffix = help_sregex($_prefix, $_dot_counter);
-  while ( ! $_suffix eq "" ) {
-    remove_lead_dot($_suffix);
-    print "suffix: $_suffix \n";
+  while ( ! $_suffix eq "" ) {  # get the next suffix, increasing the token by the next suffix
+    remove_lead_dot($_suffix);  # remove leading '.'
     # find the help associated with the suffix
-    find_deployer_help_usage($_suffix);
-    print "----------------\n";
+    my $_usage = find_deployer_help_usage($_suffix);
+    # return help usage message -- if usage message was matched
+    if (! $_usage eq "") { return $_usage; }
+    # set the next suffix
     $_suffix = help_sregex($_prefix, ++$_dot_counter);
   }
-  print "suffix: $_prefix \n";
-  find_deployer_help_usage($_prefix);
-
-}
-
-sub deployer_help_matcher2 {
-  my ($_target) = @_, $_match;
-  # remove trailing '.' from given target -- forces previous match
-  $_target=~ s/\.+$//;
-  my $_matches = deploy_matcher($_target);  # get matched suffixes
-  my @_matches = split(' ', $_matches, x);  # create array from string matches
-  my @_matches = uniq(@_matches);           # filter for unique matches
-  print "-------------- suffix:\n";
-  foreach my $_match (@_matches) {
-    $_match=~ s/\.$//;
-    print ".. match: $_match \n";
-    foreach my $_key (keys %_help_hash) {
-      print "... key: $_key\n";
-      # if ($_key eq $_match) {
-      if ((rindex $_match, $_key, 0) == 0) {
-        # if ($_key =~ m/$_match/) {
-        my $_help = $_help_hash{$_key}->{help};
-        print "$_help\n";
-      }
-      # print rindex $_key, $_match, 0;
-      # print "\n";
-      # $_hmatch = hregex($_key, $_match);
-      # print "h? $_hmatch\n";
-      # if (! $_hmatch eq "") {
-      #   my $_help = $_help_hash{$_key}->{help};
-      #   print "$_help\n";
-      # }
-      # print "\n";
-    }
-    # my @name = $_help_hash{$_}->{help};
-    # print "User $id: @name\n";
-    # foreach (@name) {
-    #   print "$_\n";
-    # }
-  }
-  # print "-------------- help:\n";
-  # foreach my $key (keys %_help_hash) {
-  #   print "$key\n";
-  # }
-
-  # print $_, "\n" for split ' ', "$_matches";
-  print "\n";
-  # my $name = $hash{"azure.ugv."}->{name};
-  # print "User $id: $name\n";
-
+  if ($_prefix eq "") { $_prefix = $_target; }
+  return find_deployer_help_usage($_prefix);
 }
 
 # @brief match the suffix of the target token
@@ -629,7 +626,8 @@ if (chk_flag($_func, "subt")  ) {
   print deploy_matcher($_target);
 
 } elsif (chk_flag($_func, "deployer_help") ) {
-  deployer_help_matcher($_target)
+  print deployer_help_matcher($_target);
+  # print $_, "\n" for split ' ', "$_usage";
 } else {
   print "";  # return empy string on failure
 }
