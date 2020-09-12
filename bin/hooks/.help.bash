@@ -124,22 +124,21 @@ __ac_git_status_help() {
 __status_help() {
   GL_TEXT_COLOR=$FG_LCYAN
   text
-  text_color "usage: status [<flag>] [<flag>] "
+  text_color "Usage: "
+  text_color "      status [<flag>] [<flag>]"
   text_color
   text_color "flags:"
-  text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "-s, simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "-ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "-uav, uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
-  text_color "help            : view help usage message."
+  text_color "      -b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "      -c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "      -p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "      -s, simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "      -ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "      -uav, uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
+  text_color "      help            : view help usage message"
   text_color
   text_color "About:"
+  text_color "      show the general git info for every submodule (all three levels)."
   text_color
-  text_color "show the general git info for every submodule (all three levels)."
-  text_color
-  text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
 }
 
