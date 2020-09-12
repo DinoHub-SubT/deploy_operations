@@ -406,7 +406,7 @@ my @_help_array = ({
   help    => $_deployer_commands_docker_help
 },{
   id      => "catkin",
-  help    => $_deployer_robots_uav_help
+  help    => $_deployer_commands_catkin_help
 });
 # @brief covert the array to hashmap
 my %_help_hash = map {
@@ -433,6 +433,9 @@ sub uniq {
 
 sub remove_trail_dot {
   $_[0]=~ s/\.+$//;
+}
+sub remove_lead_dot {
+  $_[0]=~ s/^\.+//;
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -482,6 +485,19 @@ sub deploy_matcher {
   return $_result;
 }
 
+
+sub find_deployer_help_usage {
+  my ($_str) = @_, $_result;
+  foreach my $_help (keys %_help_hash) {
+    print ".. help: $_help \n";
+    if ( $_help eq $_str ) {
+      my $_usage = $_help_hash{$_help}->{help};
+      print "$_usage\n";
+      return;
+    }
+  }
+}
+
 sub deployer_help_matcher {
   my ($_target) = @_, $_match;
   # remove_trail_dot($_target);                 # remove trailing dot
@@ -490,21 +506,21 @@ sub deployer_help_matcher {
   # my @_matches = uniq(@_matches);           # filter for unique matches
   my $_prefix = help_pregex($_target);
   remove_trail_dot($_prefix);                 # remove trailing dot
-  print "matches: $_prefix \n";
+  # print "matches: $_prefix \n";
 
   # go through each help key
-  foreach my $_help (keys %_help_hash) {
-    print ".. help: $_help \n";
-
-    my $_dot_counter=1;
-    my $_suffix = help_sregex($_prefix, $_dot_counter);
-    while ( ! $_suffix eq "" ) {
-      print "? $_suffix \n"; 
-      $_suffix = help_sregex($_prefix, ++$_dot_counter);
-    }
-    print "? $_prefix \n";
+  my $_dot_counter=1;
+  my $_suffix = help_sregex($_prefix, $_dot_counter);
+  while ( ! $_suffix eq "" ) {
+    remove_lead_dot($_suffix);
+    print "suffix: $_suffix \n";
+    # find the help associated with the suffix
+    find_deployer_help_usage($_suffix);
+    print "----------------\n";
+    $_suffix = help_sregex($_prefix, ++$_dot_counter);
   }
-
+  print "suffix: $_prefix \n";
+  find_deployer_help_usage($_prefix);
 
 }
 
