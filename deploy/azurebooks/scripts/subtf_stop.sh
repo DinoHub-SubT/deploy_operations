@@ -5,6 +5,7 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
     title "$__file_name [ flags ] [ vm_name ]: Stops vms."
     text "Flags:"
     text "    -a : stop ALL of your vm's on azure."
+    text "    -l : list your created VMs."
     text "Args:"
     text "    vm_name: the name of the vm to stop (will match to all VM's with this in the name)"
     exit 0
@@ -23,6 +24,15 @@ if [[ $# == 0 ]]; then
 fi
 
 cd $__dir/../subt
+
+if chk_flag -l $@; then
+    vms=($(az vm list -g SubT --query "[?contains(name, '$TF_VAR_azure_resource_name_prefix')].id" -o tsv))
+    for vm in "${vms[@]}"; do
+        _vm_name=${vm##*/}
+        echo "$_vm_name"
+    done
+    exit 1
+fi
 
 # Get the ID(s) of the VM(s) we want to shut down
 title Getting VM IDs
