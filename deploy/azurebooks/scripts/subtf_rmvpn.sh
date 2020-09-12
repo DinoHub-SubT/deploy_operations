@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
-if chk_flag --help $@; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name [ flags ]: Removes the vpn needed to access azure (both through terraform and with network manager."
     text "Flags:"
     text "    -y : do not ask for confirmation before running terraform apply"

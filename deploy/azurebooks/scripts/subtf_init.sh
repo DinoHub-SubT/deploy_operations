@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
-if chk_flag --help $@; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name : initializes subt's terraform setup with the correct tfstate file"
     exit 0
 fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 
-if chk_flag --help $@; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name [ flags ] [ vm_name ]: Stops vms."
     text "Flags:"
     text "    -a : stop ALL of your vm's on azure."
