@@ -54,12 +54,12 @@ __subt_git_execute() {
   # check & execute the subt git subcommand
 
   if chk_flag status $@; then
-    shift 1 # shift the 'git', 'info' tokens
+    shift 1 # shift the 'git' token
     ($GL_GIT_HOOKS_DIR/git.bash $@)
 
-#   elif chk_flag sync $@; then
-#     shift 2 # shift the 'git', 'sync' tokens
-#     ($GL_GIT_HOOKS_DIR/sync.bash $@)
+  elif chk_flag sync $@; then
+    shift 1 # shift the 'git' token
+    ($GL_GIT_HOOKS_DIR/git.bash $@)
 # 
 #   elif chk_flag clone $@; then
 #     shift 2 # shift the 'git', 'sync' tokens

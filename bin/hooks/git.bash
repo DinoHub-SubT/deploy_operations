@@ -16,6 +16,10 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   # show flags for specific subcommand
   if chk_flag status $@; then
     __status_help
+  elif chk_flag sync $@; then
+    __sync_help
+  elif chk_flag clone $@; then
+    __clone_help
   fi
 
   text_color "For more help, please see the README.md or wiki."
@@ -27,15 +31,12 @@ fi
 # globals
 GL_STATUS_HASH=false
 GL_STATUS_URL=false
+GL_SYNC_DELETE_BRANCH=false
+GL_SYNC_IGNORE_CURR=true
 
-# @brief reset all the submodules to their DETACHED HEAD -- using deployer yamls (please see yamls for more info)
-_reset() {
-  pushd "$SUBT_PATH/"
-  ./deployer -s git.rm.$@
-  ./deployer -s git.init.$@
-  ./deployer -s git.clone.$@
-  popd
-}
+# //////////////////////////////////////////////////////////////////////////////
+# @brief git status
+# //////////////////////////////////////////////////////////////////////////////
 
 # @brief displays the 'git status' of a submodule
 _status() {
@@ -96,8 +97,121 @@ _status_traverse() {
     _traverse_submodules _status
     popd
   done
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief git sync
+# //////////////////////////////////////////////////////////////////////////////
+
+# @brief syncs local repository to match remote
+_sync() {
+  # printf colors
+  local _pfred=$(tput setaf 1)
+  local _pfblue=$(tput setaf 4)
+  local _pfnormal=$(tput sgr0)
+
+  # collect git submodule status information
+  local _submodule=$(realpath --relative-to="$SUBT_PATH" "$(pwd)")
+  local _hash=$(git rev-parse --verify HEAD)  # get the current hash commit
+  local _co=$(git symbolic-ref -q HEAD)       # get the current branch
+  _co=${_co#"refs/heads/"}           # find the short branch name
+  [ -z $_co ] && _co="-"                      # reset to detached head display symbol '-'
+
+  printf "%-10s | %-30s | %-50s | %-50s \n" "...sync" "$_co" "$_hash" "$_submodule"
+  git fetch -q -a
+
+  # - resets hard all local branches to match remote branches
+  # - removes all deleted branches
+
+  # collect the local & remote branches
+  local _heads=($(_git_branches heads))
+  local _remotes=($(_git_branches remotes))
+
+  # get the current checked out branch
+  local _co=$(git symbolic-ref -q HEAD)
+  # ignore current branch (if given as user argument)
+  $GL_SYNC_IGNORE_CURR && _heads=( "${_heads[@]/$_co}" )
+
+  # find the short branch name
+  _co=${_co#"refs/heads/"}
+  # go through all local branches and reset hard local branch to origin/remote
+  for branch in "${_heads[@]}"; do
+    branch=$( echo "$branch" | tr -d "\'")  # remove the single quotes from the branch string
+    short=${branch#"refs/heads/"}           # find the short branch name
+
+    # match the local & remote branches
+    if val_in_arr "'refs/remotes/origin/$short'" "${_remotes[@]}"; then
+      # reset the local branch to the remote
+      git update-ref "$branch" "refs/remotes/origin/$short"
+    else
+      [ $GL_SYNC_DELETE_BRANCH = true ] && git branch -d $short
+    fi
+  done
+
+  # go back to original commit hash
+  if ! $GL_SYNC_IGNORE_CURR; then
+    [ -z $_co ] && _co=$(git rev-parse --verify HEAD)  # co as hash commit, if co as detached head
+    git checkout -q -f $_co
+  fi
+}
+
+# @brief traverse over all submodules in the intermediate repos, apply the given function on _submodule
+_sync_traverse() {
+  # go through all given intermediate repo arguments
+  for _inter in "$@"; do
+    # ignore the non-interrepo flags
+    chk_flag -hard $_inter || chk_flag -del $_inter && continue
+
+
+    # display submodule information as a column table print style
+    text "\n$FG_LCYAN|--$_inter--|$FG_DEFAULT"
+    printf "%-10s | %-30s | %-50s | %-64s " "" "--branch--" "--status--" "--submodule--"
+    printf "\n"
+
+    # traverse over the intermeidate submodules & sync
+    pushd "$_inter"
+    _sync                       # sync intermedite repo only
+    _traverse_submodules _sync  # sync all recursive submodule repos
+
+    # display the intermediate repo git status
+    printf "%-10s \n" "...git status"
+    git status                  # perform a git status, to speed up top level deploy indexing
+    popd
+  done
 
 }
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief git reset
+# //////////////////////////////////////////////////////////////////////////////
+
+# @brief reset all the submodules to their DETACHED HEAD -- using deployer yamls (please see yamls for more info)
+_reset() {
+  pushd "$SUBT_PATH/"
+  ./deployer -s git.rm.$@
+  ./deployer -s git.init.$@
+  ./deployer -s git.clone.$@
+  popd
+}
+
+__rm() {
+  pushd "$SUBT_PATH/"
+  ./deployer -s git.rm.$1
+  popd
+}
+
+__clone() {
+  pushd "$SUBT_PATH/"
+  ./deployer -s git.clone.$1
+  popd
+}
+
+_clean() {
+  pushd "$SUBT_PATH/"
+  ./deployer -s git.clean.$1
+  popd
+}
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief: main entrypoint
@@ -106,6 +220,8 @@ pushd $SUBT_PATH
 
 if chk_flag status $@ ; then
   shift
+  _nargs=$#
+
   # append the display options
   chk_flag -hash $@ && GL_STATUS_HASH=true
   chk_flag -url $@ && GL_STATUS_URL=true
@@ -114,13 +230,24 @@ if chk_flag status $@ ; then
   # display submodule information as a column table print style
   text "\n$FG_LCYAN|--deploy--|"
   printf "%-50s | %-38s | %-64s " "--submodule--" "--branch--" "--status--"
-  [[ $GL_STATUS_HASH == true ]] && printf " | %-40s" "--git hash--"
-  [[ $GL_STATUS_URL == true ]]  && printf " | %-30s" "--git url--"
+  [[ $GL_STATUS_HASH == true ]] && printf " | %-40s" "--git hash--" && ((_nargs--))
+  [[ $GL_STATUS_URL == true ]]  && printf " | %-30s" "--git url--"  && ((_nargs--))
   printf "\n"
   _status # show the status
 
-  # intermediate level repos
-  [ $# -eq 0 ] && _status_traverse basestation common perception ugv uav simulation || _status_traverse $@
+  # show git status for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _status_traverse basestation common perception ugv uav simulation || _status_traverse $@
+
+elif chk_flag sync $@ ; then
+  shift
+  _nargs=$#
+
+  # append the display options
+  chk_flag -del $@ && GL_SYNC_DELETE_BRANCH=true && ((_nargs--))
+  chk_flag -hard $@ && GL_SYNC_IGNORE_CURR=false && ((_nargs--))
+
+  # show git status for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _sync_traverse basestation common perception ugv uav simulation || _sync_traverse $@
 fi
 
 # cleanup & exit
