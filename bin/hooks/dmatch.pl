@@ -12,7 +12,7 @@ my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start"
 my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
 my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
 
-# TODO: dynamically create this for the different robots, to not hard-code as much...
+# TODO: eventually get this from the py deployer...
 my @_deployer     = (
 
   # ////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,7 @@ my @_deployer     = (
 
   # ugv1 general
   "azure.ugv.transfer.to",
+  "azure.ugv.skel_t.to",
   "azure.ugv.catkin.build",
   "azure.ugv.catkin.clean",
   "azure.ugv.docker.shell",
@@ -31,6 +32,7 @@ my @_deployer     = (
 
   # ugv1
   "azure.ugv.ugv1.transfer.to",
+  "azure.ugv.ugv1.skel_t.to",
   "azure.ugv.ugv1.catkin.build",
   "azure.ugv.ugv1.catkin.clean",
   "azure.ugv.ugv1.docker.shell",
@@ -40,6 +42,7 @@ my @_deployer     = (
 
   # ugv2
   "azure.ugv.ugv2.transfer.to",
+  "azure.ugv.ugv2.skel_to.to",
   "azure.ugv.ugv2.catkin.build",
   "azure.ugv.ugv2.catkin.clean",
   "azure.ugv.ugv2.docker.shell",
@@ -49,6 +52,7 @@ my @_deployer     = (
 
   # ugv3
   "azure.ugv.ugv3.transfer.to",
+  "azure.ugv.ugv3.skel_t.to",
   "azure.ugv.ugv3.catkin.build",
   "azure.ugv.ugv3.catkin.clean",
   "azure.ugv.ugv3.docker.shell",
@@ -60,6 +64,7 @@ my @_deployer     = (
 
   # uav general
   "azure.uav.transfer.to",
+  "azure.uav.skel_t.to",
   "azure.uav.catkin.build",
   "azure.uav.catkin.clean",
   "azure.uav.docker.shell",
@@ -69,6 +74,7 @@ my @_deployer     = (
 
   # uav1
   "azure.uav.uav1.transfer.to",
+  "azure.uav.uav1.skel_t.to",
   "azure.uav.uav1.catkin.build",
   "azure.uav.uav1.catkin.clean",
   "azure.uav.uav1.docker.shell",
@@ -78,6 +84,7 @@ my @_deployer     = (
 
   # uav2
   "azure.uav.uav2.transfer.to",
+  "azure.uav.uav2.skel_t.to",
   "azure.uav.uav2.catkin.build",
   "azure.uav.uav2.catkin.clean",
   "azure.uav.uav2.docker.shell",
@@ -87,6 +94,7 @@ my @_deployer     = (
 
   # uav3
   "azure.uav.uav3.transfer.to",
+  "azure.uav.uav3.skel_t.to",
   "azure.uav.uav3.catkin.build",
   "azure.uav.uav3.catkin.clean",
   "azure.uav.uav3.docker.shell",
@@ -96,6 +104,7 @@ my @_deployer     = (
 
   # uav4
   "azure.uav.uav4.transfer.to",
+  "azure.uav.uav4.skel_t.to",
   "azure.uav.uav4.catkin.build",
   "azure.uav.uav4.catkin.clean",
   "azure.uav.uav4.docker.shell",
@@ -105,6 +114,7 @@ my @_deployer     = (
 
   ### perception ###
   "azure.perception.perception1.transfer.to",
+  "azure.perception.perception1.skel_t.to",
   "azure.perception.perception1.catkin.build",
   "azure.perception.perception1.catkin.clean",
   "azure.perception.perception1.docker.shell",
@@ -119,6 +129,7 @@ my @_deployer     = (
 
   # ugv general
   "robots.ugv.transfer.to",
+  "robots.ugv.skel_t.to",
   "robots.ugv.catkin.build",
   "robots.ugv.catkin.clean",
   "robots.ugv.docker.shell",
@@ -128,6 +139,7 @@ my @_deployer     = (
 
   # ugv1 general
   "robots.ugv.ugv1.transfer.to",
+  "robots.ugv.ugv1.skel_t.to",
   "robots.ugv.ugv1.catkin.build",
   "robots.ugv.ugv1.catkin.clean",
   "robots.ugv.ugv1.docker.shell",
@@ -137,6 +149,7 @@ my @_deployer     = (
 
   # ugv1:ppc
   "robots.ugv.ugv1.ppc.transfer.to",
+  "robots.ugv.ugv1.ppc.skel_t.to",
   "robots.ugv.ugv1.ppc.catkin.build",
   "robots.ugv.ugv1.ppc.catkin.clean",
   "robots.ugv.ugv1.ppc.docker.shell",
@@ -146,6 +159,7 @@ my @_deployer     = (
 
   # ugv1:nuc
   "robots.ugv.ugv1.nuc.transfer.to",
+  "robots.ugv.ugv1.nuc.skel_t.to",
   "robots.ugv.ugv1.nuc.catkin.build",
   "robots.ugv.ugv1.nuc.catkin.clean",
   "robots.ugv.ugv1.nuc.docker.shell",
@@ -155,6 +169,7 @@ my @_deployer     = (
 
   # ugv1:xavier
   "robots.ugv.ugv1.xavier.transfer.to",
+  "robots.ugv.ugv1.xavier.skel_t.to",
   "robots.ugv.ugv1.xavier.catkin.build",
   "robots.ugv.ugv1.xavier.catkin.clean",
   "robots.ugv.ugv1.xavier.docker.shell",
@@ -164,6 +179,7 @@ my @_deployer     = (
 
   # ugv2 general
   "robots.ugv.ugv2.transfer.to",
+  "robots.ugv.ugv2.skel_t.to",
   "robots.ugv.ugv2.catkin.build",
   "robots.ugv.ugv2.catkin.clean",
   "robots.ugv.ugv2.docker.shell",
@@ -173,6 +189,7 @@ my @_deployer     = (
 
   # ugv2:ppc
   "robots.ugv.ugv2.ppc.transfer.to",
+  "robots.ugv.ugv2.ppc.skel_t.to",
   "robots.ugv.ugv2.ppc.catkin.build",
   "robots.ugv.ugv2.ppc.catkin.clean",
   "robots.ugv.ugv2.ppc.docker.shell",
@@ -182,6 +199,7 @@ my @_deployer     = (
 
   # ugv2:nuc
   "robots.ugv.ugv2.nuc.transfer.to",
+  "robots.ugv.ugv2.nuc.skel_t.to",
   "robots.ugv.ugv2.nuc.catkin.build",
   "robots.ugv.ugv2.nuc.catkin.clean",
   "robots.ugv.ugv2.nuc.docker.shell",
@@ -191,6 +209,7 @@ my @_deployer     = (
 
   # ugv2:xavier
   "robots.ugv.ugv2.xavier.transfer.to",
+  "robots.ugv.ugv2.xavier.skel_t.to",
   "robots.ugv.ugv2.xavier.catkin.build",
   "robots.ugv.ugv2.xavier.catkin.clean",
   "robots.ugv.ugv2.xavier.docker.shell",
@@ -200,6 +219,7 @@ my @_deployer     = (
 
   # ugv3 general
   "robots.ugv.ugv3.transfer.to",
+  "robots.ugv.ugv3.skel_t.to",
   "robots.ugv.ugv3.catkin.build",
   "robots.ugv.ugv3.catkin.clean",
   "robots.ugv.ugv3.docker.shell",
@@ -209,6 +229,7 @@ my @_deployer     = (
 
   # ugv3:ppc
   "robots.ugv.ugv3.ppc.transfer.to",
+  "robots.ugv.ugv3.ppc.skel_t.to",
   "robots.ugv.ugv3.ppc.catkin.build",
   "robots.ugv.ugv3.ppc.catkin.clean",
   "robots.ugv.ugv3.ppc.docker.shell",
@@ -218,6 +239,7 @@ my @_deployer     = (
 
   # ugv3:nuc
   "robots.ugv.ugv3.nuc.transfer.to",
+  "robots.ugv.ugv3.nuc.skel_t.to",
   "robots.ugv.ugv3.nuc.catkin.build",
   "robots.ugv.ugv3.nuc.catkin.clean",
   "robots.ugv.ugv3.nuc.docker.shell",
@@ -227,6 +249,7 @@ my @_deployer     = (
 
   # ugv3:xavier
   "robots.ugv.ugv3.xavier.transfer.to",
+  "robots.ugv.ugv3.xavier.skel_t.to",
   "robots.ugv.ugv3.xavier.catkin.build",
   "robots.ugv.ugv3.xavier.catkin.clean",
   "robots.ugv.ugv3.xavier.docker.shell",
@@ -238,6 +261,7 @@ my @_deployer     = (
 
   # uav1
   "robots.uav.ds1.transfer.to",
+  "robots.uav.ds1.skel_t.to",
   "robots.uav.ds1.catkin.build",
   "robots.uav.ds1.catkin.clean",
   "robots.uav.ds1.docker.shell",
@@ -247,6 +271,7 @@ my @_deployer     = (
 
   # uav2
   "robots.uav.ds2.transfer.to",
+  "robots.uav.ds2.skel_t.to",
   "robots.uav.ds2.catkin.build",
   "robots.uav.ds2.catkin.clean",
   "robots.uav.ds2.docker.shell",
@@ -256,6 +281,7 @@ my @_deployer     = (
 
   # uav3
   "robots.uav.ds3.transfer.to",
+  "robots.uav.ds3.skel_t.to",
   "robots.uav.ds3.catkin.build",
   "robots.uav.ds3.catkin.clean",
   "robots.uav.ds3.docker.shell",
@@ -265,6 +291,7 @@ my @_deployer     = (
 
   # uav4
   "robots.uav.ds4.transfer.to",
+  "robots.uav.ds4.skel_t.to",
   "robots.uav.ds4.catkin.build",
   "robots.uav.ds4.catkin.clean",
   "robots.uav.ds4.docker.shell",
@@ -491,18 +518,20 @@ sub remove_lead_dot {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
 # //////////////////////////////////////////////////////////////////////////////
+# @brief match the suffix of the target token (for deployer help tab-complete)
 sub help_sregex {
   my ($_target, $_i) = @_;
   $_target =~ qr/(\.[^.]+){$_i}$/;
   return $&;
 }
+# @brief match the prefix of the target token (for deployer help tab-complete)
 sub help_pregex {
   my ($_target, $_i) = @_;
   $_target =~ qr/^([^.].*\.)/;
   return $&;
 }
 
-# @brief match the suffix of the target token
+# @brief match the suffix of the target token (for deployer tab-complete)
 sub sregex {
   my ($_target,  $_suffix) = @_;
   my $_regex="(?<=^$_target).*";
@@ -510,6 +539,7 @@ sub sregex {
   return $&;
 }
 
+# @brief match the prefix of the target token (for deployer tab-complete)
 sub pregex {
   my ($_prefix) = @_;
   my $_regex='^([^\.]+)';
@@ -535,7 +565,7 @@ sub deploy_matcher {
   return $_result;
 }
 
-# @brief TODO
+# @brief match the deployer help message id with its usage string message
 sub find_deployer_help_usage {
   my ($_str) = @_, $_result;
   foreach my $_help (keys %_help_hash) {
@@ -547,7 +577,7 @@ sub find_deployer_help_usage {
   return;
 }
 
-# @brief TODO
+# @brief match the deployer help usage message
 sub deployer_help_matcher {
   my ($_target) = @_, $_match;
   my $_prefix = help_pregex($_target);  # get the largest prefix (i.e. all tokens before the last '.')
@@ -576,6 +606,7 @@ sub gregex {
   return $&;
 }
 
+# @brief general matcher (i.e. non deployer commands)
 sub general_matcher {
   my ($_target, @_subcommands) = @_, $_result;
   foreach my $_check (@_subcommands) {
@@ -627,7 +658,6 @@ if (chk_flag($_func, "subt")  ) {
 
 } elsif (chk_flag($_func, "deployer_help") ) {
   print deployer_help_matcher($_target);
-  # print $_, "\n" for split ' ', "$_usage";
 } else {
   print "";  # return empy string on failure
 }

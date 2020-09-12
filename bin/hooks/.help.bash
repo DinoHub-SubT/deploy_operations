@@ -7,7 +7,7 @@ __ac_subt_help() {
   local usage=(
     "About: 1... main menu: operations tools"
     "About: 2... tab complete each subcommand to see what tools are available for each group."
-    "About: 3... end."
+    "About: 3... == You Options Are =="
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
@@ -27,7 +27,7 @@ __ac_git_help() {
     "About: 1... git helper scripts, for automating git commands over the 3-level deploy repo structure."
     "About: 2... example, 'status' runs a 'git fetch -all' for all the submodules, for a given intermediate meta repo."
     "About: 3... tab complete each subcommand to see what arguments are available."
-    "About: 4... end."
+    "About: 4... == You Options Are =="
     "status   : show the general git info for every submodule (all three levels)."
     "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
     "clone    : clones intermediate repo or submodules."
@@ -73,10 +73,9 @@ __ac_cloud_help() {
   local usage=(
     "About: 1... cloud scripts for automating Azure cloud system setup."
     "About: 2... tab complete each subcommand to see what arguments are available."
-    "About: 3... end."
+    "About: 3... == You Options Are =="
     "ansible      : ansible scripts, for installing base system packages on the Azure VMs."
     "terraform    : terraform scripts, for creating & starting the Azure VMs and other Azure resources."
-    "help         : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -90,7 +89,7 @@ __ac_tools_help() {
   local usage=(
     "About: 1... general helper scripts, can be used for robots or azure setups."
     "About: 2... tab complete each subcommand to see what arguments are available."
-    "About: 3... end."
+    "About: 3... == You Options Are =="
     "shh          : shows which configured ssh connections are are available to connect."
     "teamviewer   : shows which teamviewer connections are are available to connect."
     "rdp          : establish a rdp (rdesktop) session with an Azure VM."
@@ -109,7 +108,7 @@ __ac_git_status_help() {
   local usage=(
     "About: 1... shows a short summary of its git status for all submodules."
     "About: 2... shows a short summary of 'dirty' submodules for any given meta repos."
-    "About: 3... end."
+    "About: 3... == You Options Are =="
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -150,7 +149,7 @@ __status_help() {
 __ac_git_sync_help() {
   local usage=(
     "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
-    "About: 2... end."
+    "About: 2... == You Options Are =="
     "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -199,7 +198,7 @@ __sync_help() {
 __ac_git_clone_help() {
   local usage=(
     "About: 1... clones all the submodules inside the intermediate level repo."
-    "About: 2... end."
+    "About: 2... == You Options Are =="
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -255,6 +254,11 @@ __ac_cloud_ansible_flags() {
 }
 __ac_cloud_ansible_help() {
   local usage=(
+    "About: 1... Usage: < system_name > < playbook > [ optional flags ] "
+    "About: 2... if running on your laptop, use the options:  localhost install-localhost.yaml"
+    "About: 3... if running on basestation, use the options:  basestation install-localhost.yaml"
+    "About: 4... if you wish to not run anything, but want to view information about the different ansible installs, just use the 'optional flags'"
+    "About: 5... == Optional Flags =="
     "-az  : Show the available azure ansible system names."
     "-r   : Show the available robot ansible system names."
     "-l   : Show the available localhost system names."
@@ -275,6 +279,8 @@ __ac_cloud_terra_flags(){
 }
 __ac_cloud_terra_help() {
   local usage=(
+    "About: 1... Please add 'help' for each command to see more details on usage information."
+    "About: 2... == You Options Are =="
     "init   : initializes subt's terraform setup with the correct tfstate file"
     "cert   : creates the vpn ca and user certifcations for creating an Azure VPN connection"
     "plan   : terraform plan (dry run) args are passed to terraform."

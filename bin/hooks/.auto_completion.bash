@@ -79,12 +79,11 @@ _ac_subt_completion() {
         ! __matcher "cloud_ani" "$_curr" && __ac_cloud_ansible_help
       fi
 
+    # second level 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      # TODO: need to match the deployer help...
       ! __matcher "deployer" $_curr && __ac_deploy_submenu_help $_prev
 
     fi
-
 
   fi
 }
