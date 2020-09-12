@@ -19,6 +19,8 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   text_color "Azure RPD Wrapper"
   text_color "    - Quick GoTo script, to establish a rdp session with an Azure VM."
   text_color "    - Hides rdp 'rdesktop' command line cli options & details."
+  text_color "Example:"
+  text_color "    -t azure-ugv1-window -h azure-ugv1 -u vm_username -p vm_password"
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
   exit_success

@@ -89,12 +89,12 @@ __ac_tools_help() {
   local usage=(
     "About: 1... general helper scripts, can be used for robots or azure setups."
     "About: 2... tab complete each subcommand to see what arguments are available."
+    "About: 3... Please add 'help' for each command to see more details on usage information."
     "About: 3... == You Options Are =="
     "shh          : shows which configured ssh connections are are available to connect."
     "teamviewer   : shows which teamviewer connections are are available to connect."
     "rdp          : establish a rdp (rdesktop) session with an Azure VM."
     "snapshot     : creates a snapshot logfile of deploy repo submodules."
-    "help         : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
