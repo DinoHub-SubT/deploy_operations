@@ -3,7 +3,7 @@
 # load header helper functions
 . "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
 . "$(dirname $0)/.header.bash"
-. "$(dirname $0)/hooks/.header.bash"
+. "$(dirname $0)/automate/.header.bash"
 
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   GL_TEXT_COLOR=$FG_LCYAN

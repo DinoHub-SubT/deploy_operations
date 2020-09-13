@@ -2,11 +2,11 @@
 
 # load header helper functions
 . "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/hooks/.header.bash"
-. "$SUBT_PATH/operations/bin/hooks/.auto_completion.bash"
+. "$SUBT_PATH/operations/bin/automate/.header.bash"
+. "$SUBT_PATH/operations/bin/automate/.auto_completion.bash"
 
 # globals
-GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
+GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
 
 # example:
   # list all submodules
@@ -52,7 +52,7 @@ __subt_git_execute() {
   if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
     || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@; then
     shift 1 # shift the 'git' token
-    ($GL_GIT_HOOKS_DIR/git.bash $@)
+    ($GL_GIT_AUTOMATE_DIR/git.bash $@)
   elif chk_flag help $@; then
     __git_help
   fi
@@ -130,7 +130,7 @@ subt() {
   # execute 'git subt' subcommand
   elif chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
-    ($GL_GIT_HOOKS_DIR/deployer.bash $@)
+    ($GL_GIT_AUTOMATE_DIR/deployer.bash $@)
 
   elif chk_nth_flag 1 "cloud" "$@"; then
     __subt_cloud_execute $@

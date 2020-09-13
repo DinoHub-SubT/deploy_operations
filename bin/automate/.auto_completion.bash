@@ -2,18 +2,18 @@
 
 # load header helper functions
 . "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/hooks/.header.bash"
-. "$SUBT_PATH/operations/bin/hooks/.help.bash"
+. "$SUBT_PATH/operations/bin/automate/.header.bash"
+. "$SUBT_PATH/operations/bin/automate/.help.bash"
 
 # globals
-GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
+GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
 
 # @brief find the the current auto-complete token matches
 __matcher() {
   local _matcher_t=$1 _curr=$2
   [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
   # evaluate the matcher
-  local _result=$(perl $GL_GIT_HOOKS_DIR/acmatcher.pl "$_matcher_t" "$_curr")
+  local _result=$(perl $GL_GIT_AUTOMATE_DIR/acmatcher.pl "$_matcher_t" "$_curr")
   [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
   return 1
 }
