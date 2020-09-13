@@ -77,11 +77,11 @@ _status() {
 }
 
 # @brief traverse through all the submodules in the given intermediate repo(s)
-_status_traverse() {
+_status_traverse_table() {
   # go through all given intermediate repo arguments
   for _inter in "$@"; do
     # ignore the non-interrepo flags
-    chk_flag -hash $_inter || chk_flag -url $_inter && continue
+    chk_flag -table $_inter || chk_flag -hash $_inter || chk_flag -url $_inter && continue
 
     # display submodule information as a column table print style
     text "\n$FG_LCYAN|--$_inter--|"
@@ -101,6 +101,21 @@ _status_traverse() {
 
     # status  all recursive submodule repos
     _traverse_submodules _status
+    popd
+  done
+}
+
+_status_traverse_flat() {
+  # go through all given intermediate repo arguments
+  for _inter in "$@"; do
+    # ignore the non-interrepo flags
+    chk_flag -table $_inter || chk_flag -hash $_inter || chk_flag -url $_inter && continue
+
+    # ignore the non-interrepo flags
+    chk_flag -hash $_inter || chk_flag -url $_inter && continue
+    text "\n$FG_LCYAN|--$_inter--|"
+    pushd $_inter
+    git status
     popd
   done
 }
@@ -233,17 +248,21 @@ if chk_flag status $@ ; then
   chk_flag -hash $@ && GL_STATUS_HASH=true
   chk_flag -url $@ && GL_STATUS_URL=true
 
-  # top level deploy repo
-  # display submodule information as a column table print style
-  text "\n$FG_LCYAN|--deploy--|"
-  printf "%-50s | %-38s | %-64s " "--submodule--" "--branch--" "--status--"
-  [[ $GL_STATUS_HASH == true ]] && printf " | %-40s" "--git hash--" && ((_nargs--))
-  [[ $GL_STATUS_URL == true ]]  && printf " | %-30s" "--git url--"  && ((_nargs--))
-  printf "\n"
-  _status # show the status
+  if chk_flag -table $@; then
+    # top level deploy repo
+    # display submodule information as a column table print style
+    text "\n$FG_LCYAN|--deploy--|"
+    printf "%-50s | %-38s | %-64s " "--submodule--" "--branch--" "--status--"
+    [[ $GL_STATUS_HASH == true ]] && printf " | %-40s" "--git hash--" && ((_nargs--))
+    [[ $GL_STATUS_URL == true ]]  && printf " | %-30s" "--git url--"  && ((_nargs--))
+    printf "\n"
+    _status # show the status
 
-  # show git status for all the given intermediate level repos
-  [ $_nargs -eq 0 ] && _status_traverse basestation common perception ugv uav simulation subt_launch || _status_traverse $@
+    # show git status for all the given intermediate level repos
+    [ $_nargs -eq 0 ] && _status_traverse_table basestation common perception ugv uav simulation subt_launch || _status_traverse_table $@
+  else
+    [ $_nargs -eq 0 ] && _status_traverse_flat basestation common perception ugv uav simulation subt_launch || _status_traverse_flat $@
+  fi
 
 elif chk_flag sync $@ ; then
   shift
