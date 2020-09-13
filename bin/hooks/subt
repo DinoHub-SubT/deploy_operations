@@ -45,38 +45,14 @@ GL_GIT_HOOKS_DIR=$SUBT_PATH/operations/bin/hooks/
   # git sync  -- add this to git config using ansible?
   # make sure to only do a git sync, when doing git status, not other commands?
   # have a docker image pull check too...
-
-
 ##
 
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
-  # check & execute the subt git subcommand
-
-  if chk_flag status $@; then
+  if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
+    || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@; then
     shift 1 # shift the 'git' token
     ($GL_GIT_HOOKS_DIR/git.bash $@)
-
-  elif chk_flag sync $@; then
-    shift 1 # shift the 'git' token
-    ($GL_GIT_HOOKS_DIR/git.bash $@)
-# 
-#   elif chk_flag clone $@; then
-#     shift 2 # shift the 'git', 'sync' tokens
-#     ($GL_GIT_HOOKS_DIR/clone.bash $@)
-# 
-#   elif chk_flag reset $@; then
-#     shift 2 # shift the 'git', 'sync' tokens
-#     ($GL_GIT_HOOKS_DIR/reset.bash $@)
-# 
-#   elif chk_flag rm $@; then
-#     shift 2 # shift the 'git', 'sync' tokens
-#     ($GL_GIT_HOOKS_DIR/rm.bash $@)
-# 
-#   elif chk_flag clean $@; then
-#     shift 2 # shift the 'git', 'sync' tokens
-#     ($GL_GIT_HOOKS_DIR/clean.bash $@)
-
   elif chk_flag help $@; then
     __git_help
   fi

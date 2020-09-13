@@ -1,15 +1,32 @@
 #!/usr/local/bin/perl
 
 my @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
+
 my @_git          = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
-my @_git_status   = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
-my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "ugv", "uav",
-                      "launch", "help" );
-my @_git_clone    = ( "basestation", "common", "perception", "simulation", "ugv", "ugv.base",
+
+my @_git_status   = ( "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "uav", "help" );
+
+my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "uav", "help" );
+
+my @_git_clone    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+
+my @_git_reset    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
+                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+
+my @_git_clean    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "uav", "help" );
+
+my @_git_rm       = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
+                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+
 my @_cloud        = ( "terraform", "ansible", "help" );
+
 my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" );
+
 my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
+
 my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
 
 # TODO: eventually get this from the py deployer...
@@ -638,6 +655,15 @@ if (chk_flag($_func, "subt")  ) {
 
 } elsif (chk_flag($_func, "git_clone")  ) {
   print general_matcher($_target, @_git_clone);
+
+} elsif (chk_flag($_func, "git_reset")  ) {
+  print general_matcher($_target, @_git_reset);
+
+} elsif (chk_flag($_func, "git_clean")  ) {
+  print general_matcher($_target, @_git_clean);
+
+} elsif (chk_flag($_func, "git_rm")  ) {
+  print general_matcher($_target, @_git_rm);
 
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);

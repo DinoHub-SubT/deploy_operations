@@ -221,12 +221,140 @@ __clone_help() {
   text
   text_color "usage: clone [<subcommand>] [<flag>] [<flag>] ... "
   text_color
-  text_color "subcommands:"
-  text_color "          : no subcommand will default to clone all submodules."
-  text_color "reset     : resets the submodules to their detached HEAD as with intial clone,"
-  text_color "rm        : removes all the submodules and intermediate level repos."
-  text_color "clean     : cleans all the submodules from any uncommitted changes."
-  text_color "branch    : creates a new branch or checks out an existing branch."
+  text_color "flags:"
+  text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simulation      : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "ugv             : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "ugv.slam        : ugv intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+  text_color "ugv.hardware    : ugv intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
+  text_color "uav             : uav intermediate level repo -> ~/deploy_ws/src/uav/"
+  text_color "uav.slam        : uav intermediate level repo -> ~/deploy_ws/src/uav/slam"
+  text_color "uav.hardware    : uav intermediate level repo -> ~/deploy_ws/src/uav/hardware"
+  text_color "help            : view help usage message."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt git reset'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_git_reset_help() {
+  local usage=(
+    "About: 1... resets all the submodules inside the intermediate level repo to their DETACHED HEAD."
+    "About: 2... == You Options Are =="
+    "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common             : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simulation         : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "subt_launch        : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+    "ugv                : all of ugv -> ~/deploy_ws/src/ugv"
+    "ugv.base           : ugv base only intermediate level repo -> ~/deploy_ws/src/ugv/ppc & ~/deploy_ws/src/ugv/nuc"
+    "ugv.slam           : ugv slam only intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+    "ugv.hardware       : ugv hardware intermediate level repo  -> ~/deploy_ws/src/ugv/hardware"
+    "uav                : all of ugv -> ~/deploy_ws/src/ugv"
+    "uav.core           : uav base only intermediate level repo -> ~/deploy_ws/src/uav/core"
+    "uav.slam           : uav slam only intermediate level repo -> ~/deploy_ws/src/uav/slam"
+    "uav.hardware       : uav hardware intermediate level repo  -> ~/deploy_ws/src/uav/hardware"
+    "help               : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__reset_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: reset [<subcommand>] [<flag>] [<flag>] ... "
+  text_color
+  text_color "flags:"
+  text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simulation      : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "subt_launch     : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+  text_color "ugv             : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "ugv.slam        : ugv intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+  text_color "ugv.hardware    : ugv intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
+  text_color "uav             : uav intermediate level repo -> ~/deploy_ws/src/uav/"
+  text_color "uav.slam        : uav intermediate level repo -> ~/deploy_ws/src/uav/slam"
+  text_color "uav.hardware    : uav intermediate level repo -> ~/deploy_ws/src/uav/hardware"
+  text_color "help            : view help usage message."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt git clean'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_git_clean_help() {
+  local usage=(
+    "About: 1... cleans all the submodules inside the intermediate level repo to their DETACHED HEAD."
+    "About: 2... == You Options Are =="
+    "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common             : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simulation         : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "subt_launch        : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+    "ugv                : all of ugv -> ~/deploy_ws/src/ugv"
+    "uav                : all of ugv -> ~/deploy_ws/src/ugv"
+    "help               : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__clean_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: clean [<subcommand>] [<flag>] [<flag>] ... "
+  text_color
+  text_color "flags:"
+  text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simulation      : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "subt_launch     : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+  text_color "ugv             : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "uav             : uav intermediate level repo -> ~/deploy_ws/src/uav/"
+  text_color "-h, help        : View help usage message for each sub command."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt git rm'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_git_rm_help() {
+  local usage=(
+    "About: 1... removes all the submodules inside the intermediate level repo to their DETACHED HEAD."
+    "About: 2... == You Options Are =="
+    "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common             : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simulation         : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "ugv                : all of ugv -> ~/deploy_ws/src/ugv"
+    "ugv.base           : ugv base only intermediate level repo -> ~/deploy_ws/src/ugv/ppc & ~/deploy_ws/src/ugv/nuc"
+    "ugv.slam           : ugv slam only intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+    "ugv.hardware       : ugv hardware intermediate level repo  -> ~/deploy_ws/src/ugv/hardware"
+    "uav                : all of ugv -> ~/deploy_ws/src/ugv"
+    "uav.core           : uav base only intermediate level repo -> ~/deploy_ws/src/uav/core"
+    "uav.slam           : uav slam only intermediate level repo -> ~/deploy_ws/src/uav/slam"
+    "uav.hardware       : uav hardware intermediate level repo  -> ~/deploy_ws/src/uav/hardware"
+    "help               : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__rm_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: rm [<subcommand>] [<flag>] [<flag>] ... "
   text_color
   text_color "flags:"
   text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"

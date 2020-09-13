@@ -68,6 +68,12 @@ _ac_subt_completion() {
         ! __matcher "git_sync" "$_curr" && __ac_git_sync_help
       elif chk_flag clone "${COMP_WORDS[@]}"; then
         ! __matcher "git_clone" "$_curr" && __ac_git_clone_help
+      elif chk_flag reset "${COMP_WORDS[@]}"; then
+        ! __matcher "git_reset" "$_curr" && __ac_git_reset_help
+      elif chk_flag clean "${COMP_WORDS[@]}"; then
+        ! __matcher "git_clean" "$_curr" && __ac_git_clean_help
+      elif chk_flag rm "${COMP_WORDS[@]}"; then
+        ! __matcher "git_rm" "$_curr" && __ac_git_rm_help
       fi
 
     # second level 'subt cloud'

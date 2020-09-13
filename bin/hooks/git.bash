@@ -20,6 +20,12 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __sync_help
   elif chk_flag clone $@; then
     __clone_help
+  elif chk_flag reset $@; then
+    __reset_help
+  elif chk_flag clean $@; then
+    __clean_help
+  elif chk_flag rm $@; then
+    __rm_help
   fi
 
   text_color "For more help, please see the README.md or wiki."
@@ -162,7 +168,6 @@ _sync_traverse() {
     # ignore the non-interrepo flags
     chk_flag -hard $_inter || chk_flag -del $_inter && continue
 
-
     # display submodule information as a column table print style
     text "\n$FG_LCYAN|--$_inter--|$FG_DEFAULT"
     printf "%-10s | %-30s | %-50s | %-64s " "" "--branch--" "--status--" "--submodule--"
@@ -178,40 +183,42 @@ _sync_traverse() {
     git status                  # perform a git status, to speed up top level deploy indexing
     popd
   done
-
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief git reset
+# @brief git subcommands using deployer
 # //////////////////////////////////////////////////////////////////////////////
+
+# @brief cleans all the submodules & intermediate repos
+_clean_traverse() {
+  for _inter in "$@"; do
+    ./deployer -s git.clean.$_inter
+  done
+}
 
 # @brief reset all the submodules to their DETACHED HEAD -- using deployer yamls (please see yamls for more info)
-_reset() {
-  pushd "$SUBT_PATH/"
-  ./deployer -s git.rm.$@
-  ./deployer -s git.init.$@
-  ./deployer -s git.clone.$@
-  popd
+_reset_traverse() {
+  # go through all given intermediate repo arguments
+  for _inter in "$@"; do
+    ./deployer -s git.rm.$_inter
+    ./deployer -s git.init.$_inter
+    ./deployer -s git.clone.$_inter
+  done
 }
 
-__rm() {
-  pushd "$SUBT_PATH/"
-  ./deployer -s git.rm.$1
-  popd
+# @brief removes all git submodules in the intermediate repo
+_rm_traverse() {
+  for _inter in "$@"; do
+    ./deployer -s git.rm.$_inter
+  done
 }
 
-__clone() {
-  pushd "$SUBT_PATH/"
-  ./deployer -s git.clone.$1
-  popd
+# @brief clones all git submodules in the intermediate repo
+_clone_traverse() {
+  for _inter in "$@"; do
+    ./deployer -s git.clone.$_inter
+  done
 }
-
-_clean() {
-  pushd "$SUBT_PATH/"
-  ./deployer -s git.clean.$1
-  popd
-}
-
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief: main entrypoint
@@ -236,7 +243,7 @@ if chk_flag status $@ ; then
   _status # show the status
 
   # show git status for all the given intermediate level repos
-  [ $_nargs -eq 0 ] && _status_traverse basestation common perception ugv uav simulation || _status_traverse $@
+  [ $_nargs -eq 0 ] && _status_traverse basestation common perception ugv uav simulation subt_launch || _status_traverse $@
 
 elif chk_flag sync $@ ; then
   shift
@@ -247,7 +254,32 @@ elif chk_flag sync $@ ; then
   chk_flag -hard $@ && GL_SYNC_IGNORE_CURR=false && ((_nargs--))
 
   # show git status for all the given intermediate level repos
-  [ $_nargs -eq 0 ] && _sync_traverse basestation common perception ugv uav simulation || _sync_traverse $@
+  [ $_nargs -eq 0 ] && _sync_traverse basestation common perception ugv uav simulation subt_launch || _sync_traverse $@
+
+elif chk_flag clone $@ ; then
+  shift
+  _nargs=$#
+  # reset the submodules for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _clone_traverse basestation common perception ugv uav simulation subt_launch || _clone_traverse $@
+
+elif chk_flag reset $@ ; then
+  shift
+  _nargs=$#
+  # reset the submodules for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _reset_traverse basestation common perception ugv uav simulation subt_launch || _reset_traverse $@
+
+elif chk_flag clean $@ ; then
+  shift
+  _nargs=$#
+  # reset the submodules for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _clean_traverse basestation common perception ugv uav simulation subt_launch || _clean_traverse $@
+
+elif chk_flag rm $@ ; then
+  shift
+  _nargs=$#
+  # reset the submodules for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _rm_traverse basestation common perception ugv uav simulation subt_launch || _rm_traverse $@
+
 fi
 
 # cleanup & exit
