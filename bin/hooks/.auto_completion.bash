@@ -13,7 +13,7 @@ __matcher() {
   local _matcher_t=$1 _curr=$2
   [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
   # evaluate the matcher
-  local _result=$(perl $GL_GIT_HOOKS_DIR/dmatch.pl "$_matcher_t" "$_curr")
+  local _result=$(perl $GL_GIT_HOOKS_DIR/acmatcher.pl "$_matcher_t" "$_curr")
   [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
   return 1
 }
