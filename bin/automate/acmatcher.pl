@@ -35,6 +35,36 @@ my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
 my @_deployer     = (
 
   # ////////////////////////////////////////////////////////////////////////////
+  # Local
+  "local.ugv.catkin.build",
+  "local.ugv.catkin.clean",
+  "local.ugv.docker.shell",
+  "local.ugv.docker.rm",
+  "local.ugv.docker.stop",
+  "local.ugv.docker.registry.pull",
+
+  "local.uav.catkin.build",
+  "local.uav.catkin.clean",
+  "local.uav.docker.shell",
+  "local.uav.docker.rm",
+  "local.uav.docker.stop",
+  "local.uav.docker.registry.pull",
+
+  "local.perception.catkin.build",
+  "local.perception.catkin.clean",
+  "local.perception.docker.shell",
+  "local.perception.docker.rm",
+  "local.perception.docker.stop",
+  "local.perception.docker.registry.pull",
+
+  "local.basestation.catkin.build",
+  "local.basestation.catkin.clean",
+  "local.basestation.docker.shell",
+  "local.basestation.docker.rm",
+  "local.basestation.docker.stop",
+  "local.basestation.docker.registry.pull",
+
+  # ////////////////////////////////////////////////////////////////////////////
   # Azure
 
   ### ugvs ###
@@ -154,7 +184,8 @@ my @_deployer     = (
   "robots.ugv.docker.shell",
   "robots.ugv.docker.rm",
   "robots.ugv.docker.stop",
-  "robots.ugv.docker.registry.pull",
+  "robots.ugv.docker.registry.azure.pull",
+  "robots.ugv.docker.registry.basestation.pull",
 
   # ugv1 general
   "robots.ugv.ugv1.transfer.to",
@@ -164,7 +195,8 @@ my @_deployer     = (
   "robots.ugv.ugv1.docker.shell",
   "robots.ugv.ugv1.docker.rm",
   "robots.ugv.ugv1.docker.stop",
-  "robots.ugv.ugv1.docker.registry.pull",
+  "robots.ugv.ugv1.docker.registry.azure.pull",
+  "robots.ugv.ugv1.docker.registry.basestation.pull",
 
   # ugv1:ppc
   "robots.ugv.ugv1.ppc.transfer.to",
@@ -174,7 +206,8 @@ my @_deployer     = (
   "robots.ugv.ugv1.ppc.docker.shell",
   "robots.ugv.ugv1.ppc.docker.rm",
   "robots.ugv.ugv1.ppc.docker.stop",
-  "robots.ugv.ugv1.ppc.docker.registry.pull",
+  "robots.ugv.ugv1.ppc.docker.registry.azure.pull",
+  "robots.ugv.ugv1.ppc.docker.registry.basestation.pull",
 
   # ugv1:nuc
   "robots.ugv.ugv1.nuc.transfer.to",
@@ -184,7 +217,8 @@ my @_deployer     = (
   "robots.ugv.ugv1.nuc.docker.shell",
   "robots.ugv.ugv1.nuc.docker.rm",
   "robots.ugv.ugv1.nuc.docker.stop",
-  "robots.ugv.ugv1.nuc.docker.registry.pull",
+  "robots.ugv.ugv1.nuc.docker.registry.azure.pull",
+  "robots.ugv.ugv1.nuc.docker.registry.basestation.pull",
 
   # ugv1:xavier
   "robots.ugv.ugv1.xavier.transfer.to",
@@ -194,7 +228,8 @@ my @_deployer     = (
   "robots.ugv.ugv1.xavier.docker.shell",
   "robots.ugv.ugv1.xavier.docker.rm",
   "robots.ugv.ugv1.xavier.docker.stop",
-  "robots.ugv.ugv1.xavier.docker.registry.pull",
+  "robots.ugv.ugv1.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv1.xavier.docker.registry.basestation.pull",
 
   # ugv2 general
   "robots.ugv.ugv2.transfer.to",
@@ -204,7 +239,8 @@ my @_deployer     = (
   "robots.ugv.ugv2.docker.shell",
   "robots.ugv.ugv2.docker.rm",
   "robots.ugv.ugv2.docker.stop",
-  "robots.ugv.ugv2.docker.registry.pull",
+  "robots.ugv.ugv2.docker.registry.azure.pull",
+  "robots.ugv.ugv2.docker.registry.basestation.pull",
 
   # ugv2:ppc
   "robots.ugv.ugv2.ppc.transfer.to",
@@ -214,7 +250,8 @@ my @_deployer     = (
   "robots.ugv.ugv2.ppc.docker.shell",
   "robots.ugv.ugv2.ppc.docker.rm",
   "robots.ugv.ugv2.ppc.docker.stop",
-  "robots.ugv.ugv2.ppc.docker.registry.pull",
+  "robots.ugv.ugv2.ppc.docker.registry.azure.pull",
+  "robots.ugv.ugv2.ppc.docker.registry.basestation.pull",
 
   # ugv2:nuc
   "robots.ugv.ugv2.nuc.transfer.to",
@@ -224,7 +261,8 @@ my @_deployer     = (
   "robots.ugv.ugv2.nuc.docker.shell",
   "robots.ugv.ugv2.nuc.docker.rm",
   "robots.ugv.ugv2.nuc.docker.stop",
-  "robots.ugv.ugv2.nuc.docker.registry.pull",
+  "robots.ugv.ugv2.nuc.docker.registry.azure.pull",
+  "robots.ugv.ugv2.nuc.docker.registry.basestation.pull",
 
   # ugv2:xavier
   "robots.ugv.ugv2.xavier.transfer.to",
@@ -234,7 +272,8 @@ my @_deployer     = (
   "robots.ugv.ugv2.xavier.docker.shell",
   "robots.ugv.ugv2.xavier.docker.rm",
   "robots.ugv.ugv2.xavier.docker.stop",
-  "robots.ugv.ugv2.xavier.docker.registry.pull",
+  "robots.ugv.ugv2.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv2.xavier.docker.registry.basestation.pull",
 
   # ugv3 general
   "robots.ugv.ugv3.transfer.to",
@@ -244,7 +283,8 @@ my @_deployer     = (
   "robots.ugv.ugv3.docker.shell",
   "robots.ugv.ugv3.docker.rm",
   "robots.ugv.ugv3.docker.stop",
-  "robots.ugv.ugv3.docker.registry.pull",
+  "robots.ugv.ugv3.docker.registry.azure.pull",
+  "robots.ugv.ugv3.docker.registry.basestation.pull",
 
   # ugv3:ppc
   "robots.ugv.ugv3.ppc.transfer.to",
@@ -254,7 +294,8 @@ my @_deployer     = (
   "robots.ugv.ugv3.ppc.docker.shell",
   "robots.ugv.ugv3.ppc.docker.rm",
   "robots.ugv.ugv3.ppc.docker.stop",
-  "robots.ugv.ugv3.ppc.docker.registry.pull",
+  "robots.ugv.ugv3.ppc.docker.registry.azure.pull",
+  "robots.ugv.ugv3.ppc.docker.registry.basestation.pull",
 
   # ugv3:nuc
   "robots.ugv.ugv3.nuc.transfer.to",
@@ -264,7 +305,8 @@ my @_deployer     = (
   "robots.ugv.ugv3.nuc.docker.shell",
   "robots.ugv.ugv3.nuc.docker.rm",
   "robots.ugv.ugv3.nuc.docker.stop",
-  "robots.ugv.ugv3.nuc.docker.registry.pull",
+  "robots.ugv.ugv3.nuc.docker.registry.azure.pull",
+  "robots.ugv.ugv3.nuc.docker.registry.basestation.pull",
 
   # ugv3:xavier
   "robots.ugv.ugv3.xavier.transfer.to",
@@ -274,7 +316,8 @@ my @_deployer     = (
   "robots.ugv.ugv3.xavier.docker.shell",
   "robots.ugv.ugv3.xavier.docker.rm",
   "robots.ugv.ugv3.xavier.docker.stop",
-  "robots.ugv.ugv3.xavier.docker.registry.pull",
+  "robots.ugv.ugv3.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv3.xavier.docker.registry.basestation.pull",
 
   ### uavs ###
 
@@ -286,7 +329,8 @@ my @_deployer     = (
   "robots.uav.ds1.docker.shell",
   "robots.uav.ds1.docker.rm",
   "robots.uav.ds1.docker.stop",
-  "robots.uav.ds1.docker.registry.pull",
+  "robots.uav.ds1.docker.registry.azure.pull",
+  "robots.uav.ds1.docker.registry.basestation.pull",
 
   # uav2
   "robots.uav.ds2.transfer.to",
@@ -296,7 +340,8 @@ my @_deployer     = (
   "robots.uav.ds2.docker.shell",
   "robots.uav.ds2.docker.rm",
   "robots.uav.ds2.docker.stop",
-  "robots.uav.ds2.docker.registry.pull",
+  "robots.uav.ds2.docker.registry.azure.pull",
+  "robots.uav.ds2.docker.registry.basestation.pull",
 
   # uav3
   "robots.uav.ds3.transfer.to",
@@ -306,7 +351,8 @@ my @_deployer     = (
   "robots.uav.ds3.docker.shell",
   "robots.uav.ds3.docker.rm",
   "robots.uav.ds3.docker.stop",
-  "robots.uav.ds3.docker.registry.pull",
+  "robots.uav.ds3.docker.registry.azure.pull",
+  "robots.uav.ds3.docker.registry.basestation.pull",
 
   # uav4
   "robots.uav.ds4.transfer.to",
@@ -316,12 +362,25 @@ my @_deployer     = (
   "robots.uav.ds4.docker.shell",
   "robots.uav.ds4.docker.rm",
   "robots.uav.ds4.docker.stop",
-  "robots.uav.ds4.docker.registry.pull"
+  "robots.uav.ds4.docker.registry.azure.pull",
+  "robots.uav.ds4.docker.registry.basestation.pull"
 );
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief various help messages
 # //////////////////////////////////////////////////////////////////////////////
+# local
+my $_deployer_local_help = ("
+About: 1... deploys subt to localhost.
+About: 2... your localhost runs the different parts of the system, in their own containers.
+About: 4... this includes ugv (ground robot), uav (drone), basestation (gui) and perception (objdet).
+About: 6... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 7... == You Options Are ==
+ugv          : deployment subt ugv on azure VMs.
+uav          : deployment subt uav on azure VMs.
+basestation  : deployment subt basestation on azure VMs.
+perception   : deployment subt perception on azure VMs"
+);
 # azure
 my $_deployer_azure_help = ("
 About: 1... deploys subt to Azure Virtual Machines (VMs).
@@ -430,8 +489,30 @@ About: 5... == You Options Are ==
 build                     : catkin build (catkin profile workspace already pre-configured).
 clean                     : catkin clean (catkin profile workspace already pre-configured)."
 );
+my $_deployer_localhost_commands_help = ("
+About: 1... general deployment operations commands.
+About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 3... == You Options Are ==
+docker       : automated docker setup such as containers, images, registry pull.
+catkin       : automated catkin build & clean for all catkin profiled workspaces."
+);
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
 my @_help_array = ({
+  id      => "local",
+  help    => $_deployer_local_help,
+},{
+  id      => "local.ugv",
+  help    => $_deployer_localhost_commands_help,
+},{
+  id      => "local.uav",
+  help    => $_deployer_localhost_commands_help,
+},{
+  id      => "local.basestation",
+  help    => $_deployer_localhost_commands_help,
+},{
+  id      => "local.percpetion",
+  help    => $_deployer_localhost_commands_help,
+},{
   id      => "azure",
   help    => $_deployer_azure_help,
 },{
