@@ -121,3 +121,6 @@ _git_branches(){
   echo "$(git for-each-ref --shell --format="%(refname)" refs/$1/)"
 }
 
+chk_eq() {
+  [ "$1" = "$2" ] && return 0 || return 1
+}
