@@ -8,45 +8,6 @@
 # globals
 GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
 
-# example:
-  # list all submodules
-  # git subt list -- lists all modules
-  # show the git subt status, no recursive?
-  # git subt status -ug -ua -c -l -s -d -b
-  # git subt status -ugv -uav -cmn -launch -sim -docker -basestation
-  # git subt status -r -ug # recursive
-  # git subt status -m base_node
-  # git subt fetch -r -ug -ua -c -l -s -d -b
-  # git subt fetch -r -ug -ua -c -l -s -d -b
-  # syncs all local branches with remote. i.e. does a hard reset
-  # git subt sync -r -ugv
-  # ??
-  # git subt pull -ugv
-  # git subt push -ugv
-  # git subt add /path/to/submodule
-  # git subt checkout -b branch name
-
-  # push to deploy, will push to all inter repos
-  # checkout to deploy, will push to all inter repos
-
-  # git checkout, will checkout the same branch in all the intermediate repos at that HEAD
-
-  # git pr will open a PR with only the repos with the local & remote branches
-
-  # go in the inter repo and do a `git add'
-  # go to top level and do a git push
-    # -- git push with see all submodule added repos & commit them with dummy messages
-    # -- then will commit the inter repo with those added modules
-    # -- then let user continue with top level commit message
-    # -- then ammend all commit messages in inter level w/ same message as top level
-    # -- then amend top level with new updated inter-repo messages
-
-  # TODO: make this installed by everyone via ansible
-  # git sync  -- add this to git config using ansible?
-  # make sure to only do a git sync, when doing git status, not other commands?
-  # have a docker image pull check too...
-##
-
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
   if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
