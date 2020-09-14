@@ -30,6 +30,7 @@ __ac_git_help() {
     "About: 4... == You Options Are =="
     "status   : show the general git info for every submodule (all three levels)."
     "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
+    "add      : adds the uncommitted changes for intermediate repos."
     "clone    : clones intermediate repo or submodules."
     "rm       : removes intermediate repo or submodules."
     "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
@@ -51,6 +52,7 @@ __git_help() {
   text_color "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
   text_color "clone    : clones or resets intermediate repo or submodules."
   text_color "clean    : clean an intermediate or submodule repo."
+  text_color "add      : adds the uncommitted changes for intermediate repos."
   # text_color "pr       : create a pull request for top & intermeidate repo branches."
   text_color "help     : view help usage message."
   text_color
@@ -128,13 +130,13 @@ __status_help() {
   text_color "      status [<flag>] [<flag>]"
   text_color
   text_color "flags:"
-  text_color "      -b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "      -c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "      -p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "      -s, simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "      -ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "      -uav, uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
-  text_color "      help            : view help usage message"
+  text_color "basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common      : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
+  text_color "help            : view help usage message"
   text_color
   text_color "About:"
   text_color "      show the general git info for every submodule (all three levels)."
@@ -171,14 +173,14 @@ __sync_help() {
   text_color "usage: sync [<flag>] [<flag>] "
   text_color
   text_color "flags:"
-  text_color "-d, deploy      : top level repo -> ~/deploy_ws/src/"
-  text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "-s, simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "-l, launch      : central intermediate level repo -> ~/deploy_ws/src/subt_launch"
-  text_color "-ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "-uav, uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
+  text_color "deploy      : top level repo -> ~/deploy_ws/src/"
+  text_color "basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common      : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "launch      : central intermediate level repo -> ~/deploy_ws/src/subt_launch"
+  text_color "ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
   text_color "-del            : delete any local branches not found on the origin remote."
   text_color "-hard           : sync the currently checkout branch."
   text_color "help            : view help usage message."
@@ -186,6 +188,52 @@ __sync_help() {
   text_color "About:"
   text_color
   text_color "fetch & syncs the local branches with the remote branches (all three levels)."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+}
+
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt add sync'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_git_add_help() {
+  local usage=(
+    "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
+    "About: 2... == You Options Are =="
+    "deploy       : top level repo -> ~/deploy_ws/src/"
+    "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common       : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simuation    : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "launch       : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+    "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+    "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
+    "help         : view help usage message."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
+}
+__add_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: add [<flag>] [<flag>] "
+  text_color
+  text_color "flags:"
+  text_color "deploy      : top level repo -> ~/deploy_ws/src/"
+  text_color "basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common      : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simuation   : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "launch      : central intermediate level repo -> ~/deploy_ws/src/subt_launch"
+  text_color "ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "uav       : uav intermediate level repo -> ~/deploy_ws/src/uav"
+  text_color "help            : view help usage message."
+  text_color
+  text_color "About:"
+  text_color
+  text_color "automated adds, commits, pushes the intermediate repos."
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT

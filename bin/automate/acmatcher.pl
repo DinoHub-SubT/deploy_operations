@@ -2,12 +2,15 @@
 
 my @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
 
-my @_git          = ( "status", "sync", "clone", "rm", "reset", "clean", "pr", "help" );
+my @_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pr", "help" );
 
 my @_git_status   = ( "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "uav", "help" );
 
 my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "uav", "help" );
+
+my @_git_add      = ( "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "uav", "help" );
 
 my @_git_clone    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
@@ -652,6 +655,9 @@ if (chk_flag($_func, "subt")  ) {
 
 } elsif (chk_flag($_func, "git_sync")  ) {
   print general_matcher($_target, @_git_sync);
+
+} elsif (chk_flag($_func, "git_add")  ) {
+  print general_matcher($_target, @_git_add);
 
 } elsif (chk_flag($_func, "git_clone")  ) {
   print general_matcher($_target, @_git_clone);

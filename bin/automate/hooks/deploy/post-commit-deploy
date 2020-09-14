@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# check for detached state before committing
-($SUBT_PATH/operations/bin/automate/hooks.bash $(pwd) intermediate-commit)
-exit $?

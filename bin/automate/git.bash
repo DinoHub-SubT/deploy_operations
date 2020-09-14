@@ -18,6 +18,8 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __status_help
   elif chk_flag sync $@; then
     __sync_help
+  elif chk_flag add $@; then
+    __add_help
   elif chk_flag clone $@; then
     __clone_help
   elif chk_flag reset $@; then
@@ -201,6 +203,79 @@ _sync_traverse() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
+# @brief git add
+# //////////////////////////////////////////////////////////////////////////////
+_add_commit_msg() {
+  local _deploy_commit_message=$1
+  local _deploy_commit_hash=$2
+  local _deploy_commit_branch=$3
+  local _commit_url="https://bitbucket.org/cmusubt/deploy/commits/$_deploy_commit_hash"
+  echo -e "\
+== AUTOMATICALLY GENERATED (deploy [COMMIT HASH NOT YET CREATED] ) == \n\
+\n\
+Creating an automated git commit message. \n\
+\n\
+This commit was triggered by top level deploy hash '[COMMIT HASH NOT YET CREATED]' at branch '$_deploy_commit_branch' \n\
+\n\
+deploy commit that triggered: $_commit_url \n\
+\n\
+-- deploy commit message -- \n\
+\n\
+$_deploy_commit_message \n\
+"
+}
+
+# @brief add commits to all the intermediate repos
+_add_traverse() {
+  local _deploy_commit_message=$(git show --stat --oneline HEAD)
+  local _hash=$(git rev-parse --verify HEAD)
+  local _br=$(git symbolic-ref --short HEAD)
+  local _brshort="autofeat/${_br#"heads/"}"
+  local _heads=($(_git_branches heads))
+  local _remotes=($(_git_branches remotes))
+
+  # stage & commit all intermediate repo changes
+  for _inter in "$@"; do
+
+    # skip over the push flag
+    chk_flag --push $_inter && continue
+
+    echo -e "$FG_COLOR_WARNING...creating automated commit in: $_inter $FG_DEFAULT\n"
+    pushd $SUBT_PATH/$_inter
+
+    # checkout (or create) the same branch name as deploy repo branch
+    git fetch -q -a
+    # TODO: using branches arr, change if local br exists, then use 'checkout', otherwise use 'checkout -b'
+    git checkout  -q -f -b $_brshort
+
+    # sync local 'deploy named' branch to remote origin
+    if val_in_arr "'refs/remotes/origin/$_brshort'" "${_remotes[@]}"; then
+      git update-ref "$branch" "refs/remotes/origin/$_brshort"
+    fi
+
+    # create the intermediate repo commit
+    local _msg=$(_add_commit_msg "$_deploy_commit_message" "$_hash" "$_brshort")
+
+    # perform the commit in the intermediate repo
+    env -i git add -A               # stage all changes
+    export GIT_INDEX_FILE="$SUBT_PATH/.git/modules/basestation/index"
+    env git commit -m "$_msg"   # commit the changes
+
+    # for now, always git push origin, then later push only when deploy top level pushes
+    git push origin $_brshort
+
+    # go back to top level deploy dir
+    popd
+
+    # then stage the intermediate repo
+    env -i git add $_inter
+  done
+
+  newline
+  echo -e "$FG_COLOR_WARNING -> Your intermediate repos are staged & ready to push to origin. $FG_DEFAULT\n"
+}
+
+# //////////////////////////////////////////////////////////////////////////////
 # @brief git subcommands using deployer
 # //////////////////////////////////////////////////////////////////////////////
 
@@ -280,6 +355,12 @@ elif chk_flag clone $@ ; then
   _nargs=$#
   # reset the submodules for all the given intermediate level repos
   [ $_nargs -eq 0 ] && _clone_traverse basestation common perception ugv uav simulation subt_launch || _clone_traverse $@
+
+elif chk_flag add $@ ; then
+  shift
+  _nargs=$#
+  # reset the submodules for all the given intermediate level repos
+  [ $_nargs -eq 0 ] && _add_traverse basestation common perception ugv uav simulation subt_launch || _add_traverse $@
 
 elif chk_flag reset $@ ; then
   shift
