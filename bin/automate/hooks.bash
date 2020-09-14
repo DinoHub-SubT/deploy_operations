@@ -28,7 +28,6 @@ __detached_head() {
   fi
 }
 
-
 # @brief push to remote origin, the intermediate repos.
 __push_origin_intermediate_repos() {
   echo "TODO"

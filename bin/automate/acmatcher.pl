@@ -10,8 +10,7 @@ my @_git_status   = ( "basestation", "common", "perception", "simulation", "subt
 my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "uav", "help" );
 
-my @_git_add      = ( "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "uav", "help" );
+my @_git_add      = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
 
 my @_git_clone    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
