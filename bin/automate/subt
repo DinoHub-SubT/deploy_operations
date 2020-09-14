@@ -11,7 +11,7 @@ GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
   if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
-    || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm || chk_flag add $@; then
+    || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@ || chk_flag add $@; then
     shift 1 # shift the 'git' token
     ($GL_GIT_AUTOMATE_DIR/git.bash $@)
   elif chk_flag help $@; then
