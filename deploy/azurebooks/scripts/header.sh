@@ -254,3 +254,10 @@ function arr_idx() {
     echo -1
 }
 
+##
+# trap control-c
+##
+function ctrl_c() {
+  exit_success
+}
+
