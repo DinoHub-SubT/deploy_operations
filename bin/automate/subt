@@ -52,6 +52,12 @@ __subt_cloud_execute() {
     elif chk_flag stop $@; then
       shift # shift the subcommand
       (subtf_stop.sh $@)
+    elif chk_flag destroy $@; then
+      shift # shift the subcommand
+      (subtf_destroy.sh $@)
+    elif chk_flag monitor $@; then
+      shift # shift the subcommand
+      (subtf_monitor.sh $@)
     fi
   fi
 }

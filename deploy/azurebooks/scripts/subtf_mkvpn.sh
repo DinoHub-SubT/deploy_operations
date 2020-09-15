@@ -17,9 +17,11 @@ if ! chk_flag -n $@; then
     title Applying Terraform
     if chk_flag -y $@; then
         # Echo the path to the state file variable into the terraform init command
-        echo yes | terraform apply -target module.example.azurerm_virtual_network_gateway.example
+        echo yes | terraform apply  -target module.example.azurerm_virtual_network_gateway.example \
+                                    -target module.example.azurerm_public_ip.example
     else
-        terraform apply -target module.example.azurerm_virtual_network_gateway.example
+        terraform apply -target module.example.azurerm_virtual_network_gateway.example \
+                        -target module.example.azurerm_public_ip.example
     fi
 fi
 
@@ -30,7 +32,7 @@ if ! chk_flag -t $@; then
         cd $__call_dir
         exit 1
     fi
-    
+
     mkdir -p ~/.ssh/azure/vpn
     cd ~/.ssh/azure/vpn
     if ! chk_flag -c $@; then
@@ -40,12 +42,12 @@ if ! chk_flag -t $@; then
             cd $__call_dir
             exit 1
         fi
-        
+
         debug $zip_url
         # Remove the quote marks...
         cleaned_zip_url=$(sed -e 's/^"//' -e 's/"$//' <<<"$zip_url")
         debug $cleaned_zip_url
-        
+
         if [ -d client_download ]; then
             if [ -d client_download.bkp ]; then
                 rm -rf client_download.bkp
@@ -94,7 +96,7 @@ if ! chk_flag -t $@; then
 
     title Removing Old Connection if it exists
     nmcli connection | grep -q "AZURE_VPN_CONNECTION"
-    
+
     if last_command_succeeded; then
         nmcli connection delete "AZURE_VPN_CONNECTION"
         last_command_failed && error AZURE_VPN_CONNECTION was not deleted! Contact Maintainer

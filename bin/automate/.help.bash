@@ -422,9 +422,6 @@ __rm_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud ansible'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_cloud_ansible_flags() {
-  echo "-az -r -l -b -p"
-}
 __ac_cloud_ansible_help() {
   local usage=(
     "About: 1... Usage: < system_name > < playbook > [ optional flags ] "
@@ -447,22 +444,21 @@ __ac_cloud_ansible_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud terraform'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_cloud_terra_flags(){
-  echo "init cert plan apply mkvpn rmvpn start stop"
-}
 __ac_cloud_terra_help() {
   local usage=(
     "About: 1... Please add 'help' for each command to see more details on usage information."
     "About: 2... == You Options Are =="
-    "init   : initializes subt's terraform setup with the correct tfstate file"
-    "cert   : creates the vpn ca and user certifcations for creating an Azure VPN connection"
-    "plan   : terraform plan (dry run) args are passed to terraform."
-    "apply  : terraform apply in the azurebooks/subt directory, args are passed to terraform."
-    "mkvpn  : creates the vpn needed to access azure (both through terraform and with network manager"
-    "rmvpn  : removes the vpn needed to access azure (both through terraform and with network manager."
-    "start  : starts any or all VMs on Azure"
-    "stop   : stops any or all VMs on Azure"
-    "help   : view help usage message for subcommand."
+    "init     : initializes subt's terraform setup with the correct tfstate file"
+    "cert     : creates the vpn ca and user certifcations for creating an Azure VPN connection"
+    "plan     : terraform plan (dry run) args are passed to terraform."
+    "apply    : terraform apply in the azurebooks/subt directory, args are passed to terraform."
+    "mkvpn    : creates the vpn needed to access azure (both through terraform and with network manager"
+    "rmvpn    : removes the vpn needed to access azure (both through terraform and with network manager."
+    "start    : starts any or all VMs on Azure"
+    "stop     : stops any or all VMs on Azure"
+    "destroy  : destroys all Azure resources"
+    "monitor  : monitor utils for Azure resources"
+    "help     : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"

@@ -9,10 +9,10 @@ terraform {
 
 # Setup the virtual network (VNET)
 resource "azurerm_virtual_network" "example" {
-  
+
   # name of VNET
   name                = "${var.resource_name_prefix}-vnet"
-  
+
   # resource group
   resource_group_name = var.user_defined_resource_group_name
 
@@ -21,7 +21,7 @@ resource "azurerm_virtual_network" "example" {
 
   # VNET address space
   address_space       = [var.vnet_address_space]
-  
+
   tags = {
     environment = var.tag_name_prefix
   }
@@ -29,13 +29,13 @@ resource "azurerm_virtual_network" "example" {
 
 # Setup the subnet in the VNET
 resource "azurerm_subnet" "example" {
-    
+
   # name of subnet
   name                 = "${var.resource_name_prefix}-subnet"
-  
+
   # resource group
   resource_group_name  = var.user_defined_resource_group_name
-  
+
   # VNET for this subnet
   virtual_network_name = azurerm_virtual_network.example.name
 
@@ -63,15 +63,15 @@ resource "azurerm_subnet" "example_gateway_subnet" {
 resource "azurerm_network_security_group" "example_ssh" {
   # name of network security group (ssh)
   name                = "${var.resource_name_prefix}-security-group"
-  
+
   # resource group
   resource_group_name = var.user_defined_resource_group_name
 
   # region location
   location            = var.resource_location
-  
+
   # == security rules ==
-  
+
   # ssh enable
   security_rule {
     name                       = "SSH"
@@ -88,61 +88,61 @@ resource "azurerm_network_security_group" "example_ssh" {
   security_rule {
     name                       = "Allow-Web-All-In"
     priority                   = 1002
-    direction                  = "Inbound"  
-    access                     = "Allow"  
-    protocol                   = "TCP"  
-    source_port_range          = "*"  
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
     destination_port_ranges    = ["80","443", "8080"]
-    source_address_prefix      = "*"  
-    destination_address_prefix = "*"  
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
   # Allow all web ports (outbound) - http, https
   security_rule {
     name                       = "Allow-Web-All-Out"
     priority                   = 1002
     direction                  = "Outbound"
-    access                     = "Allow"  
-    protocol                   = "TCP"  
-    source_port_range          = "*"  
+    access                     = "Allow"
+    protocol                   = "TCP"
+    source_port_range          = "*"
     destination_port_ranges    = ["80","443", "8080"]
-    source_address_prefix      = "*"  
-    destination_address_prefix = "*"  
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
   # remote desktop
   security_rule {
-    name                       = "RDP"  
-    priority                   = 1003  
-    direction                  = "Inbound"  
-    access                     = "Allow"  
-    protocol                   = "Tcp"  
-    source_port_range          = "*"  
-    destination_port_range     = "3389"  
-    source_address_prefix      = "*"  
-    destination_address_prefix = "*"  
+    name                       = "RDP"
+    priority                   = 1003
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
   # ping (inbound)
   security_rule {
     name                       = "ICMP-Ping-In"
     priority                   = 1004
-    direction                  = "Inbound"  
-    access                     = "Allow"  
-    protocol                   = "ICMP"  
-    source_port_range          = "*"  
-    destination_port_range     = "*"  
-    source_address_prefix      = "*"  
-    destination_address_prefix = "*"  
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "ICMP"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
   # ping (outbound)
   security_rule {
     name                       = "ICMP-Ping-Out"
     priority                   = 1005
     direction                  = "Outbound"
-    access                     = "Allow"  
-    protocol                   = "ICMP"  
-    source_port_range          = "*"  
-    destination_port_range     = "*"  
-    source_address_prefix      = "*"  
-    destination_address_prefix = "*"  
+    access                     = "Allow"
+    protocol                   = "ICMP"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
   tags = {
@@ -154,13 +154,13 @@ resource "azurerm_network_security_group" "example_ssh" {
 resource "azurerm_public_ip" "example" {
   # name identifier of pub IP
   name                         = "${var.resource_name_prefix}-PUB-IP"
-  
+
   # resource group
   resource_group_name          = var.user_defined_resource_group_name
 
   # region location
   location                     = var.resource_location
-  
+
   # how to allocate the public IP (dynamic, static)
   allocation_method            = var.ip_alloc
 
@@ -171,7 +171,7 @@ resource "azurerm_public_ip" "example" {
 
 # Virtual Network Gateway
 resource "azurerm_virtual_network_gateway" "example" {
-  
+
   # name of virtual network gateway
   name                = "${var.resource_name_prefix}-vnet-gateway"
 
@@ -181,7 +181,7 @@ resource "azurerm_virtual_network_gateway" "example" {
   # resource group
   resource_group_name = var.user_defined_resource_group_name
 
-  # == VPN Setings == 
+  # == VPN Setings ==
 
   # vpn default settings
   type     = "Vpn"
