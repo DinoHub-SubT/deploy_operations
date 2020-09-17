@@ -213,7 +213,7 @@
         "azure-" in inventory_hostname or
         "localhost" in inventory_hostname
 
-    - name: update basestation /etc/hosts
+    - name: update robot /etc/hosts
       become: yes
       lineinfile:
         dest: /etc/hosts
@@ -233,7 +233,7 @@
         path: ~/.ssh/subt.d
         state: directory
 
-    - name: Create the Jinja2 based template
+    - name: Create the azure Jinja2 based template
       template:
         src: ../templates/azure_ssh_config.j2
         dest: ~/.ssh/subt.d/azure.conf
@@ -241,12 +241,13 @@
         "azure-" in inventory_hostname or
         "localhost" in inventory_hostname
 
-    - name: Create the Jinja2 based template
+    - name: Create the robot Jinja2 based template
       template:
         src: ../templates/robot_ssh_config.j2
         dest: ~/.ssh/subt.d/robot.conf
       when: >
-        "localhost" in inventory_hostname
+        "localhost" in inventory_hostname or
+        "basestation" in inventory_hostname
 
     # add subt.d/ to ~/.ssh/config -- if does not exist
     - name: Check subt.d/ to ~/.ssh/config
