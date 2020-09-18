@@ -52,7 +52,7 @@
     - simulation:
       - cd ~/deploy_ws/src/simulation
       # TEMPORARY!
-      # - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+      - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
       - rm -f .catkin_tools/profiles/profiles.yaml
       - catkin profile list
       - catkin profile set uav-sim
