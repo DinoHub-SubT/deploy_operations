@@ -14,7 +14,11 @@ __matcher() {
   [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
   # evaluate the matcher
   local _result=$(perl $GL_GIT_AUTOMATE_DIR/acmatcher.pl "$_matcher_t" "$_curr")
-  [ ! -z "$_result" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
+  local _term_t=$(ps -p$$ -ocmd=)
+  if [ ! -z "$_result" ]; then
+    [ "$_term_t" = "bash" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && compopt -o nospace && return 0
+    [ "$_term_t" = "zsh" ]  && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && return 0
+  fi
   return 1
 }
 
