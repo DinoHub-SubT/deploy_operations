@@ -112,7 +112,7 @@ subt() {
     text "Please source your bash or zsh rc: 'source ~/.bashrc'"
 
   elif chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
-    __subt_help $@
+    __subt_help
     return 0
   fi
 }

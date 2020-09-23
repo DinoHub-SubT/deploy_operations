@@ -5,18 +5,47 @@
 # //////////////////////////////////////////////////////////////////////////////
 __ac_subt_help() {
   local usage=(
-    "About: 1... main menu: operations tools"
-    "About: 2... tab complete each subcommand to see what tools are available for each group."
-    "About: 3... == You Options Are =="
+    "About: 1... SubT Tab Autocompleter: one stop access to all the operations tools. "
+    "About: 2... "
+    "About: 3... Autocomplete gives you access to all the operation scripts, all accessible in one place."
+    "About: 4... You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
+    "About: 5... [TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
+    "About: 6... Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
+    "About: 7... == You Options Are =="
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
     "tools      : general helper tools."
     "update     : update the deployer operations scripts."
+    "help       : view help usage message in more detail."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
   COMPREPLY=("${usage[@]}")
+}
+__subt_help() {
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  text_color "usage: subt [ subcommand ] < arg > < arg > "
+  text_color
+  text_color "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
+  text_color "git        : git helper scripts, for maintaining subt deploy three level repo."
+  text_color "cloud      : cloud tools for creating & managing azure cloud setups."
+  text_color "tools      : general helper tools."
+  text_color "update     : update the deployer operations scripts."
+  text_color
+  text_color " == About == "
+  text_color "SubT Tab Autocompleter: one stop access to all the operations tools. "
+  text_color " autocomplete gives you access to all the operation scripts, all accessible in one place."
+  text_color " bug fixes & new operations tools will be added to autocompleter, so please keep watch on any new tools added."
+  text_color
+  text_color " == Navigation == "
+  text_color "You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
+  text_color "[TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
+  text_color "Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
+  text_color
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
 }
 
 # //////////////////////////////////////////////////////////////////////////////
