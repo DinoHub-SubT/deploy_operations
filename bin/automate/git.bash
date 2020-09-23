@@ -104,6 +104,11 @@ _status_traverse_table() {
 
     # status  all recursive submodule repos
     _traverse_submodules _status
+
+    # display the intermediate repo git status
+    printf "%-10s \n" "...git status"
+    git status                  # perform a git status, to speed up top level deploy indexing
+
     popd
   done
 }
@@ -341,6 +346,9 @@ if chk_flag status $@ ; then
     [[ $GL_STATUS_URL == true ]]  && printf " | %-30s" "--git url--"  && ((_nargs--))
     printf "\n"
     _status # show the status
+    # display the intermediate repo git status
+    printf "%-10s \n" "...git status"
+    git status                  # perform a git status, to speed up top level deploy indexing
 
     # show git status for all the given intermediate level repos
     [ $_nargs -eq 0 ] && _status_traverse_table basestation common perception ugv uav simulation subt_launch || _status_traverse_table $@
