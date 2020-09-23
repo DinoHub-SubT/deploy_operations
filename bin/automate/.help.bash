@@ -273,6 +273,7 @@ __ac_git_clone_help() {
   local usage=(
     "About: 1... clones all the submodules inside the intermediate level repo."
     "About: 2... == You Options Are =="
+    "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -297,6 +298,7 @@ __clone_help() {
   text_color "usage: clone [<subcommand>] [<flag>] [<flag>] ... "
   text_color
   text_color "flags:"
+  text_color "base            : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
   text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
   text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
   text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -320,6 +322,7 @@ __ac_git_reset_help() {
   local usage=(
     "About: 1... resets all the submodules inside the intermediate level repo to their DETACHED HEAD."
     "About: 2... == You Options Are =="
+    "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -345,6 +348,7 @@ __reset_help() {
   text_color "usage: reset [<subcommand>] [<flag>] [<flag>] ... "
   text_color
   text_color "flags:"
+  text_color "base             : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
   text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
   text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
   text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -369,6 +373,7 @@ __ac_git_clean_help() {
   local usage=(
     "About: 1... cleans all the submodules inside the intermediate level repo to their DETACHED HEAD."
     "About: 2... == You Options Are =="
+    "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -388,6 +393,7 @@ __clean_help() {
   text_color "usage: clean [<subcommand>] [<flag>] [<flag>] ... "
   text_color
   text_color "flags:"
+  text_color "base            : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
   text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
   text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
   text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -395,7 +401,7 @@ __clean_help() {
   text_color "subt_launch     : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
   text_color "ugv             : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
   text_color "uav             : uav intermediate level repo -> ~/deploy_ws/src/uav/"
-  text_color "-h, help        : View help usage message for each sub command."
+  text_color "help        : View help usage message for each sub command."
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
@@ -408,6 +414,7 @@ __ac_git_rm_help() {
   local usage=(
     "About: 1... removes all the submodules inside the intermediate level repo to their DETACHED HEAD."
     "About: 2... == You Options Are =="
+    "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception         : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -432,17 +439,18 @@ __rm_help() {
   text_color "usage: rm [<subcommand>] [<flag>] [<flag>] ... "
   text_color
   text_color "flags:"
-  text_color "-b, basestation : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
-  text_color "-c, common      : common intermediate level repo -> ~/deploy_ws/src/common"
-  text_color "-p, perception  : perception intermediate level repo -> ~/deploy_ws/src/perception"
-  text_color "-s, simulation  : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
-  text_color "-ugv, ugv       : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
-  text_color "-ugv.slam       : ugv intermediate level repo -> ~/deploy_ws/src/ugv/slam"
-  text_color "-ugv.hardware   : ugv intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
-  text_color "-uav            : uav intermediate level repo -> ~/deploy_ws/src/uav/"
-  text_color "-uav.slam       : uav intermediate level repo -> ~/deploy_ws/src/uav/slam"
-  text_color "-uav.hardware   : uav intermediate level repo -> ~/deploy_ws/src/uav/hardware"
-  text_color "-h, help        : View help usage message for each sub command."
+  text_color "base            : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
+  text_color "basestation     : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+  text_color "common          : common intermediate level repo -> ~/deploy_ws/src/common"
+  text_color "perception      : perception intermediate level repo -> ~/deploy_ws/src/perception"
+  text_color "simulation      : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+  text_color "ugv             : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+  text_color "ugv.slam        : ugv intermediate level repo -> ~/deploy_ws/src/ugv/slam"
+  text_color "ugv.hardware    : ugv intermediate level repo -> ~/deploy_ws/src/ugv/hardware"
+  text_color "uav             : uav intermediate level repo -> ~/deploy_ws/src/uav/"
+  text_color "uav.slam        : uav intermediate level repo -> ~/deploy_ws/src/uav/slam"
+  text_color "uav.hardware    : uav intermediate level repo -> ~/deploy_ws/src/uav/hardware"
+  text_color "help            : view help usage message."
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT

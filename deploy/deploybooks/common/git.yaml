@@ -400,49 +400,57 @@
   # ////////////////////////////////////////////////////////////////////////
   - init:
   # ////////////////////////////////////////////////////////////////////////
-    - basestation:
-      - git submodule update --init basestation
+    - extras:
+      - simulation:
+        - git submodule update --init simulation
+      - ugv:
+        - git submodule update --init ugv
+        - cd ugv
+        - slam:
+          - devel:
+            - git submodule update --init slam/devel
+          - robot:
+            - git submodule update --init slam/robot
+        - hardware:
+          - git submodule update --init hardware
+      - uav:
+        - git submodule update --init uav
+        - cd uav
+        - hardware:
+          - git submodule update --init hardware
+        - slam:
+          - git submodule update --init slam
 
-    - common:
-      - git submodule update --init common
+    - base:
+      - basestation:
+        - git submodule update --init basestation
 
-    - operations:
-      - docker:
-        - git submodule update --init operations/deploy/docker
+      - common:
+        - git submodule update --init common
 
-    - perception:
-      - git submodule update --init perception
+      - operations:
+        - docker:
+          - git submodule update --init operations/deploy/docker
 
-    - simulation:
-      - git submodule update --init simulation
+      - perception:
+        - git submodule update --init perception
 
-    - subt_launch:
-      - git submodule update --init subt_launch
+      - subt_launch:
+        - git submodule update --init subt_launch
 
-    - ugv:
-      - git submodule update --init ugv
-      - cd ugv
-      - ppc:
-        - git submodule update --init planning-pc/
-      - nuc:
-        - git submodule update --init nuc/
-      - slam:
-        - devel:
-          - git submodule update --init slam/devel
-        - robot:
-          - git submodule update --init slam/robot
-      - hardware:
-        - git submodule update --init hardware
+      - ugv:
+        - git submodule update --init ugv
+        - cd ugv
+        - ppc:
+          - git submodule update --init planning-pc/
+        - nuc:
+          - git submodule update --init nuc/
 
-    - uav:
-      - git submodule update --init uav
-      - cd uav
-      - core:
-        - git submodule update --init core
-      - hardware:
-        - git submodule update --init hardware
-      - slam:
-        - git submodule update --init slam
+      - uav:
+        - git submodule update --init uav
+        - cd uav
+        - core:
+          - git submodule update --init core
 
   # //////////////////////////////////////////////////////////////////////////////
   - rm:

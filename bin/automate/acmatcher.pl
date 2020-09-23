@@ -12,15 +12,15 @@ my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulati
 
 my @_git_add      = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
 
-my @_git_clone    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
+my @_git_clone    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
 
-my @_git_reset    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
+my @_git_reset    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
 
-my @_git_clean    = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "uav", "help" );
+my @_git_clean    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "uav", "help" );
 
-my @_git_rm       = ( "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
+my @_git_rm       = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
 
 my @_cloud        = ( "terraform", "ansible", "help" );
