@@ -62,10 +62,6 @@
         - git submodule update --init uav
         - cd uav
         - git clean -d -f -f
-        - hardware:
-          - git submodule update --recursive --init hardware
-          - cd hardware
-          - git clean -d -f -f
         - slam:
           - git submodule update --recursive --init slam
           - cd slam
@@ -139,6 +135,10 @@
           - git submodule update --recursive --init core
           - cd core
           - git clean -d -f -f
+        - hardware:
+          - git submodule update --recursive --init hardware
+          - cd hardware
+          - git clean -d -f -f
 
       - ugv:
         - git submodule update --init ugv
@@ -176,10 +176,6 @@
 
       - uav:
         - cd uav
-        - hardware:
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
         - slam:
           - cd slam
           - git submodule update --init --recursive .
@@ -253,6 +249,10 @@
           - cd core
           - git submodule update --init --recursive .
           - git clean -d -f -f
+        - hardware:
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
 
     # show the git status in the intermediate-repo
     - pwd
@@ -277,13 +277,6 @@
 
       - uav:
         - cd uav
-        - hardware:
-          # remove
-          - git submodule deinit -f hardware
-          # re-clone
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
         - slam:
           # remove
           - git submodule deinit -f slam
@@ -393,6 +386,14 @@
           - cd core
           - git submodule update --init --recursive .
           - git clean -d -f -f
+        - hardware:
+          # remove
+          - git submodule deinit -f hardware
+          # re-clone
+          - cd hardware
+          - git submodule update --init --recursive .
+          - git clean -d -f -f
+
     # prompt git status
     - pwd
     - git status
@@ -416,8 +417,6 @@
       - uav:
         - git submodule update --init uav
         - cd uav
-        - hardware:
-          - git submodule update --init hardware
         - slam:
           - git submodule update --init slam
 
@@ -451,6 +450,8 @@
         - cd uav
         - core:
           - git submodule update --init core
+        - hardware:
+          - git submodule update --init hardware
 
   # //////////////////////////////////////////////////////////////////////////////
   - rm:
@@ -460,8 +461,6 @@
         -  git submodule deinit -f simulation
       - uav:
         - cd uav
-        - hardware:
-          -  git submodule deinit -f hardware
         - slam:
           -  git submodule deinit -f slam
       - ugv:
@@ -495,6 +494,8 @@
         - cd uav
         - core:
           - git submodule deinit -f core
+        - hardware:
+          -  git submodule deinit -f hardware
 
       - ugv:
         - cd ugv
