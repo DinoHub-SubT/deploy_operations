@@ -495,6 +495,7 @@ __ac_cloud_terra_help() {
     "stop     : stops any or all VMs on Azure"
     "destroy  : destroys all Azure resources"
     "monitor  : monitor utils for Azure resources"
+    "env      : install your user's terraform bash or zsh environment variables."
     "help     : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces

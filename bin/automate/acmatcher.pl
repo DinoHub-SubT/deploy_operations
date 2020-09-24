@@ -26,7 +26,7 @@ my @_git_rm       = ( "base", "basestation", "common", "perception", "simulation
 my @_cloud        = ( "terraform", "ansible", "help" );
 
 my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" , "destroy", 
-                      "monitor" );
+                      "env", "monitor" );
 
 my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
 

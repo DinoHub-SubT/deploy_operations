@@ -2,12 +2,14 @@
 # This script will update the terraform bash scripting to contain the correct variables
 # Joshua Spisak <joshs333@live.com>
 # Jul 7, 2020
+eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
+
 if [ -z "$SUBT_PATH" ]; then
     echo "SUBT_PATH not found!!! Make sure the deployer is installed and ~/bashrc is sourced!"
     exit 1
 fi
 
-if [ "$1" == "--help" ]; then
+if chk_flag --help $@ || chk_flag -h $@ || chk_flag -help $@; then
     echo "Usage: install-terraform-current.sh"
     echo
     echo "Installs the current terraform bashrc's to ~/"

@@ -134,12 +134,12 @@ Your Tenant id is:
 **Setup the VPN certificates**
 
         # Create the Root & User Certificates
-        subtf_cert.sh
+        subt cloud terraform cert
 
 **Add your Azure user info to terraform ids**
 
         # Install the terraform environment variables
-        install-terraform-current.sh
+        subt cloud terraform env
 
         # Modify the variables in .terraform_id.bashrc to match your setup
         # Set TF_VAR_subscription_id and TF_VAR_tenant_id to what the results of az account list
@@ -169,25 +169,26 @@ Your Tenant id is:
 
 **Initialize the terraform workspace**
 
-        subtf_init.sh
+        subt cloud terraform init
 
 **Dry-run the terraform deployment**
 
         # Shows the user the azure deployment
-        subtf_plan.sh
+        subt cloud terraform plan
 
 - Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `subtf_init.sh` again.
 
 **Apply the terraform infrastructure setup to Azure**
 
         # will create all the resources on azure
-        subtf_apply.sh
+        subt cloud terraform apply
 
 - **Errors:** if you see `OperationNotAllowed ... quota limits`, **please notify the maintainer to increase quota limits**.
 
 **Add the VPN connection to the network manager**
 
-        subtf_mkvpn.sh -n
+        # will create the gnome network manager connection for your Azure VM
+        subt cloud terraform mkvpn -n
 
 - See the "Create a VPN Connection" and "Destroy an existing VPN Connection" below for VPN maintenance.
 
@@ -216,23 +217,49 @@ You should now have resources deployed on Azure and be able to connect to them.
 
 # Discussion
 
-## Changing Terraform Files
+## Updating Azure Setup
 
-You should become comfortable creating or updating terraform files.
+To update your Azure setup, you need to update your azure env file `~/.terraform_flags.bashrc`
 
-- A simple next example you can try out is adding another VM terraform file with username/password setup.
+The available options are such as:
 
-Any changes to the terraform files, requires updating the terraform workspace
+- create different Azure VMs
+- setup the VM disk sizes
+- setup the VM instance types
 
-        # Dry-run: shows the user the azure deployment
-        subtf_plan.sh
+Remember, everytime you change the `~/.terraform_flags.bashrc`, you will need to do:
 
-Apply the changes to the cloud
+        # source your bash or zsh rc
+        source ~/.bashrc
 
-        # Apply the terraform setup to azure
-        subtf_apply.sh
+        # terraform re-plan the changes
+        subt cloud terraform plan
 
-## Remove Terraform Created Resources from Azure
+        # terraform apply the updates
+        subt cloud terraform apply
+
+## Starting Azure VMs
+
+        # list available Azure VMs
+        subt cloud terraform start -l
+
+        # stop an Azure VM
+        subt cloud terraform start [azure vm name]
+
+## Starting Azure VMs
+
+        # list available Azure VMs
+        subt cloud terraform stop -l
+
+        # stop an Azure VM
+        subt cloud terraform stop [azure vm name]
+
+## Destroy All Resources
+
+        # destroy all terraform created Azure resources (networking, VMs, etc.)
+        subt cloud terraform destroy
+
+## Remove Specific Terraform Created Resources from Azure
 
 **WARNING: Be careful what resource group or resources you are destroying!!**
 
@@ -413,4 +440,3 @@ If you are the only user, using thee terraform `state` file, go ahead and force 
 **More discussion**
 
 For solving ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`
-
