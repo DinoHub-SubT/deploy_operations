@@ -51,8 +51,13 @@
 
     - simulation:
       - cd ~/deploy_ws/src/simulation
-      # TEMPORARY!
+
+      # TEMPORARY! REALLY BAD.
       - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+      - touch payload_sim_uav/CATKIN_IGNORE
+      - rm payload_sim_uav/CATKIN_IGNORE
+      - touch payload_sim_ugv/CATKIN_IGNORE
+
       - rm -f .catkin_tools/profiles/profiles.yaml
       - catkin profile list
       - catkin profile set uav-sim

@@ -50,16 +50,18 @@ my @_deployer     = (
   "local.ugv.docker.registry.pull",
 
   # uav
-  "local.uav.cpu.catkin.build.core",
-  "local.uav.cpu.catkin.build.perception",
+  "local.uav.cpu.catkin.px4",
+  "local.uav.cpu.catkin.core.build",
+  "local.uav.cpu.catkin.perception.build",
   "local.uav.cpu.catkin.clean",
   "local.uav.cpu.docker.shell",
   "local.uav.cpu.docker.rm",
   "local.uav.cpu.docker.stop",
   "local.uav.docker.registry.pull.cpu",
 
-  "local.uav.gpu.catkin.build.core",
-  "local.uav.gpu.catkin.build.perception",
+  "local.uav.gpu.catkin.px4",
+  "local.uav.gpu.catkin.core.build",
+  "local.uav.gpu.catkin.perception.build",
   "local.uav.gpu.catkin.clean",
   "local.uav.gpu.docker.shell",
   "local.uav.gpu.docker.rm",
