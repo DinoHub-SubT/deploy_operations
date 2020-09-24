@@ -28,21 +28,7 @@
         - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ugv-sim-shell
     # stopping containers
     - stop:
-      - all:
-        - docker stop $(docker ps -a -q)
-      - ppc:
-        - docker stop ppc-shell
-      - nuc:
-        - docker stop nuc-shell
-      - sim:
-        - docker stop sim-shell
+      - docker stop $(docker ps -a -q)
     # removing containers
     - rm:
-      - all:
-        - docker rm $(docker ps -a -q)
-      - ppc:
-        - docker rm ppc-shell
-      - nuc:
-        - docker rm nuc-shell
-      - sim:
-        - docker rm sim-shell
+      - docker rm -f $(docker ps -a -q)
