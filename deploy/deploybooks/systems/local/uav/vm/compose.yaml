@@ -22,10 +22,8 @@
       - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-perception-$deploy_system_type-shell
     # stopping containers
     - stop:
-      - all:
-        - docker stop $(docker ps -a -q)
+      - docker stop $(docker ps -a -q)
     # removing containers
     - rm:
-      - all:
-        - docker rm -f $(docker ps -a -q)
+      - docker rm -f $(docker ps -a -q)
 

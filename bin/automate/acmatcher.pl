@@ -37,6 +37,8 @@ my @_deployer     = (
 
   # ////////////////////////////////////////////////////////////////////////////
   # Local
+
+  # ugv
   "local.ugv.catkin.build",
   "local.ugv.catkin.clean",
   "local.ugv.docker.shell",
@@ -47,13 +49,24 @@ my @_deployer     = (
   "local.ugv.docker.stop",
   "local.ugv.docker.registry.pull",
 
-  "local.uav.catkin.build",
-  "local.uav.catkin.clean",
-  "local.uav.docker.shell",
-  "local.uav.docker.rm",
-  "local.uav.docker.stop",
-  "local.uav.docker.registry.pull",
+  # uav
+  "local.uav.cpu.catkin.build.core",
+  "local.uav.cpu.catkin.build.perception",
+  "local.uav.cpu.catkin.clean",
+  "local.uav.cpu.docker.shell",
+  "local.uav.cpu.docker.rm",
+  "local.uav.cpu.docker.stop",
+  "local.uav.docker.registry.pull.cpu",
 
+  "local.uav.gpu.catkin.build.core",
+  "local.uav.gpu.catkin.build.perception",
+  "local.uav.gpu.catkin.clean",
+  "local.uav.gpu.docker.shell",
+  "local.uav.gpu.docker.rm",
+  "local.uav.gpu.docker.stop",
+  "local.uav.docker.registry.pull.gpu",
+
+  # perception
   "local.perception.catkin.build",
   "local.perception.catkin.clean",
   "local.perception.docker.shell",
@@ -61,6 +74,7 @@ my @_deployer     = (
   "local.perception.docker.stop",
   "local.perception.docker.registry.pull",
 
+  # basestation
   "local.basestation.catkin.build",
   "local.basestation.catkin.clean",
   "local.basestation.docker.shell",
