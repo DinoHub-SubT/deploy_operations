@@ -187,7 +187,7 @@ Your Tenant id is:
 
 **Add the VPN connection to the network manager**
 
-        # will create the gnome network manager connection for your Azure VM
+        # will create the gnome network manager connection for your Azure VPN
         subt cloud terraform mkvpn -n
 
 - See the "Create a VPN Connection" and "Destroy an existing VPN Connection" below for VPN maintenance.
