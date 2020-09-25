@@ -13,7 +13,7 @@ install_nvidia_docker: false
 install_ros: false
 
 # enable if you wish to install teamviewer
-install_teamviewer: false
+install_teamviewer: true
 
 # default user & password for remote server login
 # -- remember to change, depending on which host you are installing on

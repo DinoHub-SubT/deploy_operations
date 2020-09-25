@@ -27,8 +27,12 @@
           - +extend: systems/azure/uav/vm/compose
         - catkin:
           - +ssh:{ azure.uav1 }
-          - +docker:uav-sim-shell
-          - +extend: systems/azure/uav/vm/catkin
+          - core:
+            - +docker:uav-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-core
+          - perception:
+            - +docker:uav-perception-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav1 }
           - sudo teamviewer info | grep " ID:"
@@ -53,8 +57,12 @@
           - +extend: systems/azure/uav/vm/compose
         - catkin:
           - +ssh:{ azure.uav2 }
-          - +docker:uav-sim-shell
-          - +extend: systems/azure/uav/vm/catkin
+          - core:
+            - +docker:uav-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-core
+          - perception:
+            - +docker:uav-perception-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav2 }
           - sudo teamviewer info | grep " ID:"
@@ -79,8 +87,12 @@
           - +extend: systems/azure/uav/vm/compose
         - catkin:
           - +ssh:{ azure.uav3 }
-          - +docker:uav-sim-shell
-          - +extend: systems/azure/uav/vm/catkin
+          - core:
+            - +docker:uav-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-core
+          - perception:
+            - +docker:uav-perception-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav3 }
           - sudo teamviewer info | grep " ID:"
@@ -105,8 +117,12 @@
           - +extend: systems/azure/uav/vm/compose
         - catkin:
           - +ssh:{ azure.uav4 }
-          - +docker:uav-sim-shell
-          - +extend: systems/azure/uav/vm/catkin
+          - core:
+            - +docker:uav-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-core
+          - perception:
+            - +docker:uav-perception-cpu-shell
+            - +extend: systems/local/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav4 }
           - sudo teamviewer info | grep " ID:"

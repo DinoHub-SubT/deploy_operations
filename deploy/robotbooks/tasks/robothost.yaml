@@ -46,11 +46,13 @@
         install_recommends: yes
         update_cache: yes   # force apt-get update
 
-    # note: can output segmentation fault.
-    # - name: install python prerequisite packages
-    #   pip:
-    #     name: "{{ localhost.pip_packages }}"
-    #     extra_args: --user
+    # note: can output segmentation fault on localhost
+    - name: install python prerequisite packages
+      pip:
+        name: "{{ localhost.pip_packages }}"
+        extra_args: --user
+      when: >
+        "azure-" in inventory_hostname
 
     # ////////////////////////////////////////////////////////////////////////
     # Install Remote Desktop

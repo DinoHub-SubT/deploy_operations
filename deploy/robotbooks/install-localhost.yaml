@@ -10,7 +10,7 @@
 - include: tasks/docker-nvidia.yaml
 
 # Install teamviewer and GNOME desktop on the remote VM
-- include: tasks/teamviewer.yaml
+# - include: tasks/teamviewer.yaml
 
 # Install azure tools
 - include: tasks/azure.yaml

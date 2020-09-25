@@ -144,7 +144,8 @@ my @_deployer     = (
   # uav1
   "azure.uav.uav1.transfer.to",
   "azure.uav.uav1.skel_t.to",
-  "azure.uav.uav1.catkin.build",
+  "azure.uav.uav1.catkin.core.build",
+  "azure.uav.uav1.catkin.perception.build",
   "azure.uav.uav1.catkin.clean",
   "azure.uav.uav1.docker.shell",
   "azure.uav.uav1.docker.rm",
@@ -190,6 +191,16 @@ my @_deployer     = (
   "azure.perception.perception1.docker.rm",
   "azure.perception.perception1.docker.stop",
   "azure.perception.perception1.docker.registry.pull",
+
+  # basestation
+  "azure.basestation.transfer.to",
+  "azure.basestation.skel_t.to",
+  "azure.basestation.catkin.build",
+  "azure.basestation.catkin.clean",
+  "azure.basestation.docker.shell",
+  "azure.basestation.docker.rm",
+  "azure.basestation.docker.stop",
+  "azure.basestation.docker.registry.pull",
 
   # ////////////////////////////////////////////////////////////////////////////
   # Robots
