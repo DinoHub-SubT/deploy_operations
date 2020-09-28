@@ -149,7 +149,7 @@ my @_deployer     = (
   "azure.uav.uav1.docker.shell",
   "azure.uav.uav1.docker.rm",
   "azure.uav.uav1.docker.stop",
-  "azure.uav.uav1.docker.registry.pull",
+  "azure.uav.uav1.docker.registry.pull.gpu",
 
   # uav2
   "azure.uav.uav2.transfer.to",

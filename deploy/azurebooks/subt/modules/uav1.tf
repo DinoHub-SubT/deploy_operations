@@ -74,12 +74,17 @@ resource "azurerm_linux_virtual_machine" "uav1" {
     disk_size_gb            = var.uav_disk_size
   }
 
-  # VM image setup
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
+    offer                     = "ngc_azure_17_11"
+    publisher                 = "nvidia"
+    sku                       = "ngc_machine_image_20_03_1"
+    version                   = "20.03.1"
+  }
+
+  plan {
+    product                   = "ngc_azure_17_11"
+    publisher                 = "nvidia"
+    name                      = "ngc_machine_image_20_03_1"
   }
 
   # == User Access Settings ==
@@ -101,3 +106,24 @@ resource "azurerm_linux_virtual_machine" "uav1" {
     environment = var.tag_name_prefix
   }
 }
+
+# resource "azurerm_managed_disk" "uav1" {
+#   name                 = "${var.resource_name_prefix}-uav1-disk1"
+#   location             = var.resource_location
+#   resource_group_name  = var.user_defined_resource_group_name
+#   storage_account_type = "Standard_LRS"
+#   create_option        = "FromImage"
+#   disk_size_gb         = 1000
+#   image_reference_id   = "/Subscriptions/b1e974e5-8229-44c3-a472-235a580d611a/Providers/Microsoft.Compute/Locations/westus/Publishers/Canonical/ArtifactTypes/VMImage/Offers/UbuntuServer/Skus/18.04-LTS/Versions/18.04.202004080"
+#   # toggle creation of a resource
+#   count                = var.uav1_create_vm ? 1 : 0
+# }
+#
+# resource "azurerm_virtual_machine_data_disk_attachment" "uav1" {
+#   managed_disk_id       = azurerm_managed_disk.uav1[count.index].id
+#   virtual_machine_id    = azurerm_linux_virtual_machine.uav1[count.index].id
+#   lun                   = "10"
+#   caching               = "ReadWrite"
+#   # toggle creation of a resource
+#   count                 = var.uav1_create_vm ? 1 : 0
+# }

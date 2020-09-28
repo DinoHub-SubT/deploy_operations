@@ -13,6 +13,7 @@
     - laptop
     - basestation
     - perception
+    - uav
   become_method: sudo
   become_user: root
 
@@ -32,7 +33,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: remove previous nvidia-docker apt install
     become: true
@@ -44,7 +46,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: update apt packages
     become: true
@@ -53,7 +56,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: install docker dependency packages
     become: true
@@ -64,14 +68,16 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: add official GPG key of nvidia docker
     shell: curl -fsSL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
 
   - name: save the current Ubuntu release version
@@ -80,7 +86,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: update apt packages with nvidia docker
     become: true
@@ -88,7 +95,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: update apt packages
     become: true
@@ -97,7 +105,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: install nvidia-docker
     become: true
@@ -108,7 +117,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: restart docker service
     become: true
@@ -119,7 +129,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: validate nvidia-docker
     shell: nvidia-docker --version
@@ -127,7 +138,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: output validate docker
     debug:
@@ -135,7 +147,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: test nvidia-docker with 'hello world' example
     shell: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
@@ -143,7 +156,8 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")
 
   - name: show output of 'hello word' example
     debug:
@@ -151,4 +165,5 @@
     when: >
       install_nvidia_docker or
       ansible_hostname == "az-basestation-gpu" or
-      inventory_hostname is match("azure-perception*")
+      inventory_hostname is match("azure-perception*") or
+      inventory_hostname is match("azure-uav*")

@@ -28,7 +28,7 @@
         - catkin:
           - +ssh:{ azure.uav1 }
           - core:
-            - +docker:uav-cpu-shell
+            - +docker:uav-gpu-shell
             - +extend: systems/local/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
@@ -58,7 +58,7 @@
         - catkin:
           - +ssh:{ azure.uav2 }
           - core:
-            - +docker:uav-cpu-shell
+            - +docker:uav-gpu-shell
             - +extend: systems/local/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
@@ -88,7 +88,7 @@
         - catkin:
           - +ssh:{ azure.uav3 }
           - core:
-            - +docker:uav-cpu-shell
+            - +docker:uav-gpu-shell
             - +extend: systems/local/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
@@ -118,7 +118,7 @@
         - catkin:
           - +ssh:{ azure.uav4 }
           - core:
-            - +docker:uav-cpu-shell
+            - +docker:uav-gpu-shell
             - +extend: systems/local/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
