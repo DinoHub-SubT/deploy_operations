@@ -9,6 +9,7 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
     text "    -vnet     : list vnet resources."
     text "    -pubip    : list public IPs resources."
     text "    -disk     : list all managed disks attached to VMs."
+    text "    -f        : filter the types of disk to show: 'Standard_LRS', 'StandardSSD_LRS', 'Premium_LRS'."
     text "    -stg      : display all storage accounts."
     text "    -v        : display verbose output."
     exit 0
@@ -43,6 +44,15 @@ _get_group_arg() {
   echo "$arg"
 }
 
+# @brief: get the azure group name
+_get_disk_arg() {
+  # get the index of the -g flag, to be able to get the flag's argument
+  local idx=$(arr_idx -f $@)
+  ((idx++))
+  local arg=${@:$idx:1}
+  echo "$arg"
+}
+
 # @brief list vm status messages
 _vm_running() {
   local _group=$1
@@ -58,13 +68,13 @@ _vm_running() {
 
     # get the vm status information
     local _status=$(az vm get-instance-view --name $_name -g $_group --output table --query "instanceView.statuses[1]" --output table)
-
+    local _vm_size=$(az vm get-instance-view --name $_name -g $_group --output table --query "hardwareProfile.vmSize" --output table | tail -1)
     # display warning if VM status is not deallocated
     if [[ ! "$_status" == *"deallocated"* ]]; then
-      printf "%-30s | %-30s \n" "${GL_PF_YELLOW}not deallocated! $GL_PF_DEFAULT" "$_name"
+      printf "%-30s | %-30s | %-30s \n" "${GL_PF_YELLOW}not deallocated! $GL_PF_DEFAULT" "$_name" "$_vm_size"
       ((++_running))
     else
-      printf "%-30s | %-30s \n" "${GL_PF_BLUE}deallocated $GL_PF_DEFAULT" "$_name"
+      printf "%-30s | %-30s | %-30s \n" "${GL_PF_BLUE}deallocated $GL_PF_DEFAULT" "$_name" "$_vm_size"
     fi
 
     # display vm status
@@ -96,7 +106,7 @@ _list_ip() {
 }
 
 # @brief display number of VM storage disks
-_list_disk() {
+_disk_usage() {
   IFS=$'\n'
   local _group=$1
   local _status=($(az disk list -g $_group -o table))
@@ -110,17 +120,17 @@ _list_disk() {
     # count the disk type
     if [[ "$_disk" == *"Standard_LRS"* ]]; then
       ((++_count_lrs))
-      local _size=$(echo "$_disk" | awk '{print $6}' )
+      local _size=$(echo "$_disk" | awk '{print $(NF-1)}' )
       ((_size_lrs = _size_lrs + _size))
 
     elif [[ "$_disk" == *"StandardSSD_LRS"* ]]; then
       ((++_count_ssd_lrs))
-      local _size=$(echo "$_disk" | awk '{print $6}' )
+      local _size=$(echo "$_disk" | awk '{print $(NF-1)}' )
       ((_size_ssd_lrs = _size_ssd_lrs + _size))
 
     elif [[ "$_disk" == *"Premium_LRS"* ]]; then
       ((++_count_premium_lrs))
-      local _size=$(echo "$_disk" | awk '{print $6}' )
+      local _size=$(echo "$_disk" | awk '{print $(NF-1)}' )
       ((_size_premium_lrs = _size_premium_lrs + _size))
     fi
 
@@ -130,7 +140,27 @@ _list_disk() {
   printf "%-30s | %-30s | %-30s \n" "Standard_LRS" "$_count_lrs" "$_size_lrs GB"
   printf "%-30s | %-30s | %-30s \n" "StandardSSD_LRS" "$_count_ssd_lrs" "$_size_ssd_lrs GB"
   printf "%-30s | %-30s | %-30s \n" "Premium_LRS" "$_count_premium_lrs" "$_size_premium_lrs GB"
+}
 
+# @brief display number of VM storage disks
+_list_disk() {
+  IFS=$'\n'
+  local _group=$1
+  local _disk_t=$2
+  local _status=($(az disk list -g $_group -o table))
+  local _count=0 _total_size=0
+
+  for _disk in "${_status[@]}"; do
+    if [[ "$_disk" == *"$_disk_t"* ]]; then
+      echo "$_disk"
+      ((++_count))
+      local _size=$(echo "$_disk" | awk '{print $(NF-1)}' )
+      ((_total_size = _total_size + _size))
+    fi
+  done
+
+  text "\nTotal number of managed disks: $_count"
+  printf "%-30s | %-30s \n" "$_disk_t" "$_total_size GB"
 }
 
 
@@ -158,8 +188,12 @@ if chk_flag -pubip $@; then
   _list_ip $_group
 fi
 
-if chk_flag -disk $@; then
-  _list_disk $_group
+if chk_flag -disk $@ && ! chk_flag -f $@ ; then
+  _disk_usage $_group
+fi
+
+if chk_flag -disk $@ && chk_flag -f $@ ; then
+  _list_disk $_group $(_get_disk_arg $@)
 fi
 
 exit_success
