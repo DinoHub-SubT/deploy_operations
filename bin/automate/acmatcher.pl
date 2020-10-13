@@ -12,20 +12,23 @@ my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulati
 
 my @_git_add      = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
 
-my @_git_clone    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
-                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+my @_git_clone    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",
+                      "uav.hardware", "help");
 
-my @_git_reset    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
-                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
+my @_git_reset    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",
+                      "uav.hardware", "help");
 
-my @_git_clean    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "uav", "help" );
+my @_git_clean    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
+                      "ugv", "uav", "help" );
 
 my @_git_rm       = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
                       "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
 
 my @_cloud        = ( "terraform", "ansible", "help" );
 
-my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" , "destroy", 
+my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" , "destroy",
                       "env", "monitor" );
 
 my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
@@ -41,6 +44,7 @@ my @_deployer     = (
   # ugv
   "local.ugv.catkin.build",
   "local.ugv.catkin.clean",
+  "local.ugv.docker.image",
   "local.ugv.docker.shell",
   "local.ugv.docker.shell.sim",
   "local.ugv.docker.shell.ppc",
@@ -48,41 +52,54 @@ my @_deployer     = (
   "local.ugv.docker.rm",
   "local.ugv.docker.stop",
   "local.ugv.docker.registry.pull",
+  "local.ugv.docker.registry.push",
 
   # uav
   "local.uav.cpu.catkin.px4",
   "local.uav.cpu.catkin.core.build",
   "local.uav.cpu.catkin.perception.build",
   "local.uav.cpu.catkin.clean",
+  "local.uav.cpu.docker.image.core",
+  "local.uav.cpu.docker.image.perception",
+  "local.uav.cpu.docker.image.super",
   "local.uav.cpu.docker.shell",
   "local.uav.cpu.docker.rm",
   "local.uav.cpu.docker.stop",
-  "local.uav.docker.registry.pull.cpu",
+  "local.uav.cpu.docker.registry.pull",
+  "local.uav.cpu.docker.registry.push",
 
   "local.uav.gpu.catkin.px4",
   "local.uav.gpu.catkin.core.build",
   "local.uav.gpu.catkin.perception.build",
   "local.uav.gpu.catkin.clean",
+  "local.uav.gpu.docker.image.core",
+  "local.uav.gpu.docker.image.perception",
+  "local.uav.gpu.docker.image.super",
   "local.uav.gpu.docker.shell",
   "local.uav.gpu.docker.rm",
   "local.uav.gpu.docker.stop",
-  "local.uav.docker.registry.pull.gpu",
+  "local.uav.gpu.docker.registry.pull",
+  "local.uav.gpu.docker.registry.push",
 
   # perception
   "local.perception.catkin.build",
   "local.perception.catkin.clean",
+  "local.perception.docker.image",
   "local.perception.docker.shell",
   "local.perception.docker.rm",
   "local.perception.docker.stop",
   "local.perception.docker.registry.pull",
+  "local.perception.docker.registry.push",
 
   # basestation
   "local.basestation.catkin.build",
   "local.basestation.catkin.clean",
+  "local.basestation.docker.image",
   "local.basestation.docker.shell",
   "local.basestation.docker.rm",
   "local.basestation.docker.stop",
   "local.basestation.docker.registry.pull",
+  "local.basestation.docker.registry.push",
 
   # ////////////////////////////////////////////////////////////////////////////
   # Azure
@@ -95,6 +112,7 @@ my @_deployer     = (
   "azure.ugv.catkin.build",
   "azure.ugv.catkin.clean",
   "azure.ugv.docker.shell",
+  "azure.ugv.docker.image",
   "azure.ugv.docker.rm",
   "azure.ugv.docker.stop",
   "azure.ugv.docker.registry.pull",
@@ -104,6 +122,7 @@ my @_deployer     = (
   "azure.ugv.ugv1.skel_t.to",
   "azure.ugv.ugv1.catkin.build",
   "azure.ugv.ugv1.catkin.clean",
+  "azure.ugv.ugv1.docker.image",
   "azure.ugv.ugv1.docker.shell",
   "azure.ugv.ugv1.docker.rm",
   "azure.ugv.ugv1.docker.stop",
@@ -115,6 +134,7 @@ my @_deployer     = (
   "azure.ugv.ugv2.catkin.build",
   "azure.ugv.ugv2.catkin.clean",
   "azure.ugv.ugv2.docker.shell",
+  "azure.ugv.ugv2.docker.image",
   "azure.ugv.ugv2.docker.rm",
   "azure.ugv.ugv2.docker.stop",
   "azure.ugv.ugv2.docker.registry.pull",
@@ -125,6 +145,7 @@ my @_deployer     = (
   "azure.ugv.ugv3.catkin.build",
   "azure.ugv.ugv3.catkin.clean",
   "azure.ugv.ugv3.docker.shell",
+  "azure.ugv.ugv3.docker.image",
   "azure.ugv.ugv3.docker.rm",
   "azure.ugv.ugv3.docker.stop",
   "azure.ugv.ugv3.docker.registry.pull",
@@ -137,6 +158,7 @@ my @_deployer     = (
   "azure.uav.catkin.build",
   "azure.uav.catkin.clean",
   "azure.uav.docker.shell",
+  "azure.uav.docker.image",
   "azure.uav.docker.rm",
   "azure.uav.docker.stop",
   "azure.uav.docker.registry.pull",
@@ -148,6 +170,7 @@ my @_deployer     = (
   "azure.uav.uav1.catkin.core.build",
   "azure.uav.uav1.catkin.core.clean",
   "azure.uav.uav1.docker.shell",
+  "azure.uav.uav1.docker.image",
   "azure.uav.uav1.docker.rm",
   "azure.uav.uav1.docker.stop",
   "azure.uav.uav1.docker.registry.pull.cpu",
@@ -160,6 +183,7 @@ my @_deployer     = (
   "azure.uav.uav2.catkin.core.build",
   "azure.uav.uav2.catkin.core.clean",
   "azure.uav.uav2.docker.shell",
+  "azure.uav.uav2.docker.image",
   "azure.uav.uav2.docker.rm",
   "azure.uav.uav2.docker.stop",
   "azure.uav.uav2.docker.registry.pull.cpu",
@@ -172,6 +196,7 @@ my @_deployer     = (
   "azure.uav.uav3.catkin.core.build",
   "azure.uav.uav3.catkin.core.clean",
   "azure.uav.uav3.docker.shell",
+  "azure.uav.uav3.docker.image",
   "azure.uav.uav3.docker.rm",
   "azure.uav.uav3.docker.stop",
   "azure.uav.uav3.docker.registry.pull.cpu",
@@ -184,6 +209,7 @@ my @_deployer     = (
   "azure.uav.uav4.catkin.core.build",
   "azure.uav.uav4.catkin.core.clean",
   "azure.uav.uav4.docker.shell",
+  "azure.uav.uav4.docker.image",
   "azure.uav.uav4.docker.rm",
   "azure.uav.uav4.docker.stop",
   "azure.uav.uav4.docker.registry.pull.cpu",
@@ -195,6 +221,7 @@ my @_deployer     = (
   "azure.perception.perception1.catkin.build",
   "azure.perception.perception1.catkin.clean",
   "azure.perception.perception1.docker.shell",
+  "azure.perception.perception1.docker.image",
   "azure.perception.perception1.docker.rm",
   "azure.perception.perception1.docker.stop",
   "azure.perception.perception1.docker.registry.pull",
@@ -205,6 +232,7 @@ my @_deployer     = (
   "azure.basestation.catkin.build",
   "azure.basestation.catkin.clean",
   "azure.basestation.docker.shell",
+  "azure.basestation.docker.image",
   "azure.basestation.docker.rm",
   "azure.basestation.docker.stop",
   "azure.basestation.docker.registry.pull",
@@ -220,6 +248,7 @@ my @_deployer     = (
   "robots.ugv.catkin.build",
   "robots.ugv.catkin.clean",
   "robots.ugv.docker.shell",
+  "robots.ugv.docker.image",
   "robots.ugv.docker.rm",
   "robots.ugv.docker.stop",
   "robots.ugv.docker.registry.azure.pull",
@@ -231,6 +260,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.catkin.build",
   "robots.ugv.ugv1.catkin.clean",
   "robots.ugv.ugv1.docker.shell",
+  "robots.ugv.ugv1.docker.image",
   "robots.ugv.ugv1.docker.rm",
   "robots.ugv.ugv1.docker.stop",
   "robots.ugv.ugv1.docker.registry.azure.pull",
@@ -242,6 +272,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.ppc.catkin.build",
   "robots.ugv.ugv1.ppc.catkin.clean",
   "robots.ugv.ugv1.ppc.docker.shell",
+  "robots.ugv.ugv1.ppc.docker.image",
   "robots.ugv.ugv1.ppc.docker.rm",
   "robots.ugv.ugv1.ppc.docker.stop",
   "robots.ugv.ugv1.ppc.docker.registry.azure.pull",
@@ -253,6 +284,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.nuc.catkin.build",
   "robots.ugv.ugv1.nuc.catkin.clean",
   "robots.ugv.ugv1.nuc.docker.shell",
+  "robots.ugv.ugv1.nuc.docker.image",
   "robots.ugv.ugv1.nuc.docker.rm",
   "robots.ugv.ugv1.nuc.docker.stop",
   "robots.ugv.ugv1.nuc.docker.registry.azure.pull",
@@ -264,6 +296,7 @@ my @_deployer     = (
   "robots.ugv.ugv1.xavier.catkin.build",
   "robots.ugv.ugv1.xavier.catkin.clean",
   "robots.ugv.ugv1.xavier.docker.shell",
+  "robots.ugv.ugv1.xavier.docker.image",
   "robots.ugv.ugv1.xavier.docker.rm",
   "robots.ugv.ugv1.xavier.docker.stop",
   "robots.ugv.ugv1.xavier.docker.registry.azure.pull",
@@ -275,6 +308,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.catkin.build",
   "robots.ugv.ugv2.catkin.clean",
   "robots.ugv.ugv2.docker.shell",
+  "robots.ugv.ugv2.docker.image",
   "robots.ugv.ugv2.docker.rm",
   "robots.ugv.ugv2.docker.stop",
   "robots.ugv.ugv2.docker.registry.azure.pull",
@@ -286,6 +320,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.ppc.catkin.build",
   "robots.ugv.ugv2.ppc.catkin.clean",
   "robots.ugv.ugv2.ppc.docker.shell",
+  "robots.ugv.ugv2.ppc.docker.image",
   "robots.ugv.ugv2.ppc.docker.rm",
   "robots.ugv.ugv2.ppc.docker.stop",
   "robots.ugv.ugv2.ppc.docker.registry.azure.pull",
@@ -297,6 +332,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.nuc.catkin.build",
   "robots.ugv.ugv2.nuc.catkin.clean",
   "robots.ugv.ugv2.nuc.docker.shell",
+  "robots.ugv.ugv2.nuc.docker.image",
   "robots.ugv.ugv2.nuc.docker.rm",
   "robots.ugv.ugv2.nuc.docker.stop",
   "robots.ugv.ugv2.nuc.docker.registry.azure.pull",
@@ -308,6 +344,7 @@ my @_deployer     = (
   "robots.ugv.ugv2.xavier.catkin.build",
   "robots.ugv.ugv2.xavier.catkin.clean",
   "robots.ugv.ugv2.xavier.docker.shell",
+  "robots.ugv.ugv2.xavier.docker.image",
   "robots.ugv.ugv2.xavier.docker.rm",
   "robots.ugv.ugv2.xavier.docker.stop",
   "robots.ugv.ugv2.xavier.docker.registry.azure.pull",
@@ -319,6 +356,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.catkin.build",
   "robots.ugv.ugv3.catkin.clean",
   "robots.ugv.ugv3.docker.shell",
+  "robots.ugv.ugv3.docker.image",
   "robots.ugv.ugv3.docker.rm",
   "robots.ugv.ugv3.docker.stop",
   "robots.ugv.ugv3.docker.registry.azure.pull",
@@ -330,6 +368,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.ppc.catkin.build",
   "robots.ugv.ugv3.ppc.catkin.clean",
   "robots.ugv.ugv3.ppc.docker.shell",
+  "robots.ugv.ugv3.ppc.docker.image",
   "robots.ugv.ugv3.ppc.docker.rm",
   "robots.ugv.ugv3.ppc.docker.stop",
   "robots.ugv.ugv3.ppc.docker.registry.azure.pull",
@@ -341,6 +380,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.nuc.catkin.build",
   "robots.ugv.ugv3.nuc.catkin.clean",
   "robots.ugv.ugv3.nuc.docker.shell",
+  "robots.ugv.ugv3.nuc.docker.image",
   "robots.ugv.ugv3.nuc.docker.rm",
   "robots.ugv.ugv3.nuc.docker.stop",
   "robots.ugv.ugv3.nuc.docker.registry.azure.pull",
@@ -352,6 +392,7 @@ my @_deployer     = (
   "robots.ugv.ugv3.xavier.catkin.build",
   "robots.ugv.ugv3.xavier.catkin.clean",
   "robots.ugv.ugv3.xavier.docker.shell",
+  "robots.ugv.ugv3.xavier.docker.image",
   "robots.ugv.ugv3.xavier.docker.rm",
   "robots.ugv.ugv3.xavier.docker.stop",
   "robots.ugv.ugv3.xavier.docker.registry.azure.pull",
@@ -365,6 +406,7 @@ my @_deployer     = (
   "robots.uav.ds1.catkin.build",
   "robots.uav.ds1.catkin.clean",
   "robots.uav.ds1.docker.shell",
+  "robots.uav.ds1.docker.image",
   "robots.uav.ds1.docker.rm",
   "robots.uav.ds1.docker.stop",
   "robots.uav.ds1.docker.registry.azure.pull",
@@ -376,6 +418,7 @@ my @_deployer     = (
   "robots.uav.ds2.catkin.build",
   "robots.uav.ds2.catkin.clean",
   "robots.uav.ds2.docker.shell",
+  "robots.uav.ds2.docker.image",
   "robots.uav.ds2.docker.rm",
   "robots.uav.ds2.docker.stop",
   "robots.uav.ds2.docker.registry.azure.pull",
@@ -387,6 +430,7 @@ my @_deployer     = (
   "robots.uav.ds3.catkin.build",
   "robots.uav.ds3.catkin.clean",
   "robots.uav.ds3.docker.shell",
+  "robots.uav.ds3.docker.image",
   "robots.uav.ds3.docker.rm",
   "robots.uav.ds3.docker.stop",
   "robots.uav.ds3.docker.registry.azure.pull",
@@ -398,6 +442,7 @@ my @_deployer     = (
   "robots.uav.ds4.catkin.build",
   "robots.uav.ds4.catkin.clean",
   "robots.uav.ds4.docker.shell",
+  "robots.uav.ds4.docker.image",
   "robots.uav.ds4.docker.rm",
   "robots.uav.ds4.docker.stop",
   "robots.uav.ds4.docker.registry.azure.pull",
@@ -512,6 +557,7 @@ About: 2... you can add -p (preview) to show which deployment commands that will
 About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
 About: 5... == You Options Are ==
+shell                     : builds the docker image directly on the system.
 shell                     : starts the docker container on the remote or local system.
 rm                        : removes the docker container on the remote or local system.
 stop                      : stops the docker container on the remote or local system.
