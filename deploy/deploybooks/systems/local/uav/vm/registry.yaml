@@ -15,9 +15,9 @@
         - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros
         - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav
       - perception:
-        - docker tag  subt/uav-$deploy_system_type:perception-ros $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception-ros
+        - docker tag  subt/uav-$deploy_system_type:ros-perception $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
         - docker tag  subt/uav-$deploy_system_type:perception $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
-        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception-ros
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
         - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
       - super:
         - docker tag  subt/uav-$deploy_system_type:superodometry $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
@@ -31,9 +31,9 @@
         - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros subt/uav-$deploy_system_type:ros
         - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav subt/uav-$deploy_system_type:uav
       - perception:
-        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception-ros
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
         - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
-        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception-ros  subt/uav-$deploy_system_type:perception-ros
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception  subt/uav-$deploy_system_type:ros-perception
         - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception      subt/uav-$deploy_system_type:perception
       - super:
         - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
