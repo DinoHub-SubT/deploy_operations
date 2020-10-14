@@ -1,5 +1,9 @@
 #!/usr/local/bin/perl
 
+# //////////////////////////////////////////////////////////////////////////////
+# @brief import modules
+# //////////////////////////////////////////////////////////////////////////////
+
 use Cwd qw(abs_path);
 use FindBin;
 use lib abs_path("$FindBin::Bin/../lib");
@@ -7,74 +11,18 @@ use lib abs_path("$FindBin::Bin/../lib");
 use File::Basename;
 use lib dirname (__FILE__);
 
-# use deployer qw( @_deployer );  # import listed items
-use deployer;
+use cmpl_header;
+use cmpl_deployer;
+use cmpl_git;
 
-my @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
-
-my @_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pr", "help" );
-
-my @_git_status   = ( "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "uav", "help" );
-
-my @_git_sync     = ( "deploy", "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "uav", "help" );
-
-my @_git_add      = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
-
-my @_git_clone    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",
-                      "uav.hardware", "help");
-
-my @_git_reset    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",
-                      "uav.hardware", "help");
-
-my @_git_clean    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "uav", "help" );
-
-my @_git_rm       = ( "base", "basestation", "common", "perception", "simulation", "subt_launch", "ugv", "ugv.base",
-                      "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam", "uav.hardware", "help");
-
-my @_cloud        = ( "terraform", "ansible", "help" );
-
-my @_cloud_terra  = ( "init", "cert", "plan", "apply", "mkvpn", "rmvpn", "start", "stop" , "destroy",
-                      "env", "monitor" );
-
-my @_cloud_ani    = ( "-az", "-r", "-l", "-b", "-p" );
-
-my @_tools        = ( "ssh", "teamviewer", "rdp", "snapshot" );
-
+# //////////////////////////////////////////////////////////////////////////////
+# @brief [TAB] autocompletion matcher functionality
+# //////////////////////////////////////////////////////////////////////////////
 
 # @brief covert the array to hashmap
 my %_deployer_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_help_array;
-
-# //////////////////////////////////////////////////////////////////////////////
-# @brief general tools
-# //////////////////////////////////////////////////////////////////////////////
-
-# @brief check string equalities
-sub chk_flag {
-  my ($_flag, $_args) = @_;
-  $_args =~ m/$_flag/ ? return 1 : return 0;
-}
-
-# @brief filter unique strings from array
-# @reference: https://perldoc.perl.org/perlfaq4.html#How-can-I-remove-duplicate-elements-from-a-list-or-array%3f
-sub uniq {
-  my %seen;
-  my @unique = grep { ! $seen{ $_ }++ } @_;
-  return @unique
-}
-
-sub remove_trail_dot {
-  $_[0]=~ s/\.+$//;
-}
-sub remove_lead_dot {
-  $_[0]=~ s/^\.+//;
-}
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -110,8 +58,8 @@ sub pregex {
 
 # @brief deployer regex matcher, main entrypoint
 sub deploy_matcher {
-  my ($_target) = @_, $_result;
-  foreach my $_deploy (@_deployer) {
+  my ($_target, @_arr) = @_, $_result;
+  foreach my $_deploy (@_arr) {
     my $_smatch = sregex($_target, $_deploy);
     if (! $_smatch eq "") {
       my $_pmatch = pregex($_smatch);
@@ -225,7 +173,7 @@ if (chk_flag($_func, "subt")  ) {
   print general_matcher($_target, @_tools);
 
 } elsif (chk_flag($_func, "deployer") ) {
-  my $_match = deploy_matcher($_target);
+  my $_match = deploy_matcher($_target, @_deployer);
   # print $_, "\n" for split ' ', "$_match";
   print deploy_matcher($_target);
 } elsif (chk_flag($_func, "deployer_help") ) {

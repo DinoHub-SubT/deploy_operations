@@ -35,6 +35,10 @@ DISABLE_WARNING=0
 
 GL_TEXT_COLOR=${FG_DEFAULT}
 
+# globals
+GL_BIN_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
+GL_CMPL_DIR=$SUBT_PATH/operations/bin/automate/cmpl
+
 # @source: operations/deploy/azurebooks/scripts/header.sh
 # @brief Checks arguments to make sure they exist and are equal
 # @params $1  flag to check for arguments to contain

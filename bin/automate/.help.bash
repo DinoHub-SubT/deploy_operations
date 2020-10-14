@@ -528,7 +528,7 @@ __ac_deploy_help() {
 
 __ac_deploy_submenu_help() {
   local _prev=$1
-  local _result=$(perl $GL_GIT_AUTOMATE_DIR/acmatcher.pl "deployer_help" "$_prev")
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "deployer_help" "$_prev")
   # split resulting string based on newlines
   SAVEIFS=$IFS        # save current IFS, so we can revert back to it
   IFS=$'\n'           # change IFS to split on new lines

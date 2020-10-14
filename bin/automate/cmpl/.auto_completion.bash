@@ -5,15 +5,12 @@
 . "$SUBT_PATH/operations/bin/automate/.header.bash"
 . "$SUBT_PATH/operations/bin/automate/.help.bash"
 
-# globals
-GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
-
 # @brief find the the current auto-complete token matches
 __matcher() {
   local _matcher_t=$1 _curr=$2
   [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
   # evaluate the matcher
-  local _result=$(perl $GL_GIT_AUTOMATE_DIR/acmatcher.pl "$_matcher_t" "$_curr")
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "$_matcher_t" "$_curr")
   local _term_t=$(ps -p$$ -ocmd=)
   if [ ! -z "$_result" ]; then
     [ "$_term_t" = "bash" ] && COMPREPLY=( $( compgen -W "$_result" -- "$_str" ) ) && compopt -o nospace && return 0

@@ -3,17 +3,14 @@
 # load header helper functions
 . "$SUBT_PATH/operations/bin/.header.bash"
 . "$SUBT_PATH/operations/bin/automate/.header.bash"
-. "$SUBT_PATH/operations/bin/automate/.auto_completion.bash"
-
-# globals
-GL_GIT_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
+. "$SUBT_PATH/operations/bin/automate/cmpl/.auto_completion.bash"
 
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
   if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
     || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@ || chk_flag add $@; then
     shift 1 # shift the 'git' token
-    ($GL_GIT_AUTOMATE_DIR/git.bash $@)
+    ($GL_BIN_AUTOMATE_DIR/git.bash $@)
   elif chk_flag help $@; then
     __git_help
   fi
@@ -100,7 +97,7 @@ subt() {
   # execute 'git subt' subcommand
   elif chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
-    ($GL_GIT_AUTOMATE_DIR/deployer.bash $@)
+    ($GL_BIN_AUTOMATE_DIR/deployer.bash $@)
 
   elif chk_nth_flag 1 "cloud" "$@"; then
     __subt_cloud_execute $@
