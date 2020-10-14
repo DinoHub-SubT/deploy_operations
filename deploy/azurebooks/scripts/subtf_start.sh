@@ -11,6 +11,9 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
     exit 0
 fi
 
+# source the terraform environment
+source_terra_env
+
 # Make sure resource name is set
 if [[ -z "$TF_VAR_azure_resource_name_prefix" ]] && chk_flag -a $@; then
     error Unable to find TF_VAR_azure_resource_name_prefix... make sure deployer is installed and terraform is setup according to the readme!

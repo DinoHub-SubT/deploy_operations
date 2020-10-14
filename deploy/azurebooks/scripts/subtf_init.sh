@@ -6,6 +6,9 @@ if chk_flag --help $@ || chk_flag -h $@ || chk_flag -help $@; then
     exit 0
 fi
 
+# source the terraform environment
+source_terra_env
+
 cd $__dir/../subt
 
 # Echo the path to the state file variable into the terraform init command

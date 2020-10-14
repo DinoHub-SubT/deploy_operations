@@ -10,8 +10,10 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
     exit 0
 fi
 
-cd $__dir/../subt
+# source the terraform environment
+source_terra_env
 
+cd $__dir/../subt
 
 if ! chk_flag -n $@; then
     title Applying Terraform

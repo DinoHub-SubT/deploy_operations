@@ -7,18 +7,8 @@ if chk_flag --help $@ || chk_flag -h $@ || chk_flag -help $@; then
     exit 0
 fi
 
-if [ ! -e ~/.terraform_id.bashrc ]; then
-    echo "WARNING: [~/.terraform_id.bashrc] does not exist..., this command might not work..."
-else
-    source ~/.terraform_id.bashrc
-fi
-
-if [ ! -e ~/.terraform_flags.bashrc ]; then
-    echo "WARNING: [~/.terraform_flags.bashrc] does not exist..., this command might not work..."
-else
-    source ~/.terraform_flags.bashrc
-fi
-
+# source the terraform environment
+source_terra_env
 
 cd $__dir/../subt
 
