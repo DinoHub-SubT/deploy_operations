@@ -1,0 +1,14 @@
+- ugv:
+  - git submodule update --init ugv
+  - cd ugv
+  - git clean -d -f -f
+  # ignore the catkin profiles
+  - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+  - ppc:
+    - git submodule update --recursive --init planning-pc/
+    - cd planning-pc/
+    - git clean -d -f -f
+  - nuc:
+    - git submodule update --recursive --init nuc/
+    - cd nuc/
+    - git clean -d -f -f

@@ -1,0 +1,14 @@
+- uav:
+  - git submodule update --init uav
+  - cd uav
+  - git clean -d -f -f
+  # ignore the catkin profiles
+  - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
+  - core:
+    - git submodule update --recursive --init core
+    - cd core
+    - git clean -d -f -f
+  - hardware:
+    - git submodule update --recursive --init hardware
+    - cd hardware
+    - git clean -d -f -f

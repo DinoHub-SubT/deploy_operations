@@ -44,116 +44,35 @@
   # clones the submodules to where the HEAD in the intermediate repo is set to.
   - clone:
   # ////////////////////////////////////////////////////////////////////////
-    - extras:
-      - simulation:
-        - git submodule update --recursive --init simulation
-        - cd simulation
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        - git update-index --assume-unchanged darpa/catkin/.catkin_tools/profiles/profiles.yaml
-        # git lfs steps
-        - cd subt_gazebo
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
 
-      - uav:
-        - git submodule update --init uav
-        - cd uav
-        - git clean -d -f -f
-        - slam:
-          - git submodule update --recursive --init slam
-          - cd slam
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/clone/clone.base
+      - +extend: common/git/clone/clone.simulation
+      - +extend: common/git/clone/clone.ugv
+      - +extend: common/git/clone/clone.uav
 
-      - ugv:
-        - git submodule update --init ugv
-        - cd ugv
-        - git clean -d -f -f
-        - slam:
-          - devel:
-            - git submodule update --recursive --init slam/devel
-            - cd slam/devel
-            - git clean -d -f -f
-          - robot:
-            - git submodule update --recursive --init slam/robot
-            - cd slam/robot
-            - git clean -d -f -f
-        - hardware:
-          - git submodule update --recursive --init hardware
-          - cd hardware/
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/clone/clone.base
+        - +extend: common/git/clone/clone.ugv
+        - +extend: common/git/clone/clone.ugv.hardware
+        - +extend: common/git/clone/clone.uav
+        - +extend: common/git/clone/clone.simulation
 
-    - base:
-      - basestation:
-        - git submodule update --recursive --init basestation
-        - cd basestation
-        - git clean -d -f -f
+      - laptop.uav:
+        - +extend: common/git/clone/clone.base
+        - +extend: common/git/clone/clone.uav
+        - +extend: common/git/clone/clone.simulation
 
-      - common:
-        - git submodule update --recursive --init common
-        - cd common
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        # git lfs steps
-        - cd communication_manager
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
-
-      - operations:
-        - docker:
-          - git submodule update --recursive --init operations/deploy/docker
-          - cd operations/deploy/docker
-          - git clean -d -f -f
-
-      - perception:
-        - git submodule update --recursive --init perception
-        - cd perception
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        - cd object_detection
-        - git clean -d -f -f
-
-      - subt_launch:
-        - git submodule update --recursive --init subt_launch
-        - cd subt_launch
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-
-      - uav:
-        - git submodule update --init uav
-        - cd uav
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        - core:
-          - git submodule update --recursive --init core
-          - cd core
-          - git clean -d -f -f
-        - hardware:
-          - git submodule update --recursive --init hardware
-          - cd hardware
-          - git clean -d -f -f
-
-      - ugv:
-        - git submodule update --init ugv
-        - cd ugv
-        - git clean -d -f -f
-        # ignore the catkin profiles
-        - git update-index --assume-unchanged .catkin_tools/profiles/profiles.yaml
-        - ppc:
-          - git submodule update --recursive --init planning-pc/
-          - cd planning-pc/
-          - git clean -d -f -f
-        - nuc:
-          - git submodule update --recursive --init nuc/
-          - cd nuc/
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/clone/clone.ugv.slam
+      - +extend: common/git/clone/clone.uav.slam
 
     # show the git status in the intermediate-repo
     - pwd
