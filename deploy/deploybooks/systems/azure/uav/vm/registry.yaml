@@ -1,54 +1,48 @@
-# //////////////////////////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////////////////////////////
 - docker:
-# //////////////////////////////////////////////////////////////////////////
+# //////////////////////////////////////////////////////////////////////////////
 
   # ////////////////////////////////////////////////////////////////////////////
   - registry:
   # ////////////////////////////////////////////////////////////////////////////
+    # use azure docker context
+    - docker context use $DOCKER_CONTEXT
 
-    # push images from the docker registry
     - push:
-      # change the docker context to the ugv azure docker daemon
-      - docker context use $DOCKER_CONTEXT
-      - cpu:
-        # tag the docker images
-        - docker tag subt/uav-cpu:ros $AZURE_REGISTRY/subt-uav-cpu-ros
-        - docker tag subt/uav-cpu:uav $AZURE_REGISTRY/subt-uav-cpu-uav
-        # push the docker images from the laptop local registry
-        - docker push $AZURE_REGISTRY/subt-uav-cpu-ros
-        - docker push $AZURE_REGISTRY/subt-uav-cpu-uav
-      - gpu:
-        # tag the docker images
-        - docker tag subt/uav-gpu:ros $AZURE_REGISTRY/subt-uav-gpu-ros
-        - docker tag subt/uav-gpu:uav $AZURE_REGISTRY/subt-uav-gpu-uav
-        # push the docker images from the laptop local registry
-        - docker push $AZURE_REGISTRY/subt-uav-gpu-ros
-        - docker push $AZURE_REGISTRY/subt-uav-gpu-uav
-      # remove the azure docker images
-      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
-      # change the docker context back to the default docker daemon
-      - docker context use default
+      - core:
+        - docker tag  subt/uav-$deploy_system_type:ros $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros
+        - docker tag  subt/uav-$deploy_system_type:uav $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav
+      - perception:
+        - docker tag  subt/uav-$deploy_system_type:ros-perception $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+        - docker tag  subt/uav-$deploy_system_type:perception $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
+      - super:
+        - docker tag  subt/uav-$deploy_system_type:superodometry $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
+        - docker push $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
 
-    # pull images from the docker registry
     - pull:
-      # change the docker context to the ugv azure docker daemon
-      - docker context use $DOCKER_CONTEXT
-      - cpu:
-        - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
-        - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
-        # tag the docker images
-        - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-        - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
-      - gpu:
-        # pull the docker images from the laptop local registry
-        - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
-        - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
-        # tag the docker images
-        - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-        - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-      # remove the azure docker images
-      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
-      # show the docker images
-      - docker images
-      # change the docker context back to the default docker daemon
-      - docker context use default
+      - core:
+        # pull from the azure registry
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros subt/uav-$deploy_system_type:ros
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav subt/uav-$deploy_system_type:uav
+      - perception:
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception  subt/uav-$deploy_system_type:ros-perception
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception      subt/uav-$deploy_system_type:perception
+      - super:
+        - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
+        - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry subt/uav-$deploy_system_type:superodometry
+
+    # remove the azure docker images
+    - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+    # show the docker images
+    - docker images
+
+    # reset back to default docker context
+    - docker context use default

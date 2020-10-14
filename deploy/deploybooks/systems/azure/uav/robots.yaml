@@ -29,10 +29,10 @@
           - +ssh:{ azure.uav1 }
           - core:
             - +docker:uav-gpu-shell
-            - +extend: systems/local/uav/vm/catkin-core
+            - +extend: systems/azure/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
-            - +extend: systems/local/uav/vm/catkin-perception
+            - +extend: systems/azure/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav1 }
           - sudo teamviewer info | grep " ID:"
@@ -59,10 +59,10 @@
           - +ssh:{ azure.uav2 }
           - core:
             - +docker:uav-gpu-shell
-            - +extend: systems/local/uav/vm/catkin-core
+            - +extend: systems/azure/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
-            - +extend: systems/local/uav/vm/catkin-perception
+            - +extend: systems/azure/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav2 }
           - sudo teamviewer info | grep " ID:"
@@ -89,10 +89,10 @@
           - +ssh:{ azure.uav3 }
           - core:
             - +docker:uav-gpu-shell
-            - +extend: systems/local/uav/vm/catkin-core
+            - +extend: systems/azure/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
-            - +extend: systems/local/uav/vm/catkin-perception
+            - +extend: systems/azure/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav3 }
           - sudo teamviewer info | grep " ID:"
@@ -119,10 +119,10 @@
           - +ssh:{ azure.uav4 }
           - core:
             - +docker:uav-gpu-shell
-            - +extend: systems/local/uav/vm/catkin-core
+            - +extend: systems/azure/uav/vm/catkin-core
           - perception:
             - +docker:uav-perception-cpu-shell
-            - +extend: systems/local/uav/vm/catkin-perception
+            - +extend: systems/azure/uav/vm/catkin-perception
         - teamviewer:
           - +ssh:{ azure.uav4 }
           - sudo teamviewer info | grep " ID:"
