@@ -65,16 +65,16 @@ our (
 );
 
 $_deployer_system_help = ("
-About: 1... rms submodules to one of the sysmtes.
+About: 1... removes submodules to one of the sysmtes.
 About: 2... == Your Options Are ==
-localhost     : rms the submodules for developing on a localhost.
-basestation   : rms the submodules for developing on one of the basestation laptops.
-slam          : rms the slam submodules (can be used on localhost or on basestation)
+localhost     : removes the submodules for developing on a localhost.
+basestation   : removes the submodules for developing on one of the basestation laptops.
+slam          : removes the slam submodules (can be used on localhost or on basestation)
 "
 );
 
 $_deployer_localhost_help = ("
-About: 1... rms the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
+About: 1... removes the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
 About: 2... == Your Options Are ==
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
@@ -89,7 +89,7 @@ uav.hardware            : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_ugv_help = ("
-About: 1... rms the localhost submodules.
+About: 1... removes the localhost submodules.
 About: 2... == Your Options Are ==
 ppc                : ~/deploy_ws/src/ugv/ppc
 nuc                : ~/deploy_ws/src/ugv/nuc
@@ -97,21 +97,21 @@ hardware           : ~/deploy_ws/src/ugv/hardware (only available for basestatio
 ");
 
 $_deployer_uav_help = ("
-About: 1... rms the localhost submodules.
+About: 1... removes the localhost submodules.
 About: 2... == Your Options Are ==
 core               : ~/deploy_ws/src/uav/core
 hardware           : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_basestation_help = ("
-About: 1... rms the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
+About: 1... removes the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
 About: 2... == Your Options Are ==
 system76        : system76-pc laptop, for running both ugv & uav robots
 laptop          : the uav specific drone laptop
 ");
 
 $_deployer_system76_help = ("
-About: 1... rms the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
+About: 1... removes the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
 About: 2... == Your Options Are ==
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
@@ -127,7 +127,7 @@ uav.hardware            : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_laptop_uav_help = ("
-About: 1... rms the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
+About: 1... removes the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
 About: 2... == Your Options Are ==
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common

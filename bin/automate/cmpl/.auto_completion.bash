@@ -101,6 +101,5 @@ _ac_subt_completion() {
       ! __matcher "deployer" $_curr && __ac_deploy_submenu_help $_prev
 
     fi
-
   fi
 }

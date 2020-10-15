@@ -16,7 +16,9 @@ __subt_git_execute() {
   elif chk_flag reset $@; then
     shift 2 # shift 'git clone'
     for cmd in "$@"; do
-      _run_deployer "reset.$cmd"
+      _run_deployer "rm.$cmd"
+      _run_deployer "init.$cmd"
+      _run_deployer "clone.$cmd"
     done
   elif chk_flag rm $@; then
     shift 2 # shift 'git clone'
