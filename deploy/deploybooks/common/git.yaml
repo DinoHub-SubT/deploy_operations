@@ -11,20 +11,16 @@
   # ////////////////////////////////////////////////////////////////////////////
   - clean:
   # ////////////////////////////////////////////////////////////////////////////
-    - common:
-      - cd common
+
+    # clean for the different system prefixes
+    - localhost:
+      - +extend: common/git/clean
     - basestation:
-      - cd basestation
-    - perception:
-      - cd perception
-    - simulation:
-      - cd simulation
-    - subt_launch:
-      - cd subt_launch
-    - ugv:
-      - cd ugv
-    - uav:
-      - cd uav
+      - system76:
+        - +extend: common/git/clean
+      - laptop:
+          - +extend: common/git/clean
+
     # remove untracked files
     - git clean -xfd
     # remove unstaged changes
@@ -217,108 +213,56 @@
   # ////////////////////////////////////////////////////////////////////////
   - init:
   # ////////////////////////////////////////////////////////////////////////
-    - extras:
-      - simulation:
-        - git submodule update --init simulation
-      - ugv:
-        - git submodule update --init ugv
-        - cd ugv
-        - slam:
-          - devel:
-            - git submodule update --init slam/devel
-          - robot:
-            - git submodule update --init slam/robot
-        - hardware:
-          - git submodule update --init hardware
-      - uav:
-        - git submodule update --init uav
-        - cd uav
-        - slam:
-          - git submodule update --init slam
 
-    - base:
-      - basestation:
-        - git submodule update --init basestation
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/init/init.base
+      - +extend: common/git/init/init.simulation
+      - +extend: common/git/init/init.ugv
+      - +extend: common/git/init/init.uav
 
-      - common:
-        - git submodule update --init common
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/init/init.base
+        - +extend: common/git/init/init.ugv
+        - +extend: common/git/init/init.ugv.hardware
+        - +extend: common/git/init/init.uav
+        - +extend: common/git/init/init.simulation
 
-      - operations:
-        - docker:
-          - git submodule update --init operations/deploy/docker
-
-      - perception:
-        - git submodule update --init perception
-
-      - subt_launch:
-        - git submodule update --init subt_launch
-
-      - ugv:
-        - git submodule update --init ugv
-        - cd ugv
-        - ppc:
-          - git submodule update --init planning-pc/
-        - nuc:
-          - git submodule update --init nuc/
-
-      - uav:
-        - git submodule update --init uav
-        - cd uav
-        - core:
-          - git submodule update --init core
-        - hardware:
-          - git submodule update --init hardware
+      - laptop:
+        - +extend: common/git/init/init.base
+        - +extend: common/git/init/init.uav
+        - +extend: common/git/init/init.simulation
 
   # //////////////////////////////////////////////////////////////////////////////
   - rm:
   # //////////////////////////////////////////////////////////////////////////////
-    - extras:
-      - simulation:
-        -  git submodule deinit -f simulation
-      - uav:
-        - cd uav
-        - slam:
-          -  git submodule deinit -f slam
-      - ugv:
-        - cd ugv
-        - slam:
-          - devel:
-            - git submodule deinit -f slam/devel
-          - robot:
-            - git submodule deinit -f slam/robot
-        - hardware:
-          -  git submodule deinit -f hardware
 
-    - base:
-      - basestation:
-        - git submodule deinit -f basestation
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/rm/rm.base
+      - +extend: common/git/rm/rm.simulation
+      - +extend: common/git/rm/rm.ugv
+      - +extend: common/git/rm/rm.uav
 
-      - common:
-        - git submodule deinit -f common
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/rm/rm.base
+        - +extend: common/git/rm/rm.ugv
+        - +extend: common/git/rm/rm.ugv.hardware
+        - +extend: common/git/rm/rm.uav
+        - +extend: common/git/rm/rm.simulation
 
-      - operations:
-        - docker:
-          - git submodule deinit -f operations/deploy/docker
-
-      - perception:
-        -  git submodule deinit -f perception
-
-      - subt_launch:
-        -  git submodule deinit -f subt_launch
-
-      - uav:
-        - cd uav
-        - core:
-          - git submodule deinit -f core
-        - hardware:
-          -  git submodule deinit -f hardware
-
-      - ugv:
-        - cd ugv
-        - ppc:
-          - git submodule deinit -f planning-pc
-        - nuc:
-          - git submodule deinit -f nuc
+      - laptop:
+        - +extend: common/git/rm/rm.base
+        - +extend: common/git/rm/rm.uav
+        - +extend: common/git/rm/rm.simulation
 
   # //////////////////////////////////////////////////////////////////////////////
   - branch:

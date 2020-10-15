@@ -1,0 +1,14 @@
+- common:
+  - cd common
+- basestation:
+  - cd basestation
+- perception:
+  - cd perception
+- simulation:
+  - cd simulation
+- subt_launch:
+  - cd subt_launch
+- ugv:
+  - cd ugv
+- uav:
+  - cd uav

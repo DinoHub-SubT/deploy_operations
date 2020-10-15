@@ -1,0 +1,5 @@
+- ugv:
+  - git submodule update --init ugv
+  - cd ugv
+  - hardware:
+    - git submodule update --init hardware
