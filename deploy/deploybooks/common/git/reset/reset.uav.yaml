@@ -1,0 +1,16 @@
+- uav:
+  - cd uav
+  - core:
+    # remove
+    - git submodule deinit -f core
+    # re-clone
+    - cd core
+    - git submodule update --init --recursive .
+    - git clean -d -f -f
+  - hardware:
+    # remove
+    - git submodule deinit -f hardware
+    # re-clone
+    - cd hardware
+    - git submodule update --init --recursive .
+    - git clean -d -f -f

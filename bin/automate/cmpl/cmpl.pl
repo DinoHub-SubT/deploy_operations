@@ -14,6 +14,7 @@ use lib dirname (__FILE__);
 use cmpl_header;
 use cmpl_deployer;
 use cmpl_git_clone;
+use cmpl_git_reset;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief [TAB] autocompletion matcher functionality
@@ -27,6 +28,10 @@ my %_deployer_help_hash = map {
 my %_git_clone_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_git_clone_help;
+
+my %_git_reset_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_git_reset_help;
 
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -159,11 +164,14 @@ if (chk_flag($_func, "subt")  ) {
   print deploy_matcher($_target);
 
 } elsif (chk_flag($_func, "git_clone_help")  ) {
-  # print "what is this?? ", $_deployer_local_help;
   print deployer_help_matcher($_target, %_git_clone_help_hash);
 
 } elsif (chk_flag($_func, "git_reset")  ) {
-  print general_matcher($_target, @_git_reset);
+  my $_match = deploy_matcher($_target, @_git_reset);
+  print deploy_matcher($_target);
+
+} elsif (chk_flag($_func, "git_reset_help")  ) {
+  print deployer_help_matcher($_target, %_git_reset_help_hash);
 
 } elsif (chk_flag($_func, "git_clean")  ) {
   print general_matcher($_target, @_git_clean);

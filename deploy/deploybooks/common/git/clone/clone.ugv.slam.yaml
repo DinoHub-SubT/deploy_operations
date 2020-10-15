@@ -1,11 +1,13 @@
-- git submodule update --init ugv
-- cd ugv
-- git clean -d -f -f
-- devel:
-  - git submodule update --recursive --init slam/devel
-  - cd slam/devel
-  - git clean -d -f -f
-- robot:
-  - git submodule update --recursive --init slam/robot
-  - cd slam/robot
-  - git clean -d -f -f
+- ugv:
+  - slam:
+    - git submodule update --init ugv
+    - cd ugv
+    - git clean -d -f -f
+    - devel:
+      - git submodule update --recursive --init slam/devel
+      - cd slam/devel
+      - git clean -d -f -f
+    - robot:
+      - git submodule update --recursive --init slam/robot
+      - cd slam/robot
+      - git clean -d -f -f

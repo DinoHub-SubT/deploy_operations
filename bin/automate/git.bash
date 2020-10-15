@@ -20,8 +20,6 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __sync_help
   elif chk_flag add $@; then
     __add_help
-  elif chk_flag clone $@; then
-    __clone_help
   elif chk_flag reset $@; then
     __reset_help
   elif chk_flag clean $@; then
@@ -372,12 +370,6 @@ elif chk_flag add $@ ; then
   _nargs=$#
   # reset the submodules for all the given intermediate level repos
   [ $_nargs -eq 0 ] && _add_traverse basestation common perception ugv uav simulation subt_launch || _add_traverse $@
-
-elif chk_flag reset $@ ; then
-  shift
-  _nargs=$#
-  # reset the submodules for all the given intermediate level repos
-  [ $_nargs -eq 0 ] && _reset_traverse basestation common perception ugv uav simulation subt_launch || _reset_traverse $@
 
 elif chk_flag clean $@ ; then
   shift

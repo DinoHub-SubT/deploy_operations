@@ -63,7 +63,7 @@
         - +extend: common/git/clone/clone.uav
         - +extend: common/git/clone/clone.simulation
 
-      - laptop.uav:
+      - laptop:
         - +extend: common/git/clone/clone.base
         - +extend: common/git/clone/clone.uav
         - +extend: common/git/clone/clone.simulation
@@ -180,138 +180,35 @@
   # //////////////////////////////////////////////////////////////////////////////
   - reset:
   # //////////////////////////////////////////////////////////////////////////////
-    - extras:
-      - simulation:
-        # remove
-        - git submodule deinit -f simulation
-        # re-clone
-        - cd simulation
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        # git lfs steps
-        - cd subt_gazebo
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
 
-      - uav:
-        - cd uav
-        - slam:
-          # remove
-          - git submodule deinit -f slam
-          # re-clone
-          - cd slam
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/reset/reset.base
+      - +extend: common/git/reset/reset.simulation
+      - +extend: common/git/reset/reset.ugv
+      - +extend: common/git/reset/reset.uav
 
-      - ugv:
-        - cd ugv
-        - slam:
-          - devel:
-            # reset
-            - git submodule deinit -f slam/devel
-            # re-clone
-            - cd slam/devel
-            - git submodule update --init --recursive .
-            - git clean -d -f -f
-          - robot:
-            # reset
-            - git submodule deinit -f slam/robot
-            # re-clone
-            - cd slam/robot
-            - git submodule update --init --recursive .
-            - git clean -d -f -f
-        - hardware:
-          # remove
-          - git submodule deinit -f hardware
-          # re-clone
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/reset/reset.base
+        - +extend: common/git/reset/reset.ugv
+        - +extend: common/git/reset/reset.ugv.hardware
+        - +extend: common/git/reset/reset.uav
+        - +extend: common/git/reset/reset.simulation
 
-    - base:
-      - basestation:
-        # remove
-        - git submodule deinit -f basestation
-        # re-clone
-        - cd basestation
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
+      - laptop:
+        - +extend: common/git/reset/reset.base
+        - +extend: common/git/reset/reset.uav
+        - +extend: common/git/reset/reset.simulation
 
-      - common:
-        # remove
-        - git submodule deinit -f common
-        # re-clone
-        - cd common
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        # git lfs steps
-        - cd communication_manager
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
-
-      - operations:
-        - docker:
-          # remove
-          - git submodule deinit -f operations/deploy/docker
-          # re-clone
-          - git submodule update --recursive --init operations/deploy/docker
-          - cd operations/deploy/docker
-          - git clean -d -f -f
-
-      - perception:
-        # remove
-        - git submodule deinit -f perception
-        # re-clone
-        - cd perception
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        - cd object_detection
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-
-      - subt_launch:
-        # remove
-        - git submodule deinit -f subt_launch
-        # re-clone
-        - cd subt_launch
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-
-      - ugv:
-        - cd ugv
-        - ppc:
-          # remove
-          - git submodule deinit -f planning-pc
-          # re-clone
-          - cd planning-pc/
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-        - nuc:
-          # remove
-          - git submodule deinit -f nuc
-          # re-clone
-          - cd nuc
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-
-      - uav:
-        - cd uav
-        - core:
-          # remove
-          - git submodule deinit -f core
-          # re-clone
-          - cd core
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-        - hardware:
-          # remove
-          - git submodule deinit -f hardware
-          # re-clone
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/reset/reset.ugv.slam
+      - +extend: common/git/reset/reset.uav.slam
 
     # prompt git status
     - pwd

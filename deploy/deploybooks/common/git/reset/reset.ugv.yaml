@@ -1,0 +1,16 @@
+- ugv:
+  - cd ugv
+  - ppc:
+    # remove
+    - git submodule deinit -f planning-pc
+    # re-clone
+    - cd planning-pc/
+    - git submodule update --init --recursive .
+    - git clean -d -f -f
+  - nuc:
+    # remove
+    - git submodule deinit -f nuc
+    # re-clone
+    - cd nuc
+    - git submodule update --init --recursive .
+    - git clean -d -f -f

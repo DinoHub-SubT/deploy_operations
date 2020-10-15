@@ -1,0 +1,17 @@
+- ugv:
+  - cd ugv
+  - slam:
+    - devel:
+      # reset
+      - git submodule deinit -f slam/devel
+      # re-clone
+      - cd slam/devel
+      - git submodule update --init --recursive .
+      - git clean -d -f -f
+    - robot:
+      # reset
+      - git submodule deinit -f slam/robot
+      # re-clone
+      - cd slam/robot
+      - git submodule update --init --recursive .
+      - git clean -d -f -f

@@ -1,6 +1,8 @@
-- git submodule update --init uav
-- cd uav
-- git clean -d -f -f
-- git submodule update --recursive --init slam
-- cd slam
-- git clean -d -f -f
+- uav:
+  - slam:
+    - git submodule update --init uav
+    - cd uav
+    - git clean -d -f -f
+    - git submodule update --recursive --init slam
+    - cd slam
+    - git clean -d -f -f
