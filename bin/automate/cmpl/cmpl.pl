@@ -16,6 +16,7 @@ use cmpl_deployer;
 use cmpl_git_clone;
 use cmpl_git_reset;
 use cmpl_git_rm;
+use cmpl_git_clean;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief [TAB] autocompletion matcher functionality
@@ -37,6 +38,10 @@ my %_git_reset_help_hash = map {
 my %_git_rm_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_git_rm_help;
+
+my %_git_clean_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_git_clean_help;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -184,12 +189,12 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "git_rm_help")  ) {
   print deployer_help_matcher($_target, %_git_rm_help_hash);
 
-
 } elsif (chk_flag($_func, "git_clean")  ) {
-  print general_matcher($_target, @_git_clean);
+  my $_match = deploy_matcher($_target, @_git_clean);
+  print deploy_matcher($_target);
 
-} elsif (chk_flag($_func, "git_rm")  ) {
-  print general_matcher($_target, @_git_rm);
+} elsif (chk_flag($_func, "git_clean_help")  ) {
+  print deployer_help_matcher($_target, %_git_clean_help_hash);
 
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);

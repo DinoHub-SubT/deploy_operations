@@ -24,8 +24,13 @@ __subt_git_execute() {
       _run_deployer "rm.$cmd"
     done
 
-  elif chk_flag status $@ || chk_flag sync $@  \
-    || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@ || chk_flag add $@; then
+  elif chk_flag clean $@; then
+    shift 2 # shift 'git clone'
+    for cmd in "$@"; do
+      _run_deployer "clean.$cmd"
+    done
+
+  elif chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
     shift 1 # shift the 'git' token
     ($GL_BIN_AUTOMATE_DIR/git.bash $@)
   elif chk_flag help $@; then

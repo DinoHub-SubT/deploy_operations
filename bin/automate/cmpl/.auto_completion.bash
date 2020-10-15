@@ -31,6 +31,14 @@ _ac_subt_completion() {
   local _curr=${COMP_WORDS[COMP_CWORD]}
   local _prev=${COMP_WORDS[COMP_CWORD-1]}
 
+  # a finished subcommand argument does not have a trailing '.'
+  #   - if so, then reset prev to the subcommand name.
+  if [ $COMP_CWORD -gt 1 ]; then
+    if [ ! ${_prev: -1} == "." ]; then
+      local _prev=${COMP_WORDS[2]}
+    fi
+  fi
+
   # first level menu: 'subt'
   if [ $COMP_CWORD = 1 ]; then
     ! __matcher "subt" $_curr && __ac_subt_help
@@ -74,7 +82,7 @@ _ac_subt_completion() {
       elif chk_flag reset "${COMP_WORDS[@]}"; then
         ! __matcher "git_reset" "$_curr" && __ac_git_reset_submenu_help $_prev
       elif chk_flag clean "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clean" "$_curr" && __ac_git_clean_help
+        ! __matcher "git_clean" "$_curr" && __ac_git_clean_submenu_help $_prev
       elif chk_flag rm "${COMP_WORDS[@]}"; then
         ! __matcher "git_rm" "$_curr" && __ac_git_rm_submenu_help $_prev
       fi
