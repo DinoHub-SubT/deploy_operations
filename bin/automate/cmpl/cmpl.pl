@@ -13,7 +13,7 @@ use lib dirname (__FILE__);
 
 use cmpl_header;
 use cmpl_deployer;
-use cmpl_git;
+use cmpl_git_clone;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief [TAB] autocompletion matcher functionality
@@ -22,7 +22,12 @@ use cmpl_git;
 # @brief covert the array to hashmap
 my %_deployer_help_hash = map {
   $_->{id} => { help => $_->{help} }
-} @_help_array;
+} @_deployer_help_array;
+
+my %_git_clone_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_git_clone_help;
+
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -76,10 +81,11 @@ sub deploy_matcher {
 
 # @brief match the deployer help message id with its usage string message
 sub find_deployer_help_usage {
-  my ($_str) = @_, $_result;
-  foreach my $_help (keys %_deployer_help_hash) {
+  my ($_str, %_help_usage) = @_, $_result;
+
+  foreach my $_help (keys %_help_usage) {
     if ( $_help eq $_str ) {
-      my $_usage = $_deployer_help_hash{$_help}->{help};
+      my $_usage = $_help_usage{$_help}->{help};
       if (! $_usage eq "") { return $_usage; }
     }
   }
@@ -88,7 +94,7 @@ sub find_deployer_help_usage {
 
 # @brief match the deployer help usage message
 sub deployer_help_matcher {
-  my ($_target) = @_, $_match;
+  my ($_target, %_help_usage) = @_, $_match;
   my $_prefix = help_pregex($_target);  # get the largest prefix (i.e. all tokens before the last '.')
   remove_trail_dot($_prefix);           # remove trailing '.'
   # find the first suffix of given tab-completed token
@@ -97,14 +103,14 @@ sub deployer_help_matcher {
   while ( ! $_suffix eq "" ) {  # get the next suffix, increasing the token by the next suffix
     remove_lead_dot($_suffix);  # remove leading '.'
     # find the help associated with the suffix
-    my $_usage = find_deployer_help_usage($_suffix);
+    my $_usage = find_deployer_help_usage($_suffix, %_help_usage);
     # return help usage message -- if usage message was matched
     if (! $_usage eq "") { return $_usage; }
     # set the next suffix
     $_suffix = help_sregex($_prefix, ++$_dot_counter);
   }
   if ($_prefix eq "") { $_prefix = $_target; }
-  return find_deployer_help_usage($_prefix);
+  return find_deployer_help_usage($_prefix, %_help_usage);
 }
 
 # @brief match the suffix of the target token
@@ -149,7 +155,12 @@ if (chk_flag($_func, "subt")  ) {
   print general_matcher($_target, @_git_add);
 
 } elsif (chk_flag($_func, "git_clone")  ) {
-  print general_matcher($_target, @_git_clone);
+  my $_match = deploy_matcher($_target, @_git_clone);
+  print deploy_matcher($_target);
+
+} elsif (chk_flag($_func, "git_clone_help")  ) {
+  # print "what is this?? ", $_deployer_local_help;
+  print deployer_help_matcher($_target, %_git_clone_help_hash);
 
 } elsif (chk_flag($_func, "git_reset")  ) {
   print general_matcher($_target, @_git_reset);
@@ -177,7 +188,7 @@ if (chk_flag($_func, "subt")  ) {
   # print $_, "\n" for split ' ', "$_match";
   print deploy_matcher($_target);
 } elsif (chk_flag($_func, "deployer_help") ) {
-  print deployer_help_matcher($_target);
+  print deployer_help_matcher($_target, %_deployer_help_hash);
 } else {
   print "";  # return empy string on failure
 }

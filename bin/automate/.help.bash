@@ -11,7 +11,7 @@ __ac_subt_help() {
     "About: 4... You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
     "About: 5... [TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
     "About: 6... Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
-    "About: 7... == You Options Are =="
+    "About: 7... == Your Options Are =="
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
@@ -56,7 +56,7 @@ __ac_git_help() {
     "About: 1... git helper scripts, for automating git commands over the 3-level deploy repo structure."
     "About: 2... example, 'status' runs a 'git fetch -all' for all the submodules, for a given intermediate meta repo."
     "About: 3... tab complete each subcommand to see what arguments are available."
-    "About: 4... == You Options Are =="
+    "About: 4... == Your Options Are =="
     "status   : show the general git info for every submodule (all three levels)."
     "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
     "add      : adds the uncommitted changes for intermediate repos."
@@ -104,7 +104,7 @@ __ac_cloud_help() {
   local usage=(
     "About: 1... cloud scripts for automating Azure cloud system setup."
     "About: 2... tab complete each subcommand to see what arguments are available."
-    "About: 3... == You Options Are =="
+    "About: 3... == Your Options Are =="
     "ansible      : ansible scripts, for installing base system packages on the Azure VMs."
     "terraform    : terraform scripts, for creating & starting the Azure VMs and other Azure resources."
   )
@@ -121,7 +121,7 @@ __ac_tools_help() {
     "About: 1... general helper scripts, can be used for robots or azure setups."
     "About: 2... tab complete each subcommand to see what arguments are available."
     "About: 3... Please add 'help' for each command to see more details on usage information."
-    "About: 3... == You Options Are =="
+    "About: 3... == Your Options Are =="
     "shh          : shows which configured ssh connections are are available to connect."
     "teamviewer   : shows which teamviewer connections are are available to connect."
     "rdp          : establish a rdp (rdesktop) session with an Azure VM."
@@ -139,7 +139,7 @@ __ac_git_status_help() {
   local usage=(
     "About: 1... shows a short summary of its git status for all submodules."
     "About: 2... shows a short summary of 'dirty' submodules for any given meta repos."
-    "About: 3... == You Options Are =="
+    "About: 3... == Your Options Are =="
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -179,7 +179,7 @@ __status_help() {
 __ac_git_sync_help() {
   local usage=(
     "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -229,7 +229,7 @@ __sync_help() {
 __ac_git_add_help() {
   local usage=(
     "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -272,7 +272,7 @@ __add_help() {
 __ac_git_clone_help() {
   local usage=(
     "About: 1... clones all the submodules inside the intermediate level repo."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -321,7 +321,7 @@ __clone_help() {
 __ac_git_reset_help() {
   local usage=(
     "About: 1... resets all the submodules inside the intermediate level repo to their DETACHED HEAD."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -372,7 +372,7 @@ __reset_help() {
 __ac_git_clean_help() {
   local usage=(
     "About: 1... cleans all the submodules inside the intermediate level repo to their DETACHED HEAD."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -413,7 +413,7 @@ __clean_help() {
 __ac_git_rm_help() {
   local usage=(
     "About: 1... removes all the submodules inside the intermediate level repo to their DETACHED HEAD."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "base               : all the base intermediate repos. Use -p to preview which intermediate repos will be cloned."
     "basestation        : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common             : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -484,7 +484,7 @@ __ac_cloud_ansible_help() {
 __ac_cloud_terra_help() {
   local usage=(
     "About: 1... Please add 'help' for each command to see more details on usage information."
-    "About: 2... == You Options Are =="
+    "About: 2... == Your Options Are =="
     "init     : initializes subt's terraform setup with the correct tfstate file"
     "cert     : creates the vpn ca and user certifcations for creating an Azure VPN connection"
     "plan     : terraform plan (dry run) args are passed to terraform."
@@ -516,7 +516,7 @@ __ac_deploy_help() {
     "About: 6...    - transferring code to remote system (azure or robots)"
     "About: 7...    - catkin build & clean the different (already pre-configured) catkin profile workspaces."
     "About: 8... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)"
-    "About: 9... == You Options Are =="
+    "About: 9... == Your Options Are =="
     "azure      : deploys subt on azure cloud."
     "robots     : deploys subt on harware ugv & uav robots."
     "local      : deploys subt on your localhost."
@@ -529,6 +529,20 @@ __ac_deploy_help() {
 __ac_deploy_submenu_help() {
   local _prev=$1
   local _result=$(perl $GL_CMPL_DIR/cmpl.pl "deployer_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
+
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
+}
+
+__ac_git_clone_submenu_help() {
+  local _prev=$1
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "git_clone_help" "$_prev")
   # split resulting string based on newlines
   SAVEIFS=$IFS        # save current IFS, so we can revert back to it
   IFS=$'\n'           # change IFS to split on new lines

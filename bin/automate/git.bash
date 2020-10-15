@@ -367,12 +367,6 @@ elif chk_flag sync $@ ; then
   # show git status for all the given intermediate level repos
   [ $_nargs -eq 0 ] && _sync_traverse basestation common perception ugv uav simulation subt_launch || _sync_traverse $@
 
-elif chk_flag clone $@ ; then
-  shift
-  _nargs=$#
-  # reset the submodules for all the given intermediate level repos
-  [ $_nargs -eq 0 ] && _clone_traverse basestation common perception ugv uav simulation subt_launch || _clone_traverse $@
-
 elif chk_flag add $@ ; then
   shift
   _nargs=$#

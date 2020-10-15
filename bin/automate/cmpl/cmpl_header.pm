@@ -16,7 +16,6 @@ our @EXPORT_OK = qw(
   @_git_status
   @_git_sync
   @_git_add
-  @_git_clone
   @_git_reset
   @_git_clean
   @_git_rm
@@ -38,7 +37,6 @@ our @EXPORT = qw(
   @_git_status
   @_git_sync
   @_git_add
-  @_git_clone
   @_git_reset
   @_git_clean
   @_git_rm
@@ -59,7 +57,6 @@ our (
   @_git_status,
   @_git_sync,
   @_git_add,
-  @_git_clone,
   @_git_reset,
   @_git_clean,
   @_git_rm,
@@ -83,10 +80,6 @@ our (
                       "ugv", "uav", "help" );
 
 @_git_add      = ( "basestation", "common", "perception", "simulation", "ugv", "uav", "help" );
-
-@_git_clone    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
-                      "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",
-                      "uav.hardware", "help");
 
 @_git_reset    = ( "base", "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "ugv.base", "ugv.hardware", "ugv.slam", "uav", "uav.core", "uav.slam",

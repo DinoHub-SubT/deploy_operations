@@ -128,3 +128,10 @@ _git_branches(){
 chk_eq() {
   [ "$1" = "$2" ] && return 0 || return 1
 }
+
+_run_deployer() {
+  __dir=$(pwd)
+  cd "$SUBT_PATH/"
+  ./deployer -s $@
+  cd $__dir
+}

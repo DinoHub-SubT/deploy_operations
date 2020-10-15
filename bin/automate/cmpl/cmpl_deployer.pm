@@ -24,7 +24,7 @@ our @EXPORT_OK = qw(
   $_deployer_commands_docker_help
   $_deployer_commands_catkin_help
   $_deployer_localhost_commands_help
-  @_help_array
+  @_deployer_help_array
 );
 
 # these are exported by default.
@@ -42,7 +42,7 @@ our @EXPORT = qw(
   $_deployer_commands_docker_help
   $_deployer_commands_catkin_help
   $_deployer_localhost_commands_help
-  @_help_array
+  @_deployer_help_array
 );
 
 our (
@@ -59,7 +59,7 @@ our (
   $_deployer_commands_docker_help,
   $_deployer_commands_catkin_help,
   $_deployer_localhost_commands_help,
-  @_help_array
+  @_deployer_help_array
 );
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -524,7 +524,7 @@ About: 1... deploys subt to localhost.
 About: 2... your localhost runs the different parts of the system, in their own containers.
 About: 4... this includes ugv (ground robot), uav (drone), basestation (gui) and perception (objdet).
 About: 6... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 7... == You Options Are ==
+About: 7... == Your Options Are ==
 ugv          : deployment subt ugv on azure VMs.
 uav          : deployment subt uav on azure VMs.
 basestation  : deployment subt basestation on azure VMs.
@@ -537,7 +537,7 @@ About: 2... different VMs run different parts of the system.
 About: 4... this includes ugv (ground robot), uav (drone), basestation (gui) and perception (objdet).
 About: 5... the different systems run their own gazebo, rviz, etc, but can all communication with each other.
 About: 6... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 7... == You Options Are ==
+About: 7... == Your Options Are ==
 ugv          : deployment subt ugv on azure VMs.
 uav          : deployment subt uav on azure VMs.
 basestation  : deployment subt basestation on azure VMs.
@@ -547,7 +547,7 @@ $_deployer_azure_ugv_help = ("
 About: 1... deploys subt to any one of the remote 'ground robot' Azure VMs.
 About: 2... the same deploy is installed on all ground robot VMs.
 About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 4... == You Options Are ==
+About: 4... == Your Options Are ==
 Options:
 ugv1       : deployment subt on ugv1 Azure VM.
 ugv2       : deployment subt on ugv2 Azure VM.
@@ -557,7 +557,7 @@ $_deployer_azure_uav_help = ("
 About: 1... deploys subt to any one of the remote 'drone' Azure VMs.
 About: 2... the same deploy is installed on all drone VMs.
 About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 4... == You Options Are ==
+About: 4... == Your Options Are ==
 uav1       : deployment subt on uav1 Azure VM.
 uav2       : deployment subt on uav2 Azure VM.
 uav3       : deployment subt on uav3 Azure VM.
@@ -569,7 +569,7 @@ About: 1... deploys subt to one of the remote hardware robots or laptop basestat
 About: 2... different types of robots (and basestation) run different parts of the code.
 About: 3... the same deploy is installed on all systems.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 5... == You Options Are ==
+About: 5... == Your Options Are ==
 basestation  : deployment subt on basestation.
 ugv          : deployment subt on ugv hardware robots.
 uav          : deployment subt on uav hardware robots."
@@ -579,7 +579,7 @@ About: 1... deploys subt to any one of the remote hardware ground robots.
 About: 2... the ugvs have 3 different computers, to run different parts of the system.
 About: 3... the same deploy is installed on all ground robots.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 5... == You Options Are ==
+About: 5... == Your Options Are ==
 ugv1       : deployment subt on ugv1 robot.
 ugv2       : deployment subt on ugv2 robot.
 ugv3       : deployment subt on ugv3 robot."
@@ -588,7 +588,7 @@ $_deployer_robots_uav_help = ("
 About: 1... deploys subt to any one of the remote hardware drones.
 About: 2... the same deploy is installed on all drone robots.
 About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 4... == You Options Are ==
+About: 4... == Your Options Are ==
 ds1       : deployment subt on ds1 robot.
 ds2       : deployment subt on ds2 robot.
 ds3       : deployment subt on ds3 robot.
@@ -602,7 +602,7 @@ About: 4... nuc runs state estimation stack.
 About: 5... xavier runs perception stack.
 About: 6... all three computers can communication with each other and can reach the basestation.
 About: 7... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 8... == You Options Are ==
+About: 8... == Your Options Are ==
 ppc       : ppc ugv robot computer (hardware, planning, comms).
 nuc       : nuc ugv robot computer (state estimation).
 xavier    : xavier ugv robot computer (perception)."
@@ -611,7 +611,7 @@ xavier    : xavier ugv robot computer (perception)."
 $_deployer_commands_help = ("
 About: 1... general deployment operations commands.
 About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 3... == You Options Are ==
+About: 3... == Your Options Are ==
 transfer.to  : transfers code from localhost to remote system (just an rsync).
 skel_t.to    : transfers code (slim & faster -- no .git transfer) from localhost to remote system.
 docker       : automated docker setup such as containers, images, registry pull.
@@ -622,7 +622,7 @@ About: 1... general docker operation commands.
 About: 2... you can add -p (preview) to show which deployment commands that will run.
 About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 5... == You Options Are ==
+About: 5... == Your Options Are ==
 shell                     : builds the docker image directly on the system.
 shell                     : starts the docker container on the remote or local system.
 rm                        : removes the docker container on the remote or local system.
@@ -635,20 +635,20 @@ About: 1... general catkin operation commands.
 About: 2... you can add -p (preview) to show which deployment commands that will run.
 About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 5... == You Options Are ==
+About: 5... == Your Options Are ==
 build                     : catkin build (catkin profile workspace already pre-configured).
 clean                     : catkin clean (catkin profile workspace already pre-configured)."
 );
 $_deployer_localhost_commands_help = ("
 About: 1... general deployment operations commands.
 About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
-About: 3... == You Options Are ==
+About: 3... == Your Options Are ==
 docker       : automated docker setup such as containers, images, registry pull.
 catkin       : automated catkin build & clean for all catkin profiled workspaces."
 );
 
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
-@_help_array = ({
+@_deployer_help_array = ({
   id      => "local",
   help    => $_deployer_local_help,
 },{

@@ -5,9 +5,16 @@
 . "$SUBT_PATH/operations/bin/automate/.header.bash"
 . "$SUBT_PATH/operations/bin/automate/cmpl/.auto_completion.bash"
 
+
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
-  if chk_flag status $@ || chk_flag sync $@ || chk_flag clone $@ \
+  if chk_flag clone $@; then
+    shift 2 # shift 'git clone'
+    for cmd in "$@"; do
+      _run_deployer "clone.$cmd"
+    done
+
+  elif chk_flag status $@ || chk_flag sync $@  \
     || chk_flag reset $@ || chk_flag clean $@  || chk_flag rm $@ || chk_flag add $@; then
     shift 1 # shift the 'git' token
     ($GL_BIN_AUTOMATE_DIR/git.bash $@)

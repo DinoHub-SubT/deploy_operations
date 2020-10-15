@@ -70,7 +70,7 @@ _ac_subt_completion() {
       elif chk_flag add "${COMP_WORDS[@]}"; then
         ! __matcher "git_add" "$_curr" && __ac_git_add_help
       elif chk_flag clone "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clone" "$_curr" && __ac_git_clone_help
+        ! __matcher "git_clone" "$_curr" && __ac_git_clone_submenu_help $_prev
       elif chk_flag reset "${COMP_WORDS[@]}"; then
         ! __matcher "git_reset" "$_curr" && __ac_git_reset_help
       elif chk_flag clean "${COMP_WORDS[@]}"; then
