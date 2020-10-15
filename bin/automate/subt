@@ -14,27 +14,27 @@ __subt_git_execute() {
       _run_deployer "clone.$cmd"
     done
   elif chk_flag reset $@; then
-    shift 2 # shift 'git clone'
+    shift 2 # shift 'git reset'
     for cmd in "$@"; do
       _run_deployer "rm.$cmd"
-      _run_deployer "init.$cmd"
+      # _run_deployer "init.$cmd"
       _run_deployer "clone.$cmd"
     done
   elif chk_flag rm $@; then
-    shift 2 # shift 'git clone'
+    shift 2 # shift 'git rm'
     for cmd in "$@"; do
       _run_deployer "rm.$cmd"
     done
 
   elif chk_flag clean $@; then
-    shift 2 # shift 'git clone'
+    shift 2 # shift 'git clean'
     for cmd in "$@"; do
       _run_deployer "clean.$cmd"
     done
 
   elif chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
     shift 1 # shift the 'git' token
-    ($GL_BIN_AUTOMATE_DIR/git.bash $@)
+    ($GL_BIN_AUTOMATE_DIR/cmpl/git.bash $@)
   elif chk_flag help $@; then
     __git_help
   fi
@@ -104,7 +104,6 @@ __subt_tools_execute() {
   elif chk_flag snapshot $@; then
     shift 2 # shift the 'tools', 'snapshot' tokens
     (subtu_snapshot $@)
-
   fi
 }
 
@@ -121,7 +120,7 @@ subt() {
   # execute 'git subt' subcommand
   elif chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
-    ($GL_BIN_AUTOMATE_DIR/deployer.bash $@)
+     _run_deployer "$@"
 
   elif chk_nth_flag 1 "cloud" "$@"; then
     __subt_cloud_execute $@
