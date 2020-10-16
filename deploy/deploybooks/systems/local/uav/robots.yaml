@@ -22,7 +22,7 @@
       - +extend: systems/local/uav/vm/compose
     - catkin:
       - core:
-        - +docker:uav-superodometry-shell
+        - +docker:uav-superodometry-cpu-shell
         - +extend: systems/local/uav/vm/catkin-core
       - perception:
         - +docker:uav-perception-cpu-shell

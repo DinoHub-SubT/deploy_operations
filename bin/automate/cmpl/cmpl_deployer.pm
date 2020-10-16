@@ -87,6 +87,7 @@ our (
   # uav
   "local.uav.cpu.catkin.px4",
   "local.uav.cpu.catkin.core.build",
+  "local.uav.cpu.catkin.core.clean",
   "local.uav.cpu.catkin.perception.build",
   "local.uav.cpu.catkin.clean",
   "local.uav.cpu.docker.image.core",
@@ -106,6 +107,7 @@ our (
 
   "local.uav.gpu.catkin.px4",
   "local.uav.gpu.catkin.core.build",
+  "local.uav.gpu.catkin.core.clean",
   "local.uav.gpu.catkin.perception.build",
   "local.uav.gpu.catkin.clean",
   "local.uav.gpu.docker.image.core",
