@@ -5,10 +5,14 @@
   # ////////////////////////////////////////////////////////////////////////////
   - image:
   # ////////////////////////////////////////////////////////////////////////////
-    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
-    - docker-compose-wrapper $scenario build --force-rm uav-$deploy_system_type-image
-    - docker-compose-wrapper $scenario build --force-rm ros-perception-$deploy_system_type-image
-    - docker-compose-wrapper $scenario build --force-rm uav-perception-$deploy_system_type-image
+    - core:
+      - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+      - docker-compose-wrapper $scenario build --force-rm uav-$deploy_system_type-image
+    - perception:
+      - docker-compose-wrapper $scenario build --force-rm ros-perception-$deploy_system_type-image
+      - docker-compose-wrapper $scenario build --force-rm uav-perception-$deploy_system_type-image
+    - super:
+      - docker-compose-wrapper $scenario build --force-rm uav-superodometry-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
 
@@ -17,9 +21,13 @@
   # ////////////////////////////////////////////////////////////////////////////
     # starting docker containers
     - shell:
-      # - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
-      - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
-      - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-perception-$deploy_system_type-shell
+      - core:
+        # - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
+        - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
+      - perception:
+        - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-perception-$deploy_system_type-shell
+      - super:
+        - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-superodometry-$deploy_system_type-shell
     # stopping containers
     - stop:
       - docker stop $(docker ps -a -q)
@@ -31,36 +39,3 @@
   - daemon:
     - sudo systemctl restart docker
     - docker rm -f $(docker ps -a -q)
-
-  # ////////////////////////////////////////////////////////////////////////////
-  - registry:
-  # ////////////////////////////////////////////////////////////////////////////
-
-    # pull images from the docker registry
-    - pull:
-      # pull the uav docker images from the laptop local registry
-      - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-ros
-      - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-uav
-      - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-ros
-      - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-uav
-      # pull the perception docker images from the laptop local registry
-      - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-ros
-      - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-0.1
-
-      # tag the uav docker images
-      - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-      - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-      - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-      - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
-      # tag the perception docker images
-      - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
-      - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
-
-      # remove the uav docker docker registry images
-      - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-ros
-      - docker rmi $BASESTATION_REGISTRY/subt-uav-gpu-uav
-      - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-ros
-      - docker rmi $BASESTATION_REGISTRY/subt-uav-cpu-uav
-      # remove the perception docker docker registry images
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-ros
-      - docker rmi $BASESTATION_REGISTRY/subt-perception-cpu-0.1

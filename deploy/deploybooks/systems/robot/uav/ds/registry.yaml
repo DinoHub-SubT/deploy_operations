@@ -9,89 +9,89 @@
     # //////////////////////////////////////////////////////////////////////////
     - azure:
     # //////////////////////////////////////////////////////////////////////////
-
-      # pull images from the docker registry
+      # use default docker context
+      - docker context use $DCTX
       - pull:
-        # change the docker context to the ugv azure docker daemon
-        - docker context use $DCTX
-        # pull the uav docker images from the laptop local registry
-        - docker pull $AZURE_REGISTRY/subt-uav-gpu-ros
-        - docker pull $AZURE_REGISTRY/subt-uav-gpu-uav
-        - docker pull $AZURE_REGISTRY/subt-uav-cpu-ros
-        - docker pull $AZURE_REGISTRY/subt-uav-cpu-uav
-        # pull the perception docker images from the laptop local registry
-        - docker pull $AZURE_REGISTRY/subt-perception-cpu-ros
-        - docker pull $AZURE_REGISTRY/subt-perception-cpu-0.1
+        - core:
+          # pull from the azure registry
+          - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros
+          - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav
+          - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros subt/uav-$deploy_system_type:ros
+          - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-uav subt/uav-$deploy_system_type:uav
+        - perception:
+          - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+          - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception
+          - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-ros-perception  subt/uav-$deploy_system_type:ros-perception
+          - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-perception      subt/uav-$deploy_system_type:perception
+        - super:
+          - docker pull $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry
+          - docker tag  $AZURE_REGISTRY/subt-uav-$deploy_system_type-superodometry subt/uav-$deploy_system_type:superodometry
 
-        # tag the uav docker images
-        - docker tag $AZURE_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-        - docker tag $AZURE_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-        - docker tag $AZURE_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-        - docker tag $AZURE_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
-        # tag the perception docker images
-        - docker tag $AZURE_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
-        - docker tag $AZURE_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
-
-        # remove the azure docker images
-        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
-        # show the docker images
-        - docker images
-        # change the docker context back to the default docker daemon
-        - docker context use default
+      # remove the azure docker images
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      # show the docker images
+      - docker images
+      # change the docker context back to the default docker daemon
+      - docker context use default
 
     # //////////////////////////////////////////////////////////////////////////
     - basestation:
     # //////////////////////////////////////////////////////////////////////////
-
-      # pull images from the docker registry
+      # use default docker context
+      - docker context use default
+      - docker context ls
       - pull:
-        - docker context use default
-        - docker context ls
-        # tag the docker images on the basestation registry
-        - docker tag subt/uav-gpu:ros $BASESTATION_REGISTRY/subt-uav-gpu-ros
-        - docker tag subt/uav-gpu:uav $BASESTATION_REGISTRY/subt-uav-gpu-uav
-        - docker tag subt/uav-cpu:ros $BASESTATION_REGISTRY/subt-uav-cpu-ros
-        - docker tag subt/uav-cpu:uav $BASESTATION_REGISTRY/subt-uav-cpu-uav
-        # tag the perception docker images
-        - docker tag subt/perception-cpu:ros $BASESTATION_REGISTRY/subt-perception-cpu-ros
-        - docker tag subt/perception-cpu:0.1 $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+        - core:
+          # tag the local images as basestation registry
+          - docker tag subt/uav-$deploy_system_type:ros $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros
+          - docker tag subt/uav-$deploy_system_type:uav $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-uav
+          # push to local basestation docker registry
+          - docker push $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros
+          - docker push $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-uav
+          # change the docker context to the uav azure docker daemon
+          - docker context use $DCTX
+          # pull the uav docker images from the laptop local registry to the robot
+          - docker pull $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros
+          - docker pull $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-uav
+          # tag the uav docker images on the robot
+          - docker tag $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros subt/uav-$deploy_system_type:ros
+          - docker tag $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-uav subt/uav-$deploy_system_type:uav
 
-        # push to local docker registry
-        - docker push $BASESTATION_REGISTRY/subt-uav-gpu-ros
-        - docker push $BASESTATION_REGISTRY/subt-uav-gpu-uav
-        - docker push $BASESTATION_REGISTRY/subt-uav-cpu-ros
-        - docker push $BASESTATION_REGISTRY/subt-uav-cpu-uav
-        # tag the perception docker images
-        - docker push $BASESTATION_REGISTRY/subt-perception-cpu-ros
-        - docker push $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+        - perception:
+          # tag the local images as basestation registry
+          - docker tag subt/uav-$deploy_system_type:ros-perception  $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+          - docker tag subt/uav-$deploy_system_type:perception      $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-perception
+          # push to local basestation docker registry
+          - docker push $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+          - docker push $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-perception
+          # change the docker context to the uav azure docker daemon
+          - docker context use $DCTX
+          # pull the uav docker images from the laptop local registry to the robot
+          - docker pull $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros-perception
+          - docker pull $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-perception
+          # tag the uav docker images on the robot
+          - docker tag $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-ros-perception  subt/uav-$deploy_system_type:ros-perception
+          - docker tag $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-perception      subt/uav-$deploy_system_type:perception
 
-        # change the docker context to the uav azure docker daemon
-        - docker context use $DCTX
-        # pull the uav docker images from the laptop local registry
-        - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-ros
-        - docker pull $BASESTATION_REGISTRY/subt-uav-gpu-uav
-        - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-ros
-        - docker pull $BASESTATION_REGISTRY/subt-uav-cpu-uav
-        # pull the perception docker images from the laptop local registry
-        - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-ros
-        - docker pull $BASESTATION_REGISTRY/subt-perception-cpu-0.1
+        - super:
+          # tag the local images as basestation registry
+          - docker tag subt/uav-$deploy_system_type:superodometry $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-superodometry
+          # push to local basestation docker registry
+          - docker push $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-superodometry
+          # change the docker context to the uav azure docker daemon
+          - docker context use $DCTX
+          # pull the uav docker images from the laptop local registry to the robot
+          - docker pull $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-superodometry
+          # tag the uav docker images on the robot
+          - docker tag $BASESTATION_REGISTRY/subt-uav-$deploy_system_type-superodometry subt/uav-$deploy_system_type:superodometry
 
-        # tag the uav docker images
-        - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-ros subt/uav-gpu:ros
-        - docker tag $BASESTATION_REGISTRY/subt-uav-gpu-uav subt/uav-gpu:uav
-        - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-ros subt/uav-cpu:ros
-        - docker tag $BASESTATION_REGISTRY/subt-uav-cpu-uav subt/uav-cpu:uav
-        # tag the perception docker images
-        - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-ros subt/perception-cpu:ros
-        - docker tag $BASESTATION_REGISTRY/subt-perception-cpu-0.1 subt/perception-cpu:0.1
+      # remove the basestation docker images (on the current docker context)
+      - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
 
-        # remove the basestation docker images
-        - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      # show the docker images
+      - docker images
+      # change the docker context back to the default docker daemon
+      - docker context use default
 
-        # show the docker images
-        - docker images
-        # change the docker context back to the default docker daemon
-        - docker context use default
-
-        # remove the basestation docker images
-        - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      # remove the basestation docker images
+      - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
