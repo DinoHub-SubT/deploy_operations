@@ -59,9 +59,9 @@ our (
   "basestation.laptop.uav.core",
   "basestation.laptop.uav.hardware",
   "basestation.laptop.simulation",
-  "slam.ugv.slam.devel",
-  "slam.ugv.slam.robot",
-  "slam.uav.slam"
+  "slam.ugv.devel",
+  "slam.ugv.robot",
+  "slam.uav"
 );
 
 $_deployer_system_help = ("

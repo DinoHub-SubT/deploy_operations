@@ -23,8 +23,6 @@
       - +extend: common/transfer
       - +extend: common/skel_t
       - ds:
-        - registry:
-          - +extend: systems/robot/uav/ds/registry
         - compose:
           - +ssh:{ uav.ds1 }
           - +extend: systems/robot/uav/ds/compose

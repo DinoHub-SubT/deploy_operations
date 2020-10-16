@@ -59,9 +59,9 @@ our (
   "basestation.laptop.uav.core",
   "basestation.laptop.uav.hardware",
   "basestation.laptop.simulation",
-  "slam.ugv.slam.devel",
-  "slam.ugv.slam.robot",
-  "slam.uav.slam"
+  "slam.ugv.devel",
+  "slam.ugv.robot",
+  "slam.uav"
 );
 
 $_deployer_system_help = ("
@@ -160,11 +160,8 @@ slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
   id      => "localhost",
   help    => $_deployer_localhost_help,
 },{
-  id      => "reset.localhost.ugv",
+  id      => "localhost.ugv",
   help    => $_deployer_ugv_help,
-},{
-  id      => "slam",
-  help    => $_deployer_slam_help,
 },{
   id      => "slam",
   help    => $_deployer_slam_help,
