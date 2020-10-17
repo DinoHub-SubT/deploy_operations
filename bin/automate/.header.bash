@@ -130,8 +130,11 @@ chk_eq() {
 }
 
 _run_deployer() {
-  __dir=$(pwd)
+  local _dir=$(pwd)
+  local _cmd=$1
+  local _opts=$2
   cd "$SUBT_PATH/"
-  ./deployer -s $@
+  local deployer_cmd="./deployer "$_opts" -s $_cmd"
+  eval $deployer_cmd
   cd $__dir
 }

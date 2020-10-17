@@ -20,39 +20,50 @@ fi
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
   # TODO: check if has -p or -v for preview and verbose
+  local _opts=""
+  chk_flag -p $@ && _opts="$_opts -p"
+  chk_flag -v $@ && _opts="$_opts -v"
+
   if chk_flag clone $@; then
-    shift 2 # shift 'git clone'
+    shift 2
     for cmd in "$@"; do
-      _run_deployer "clone.$cmd"
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "clone.$cmd" "$_opts"
     done
+
   elif chk_flag reset $@; then
-    shift 2 # shift 'git reset'
+    shift 2
     for cmd in "$@"; do
-      _run_deployer "rm.$cmd"
-      # _run_deployer "init.$cmd"
-      _run_deployer "clone.$cmd"
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "rm.$cmd" "$_opts"
+      _run_deployer "clone.$cmd" "$_opts"
     done
+
   elif chk_flag rm $@; then
-    shift 2 # shift 'git rm'
+    shift 2
     for cmd in "$@"; do
-      _run_deployer "rm.$cmd"
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "rm.$cmd" "$_opts"
     done
 
   elif chk_flag clean $@; then
-    shift 2 # shift 'git clean'
+    shift 2
     for cmd in "$@"; do
-      _run_deployer "clean.$cmd"
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "clean.$cmd" "$_opts"
     done
 
   elif chk_flag pull $@; then
-    shift 2 # shift 'git pull'
+    shift 2
     for cmd in "$@"; do
-      _run_deployer "pull.$cmd"
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "pull.$cmd" "$_opts"
     done
 
   elif chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
-    shift 1 # shift the 'git' token
+    shift 1
     ($GL_BIN_AUTOMATE_DIR/cmpl/git.bash $@)
+
   elif chk_flag help $@; then
     __git_help
   fi
