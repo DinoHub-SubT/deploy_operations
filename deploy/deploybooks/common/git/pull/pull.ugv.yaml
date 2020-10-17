@@ -1,0 +1,10 @@
+- ugv:
+  - cd ugv
+  - ppc:
+    - cd planning-pc/
+    - git submodule update --init --recursive .
+    - git clean -d -f -f
+  - nuc:
+    - cd nuc
+    - git submodule update --init --recursive .
+    - git clean -d -f -f

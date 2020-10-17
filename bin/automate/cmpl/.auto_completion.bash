@@ -81,6 +81,8 @@ _ac_subt_completion() {
         ! __matcher "git_clone" "$_curr" && __ac_git_clone_submenu_help $_prev
       elif chk_flag reset "${COMP_WORDS[@]}"; then
         ! __matcher "git_reset" "$_curr" && __ac_git_reset_submenu_help $_prev
+      elif chk_flag pull "${COMP_WORDS[@]}"; then
+        ! __matcher "git_pull" "$_curr" && __ac_git_pull_submenu_help $_prev
       elif chk_flag clean "${COMP_WORDS[@]}"; then
         ! __matcher "git_clean" "$_curr" && __ac_git_clean_submenu_help $_prev
       elif chk_flag rm "${COMP_WORDS[@]}"; then

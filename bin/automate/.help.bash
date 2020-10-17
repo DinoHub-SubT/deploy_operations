@@ -64,6 +64,7 @@ __ac_git_help() {
     "rm       : removes intermediate repo or submodules."
     "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
     "clean    : clean an intermediate or submodule repo ."
+    "pull     : pulls the submodules updates in the intermediate repos (equivalent to 'git submoudle update --init --recursive')."
     # "pr       : Create a pull request for top & intermeidate repo branches."
     "help, -h : view help usage message."
   )
@@ -82,6 +83,7 @@ __git_help() {
   text_color "clone    : clones or resets intermediate repo or submodules."
   text_color "clean    : clean an intermediate or submodule repo."
   text_color "add      : adds the uncommitted changes for intermediate repos."
+  text_color "pull     : pulls (recursive) the submodules."
   # text_color "pr       : create a pull request for top & intermeidate repo branches."
   text_color "help     : view help usage message."
   text_color
@@ -374,6 +376,20 @@ __ac_git_clone_submenu_help() {
 __ac_git_reset_submenu_help() {
   local _prev=$1
   local _result=$(perl $GL_CMPL_DIR/cmpl.pl "git_reset_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
+
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
+}
+
+__ac_git_pull_submenu_help() {
+  local _prev=$1
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "git_pull_help" "$_prev")
   # split resulting string based on newlines
   SAVEIFS=$IFS        # save current IFS, so we can revert back to it
   IFS=$'\n'           # change IFS to split on new lines

@@ -1,0 +1,9 @@
+- simulation:
+  - cd simulation
+  - git submodule update --recursive --init .
+  - git clean -d -f -f
+  # git lfs steps
+  - cd subt_gazebo
+  - git lfs fetch
+  - git lfs pull
+  - git lfs install

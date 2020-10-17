@@ -78,96 +78,35 @@
   # clones the submodules to what the branch in the intermediate repo is set to.
   - pull:
   # ////////////////////////////////////////////////////////////////////////
-    - extras:
-      - simulation:
-        - cd simulation
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        # git lfs steps
-        - cd subt_gazebo
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
 
-      - uav:
-        - cd uav
-        - slam:
-          - cd slam
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/pull/pull.base
+      - +extend: common/git/pull/pull.simulation
+      - +extend: common/git/pull/pull.ugv
+      - +extend: common/git/pull/pull.uav
 
-      - ugv:
-        - cd ugv
-        - hardware:
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-        - slam:
-          - devel:
-            - cd slam/devel
-            - git submodule update --init --recursive .
-            - git clean -d -f -f
-          - robot:
-            - cd slam/robot
-            - git submodule update --init --recursive .
-            - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/pull/pull.base
+        - +extend: common/git/pull/pull.ugv
+        - +extend: common/git/pull/pull.ugv.hardware
+        - +extend: common/git/pull/pull.uav
+        - +extend: common/git/pull/pull.simulation
 
-    - base:
-      - basestation:
-        - cd basestation
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
+      - laptop:
+        - +extend: common/git/pull/pull.base
+        - +extend: common/git/pull/pull.uav
+        - +extend: common/git/pull/pull.simulation
 
-      - common:
-        - cd common
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        # git lfs steps
-        - cd communication_manager
-        - git lfs fetch
-        - git lfs pull
-        - git lfs install
-
-      - operations:
-        - docker:
-          - git submodule update --recursive --init operations/deploy/docker
-          - cd operations/deploy/docker
-          - git clean -d -f -f
-
-      - perception:
-        - cd perception
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-        - cd object_detection
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-
-      - subt_launch:
-        - cd subt_launch
-        - git submodule update --recursive --init .
-        - git clean -d -f -f
-
-      - ugv:
-        - cd ugv
-        - ppc:
-          - cd planning-pc/
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-        - nuc:
-          - cd nuc
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-
-      - uav:
-        - cd uav
-        - core:
-          - cd core
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
-        - hardware:
-          - cd hardware
-          - git submodule update --init --recursive .
-          - git clean -d -f -f
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/pull/pull.ugv.slam
+      - +extend: common/git/pull/pull.uav.slam
 
     # show the git status in the intermediate-repo
     - pwd

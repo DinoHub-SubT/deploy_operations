@@ -18,6 +18,7 @@ our @EXPORT_OK = qw(
   @_git_add
   @_git_reset
   @_git_clean
+  @_git_pull
   @_git_rm
   @_cloud
   @_cloud_terra
@@ -39,6 +40,7 @@ our @EXPORT = qw(
   @_git_add
   @_git_reset
   @_git_clean
+  @_git_pull
   @_git_rm
   @_cloud
   @_cloud_terra
@@ -59,6 +61,7 @@ our (
   @_git_add,
   @_git_reset,
   @_git_clean,
+  @_git_pull,
   @_git_rm,
   @_cloud,
   @_cloud_terra,
@@ -71,7 +74,7 @@ our (
 # //////////////////////////////////////////////////////////////////////////////
 @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
 
-@_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pr", "help" );
+@_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pull", "pr", "help" );
 
 @_git_status   = ( "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "uav", "help" );

@@ -1,0 +1,10 @@
+- uav:
+  - cd uav
+  - core:
+    - cd core
+    - git submodule update --init --recursive .
+    - git clean -d -f -f
+  - hardware:
+    - cd hardware
+    - git submodule update --init --recursive .
+    - git clean -d -f -f

@@ -32,6 +32,12 @@ __subt_git_execute() {
       _run_deployer "clean.$cmd"
     done
 
+  elif chk_flag pull $@; then
+    shift 2 # shift 'git pull'
+    for cmd in "$@"; do
+      _run_deployer "pull.$cmd"
+    done
+
   elif chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
     shift 1 # shift the 'git' token
     ($GL_BIN_AUTOMATE_DIR/cmpl/git.bash $@)
