@@ -65,92 +65,171 @@ our (
 );
 
 $_deployer_system_help = ("
-About: 1... clones submodules to one of the sysmtes.
-About: 2... == Your Options Are ==
-localhost     : clones the submodules for developing on a localhost.
-basestation   : clones the submodules for developing on one of the basestation laptops.
-slam          : clones the slam submodules (can be used on localhost or on basestation)
+About: 00... == clone ==
+About: 01... clone submodules, per system (basestation, localhost)
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
+localhost     : clone the submodules for developing on a localhost.
+basestation   : clone the submodules for developing on one of the basestation laptops.
+slam          : clone the slam submodules (can be used on localhost or on basestation)
 "
 );
 
 $_deployer_localhost_help = ("
-About: 1... clones the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == clone localhost ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 ugv                : ~/deploy_ws/src/ugv
-ugv.ppc                 : ~/deploy_ws/src/ugv/ppc
-ugv.nuc                 : ~/deploy_ws/src/ugv/nuc
+ugv.ppc            : ~/deploy_ws/src/ugv/ppc
+ugv.nuc            : ~/deploy_ws/src/ugv/nuc
 uav                : ~/deploy_ws/src/uav
-uav.core                : ~/deploy_ws/src/uav/core
-uav.hardware            : ~/deploy_ws/src/uav/hardware
+uav.core           : ~/deploy_ws/src/uav/core
+uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_ugv_help = ("
-About: 1... clones the localhost submodules.
-About: 2... == Your Options Are ==
+About: 00... == clone ugv ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 ppc                : ~/deploy_ws/src/ugv/ppc
 nuc                : ~/deploy_ws/src/ugv/nuc
 hardware           : ~/deploy_ws/src/ugv/hardware (only available for basestation clone)
 ");
 
 $_deployer_uav_help = ("
-About: 1... clones the localhost submodules.
-About: 2... == Your Options Are ==
+About: 00... == clone uav ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 core               : ~/deploy_ws/src/uav/core
 hardware           : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_basestation_help = ("
-About: 1... clones the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == clone basestation ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 system76        : system76-pc laptop, for running both ugv & uav robots
 laptop          : the uav specific drone laptop
 ");
 
 $_deployer_system76_help = ("
-About: 1... clones the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == clone basestation ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 ugv                : ~/deploy_ws/src/ugv
-ugv.ppc                 : ~/deploy_ws/src/ugv/ppc
-ugv.nuc                 : ~/deploy_ws/src/ugv/nuc
-ugv.hardware            : ~/deploy_ws/src/ugv/hardware
+ugv.ppc            : ~/deploy_ws/src/ugv/ppc
+ugv.nuc            : ~/deploy_ws/src/ugv/nuc
+ugv.hardware       : ~/deploy_ws/src/ugv/hardware
 uav                : ~/deploy_ws/src/uav
 uav.core                : ~/deploy_ws/src/uav/core
 uav.hardware            : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_laptop_uav_help = ("
-About: 1... clones the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == clone basestation ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 uav                : ~/deploy_ws/src/uav
-uav.core                : ~/deploy_ws/src/uav/core
-uav.hardware            : ~/deploy_ws/src/uav/hardware
+uav.core           : ~/deploy_ws/src/uav/core
+uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_slam_help = ("
-slam.ugv.devel         : ~/deploy_ws/src/ugv/slam/devel (slam permssions required. only available for basestation clone)
-slam.ugv.robot         : ~/deploy_ws/src/ugv/slam/robot (slam permssions required. only available for basestation clone)
-slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
+About: 00... == clone the slam submodules (loam, superodometry) ==
+About: 01... clone submodules into the empty directories.
+About: 02... - slam submodules have special permissions -- that is why they are separate commands.
+About: 03... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 04... == Optional Flags ==
+About: 05...
+About: 06...   -p           : preview the deployer commands that will be run
+About: 07...   -verbose     : show the exact (verbose) bash commands that will run
+About: 08...
+About: 09... == Your Options Are ==
+About: 10...
+ugv         : ~/deploy_ws/src/ugv/slam
+uav         : ~/deploy_ws/src/uav/slam
 ");
 
 $_deployer_slam_ugv_help = ("
-slam.ugv.devel         : ~/deploy_ws/src/ugv/slam/devel (slam permssions required. only available for basestation clone)
-slam.ugv.robot         : ~/deploy_ws/src/ugv/slam/robot (slam permssions required. only available for basestation clone)
+About: 00... == clone the ugv slam submodules (loam, superodometry) ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
+devel         : ~/deploy_ws/src/ugv/slam/devel (slam submodules for localhost development -- does not go on robot)
+robot         : ~/deploy_ws/src/ugv/slam/robot (slam submodules for ugv robot -- very special permission! USE DEVEL unless you KNOW you want the robot one.)
 ");
+
 $_deployer_slam_uav_help = ("
-slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
+About: 00... == clone the uav slam submodules (loam, superodometry) ==
+About: 01... clone submodules into the empty directories.
+About: 02... == Optional Flags ==
+About: 03...
+About: 04...   -p           : preview the deployer commands that will be run
+About: 05...   -verbose     : show the exact (verbose) bash commands that will run
+About: 06...
+About: 07... == Your Options Are ==
+About: 08...
+uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
 ");
+
 
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
 @_git_clone_help = ({
@@ -162,9 +241,6 @@ slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
 },{
   id      => "clone.localhost.ugv",
   help    => $_deployer_ugv_help,
-},{
-  id      => "slam",
-  help    => $_deployer_slam_help,
 },{
   id      => "slam",
   help    => $_deployer_slam_help,

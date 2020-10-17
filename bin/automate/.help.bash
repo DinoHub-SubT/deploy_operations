@@ -5,13 +5,14 @@
 # //////////////////////////////////////////////////////////////////////////////
 __ac_subt_help() {
   local usage=(
-    "About: 1... SubT Tab Autocompleter: one stop access to all the operations tools. "
-    "About: 2... "
-    "About: 3... Autocomplete gives you access to all the operation scripts, all accessible in one place."
-    "About: 4... You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
-    "About: 5... [TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
-    "About: 6... Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
-    "About: 7... == Your Options Are =="
+    "About: 01... SubT Tab Autocompleter: one stop access to all the operations tools. "
+    "About: 02... "
+    "About: 03... Autocomplete gives you access to all the operation scripts, all accessible in one place."
+    "About: 04... You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
+    "About: 05... [TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
+    "About: 06... Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
+    "About: 07... == Your Options Are =="
+    "About: 08... "
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
@@ -53,10 +54,11 @@ __subt_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_help() {
   local usage=(
-    "About: 1... git helper scripts, for automating git commands over the 3-level deploy repo structure."
-    "About: 2... example, 'status' runs a 'git fetch -all' for all the submodules, for a given intermediate meta repo."
-    "About: 3... tab complete each subcommand to see what arguments are available."
-    "About: 4... == Your Options Are =="
+    "About: 01... git helper scripts, for automating git commands over the 3-level deploy repo structure."
+    "About: 02... example, 'status' runs a 'git fetch -all' for all the submodules, for a given intermediate meta repo."
+    "About: 03... tab complete each subcommand to see what arguments are available."
+    "About: 04... == Your Options Are =="
+    "About: 05... "
     "status   : show the general git info for every submodule (all three levels)."
     "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
     "add      : adds the uncommitted changes for intermediate repos."
@@ -65,8 +67,7 @@ __ac_git_help() {
     "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
     "clean    : clean an intermediate or submodule repo ."
     "pull     : pulls the submodules updates in the intermediate repos (equivalent to 'git submoudle update --init --recursive')."
-    # "pr       : Create a pull request for top & intermeidate repo branches."
-    "help, -h : view help usage message."
+    "help     : view help usage message."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -84,7 +85,6 @@ __git_help() {
   text_color "clean    : clean an intermediate or submodule repo."
   text_color "add      : adds the uncommitted changes for intermediate repos."
   text_color "pull     : pulls (recursive) the submodules."
-  # text_color "pr       : create a pull request for top & intermeidate repo branches."
   text_color "help     : view help usage message."
   text_color
   text_color "About:"
@@ -104,9 +104,10 @@ __git_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_cloud_help() {
   local usage=(
-    "About: 1... cloud scripts for automating Azure cloud system setup."
-    "About: 2... tab complete each subcommand to see what arguments are available."
-    "About: 3... == Your Options Are =="
+    "About: 01... cloud scripts for automating Azure cloud system setup."
+    "About: 02...   - tab complete each subcommand to see what arguments are available."
+    "About: 03... == Your Options Are =="
+    "About: 04... "
     "ansible      : ansible scripts, for installing base system packages on the Azure VMs."
     "terraform    : terraform scripts, for creating & starting the Azure VMs and other Azure resources."
   )
@@ -120,10 +121,11 @@ __ac_cloud_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_tools_help() {
   local usage=(
-    "About: 1... general helper scripts, can be used for robots or azure setups."
-    "About: 2... tab complete each subcommand to see what arguments are available."
-    "About: 3... Please add 'help' for each command to see more details on usage information."
-    "About: 3... == Your Options Are =="
+    "About: 01... General helper scripts, can be used for robots or azure setups."
+    "About: 02...   - tab complete each subcommand to see what arguments are available."
+    "About: 03... - please add 'help' for each command to see details on additional arguments."
+    "About: 04... == Your Options Are =="
+    "About: 05... "
     "shh          : shows which configured ssh connections are are available to connect."
     "teamviewer   : shows which teamviewer connections are are available to connect."
     "rdp          : establish a rdp (rdesktop) session with an Azure VM."
@@ -139,9 +141,16 @@ __ac_tools_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_status_help() {
   local usage=(
-    "About: 1... shows a short summary of its git status for all submodules."
-    "About: 2... shows a short summary of 'dirty' submodules for any given meta repos."
-    "About: 3... == Your Options Are =="
+    "About: 01... Shows a short summary of its git status for all submodules."
+    "About: 02...   - i.e. 'dirty' submodule status for any given meta repos."
+    "About: 03... == Optional Flags =="
+    "About: 04..."
+    "About: 05...   -table        : show as table output"
+    "About: 06...   -hash         : show 'hash' column in table output"
+    "About: 07...   -url          : show 'url' column in table output"
+    "About: 08..."
+    "About: 09... == Your Options Are =="
+    "About: 10... "
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
     "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
@@ -149,10 +158,6 @@ __ac_git_status_help() {
     "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
     "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
     "help         : view help usage message."
-    "z 1.... == Optional Flags == "
-    "z 2....  -table       : show as table output"
-    "z 3....  -hash        : show 'hash' column in table output"
-    "z 4....  -url         : show 'url' column in table output"
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -187,8 +192,13 @@ __status_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_sync_help() {
   local usage=(
-    "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
-    "About: 2... == Your Options Are =="
+    "About: 01... Fetch & resets all local branches to its respective origin remote branch commit for all submodules (recursive)."
+    "About: 02... == Optional Flags =="
+    "About: 03..."
+    "About: 04...   -del         : delete any local branches not found on the origin remote."
+    "About: 05...   -hard        : sync the current checked-out branch."
+    "About: 06... == Your Options Are =="
+    "About: 07... "
     "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -197,8 +207,6 @@ __ac_git_sync_help() {
     "launch       : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
     "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
     "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
-    "-del         : delete any local branches not found on the origin remote."
-    "-hard        : sync the currently checkout branch."
     "help         : view help usage message."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -231,14 +239,14 @@ __sync_help() {
   GL_TEXT_COLOR=$FG_DEFAULT
 }
 
-
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt add sync'
 # //////////////////////////////////////////////////////////////////////////////
 __ac_git_add_help() {
   local usage=(
-    "About: 1... fetch all & resets all local branches to its respective origin remote branch commit, for all submodules."
-    "About: 2... == Your Options Are =="
+    "About: 01... Prepares the intermediate repo: adding the submodules to the intermediate repo's git index."
+    "About: 02... == Your Options Are =="
+    "About: 03... "
     "deploy       : top level repo -> ~/deploy_ws/src/"
     "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
     "common       : common intermediate level repo -> ~/deploy_ws/src/common"
@@ -280,16 +288,18 @@ __add_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_cloud_ansible_help() {
   local usage=(
-    "About: 1... Usage: < system_name > < playbook > [ optional flags ] "
-    "About: 2... if running on your laptop, use the options:  localhost install-localhost.yaml"
-    "About: 3... if running on basestation, use the options:  basestation install-localhost.yaml"
-    "About: 4... if you wish to not run anything, but want to view information about the different ansible installs, just use the 'optional flags'"
-    "About: 5... == Optional Flags =="
-    "-az  : Show the available azure ansible system names."
-    "-r   : Show the available robot ansible system names."
-    "-l   : Show the available localhost system names."
-    "-b   : Show the available playbooks."
-    "-p   : Provide system password, to allow sudo installs."
+    "About: 01... Usage: < system_name > < playbook > [ optional flags ] "
+    "About: 02... if running on your laptop, use the options:  localhost install-localhost.yaml"
+    "About: 03... if running on basestation, use the options:  basestation install-localhost.yaml"
+    "About: 04... if you wish to not run anything, but want to view information about the different ansible installs, just use the 'optional flags'"
+    "About: 05... == Optional Flags =="
+    "About: 07...     -az  : Show the available azure ansible system names."
+    "About: 08...     -r   : Show the available robot ansible system names."
+    "About: 09...     -l   : Show the available localhost system names."
+    "About: 10...     -b   : Show the available playbooks."
+    "About: 11...     -p   : Provide system password, to allow sudo installs."
+    "About: 12... == Your Options Are =="
+    "About: 13... "
     "help : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -302,8 +312,10 @@ __ac_cloud_ansible_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_cloud_terra_help() {
   local usage=(
-    "About: 1... Please add 'help' for each command to see more details on usage information."
-    "About: 2... == Your Options Are =="
+    "About: 01... Terraform Control Scripts: automates terraform cli setup."
+    "About: 02...   - please add 'help' for each command to see more details on usage information."
+    "About: 03... == Your Options Are =="
+    "About: 04... "
     "init     : initializes subt's terraform setup with the correct tfstate file"
     "cert     : creates the vpn ca and user certifcations for creating an Azure VPN connection"
     "plan     : terraform plan (dry run) args are passed to terraform."
@@ -327,15 +339,16 @@ __ac_cloud_terra_help() {
 # //////////////////////////////////////////////////////////////////////////////
 __ac_deploy_help() {
   local usage=(
-    "About: 1... deploys subt to a remote or local system."
-    "About: 2... deployment operations include: "
-    "About: 3...    - pulling docker images from azure registries or local basestation registries"
-    "About: 4...    - building docker images"
-    "About: 5...    - starting, stopping, removing docker containers"
-    "About: 6...    - transferring code to remote system (azure or robots)"
-    "About: 7...    - catkin build & clean the different (already pre-configured) catkin profile workspaces."
-    "About: 8... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)"
-    "About: 9... == Your Options Are =="
+    "About: 01... deploys subt to a remote or local system."
+    "About: 02... operations include: "
+    "About: 03...    - pulling docker images from azure registries or local basestation registries"
+    "About: 04...    - building docker images"
+    "About: 05...    - starting, stopping, removing docker containers"
+    "About: 06...    - transferring code to remote system (azure or robots)"
+    "About: 07...    - catkin build & clean the different (already pre-configured) catkin profile workspaces."
+    "About: 08... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)"
+    "About: 09... == Your Options Are =="
+    "About: 10... "
     "azure      : deploys subt on azure cloud."
     "robots     : deploys subt on harware ugv & uav robots."
     "local      : deploys subt on your localhost."
@@ -344,6 +357,8 @@ __ac_deploy_help() {
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
   COMPREPLY=("${usage[@]}")
 }
+
+# TODO: make below only 1 function....
 
 __ac_deploy_submenu_help() {
   local _prev=$1

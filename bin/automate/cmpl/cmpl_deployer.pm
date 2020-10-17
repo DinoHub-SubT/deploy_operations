@@ -700,6 +700,23 @@ About: 3... == Your Options Are ==
 docker       : automated docker setup such as containers, images, registry pull.
 catkin       : automated catkin build & clean for all catkin profiled workspaces."
 );
+$_deployer_type_commands_help = ("
+About: 1... deploys the specific type of system dependencies (docker container enabled).
+About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 3... == Your Options Are ==
+cpu         : deploys subt using only the dependencies available for a CPU only system.
+gpu         : deploys subt with dependencies optimized for a NVIDIA GPU available system."
+);
+
+$_deployer_uav_catkin_commands_help = ("
+About: 1... general catkin commands, for difference types of catkin workspaces.
+About: 2... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 3... == Your Options Are ==
+clean         : cleans all the workspaces.
+core          : builds or cleans the uav core workspace.
+perception    : builds or cleans the uav perception workspace.
+px4           : builds the px4 dependencies.
+");
 
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
 @_deployer_help_array = ({
@@ -710,7 +727,7 @@ catkin       : automated catkin build & clean for all catkin profiled workspaces
   help    => $_deployer_localhost_commands_help,
 },{
   id      => "local.uav",
-  help    => $_deployer_localhost_commands_help,
+  help    => $_deployer_type_commands_help,
 },{
   id      => "local.basestation",
   help    => $_deployer_localhost_commands_help,
@@ -788,5 +805,17 @@ catkin       : automated catkin build & clean for all catkin profiled workspaces
   help    => $_deployer_commands_docker_help
 },{
   id      => "catkin",
+  help    => $_deployer_uav_catkin_commands_help
+},{
+  id      => "catkin.core",
+  help    => $ _deployer_commands_catkin_help
+},{
+  id      => "catkin.perception",
   help    => $_deployer_commands_catkin_help
+},{
+  id      => "cpu",
+  help    => $_deployer_localhost_commands_help
+},{
+  id      => "gpu",
+  help    => $_deployer_localhost_commands_help
 });

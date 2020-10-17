@@ -212,18 +212,18 @@ uav.hardware       : ~/deploy_ws/src/uav/hardware
 $_deployer_slam_help = ("
 About: 00... == resets the slam submodules (loam, superodometry) ==
 About: 01... resets the basestation 'group' submodules
-About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
-About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
-About: 05... - slam submodules have special permissions -- that is why they are separate commands.
-About: 06... - please make sure you have permissions to clone (notify maintainer if you need permissions)
-About: 07...
-About: 08... == Optional Flags ==
-About: 09...
-About: 10...   -p           : preview the deployer commands that will be run
-About: 11...   -verbose     : show the exact (verbose) bash commands that will run
-About: 12...
-About: 13... == Your Options Are ==
-About: 14...
+About: 02... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 03...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 04... - slam submodules have special permissions -- that is why they are separate commands.
+About: 05... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 06...
+About: 07... == Optional Flags ==
+About: 08...
+About: 09...   -p           : preview the deployer commands that will be run
+About: 10...   -verbose     : show the exact (verbose) bash commands that will run
+About: 11...
+About: 12... == Your Options Are ==
+About: 13...
 ugv         : ~/deploy_ws/src/ugv/slam
 uav         : ~/deploy_ws/src/uav/slam
 ");
@@ -231,18 +231,18 @@ uav         : ~/deploy_ws/src/uav/slam
 $_deployer_slam_ugv_help = ("
 About: 00... == resets the slam ugv submodules (loam, superodometry) ==
 About: 01... resets the basestation 'group' submodules
-About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
-About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
-About: 05... - slam submodules have special permissions -- that is why they are separate commands.
-About: 06... - please make sure you have permissions to clone (notify maintainer if you need permissions)
-About: 07...
-About: 08... == Optional Flags ==
-About: 09...
-About: 10...   -p           : preview the deployer commands that will be run
-About: 11...   -verbose     : show the exact (verbose) bash commands that will run
-About: 12...
-About: 13... == Your Options Are ==
-About: 14...
+About: 02... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 03...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 04... - slam submodules have special permissions -- that is why they are separate commands.
+About: 05... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 06...
+About: 07... == Optional Flags ==
+About: 08...
+About: 09...   -p           : preview the deployer commands that will be run
+About: 10...   -verbose     : show the exact (verbose) bash commands that will run
+About: 11...
+About: 12... == Your Options Are ==
+About: 13...
 devel         : ~/deploy_ws/src/ugv/slam/devel (slam submodules for localhost development -- does not go on robot)
 robot         : ~/deploy_ws/src/ugv/slam/robot (slam submodules for ugv robot -- very special permission! USE DEVEL unless you KNOW you want the robot one.)
 ");
@@ -262,7 +262,7 @@ About: 11...   -verbose     : show the exact (verbose) bash commands that will r
 About: 12...
 About: 13... == Your Options Are ==
 About: 14...
-uav               : ~/deploy_ws/src/uav/slam
+uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
 ");
 
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
