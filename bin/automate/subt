@@ -5,9 +5,21 @@
 . "$SUBT_PATH/operations/bin/automate/.header.bash"
 . "$SUBT_PATH/operations/bin/automate/cmpl/.auto_completion.bash"
 
+if [ ! -z "$ZSH_NAME" ]; then
+  # bash-completion under zsh
+  autoload bashcompinit
+  bashcompinit
+
+  autoload -Uz compinit
+  compinit
+
+  # remove fuzzy search in zsh-completion
+  zstyle ":completion:*" matcher-list ''
+fi
 
 # @brief evaluate which subcommand to switch and execute
 __subt_git_execute() {
+  # TODO: check if has -p or -v for preview and verbose
   if chk_flag clone $@; then
     shift 2 # shift 'git clone'
     for cmd in "$@"; do
@@ -147,4 +159,5 @@ subt() {
 }
 
 # enable tab autocompletion
-complete -F _ac_subt_completion subt
+# 'nosort' option does not work with bash <= 4.4.20 (https://lists.defectivebydesign.org/archive/html/bug-bash/2017-05/msg00034.html)
+complete -o nospace -o nosort -F _ac_subt_completion subt

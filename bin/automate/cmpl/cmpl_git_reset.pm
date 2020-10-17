@@ -65,91 +65,204 @@ our (
 );
 
 $_deployer_system_help = ("
-About: 1... resets submodules to one of the sysmtes.
-About: 2... == Your Options Are ==
-localhost     : resets the submodules for developing on a localhost.
-basestation   : resets the submodules for developing on one of the basestation laptops.
-slam          : resets the slam submodules (can be used on localhost or on basestation)
+About: 00... == reset ==
+About: 01... resets a 'group' of submodules, per system (basestation, localhost)
+About: 02...    - example: localhost does not clone hardware, basestation clones hardware
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
+    localhost     : resets the submodules for developing on a localhost.
+    basestation   : resets the submodules for developing on one of the basestation laptops.
+    slam          : resets the slam submodules (can be used on localhost or on basestation)
 "
 );
 
 $_deployer_localhost_help = ("
-About: 1... resets the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == reset localhost ==
+About: 01... resets the localhost 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 ugv                : ~/deploy_ws/src/ugv
-ugv.ppc                 : ~/deploy_ws/src/ugv/ppc
-ugv.nuc                 : ~/deploy_ws/src/ugv/nuc
+ugv.ppc            : ~/deploy_ws/src/ugv/ppc
+ugv.nuc            : ~/deploy_ws/src/ugv/nuc
 uav                : ~/deploy_ws/src/uav
-uav.core                : ~/deploy_ws/src/uav/core
-uav.hardware            : ~/deploy_ws/src/uav/hardware
+uav.core           : ~/deploy_ws/src/uav/core
+uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_ugv_help = ("
-About: 1... resets the localhost submodules.
-About: 2... == Your Options Are ==
+About: 00... == reset ugv ==
+About: 01... resets the ugv 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 ppc                : ~/deploy_ws/src/ugv/ppc
 nuc                : ~/deploy_ws/src/ugv/nuc
 hardware           : ~/deploy_ws/src/ugv/hardware (only available for basestation reset)
 ");
 
 $_deployer_uav_help = ("
-About: 1... resets the localhost submodules.
-About: 2... == Your Options Are ==
+About: 00... == reset uav ==
+About: 01... resets the uav 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 core               : ~/deploy_ws/src/uav/core
 hardware           : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_basestation_help = ("
-About: 1... resets the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == reset basestation ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 system76        : system76-pc laptop, for running both ugv & uav robots
 laptop          : the uav specific drone laptop
 ");
 
 $_deployer_system76_help = ("
-About: 1... resets the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == reset basestation system76 (ugv, uav) ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 ugv                : ~/deploy_ws/src/ugv
-ugv.ppc                 : ~/deploy_ws/src/ugv/ppc
-ugv.nuc                 : ~/deploy_ws/src/ugv/nuc
-ugv.hardware            : ~/deploy_ws/src/ugv/hardware
+ugv.ppc            : ~/deploy_ws/src/ugv/ppc
+ugv.nuc            : ~/deploy_ws/src/ugv/nuc
+ugv.hardware       : ~/deploy_ws/src/ugv/hardware
 uav                : ~/deploy_ws/src/uav
-uav.core                : ~/deploy_ws/src/uav/core
-uav.hardware            : ~/deploy_ws/src/uav/hardware
+uav.core           : ~/deploy_ws/src/uav/core
+uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_laptop_uav_help = ("
-About: 1... resets the localhost intermediate (meta) repos (including the meta's lowest level submodule repos).
-About: 2... == Your Options Are ==
+About: 00... == reset basestation laptop (uav only laptop) ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05...
+About: 06... == Optional Flags ==
+About: 07...
+About: 08...   -p           : preview the deployer commands that will be run
+About: 09...   -verbose     : show the exact (verbose) bash commands that will run
+About: 10...
+About: 11... == Your Options Are ==
+About: 12...
 basestation        : ~/deploy_ws/src/basestation
 common             : ~/deploy_ws/src/common
 perception         : ~/deploy_ws/src/perception
 simulation         : ~/deploy_ws/src/simulation
 uav                : ~/deploy_ws/src/uav
-uav.core                : ~/deploy_ws/src/uav/core
-uav.hardware            : ~/deploy_ws/src/uav/hardware
+uav.core           : ~/deploy_ws/src/uav/core
+uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_slam_help = ("
-slam.ugv.devel         : ~/deploy_ws/src/ugv/slam/devel (slam permssions required. only available for basestation reset)
-slam.ugv.robot         : ~/deploy_ws/src/ugv/slam/robot (slam permssions required. only available for basestation reset)
-slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
+About: 00... == resets the slam submodules (loam, superodometry) ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05... - slam submodules have special permissions -- that is why they are separate commands.
+About: 06... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 07...
+About: 08... == Optional Flags ==
+About: 09...
+About: 10...   -p           : preview the deployer commands that will be run
+About: 11...   -verbose     : show the exact (verbose) bash commands that will run
+About: 12...
+About: 13... == Your Options Are ==
+About: 14...
+ugv         : ~/deploy_ws/src/ugv/slam
+uav         : ~/deploy_ws/src/uav/slam
 ");
 
 $_deployer_slam_ugv_help = ("
-slam.ugv.devel         : ~/deploy_ws/src/ugv/slam/devel (slam permssions required. only available for basestation reset)
-slam.ugv.robot         : ~/deploy_ws/src/ugv/slam/robot (slam permssions required. only available for basestation reset)
+About: 00... == resets the slam ugv submodules (loam, superodometry) ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05... - slam submodules have special permissions -- that is why they are separate commands.
+About: 06... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 07...
+About: 08... == Optional Flags ==
+About: 09...
+About: 10...   -p           : preview the deployer commands that will be run
+About: 11...   -verbose     : show the exact (verbose) bash commands that will run
+About: 12...
+About: 13... == Your Options Are ==
+About: 14...
+devel         : ~/deploy_ws/src/ugv/slam/devel (slam submodules for localhost development -- does not go on robot)
+robot         : ~/deploy_ws/src/ugv/slam/robot (slam submodules for ugv robot -- very special permission! USE DEVEL unless you KNOW you want the robot one.)
 ");
+
 $_deployer_slam_uav_help = ("
-slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
+About: 00... == resets the slam uav submodules (loam, superodometry) ==
+About: 01... resets the basestation 'group' submodules
+About: 03... intermediate meta repo's submodules are reset to its DEATACHED HEAD.
+About: 04...    - i.e. any checked out a branch in the intermediate repo WILL BE RESET to its HEAD commit.
+About: 05... - slam submodules have special permissions -- that is why they are separate commands.
+About: 06... - please make sure you have permissions to clone (notify maintainer if you need permissions)
+About: 07...
+About: 08... == Optional Flags ==
+About: 09...
+About: 10...   -p           : preview the deployer commands that will be run
+About: 11...   -verbose     : show the exact (verbose) bash commands that will run
+About: 12...
+About: 13... == Your Options Are ==
+About: 14...
+uav               : ~/deploy_ws/src/uav/slam
 ");
 
 # @brief assign help keys to usage messages as hashmap -- hack: convert array to hashmap
@@ -162,15 +275,6 @@ slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
 },{
   id      => "localhost.ugv",
   help    => $_deployer_ugv_help,
-},{
-  id      => "slam",
-  help    => $_deployer_slam_help,
-},{
-  id      => "slam.ugv",
-  help    => $_deployer_slam_ugv_help,
-},{
-  id      => "slam.uav",
-  help    => $_deployer_slam_uav_help,
 },{
   id      => "basestation",
   help    => $_deployer_basestation_help,
@@ -189,4 +293,13 @@ slam.uav               : ~/deploy_ws/src/uav/slam (slam permssions required)
 },{
   id      => "basestation.laptop.uav",
   help    => $_deployer_uav_help,
+},{
+  id      => "slam",
+  help    => $_deployer_slam_help,
+},{
+  id      => "slam.ugv",
+  help    => $_deployer_slam_ugv_help,
+},{
+  id      => "slam.uav",
+  help    => $_deployer_slam_uav_help,
 });
