@@ -189,6 +189,7 @@ _sync_traverse() {
     printf "\n"
 
     # traverse over the intermeidate submodules & sync
+    [[ "$_inter" = "deploy" ]] && _inter="$SUBT_PATH"
     pushd "$_inter"
     _sync                       # sync intermedite repo only
     _traverse_submodules _sync  # sync all recursive submodule repos
