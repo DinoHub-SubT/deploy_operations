@@ -65,8 +65,8 @@ our (
 );
 
 $_deployer_system_help = ("
-About: 00... == clean ==
-About: 01... cleans submodules from uncommitted changes, per system (basestation, localhost)
+About: 00... == rm ==
+About: 01... removes the cloned submodules (locally only, not removing anything on origin), per system (basestation, localhost)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -81,8 +81,8 @@ slam          : removes the slam submodules (can be used on localhost or on base
 );
 
 $_deployer_localhost_help = ("
-About: 00... == clean localhost ==
-About: 01... cleans submodules from uncommitted changes.
+About: 00... == remove localhost ==
+About: 01... removes submodules from uncommitted changes.
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -103,8 +103,8 @@ uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_ugv_help = ("
-About: 00... == clone ugv ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove ugv ==
+About: 01... removes the cloned submodules (locally only).
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -118,8 +118,8 @@ hardware           : ~/deploy_ws/src/ugv/hardware (only available for basestatio
 ");
 
 $_deployer_uav_help = ("
-About: 00... == clone uav ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove uav ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -132,8 +132,8 @@ hardware           : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_basestation_help = ("
-About: 00... == clone basestation ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove basestation ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -146,8 +146,8 @@ laptop          : the uav specific drone laptop
 ");
 
 $_deployer_system76_help = ("
-About: 00... == clone basestation ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove basestation ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -169,8 +169,8 @@ uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_laptop_uav_help = ("
-About: 00... == clone basestation ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove basestation ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -188,8 +188,8 @@ uav.hardware       : ~/deploy_ws/src/uav/hardware
 ");
 
 $_deployer_slam_help = ("
-About: 00... == clone the slam submodules (loam, superodometry) ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove the slam submodules (loam, superodometry) ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -202,8 +202,8 @@ uav               : ~/deploy_ws/src/uav/slam
 ");
 
 $_deployer_slam_ugv_help = ("
-About: 00... == clone the ugv slam submodules (loam, superodometry) ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove the ugv slam submodules (loam, superodometry) ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
@@ -215,8 +215,8 @@ devel         : ~/deploy_ws/src/ugv/slam/devel (slam submodules for localhost de
 robot         : ~/deploy_ws/src/ugv/slam/robot (slam submodules for ugv robot -- very special permission! USE DEVEL unless you KNOW you want the robot one.)
 ");
 $_deployer_slam_uav_help = ("
-About: 00... == clone the uav slam submodules (loam, superodometry) ==
-About: 01... clone submodules into the empty directories.
+About: 00... == remove the uav slam submodules (loam, superodometry) ==
+About: 01... removes the cloned submodules (locally only)
 About: 02... == Optional Flags ==
 About: 03...
 About: 04...   -p           : preview the deployer commands that will be run
