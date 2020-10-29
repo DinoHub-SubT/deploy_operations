@@ -71,18 +71,44 @@ our (
   # ////////////////////////////////////////////////////////////////////////////
   # Local
 
-  # ugv
-  "local.ugv.catkin.build",
-  "local.ugv.catkin.clean",
-  "local.ugv.docker.image",
-  "local.ugv.docker.shell",
-  "local.ugv.docker.shell.sim",
-  "local.ugv.docker.shell.ppc",
-  "local.ugv.docker.shell.nuc",
-  "local.ugv.docker.rm",
-  "local.ugv.docker.stop",
-  "local.ugv.docker.registry.pull",
-  "local.ugv.docker.registry.push",
+  # ugv1
+  "local.ugv.ugv1.catkin.build",
+  "local.ugv.ugv1.catkin.clean",
+  "local.ugv.ugv1.docker.image",
+  "local.ugv.ugv1.docker.shell",
+  "local.ugv.ugv1.docker.shell.sim",
+  "local.ugv.ugv1.docker.shell.ppc",
+  "local.ugv.ugv1.docker.shell.nuc",
+  "local.ugv.ugv1.docker.rm",
+  "local.ugv.ugv1.docker.stop",
+  "local.ugv.ugv1.docker.registry.pull",
+  "local.ugv.ugv1.docker.registry.push",
+
+  # ugv2
+  "local.ugv.ugv2.catkin.build",
+  "local.ugv.ugv2.catkin.clean",
+  "local.ugv.ugv2.docker.image",
+  "local.ugv.ugv2.docker.shell",
+  "local.ugv.ugv2.docker.shell.sim",
+  "local.ugv.ugv2.docker.shell.ppc",
+  "local.ugv.ugv2.docker.shell.nuc",
+  "local.ugv.ugv2.docker.rm",
+  "local.ugv.ugv2.docker.stop",
+  "local.ugv.ugv2.docker.registry.pull",
+  "local.ugv.ugv2.docker.registry.push",
+
+  # ugv3
+  "local.ugv.ugv3.catkin.build",
+  "local.ugv.ugv3.catkin.clean",
+  "local.ugv.ugv3.docker.image",
+  "local.ugv.ugv3.docker.shell",
+  "local.ugv.ugv3.docker.shell.sim",
+  "local.ugv.ugv3.docker.shell.ppc",
+  "local.ugv.ugv3.docker.shell.nuc",
+  "local.ugv.ugv3.docker.rm",
+  "local.ugv.ugv3.docker.stop",
+  "local.ugv.ugv3.docker.registry.pull",
+  "local.ugv.ugv3.docker.registry.push",
 
   # uav
   "local.uav.cpu.catkin.px4",
@@ -584,6 +610,16 @@ uav          : deployment subt uav on azure VMs.
 basestation  : deployment subt basestation on azure VMs.
 perception   : deployment subt perception on azure VMs"
 );
+$_local_robots_ugv_help = ("
+About: 1... deploys subt to any one of the local 'robot' docker containers.
+About: 2... the same deploy is installed on all ground robot VMs.
+About: 3... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
+About: 4... == Your Options Are ==
+Options:
+ugv1       : deployment subt on ugv1 local docker container.
+ugv2       : deployment subt on ugv2 local docker container.
+ugv3       : deployment subt on ugv3 local docker container."
+);
 # azure
 $_deployer_azure_help = ("
 About: 1... deploys subt to Azure Virtual Machines (VMs).
@@ -677,7 +713,7 @@ About: 2... you can add -p (preview) to show which deployment commands that will
 About: 3... you can add -v (verbose) to show the exact shell commands that will be run.
 About: 4... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)
 About: 5... == Your Options Are ==
-shell                     : builds the docker image directly on the system.
+image                     : builds the docker image directly on the system.
 shell                     : starts the docker container on the remote or local system.
 rm                        : removes the docker container on the remote or local system.
 stop                      : stops the docker container on the remote or local system.
@@ -724,6 +760,15 @@ px4           : builds the px4 dependencies.
   help    => $_deployer_local_help,
 },{
   id      => "local.ugv",
+  help    => $_local_robots_ugv_help,
+},{
+  id      => "local.ugv.ugv1",
+  help    => $_deployer_localhost_commands_help,
+},{
+  id      => "local.ugv.ugv2",
+  help    => $_deployer_localhost_commands_help,
+},{
+  id      => "local.ugv.ugv3",
   help    => $_deployer_localhost_commands_help,
 },{
   id      => "local.uav",

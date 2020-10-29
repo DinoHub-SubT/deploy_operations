@@ -22,7 +22,7 @@
       - docker network create -d bridge robots --subnet=$LOCAL_NETWORK_SUBNET --ip-range=$LOCAL_NETWORK_IP_RANGE || true
 
       # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
-      - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
+      - docker-compose-wrapper $scenario -p basestation-sim-$deploy_system_type-shell up --force-recreate -d basestation-sim-$deploy_system_type-shell
 
     # stopping containers
     - stop:
