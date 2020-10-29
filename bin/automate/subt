@@ -166,7 +166,7 @@ subt() {
   # execute 'git subt' subcommand
   elif chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
-     _run_deployer "$@"
+    _run_deployer "$@"
 
   elif chk_nth_flag 1 "cloud" "$@"; then
     __subt_cloud_execute $@
