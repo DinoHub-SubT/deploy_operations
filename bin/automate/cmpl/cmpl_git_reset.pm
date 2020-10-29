@@ -78,9 +78,9 @@ About: 09...   -verbose     : show the exact (verbose) bash commands that will r
 About: 10...
 About: 11... == Your Options Are ==
 About: 12...
-    localhost     : resets the submodules for developing on a localhost.
-    basestation   : resets the submodules for developing on one of the basestation laptops.
-    slam          : resets the slam submodules (can be used on localhost or on basestation)
+localhost     : resets the submodules for developing on a localhost.
+basestation   : resets the submodules for developing on one of the basestation laptops.
+slam          : resets the slam submodules (can be used on localhost or on basestation)
 "
 );
 

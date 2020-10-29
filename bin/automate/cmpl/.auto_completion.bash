@@ -79,19 +79,19 @@ _ac_subt_completion() {
       elif chk_flag add "${COMP_WORDS[@]}"; then
         ! __matcher "git_add" "$_curr" && __ac_git_add_help
       elif chk_flag clone "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clone" "$_curr" && __ac_git_clone_submenu_help $_prev
+        ! __matcher "git_clone" "$_curr" && __ac_submenu_help "git_clone" $_prev
       elif chk_flag reset "${COMP_WORDS[@]}"; then
-        ! __matcher "git_reset" "$_curr" && __ac_git_reset_submenu_help $_prev
+        ! __matcher "git_reset" "$_curr" && __ac_submenu_help "git_reset" $_prev
       elif chk_flag pull "${COMP_WORDS[@]}"; then
-        ! __matcher "git_pull" "$_curr" && __ac_git_pull_submenu_help $_prev
+        ! __matcher "git_pull" "$_curr" && __ac_submenu_help "git_pull" $_prev
       elif chk_flag clean "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clean" "$_curr" && __ac_git_clean_submenu_help $_prev
+        ! __matcher "git_clean" "$_curr" && __ac_submenu_help "git_clean" $_prev
       elif chk_flag rm "${COMP_WORDS[@]}"; then
-        ! __matcher "git_rm" "$_curr" && __ac_git_rm_submenu_help $_prev
+        ! __matcher "git_rm" "$_curr" && __ac_submenu_help "git_rm" $_prev
       elif chk_flag ignore "${COMP_WORDS[@]}"; then
-        ! __matcher "git_ignore" "$_curr" && __ac_git_ignore_submenu_help $_prev
+        ! __matcher "git_ignore" "$_curr" && __ac_submenu_help "git_ignore" $_prev
       elif chk_flag unignore "${COMP_WORDS[@]}"; then
-        ! __matcher "git_unignore" "$_curr" && __ac_git_unignore_submenu_help $_prev
+        ! __matcher "git_unignore" "$_curr" && __ac_submenu_help "git_unignore" $_prev
       fi
 
     # second level 'subt cloud'
@@ -105,7 +105,7 @@ _ac_subt_completion() {
 
     # second level 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      ! __matcher "deployer" $_curr && __ac_deploy_submenu_help $_prev
+      ! __matcher "deployer" $_curr && __ac_submenu_help "deployer_help" $_prev
 
     fi
   fi
