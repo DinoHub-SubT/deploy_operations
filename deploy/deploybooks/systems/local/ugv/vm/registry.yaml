@@ -23,7 +23,7 @@
         - docker push $AZURE_REGISTRY/subt-ugv-sim
         # remove the azure docker images
         - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
-      
+
       - arm:
         # change the docker context to the default docker daemon
         - docker context use default
