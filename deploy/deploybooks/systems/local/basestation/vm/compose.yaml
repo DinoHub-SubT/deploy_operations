@@ -26,7 +26,12 @@
 
     # stopping containers
     - stop:
-      - docker stop $(docker ps -a -q)
+      # - docker stop $(docker ps -a -q)
+      - echo "stopping... $(docker ps --format '{{.Names}}' | grep "^basestation")"
+      - docker ps --format '{{.Names}}' | grep "^basestation" | awk '{print $1}' | xargs -I {} docker stop {}
     # removing containers
     - rm:
-      - docker rm -f $(docker ps -a -q)
+      # - docker rm -f $(docker ps -a -q)
+      - echo "removing... $(docker ps -a --format '{{.Names}}' | grep "^basestation")"
+      - docker ps -a --format '{{.Names}}' | grep "^basestation" | awk '{print $1}' | xargs -I {} docker rm -f {}
+

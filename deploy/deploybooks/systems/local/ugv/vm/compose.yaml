@@ -33,7 +33,11 @@
 
     # stopping containers
     - stop:
-      - docker stop $(docker ps -a -q)
+      # - docker stop $(docker ps -a -q)
+      - echo "stopping... $(docker ps --format '{{.Names}}' | grep "^${COMPUTER}")"
+      - docker ps --format '{{.Names}}' | grep "^${COMPUTER}" | awk '{print $1}' | xargs -I {} docker stop {}
     # removing containers
     - rm:
-      - docker rm -f $(docker ps -a -q)
+      # - docker rm -f $(docker ps -a -q)
+      - echo "removing... $(docker ps -a --format '{{.Names}}' | grep "^${COMPUTER}")"
+      - docker ps -a --format '{{.Names}}' | grep "^${COMPUTER}" | awk '{print $1}' | xargs -I {} docker rm -f {}
