@@ -13,10 +13,17 @@
   # ////////////////////////////////////////////////////////////////////////////
   - container:
   # ////////////////////////////////////////////////////////////////////////////
+
     # starting docker containers
     - shell:
+      # always create the default network if does not exist
+      - echo "Docker network subnet is $LOCAL_NETWORK_SUBNET"
+      - echo "Docker network ip range is $LOCAL_NETWORK_IP_RANGE"
+      - docker network create -d bridge robots --subnet=$LOCAL_NETWORK_SUBNET --ip-range=$LOCAL_NETWORK_IP_RANGE || true
+
       # - docker-compose-wrapper $scenario -p basestation-shell up --force-recreate -d basestation-shell
       - docker-compose-wrapper $scenario -p basestation-$deploy_system_type-shell up --force-recreate -d basestation-$deploy_system_type-shell
+
     # stopping containers
     - stop:
       - docker stop $(docker ps -a -q)

@@ -9,15 +9,34 @@
   # ////////////////////////////////////////////////////////////////////////////
   - ugv:
   # ////////////////////////////////////////////////////////////////////////////
-
-    # source the computer-level scenario file
-    - export filename=systems/local/ugv
-    - source operations/deploy/scenarios/$filename.env
-    - export scenario=" --scenario $filename"
-
-    - compose:
-      - +extend: systems/local/ugv/vm/compose
-    - catkin:
-      - +docker:ugv-sim-shell
-      - +extend: systems/local/ugv/vm/catkin
     - +extend: systems/local/ugv/vm/registry
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv1:
+    # ////////////////////////////////////////////////////////////////////////////
+      # source the computer-level scenario file
+
+      - export filename=systems/local/ugv1
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - compose:
+        - +extend: systems/local/ugv/vm/compose
+      - catkin:
+        - +docker:ugv-sim-shell
+        - +extend: systems/local/ugv/vm/catkin
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv2:
+    # ////////////////////////////////////////////////////////////////////////////
+      # source the computer-level scenario file
+
+      - export filename=systems/local/ugv2
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - compose:
+        - +extend: systems/local/ugv/vm/compose
+      - catkin:
+        - +docker:ugv-sim-shell
+        - +extend: systems/local/ugv/vm/catkin

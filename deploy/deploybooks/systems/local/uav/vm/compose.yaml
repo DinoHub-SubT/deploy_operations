@@ -21,9 +21,13 @@
   # ////////////////////////////////////////////////////////////////////////////
     # starting docker containers
     - shell:
+      # always create the default network if does not exist
+      - echo "Docker network subnet is $LOCAL_NETWORK_SUBNET"
+      - echo "Docker network ip range is $LOCAL_NETWORK_IP_RANGE"
+      - docker network create -d bridge robots --subnet=$LOCAL_NETWORK_SUBNET --ip-range=$LOCAL_NETWORK_IP_RANGE || true
       - core:
         # - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
-        - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-$deploy_system_type-shell
+        - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-${COMPUTER}-$deploy_system_type-shell
       - perception:
         - docker-compose-wrapper $scenario -p uav-$deploy_system_type-shell up --force-recreate -d uav-perception-$deploy_system_type-shell
       - super:
