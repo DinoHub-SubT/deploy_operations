@@ -88,6 +88,10 @@ _ac_subt_completion() {
         ! __matcher "git_clean" "$_curr" && __ac_git_clean_submenu_help $_prev
       elif chk_flag rm "${COMP_WORDS[@]}"; then
         ! __matcher "git_rm" "$_curr" && __ac_git_rm_submenu_help $_prev
+      elif chk_flag ignore "${COMP_WORDS[@]}"; then
+        ! __matcher "git_ignore" "$_curr" && __ac_git_ignore_submenu_help $_prev
+      elif chk_flag unignore "${COMP_WORDS[@]}"; then
+        ! __matcher "git_unignore" "$_curr" && __ac_git_unignore_submenu_help $_prev
       fi
 
     # second level 'subt cloud'

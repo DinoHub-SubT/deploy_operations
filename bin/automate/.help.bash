@@ -62,6 +62,8 @@ __ac_git_help() {
     "status   : show the general git info for every submodule (all three levels)."
     "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
     "add      : adds the uncommitted changes for intermediate repos."
+    "ignore   : ignore pre-defined files from git index."
+    "unignore : unignore pre-defined files from git index"
     "clone    : clones intermediate repo or submodules."
     "rm       : removes intermediate repo or submodules."
     "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
@@ -85,6 +87,8 @@ __git_help() {
   text_color "clean    : clean an intermediate or submodule repo."
   text_color "add      : adds the uncommitted changes for intermediate repos."
   text_color "pull     : pulls (recursive) the submodules."
+  text_color "ignore   : ignore pre-defined files from git index."
+  text_color "unignore : unignore pre-defined files from git index"
   text_color "help     : view help usage message."
   text_color
   text_color "About:"
@@ -446,3 +450,30 @@ __ac_git_clean_submenu_help() {
   COMPREPLY=("${_result[@]}")
 }
 
+__ac_git_ignore_submenu_help() {
+  local _prev=$1
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "git_ignore_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
+
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
+}
+
+__ac_git_unignore_submenu_help() {
+  local _prev=$1
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "git_unignore_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
+
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
+}

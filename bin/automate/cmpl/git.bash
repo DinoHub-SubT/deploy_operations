@@ -330,4 +330,4 @@ elif chk_flag add $@ ; then
 fi
 
 # cleanup & exit
-exit_on_success
+exit_success

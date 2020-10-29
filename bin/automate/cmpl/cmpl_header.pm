@@ -74,7 +74,8 @@ our (
 # //////////////////////////////////////////////////////////////////////////////
 @_subt         = ( "cloud", "deployer", "git", "tools", "update", "help" );
 
-@_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pull", "pr", "help" );
+@_git          = ( "status", "sync", "add", "clone", "rm", "reset", "clean", "pull", "pr", "help",
+                   "ignore", "unignore");
 
 @_git_status   = ( "basestation", "common", "perception", "simulation", "subt_launch",
                       "ugv", "uav", "help" );

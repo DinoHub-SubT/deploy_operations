@@ -60,6 +60,20 @@ __subt_git_execute() {
       _run_deployer "pull.$cmd" "$_opts"
     done
 
+  elif chk_flag ignore $@; then
+    shift 2
+    for cmd in "$@"; do
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "ignore.$cmd" "$_opts"
+    done
+
+  elif chk_flag unignore $@; then
+    shift 2
+    for cmd in "$@"; do
+      chk_flag -p $cmd || chk_flag -v $cmd && continue
+      _run_deployer "unignore.$cmd" "$_opts"
+    done
+
   elif chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
     shift 1
     ($GL_BIN_AUTOMATE_DIR/cmpl/git.bash $@)
