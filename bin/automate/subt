@@ -154,6 +154,9 @@ __subt_tools_execute() {
 # @brief 'git subt' wrapper entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 subt() {
+  # get the current directory
+  local __pwd=$(pwd)
+
   # execute actual git command (filter any 'git subt' subcommands)
   if chk_nth_flag 1 "git" "$@"; then
     # execute git subt main entrypoint
@@ -181,6 +184,9 @@ subt() {
     __subt_help
     return 0
   fi
+
+  # return to path of call
+  cd $__pwd
 }
 
 # enable tab autocompletion

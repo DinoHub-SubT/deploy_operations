@@ -136,5 +136,5 @@ _run_deployer() {
   cd "$SUBT_PATH/"
   local deployer_cmd="./deployer "$_opts" -s $_cmd"
   eval $deployer_cmd
-  cd $__dir
+  cd $_dir
 }
