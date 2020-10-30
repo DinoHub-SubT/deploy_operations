@@ -11,6 +11,8 @@
       - docker-compose-wrapper $scenario build --force-rm ppc-image
     - nuc:
       - docker-compose-wrapper $scenario build --force-rm nuc-image
+    - super:
+      - docker-compose-wrapper $scenario build --force-rm superodometry-image
     - sim:
       - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
     # ignore any build errors (in case there are no dangling images)
@@ -28,6 +30,8 @@
         - docker-compose-wrapper $scenario -p ppc-shell up --force-recreate -d ppc-shell
       - nuc:
         - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
+      - super:
+        - docker-compose-wrapper $scenario -p super-shell up --force-recreate -d superodometry-shell
       - sim:
         - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ${COMPUTER}-sim-shell
 

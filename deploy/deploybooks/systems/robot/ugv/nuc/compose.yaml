@@ -7,6 +7,7 @@
   # ////////////////////////////////////////////////////////////////////////////
     - docker-compose-wrapper $scenario build ros-image
     - docker-compose-wrapper $scenario build nuc-image
+    - docker-compose-wrapper $scenario build super-image
 
   # ////////////////////////////////////////////////////////////////////////////
   - container:
@@ -14,6 +15,7 @@
     - shell:
       # - docker-compose-wrapper $scenario -p ros-shell up --force-recreate -d ros-shell
       - docker-compose-wrapper $scenario -p nuc-shell up --force-recreate -d nuc-shell
+      - docker-compose-wrapper $scenario -p super-shell up --force-recreate -d super-shell
     # stopping containers
     - stop:
       - docker stop $(docker ps -a -q)

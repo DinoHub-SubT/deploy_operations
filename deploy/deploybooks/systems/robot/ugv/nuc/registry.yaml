@@ -17,9 +17,11 @@
         # pull the docker images from the laptop local registry
         - docker pull $AZURE_REGISTRY/subt-ugv-ros
         - docker pull $AZURE_REGISTRY/subt-ugv-nuc
+        - docker pull $AZURE_REGISTRY/subt-ugv-super
         # tag the docker images
         - docker tag $AZURE_REGISTRY/subt-ugv-ros subt/ugv:ros
         - docker tag $AZURE_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+        - docker tag $AZURE_REGISTRY/subt-ugv-super subt/ugv:super
         # remove the azure docker images
         - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
         # show the docker images
@@ -36,14 +38,17 @@
         # tag the docker images on the basestation registry
         - docker tag subt/ugv:ros $BASESTATION_REGISTRY/subt-ugv-ros
         - docker tag subt/ugv:nuc $BASESTATION_REGISTRY/subt-ugv-nuc
+        - docker tag subt/ugv:super $BASESTATION_REGISTRY/subt-ugv-super
         # change the docker context to the ugv azure docker daemon
         - docker context use $DOCKER_CONTEXT
         # pull the docker images from the laptop local registry
         - docker pull $BASESTATION_REGISTRY/subt-ugv-ros
         - docker pull $BASESTATION_REGISTRY/subt-ugv-nuc
+        - docker pull $BASESTATION_REGISTRY/subt-ugv-super
         # tag the docker images
         - docker tag $BASESTATION_REGISTRY/subt-ugv-ros subt/ugv:ros
         - docker tag $BASESTATION_REGISTRY/subt-ugv-nuc subt/ugv:nuc
+        - docker tag $BASESTATION_REGISTRY/subt-ugv-super subt/ugv:super
         # remove the basestation docker images
         - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
         # show the docker images
