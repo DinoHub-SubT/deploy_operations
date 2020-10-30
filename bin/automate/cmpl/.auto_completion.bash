@@ -105,7 +105,7 @@ _ac_subt_completion() {
 
     # second level 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      ! __matcher "deployer" $_curr && __ac_submenu_help "deployer_help" $_prev
+      ! __matcher "deployer" $_curr && __ac_submenu_help "deployer" $_prev
 
     fi
   fi
