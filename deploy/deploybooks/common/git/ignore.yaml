@@ -103,5 +103,8 @@
   - cd $SUBT_PATH
   - export filename=".git/modules/simulation/modules/payload_sim_ugv/info/exclude"
   - grep -qxF 'include "CATKIN_IGNORE"' $filename || echo 'CATKIN_IGNORE' >> $filename || true
+  - export filename=".git/modules/simulation/modules/payload_sim_uav/info/exclude"
+  - grep -qxF 'include "CATKIN_IGNORE"' $filename || echo 'CATKIN_IGNORE' >> $filename || true
   - export filename=".git/modules/simulation/modules/velodyne_simulator/info/exclude"
   - grep -qxF 'include "velodyne_gazebo_plugins/CATKIN_IGNORE"' $filename || echo 'velodyne_gazebo_plugins/CATKIN_IGNORE' >> $filename || true
+

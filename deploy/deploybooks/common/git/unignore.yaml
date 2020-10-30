@@ -105,5 +105,7 @@
   - cd $SUBT_PATH
   - export filename=".git/modules/simulation/modules/payload_sim_ugv/info/exclude"
   - sed -i '/CATKIN_IGNORE/d' $filename
+  - export filename=".git/modules/simulation/modules/payload_sim_uav/info/exclude"
+  - sed -i '/CATKIN_IGNORE/d' $filename
   - export filename=".git/modules/simulation/modules/velodyne_simulator/info/exclude"
   - sed -i '/CATKIN_IGNORE/d' $filename
