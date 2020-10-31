@@ -96,6 +96,7 @@
   - name: remove previous docker network
     shell: docker network rm robots
     ignore_errors: yes
+    when: "localhost" in inventory_hostname
 
   - name: test docker with 'hello world' example
     shell: docker network create -d bridge robots \
@@ -106,12 +107,12 @@
             --opt com.docker.network.bridge.enable_ip_masquerade=true \
             --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0 \
             --opt com.docker.network.driver.mtu=1500
-            # --subnet=172.17.0.0/16 \
-            # --ip-range=172.17.0.0/24 \
-            # --opt com.docker.network.bridge.name=br-4c9d416c1243 \
+    when: "localhost" in inventory_hostname
+    # --opt com.docker.network.bridge.name=br-4c9d416c1243 \
 
   - name: Restart docker deamon is running
     service:
       name: docker
       state: started
     become: true
+    when: "localhost" in inventory_hostname

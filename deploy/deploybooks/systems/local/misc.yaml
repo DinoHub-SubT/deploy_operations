@@ -3,3 +3,21 @@
 # //////////////////////////////////////////////////////////////////////////////
 
   - +extend: common/git
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - docker.network:
+  # ////////////////////////////////////////////////////////////////////////////
+    - rm:
+      - docker network rm robots
+    - create:
+        - docker network rm robots || true
+        - docker network create -d bridge robots
+              --subnet=10.3.0.0/16
+              --ip-range=10.3.0.0/24
+              --opt com.docker.network.bridge.default_bridge=true
+              --opt com.docker.network.bridge.enable_icc=true
+              --opt com.docker.network.bridge.enable_ip_masquerade=true
+              --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0
+              --opt com.docker.network.driver.mtu=1500
+        - docker network ls
+        - docker network inspect robots

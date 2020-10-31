@@ -72,6 +72,10 @@ our (
   # Local
 
   # ugv1
+  "local.docker.network.rm",
+  "local.docker.network.create",
+
+  # ugv1
   "local.ugv.ugv1.catkin.build",
   "local.ugv.ugv1.catkin.clean",
   "local.ugv.ugv1.docker.image",
@@ -853,7 +857,8 @@ shell                     : starts the docker container on the remote or local s
 rm                        : removes the docker container on the remote or local system.
 stop                      : stops the docker container on the remote or local system.
 registry.azure.pull       : pulls docker images from the azure registry to the remote or local system (needs internet).
-registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation)."
+registry.basestation.pull : pulls docker images from the basestation registry to the remote or local system (images need to already exist on the basestation).
+network                   : creating or removing a user-defined docker network."
 );
 $_deployer_commands_catkin_help = ("
 About: 1... general catkin operation commands.
