@@ -33,10 +33,32 @@
         # change the docker context back to the default docker daemon
         - docker context use default
 
+      # pull images from the docker registry
+      - push:
+        # change the docker context to the ugv azure docker daemon
+        - docker context use $DOCKER_CONTEXT
+        - docker images
+        # tag the docker images -- to push to azure
+        - docker tag subt/chonky_l4t $AZURE_REGISTRY/subt-chonky_l4t
+        - docker tag subt/perception-arm:ros $AZURE_REGISTRY/subt-perception-arm:ros
+        - docker tag subt/perception-arm:0.1 $AZURE_REGISTRY/subt-perception-arm:0.1
+        # push the docker images to the azure registry
+        - docker push $AZURE_REGISTRY/subt-chonky_l4t
+        - docker push $AZURE_REGISTRY/subt-perception-arm:ros
+        - docker push $AZURE_REGISTRY/subt-perception-arm:0.1
+        # remove the azure docker images
+        - docker rmi $AZURE_REGISTRY/subt-chonky_l4t
+        - docker rmi $AZURE_REGISTRY/subt-perception-arm:ros
+        - docker rmi $AZURE_REGISTRY/subt-perception-arm:0.1
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+        # show the docker images
+        - docker images
+        # change the docker context back to the default docker daemon
+        - docker context use default
+
     # //////////////////////////////////////////////////////////////////////////
     - basestation:
     # //////////////////////////////////////////////////////////////////////////
-      
 
       # pull images from the docker registry
       - pull:
@@ -54,7 +76,7 @@
         - docker pull $BASESTATION_REGISTRY/subt/perception-arm:ros
         - docker pull $BASESTATION_REGISTRY/subt/perception-arm:0.1
         # tag the docker images
-        - docker tag $BASESTATION_REGISTRY/subt/chonky_l4t subt/chonky_l4t 
+        - docker tag $BASESTATION_REGISTRY/subt/chonky_l4t subt/chonky_l4t
         - docker tag $BASESTATION_REGISTRY/subt/perception-arm:ros subt/perception-arm:ros
         - docker tag $BASESTATION_REGISTRY/subt/perception-arm:0.1 subt/perception-arm:0.1
         # remove the basestation docker images
@@ -66,4 +88,3 @@
         # remove the basestation docker images:
         - docker rmi $(docker images | grep $BASESTATION_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
 
-    

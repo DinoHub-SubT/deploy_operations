@@ -526,6 +526,7 @@ our (
   "robots.ugv.ugv1.xavier.docker.rm",
   "robots.ugv.ugv1.xavier.docker.stop",
   "robots.ugv.ugv1.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv1.xavier.docker.registry.azure.push",
   "robots.ugv.ugv1.xavier.docker.registry.basestation.pull",
 
   # ugv2 general
@@ -574,6 +575,7 @@ our (
   "robots.ugv.ugv2.xavier.docker.rm",
   "robots.ugv.ugv2.xavier.docker.stop",
   "robots.ugv.ugv2.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv2.xavier.docker.registry.azure.push",
   "robots.ugv.ugv2.xavier.docker.registry.basestation.pull",
 
   # ugv3 general
@@ -622,6 +624,7 @@ our (
   "robots.ugv.ugv3.xavier.docker.rm",
   "robots.ugv.ugv3.xavier.docker.stop",
   "robots.ugv.ugv3.xavier.docker.registry.azure.pull",
+  "robots.ugv.ugv3.xavier.docker.registry.azure.push",
   "robots.ugv.ugv3.xavier.docker.registry.basestation.pull",
 
   ### uavs ###
