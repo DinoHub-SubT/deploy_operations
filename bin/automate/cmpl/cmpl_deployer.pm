@@ -737,6 +737,17 @@ our (
   "robots.ds.ds4.docker.registry.basestation.pull.core",
   "robots.ds.ds4.docker.registry.basestation.pull.perception",
   "robots.ds.ds4.docker.registry.basestation.pull.super",
+
+
+  # basestation
+  "robots.basestation.catkin.build",
+  "robots.basestation.catkin.clean",
+  "robots.basestation.docker.image",
+  "robots.basestation.docker.shell",
+  "robots.basestation.docker.rm",
+  "robots.basestation.docker.stop",
+  "robots.basestation.docker.registry.pull",
+  "robots.basestation.docker.registry.push",
 );
 
 # //////////////////////////////////////////////////////////////////////////////
