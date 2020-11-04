@@ -46,44 +46,44 @@
         - catkin config
         - catkin build --force-cmake
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - nuc.super:
-  # ////////////////////////////////////////////////////////////////////////////
-    - +docker:ugv-super-shell
-    - cd $SUBT_PATH/
-    - pwd
-    - whoami
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - clean:
-    # ////////////////////////////////////////////////////////////////////////////
-      - rm -rf ~/deploy_ws/devel/ugv/super
-      - rm -rf ~/deploy_ws/build/ugv/super
-      - rm -rf ~/deploy_ws/install/ugv/super
-      - rm -rf ~/deploy_ws/logs/ugv/super
-
-    # ////////////////////////////////////////////////////////////////////////////
-    - build:
-    # ////////////////////////////////////////////////////////////////////////////
-
-      - slam:
-        - cd ~/deploy_ws/src/ugv
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        # ignore slam/devel repos
-        - touch slam/devel/loam_velodyne_16/CATKIN_IGNORE
-        - touch slam/devel/velodyne_driver_16_32/CATKIN_IGNORE
-        - catkin profile list
-        - catkin profile set ugv-super
-        - catkin config
-        - catkin build --force-cmake
-
-      - subt_launch:
-        - cd ~/deploy_ws/src/subt_launch
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set ugv-super
-        - catkin config
-        - catkin build --force-cmake
+#  # ////////////////////////////////////////////////////////////////////////////
+#  - nuc.super:
+#  # ////////////////////////////////////////////////////////////////////////////
+#    # - +docker:ugv-super-shell
+#    - cd $SUBT_PATH/
+#    - pwd
+#    - whoami
+#
+#    # ////////////////////////////////////////////////////////////////////////////
+#    - clean:
+#    # ////////////////////////////////////////////////////////////////////////////
+#      - rm -rf ~/deploy_ws/devel/ugv/super
+#      - rm -rf ~/deploy_ws/build/ugv/super
+#      - rm -rf ~/deploy_ws/install/ugv/super
+#      - rm -rf ~/deploy_ws/logs/ugv/super
+#
+#    # ////////////////////////////////////////////////////////////////////////////
+#    - build:
+#    # ////////////////////////////////////////////////////////////////////////////
+#
+#      - slam:
+#        - cd ~/deploy_ws/src/ugv
+#        - rm -f .catkin_tools/profiles/profiles.yaml
+#        # ignore slam/devel repos
+#        - touch slam/devel/loam_velodyne_16/CATKIN_IGNORE
+#        - touch slam/devel/velodyne_driver_16_32/CATKIN_IGNORE
+#        - catkin profile list
+#        - catkin profile set ugv-super
+#        - catkin config
+#        - catkin build --force-cmake
+#
+#      - subt_launch:
+#        - cd ~/deploy_ws/src/subt_launch
+#        - rm -f .catkin_tools/profiles/profiles.yaml
+#        - catkin profile list
+#        - catkin profile set ugv-super
+#        - catkin config
+#        - catkin build --force-cmake
 
   # ////////////////////////////////////////////////////////////////////////////
   - nuc.loam:
