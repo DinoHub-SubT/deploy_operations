@@ -121,7 +121,7 @@ pushd $__dir/../
 # set the password, if given to enable by user input
 if chk_flag -p $@; then
   read -p "Enter system password (leave empty for default): " client_password
-  _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
+  # _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
 fi
 
 # install playbook on remote system
@@ -159,7 +159,7 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
 
   text "using inventory file: $inv"
   # run ansible installer
-  ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS
+  ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS --extra-vars "ansible_sudo_pass=$client_password"
 
   # ansible-playbook install failed
   if last_command_failed; then
