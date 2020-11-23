@@ -39,17 +39,17 @@
         - docker context use $DOCKER_CONTEXT
         - docker images
         # tag the docker images -- to push to azure
-        - docker tag subt/chonky_l4t $AZURE_REGISTRY/subt-chonky_l4t
-        - docker tag subt/perception-arm:ros $AZURE_REGISTRY/subt-perception-arm:ros
-        - docker tag subt/perception-arm:0.1 $AZURE_REGISTRY/subt-perception-arm:0.1
+        - docker tag subt/chonky_l4t $AZURE_REGISTRY/subt/chonky_l4t
+        - docker tag subt/perception-arm:ros $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker tag subt/perception-arm:0.1 $AZURE_REGISTRY/subt/perception-arm:0.1
         # push the docker images to the azure registry
-        - docker push $AZURE_REGISTRY/subt-chonky_l4t
-        - docker push $AZURE_REGISTRY/subt-perception-arm:ros
-        - docker push $AZURE_REGISTRY/subt-perception-arm:0.1
+        - docker push $AZURE_REGISTRY/subt/chonky_l4t
+        - docker push $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker push $AZURE_REGISTRY/subt/perception-arm:0.1
         # remove the azure docker images
-        - docker rmi $AZURE_REGISTRY/subt-chonky_l4t
-        - docker rmi $AZURE_REGISTRY/subt-perception-arm:ros
-        - docker rmi $AZURE_REGISTRY/subt-perception-arm:0.1
+        - docker rmi $AZURE_REGISTRY/subt/chonky_l4t
+        - docker rmi $AZURE_REGISTRY/subt/perception-arm:ros
+        - docker rmi $AZURE_REGISTRY/subt/perception-arm:0.1
         - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
         # show the docker images
         - docker images
