@@ -120,7 +120,7 @@ pushd $__dir/../
 
 # set the password, if given to enable by user input
 if chk_flag -p $@; then
-  read -p "Enter system password (leave empty for default): " client_password
+  read -sp "Enter system password (leave empty for default): " client_password
   # _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
 fi
 
