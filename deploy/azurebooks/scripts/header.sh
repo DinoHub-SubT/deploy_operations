@@ -30,6 +30,7 @@ FG_LCYAN="\e[96m"
 FG_LWHITE="\e[97m"
 
 FG_COLOR_TITLE="${FG_BLUE}"
+FG_COLOR_SUBTITLE="${FG_GREEN}"
 FG_COLOR_TEXT="${FG_DEFAULT}"
 FG_COLOR_DEBUG="${FG_LGRAY}"
 FG_COLOR_ERROR="${FG_RED}"
@@ -96,6 +97,15 @@ function title() {
 }
 
 ##
+# Writes out a colored subtitle
+function subtitle() {
+    if [[ $DISABLE_TITLE == 1 ]]; then
+        return
+    fi
+    echo -e "${FG_COLOR_SUBTITLE}${@}${FG_DEFAULT}"
+}
+
+##
 # Writes out colored text
 function text() {
     if [[ $DISABLE_TEXT == 1 ]]; then
@@ -129,6 +139,10 @@ function warning() {
     return
   fi
   echo -e "${FG_COLOR_WARNING}${@}${FG_DEFAULT}"
+}
+
+function divider() {
+    printf "%60s \n" " " | tr ' ' '-'
 }
 
 # A function that returns the argument provided
@@ -261,6 +275,9 @@ function ctrl_c() {
   exit_success
 }
 
+##
+# source the terraform environment variables
+##
 function source_terra_env() {
     # source the terraform env
     if [ ! -e ~/.terraform_id.bashrc ]; then
@@ -274,4 +291,23 @@ function source_terra_env() {
     else
         source ~/.terraform_flags.bashrc
     fi
+}
+
+##
+# returns the argument value of a given flag
+# $1 flag associated with argument value
+# $@ array of all given arguments
+##
+function get_arg() {
+    local _flag=$1
+    shift
+    # get the index of the flag
+    idx=$(arr_idx $_flag $@)
+    # missing flag, return empty value
+    [ $idx == -1 ] && echo "" && return 0
+    # increase counter, argment is always next value
+    ((idx++))
+    # return the argument value
+    arg=${@:$idx:1}
+    echo $arg
 }
