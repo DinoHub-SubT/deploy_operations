@@ -14,7 +14,7 @@
     - sim:
       - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
     # ignore any build errors (in case there are no dangling images)
-    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+    - docker rmi -f $(docker images -f "dangling=true" -q) || true
 
   # ////////////////////////////////////////////////////////////////////////////
   - container:

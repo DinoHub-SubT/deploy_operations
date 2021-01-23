@@ -18,19 +18,20 @@
 
   # == creating docker images ==
   - image:
-    - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
-    - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image
+    # - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
+    # - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image
+    - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-supplement-image
     # - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image-realsense-220
     # - docker-compose-wrapper $scenario build --force-rm perception-$deploy_system_type-image-realsense-235
     # ignore any error messages (in case there are no dangling images)
-    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+    - docker rmi -f $(docker images -f "dangling=true" -q) || true 
 
   # ////////////////////////////////////////////////////////////////////////////
   - container:
   # ////////////////////////////////////////////////////////////////////////////
     - shell:
       # - docker-compose-wrapper $scenario -p perception-$deploy_system_type-shell up --force-recreate -d ros-$deploy_system_type-shell
-      - docker-compose-wrapper $scenario -p perception-$deploy_system_type-shell up --force-recreate -d perception-$deploy_system_type-shell
+      - docker-compose-wrapper $scenario -p perception-$deploy_system_type-shell up --force-recreate -d perception-$deploy_system_type-supplement-shell
     # stopping containers
     - stop:
       - docker stop $(docker ps -a -q)

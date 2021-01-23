@@ -8,7 +8,7 @@
     - docker-compose-wrapper $scenario build --force-rm ros-$deploy_system_type-image
     - docker-compose-wrapper $scenario build --force-rm basestation-$deploy_system_type-image
     # ignore any error messages (in case there are no dangling images)
-    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+    - docker rmi -f $(docker images -f "dangling=true" -q) || true
 
   # ////////////////////////////////////////////////////////////////////////////
   - container:

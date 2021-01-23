@@ -9,7 +9,7 @@
     - docker-compose-wrapper $scenario build --force-rm ros-cpu-image
     - docker-compose-wrapper $scenario build --force-rm basestation-cpu-image
     # ignore any error messages (in case there are no dangling images)
-    - docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null
+    - docker rmi -f $(docker images -f "dangling=true" -q) || true
 
   # ////////////////////////////////////////////////////////////////////////////
   - container:
