@@ -5,8 +5,8 @@
 - name: docker Setup
 
   vars_files:
-    - ../vars/main.yaml
     - ../vars/user-inputs.yaml
+    - ../vars/main.yaml
 
   # run playbook on the localhost
   hosts:
@@ -86,12 +86,35 @@
     debug:
       msg: "Container Output: {{hello_world_output.stdout}}"
 
+  - name: check nvidia-smi installed
+    shell: nvidia-smi
+    ignore_errors: yes
+    register: nvidia_smi_output
+
+  # change some default parameters in the VMS
+  - name: Set Nvidia Daemon Variable
+    set_fact:
+      install_nvidia_docker: true
+    when: >
+      nvidia_smi_output.rc == 0
+
   # configure the default docker daemon
-  - name: Deploy Docker daemon.json.
+  - name: Deploy GPU Docker daemon.json.
     become: true
     copy:
-      src: ../templates/daemon.json.template
+      src: ../templates/daemon.x86.gpu.template
       dest: /etc/docker/daemon.json
+    when: >
+      install_nvidia_docker
+
+  # configure the default docker daemon
+  - name: Deploy CPU Docker daemon.json.
+    become: true
+    copy:
+      src: ../templates/daemon.x86.cpu.template
+      dest: /etc/docker/daemon.json
+    when: >
+      not install_nvidia_docker
 
   - name: prune docker network
     shell: docker network prune -f

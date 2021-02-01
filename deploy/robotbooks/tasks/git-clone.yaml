@@ -6,8 +6,8 @@
 
   # setup variables to be shared in tasks
   vars_files:
-    - ../vars/main.yaml
     - ../vars/user-inputs.yaml
+    - ../vars/main.yaml
 
   # setup hosts to run commands as
   hosts:
@@ -275,3 +275,12 @@
         inventory_hostname is match("robot-ugv.*-xavier") or
         inventory_hostname is match("azure-basestation") or
         inventory_hostname is match("robot-basestation")
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install deployer
+    # ////////////////////////////////////////////////////////////////////////
+    - name: Install Deployer
+      shell:
+        cmd: ./install-deployer.bash --install
+        chdir: ~/deploy_ws/src
+

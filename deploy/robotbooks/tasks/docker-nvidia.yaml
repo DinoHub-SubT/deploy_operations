@@ -26,6 +26,18 @@
   # NVIDIA Docker
   # ////////////////////////////////////////////////////////////////////////
 
+  - name: check nvidia-smi installed
+    shell: nvidia-smi
+    ignore_errors: yes
+    register: nvidia_smi_output
+
+  # change some default parameters in the VMS
+  - name: Set Nvidia Daemon Variable
+    set_fact:
+      install_nvidia_docker: true
+    when: >
+      nvidia_smi_output.rc == 0
+
   - name: remove previous nvidia-docker manual install
     become: true
     shell: docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
@@ -151,7 +163,7 @@
       inventory_hostname is match("azure-uav*")
 
   - name: test nvidia-docker with 'hello world' example
-    shell: docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+    shell: docker run --runtime=nvidia --rm nvidia/cuda:8.0-runtime nvidia-smi
     register: hello_world_output
     when: >
       install_nvidia_docker or

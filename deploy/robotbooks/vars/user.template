@@ -1,0 +1,22 @@
+# //////////////////////////////////////////////////////////////////////////////
+# General Configurations (on local, azure or robot systems)
+# //////////////////////////////////////////////////////////////////////////////
+
+# enable if you wish to install ROS [melodic] on your localhost
+install_ros: false
+
+# enable if you wish to install teamviewer
+install_teamviewer: true
+
+# if you wish to copy your ~/.gitconfig to the ansible host (only for remote systems)
+copy_git_config: true
+
+# /////////////////////////////////////////////////////////////////////////////
+# Azure Virtual Machine Configurations (azure only systems)
+# /////////////////////////////////////////////////////////////////////////////
+
+# default user & password for remote server login
+# -- remember to change, depending on which host you are installing on
+default_user:
+  name: subt
+  password: Password1234!

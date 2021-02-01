@@ -6,8 +6,5 @@
 - include: tasks/docker.yaml
 - include: tasks/docker-tools.yaml
 
-# clone deploy repo using internet
-# - include: tasks/git-clone.yaml
-
 # install ros
 - include: tasks/ros.yaml

@@ -98,6 +98,9 @@ gnome_desktop_packages:
   - ubuntu-desktop
   - xserver-xorg-video-dummy
 
+# ansible needs to find the nvidia-smi command, otherwise will not install nvidia-docker
+install_nvidia_docker: false
+
 # == Tool Versions ==
 
 # Git Deploy Repository Configuration
