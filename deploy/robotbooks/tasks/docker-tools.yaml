@@ -73,26 +73,6 @@
     debug:
       msg: "Docker Compose Version: {{docker_compose_version_out.stdout}}"
 
-  # //////////////////////////////////////////////////////////////////////////
-  # Docker Machine
-  # //////////////////////////////////////////////////////////////////////////
-
-  - name: download docker machine
-    become: true
-    get_url:
-      url: https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
-      dest: /tmp/docker-machine
-      mode: a+x
-
-  - name: stat docker machine
-    stat: path=/tmp/docker-machine
-    register: docker_machine_stat
-
-  - name: move docker machine to 'bin'
-    become: true
-    command: mv /tmp/docker-machine /usr/local/bin/
-    when: docker_machine_stat.stat.exists
-
   # ////////////////////////////////////////////////////////////////////////
   # docker context
   # ////////////////////////////////////////////////////////////////////////
