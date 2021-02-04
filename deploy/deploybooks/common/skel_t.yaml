@@ -26,3 +26,6 @@
 # evaluate the copy command
 - echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
 - eval $copy_cmd
+
+# output any post transfer commetns
+- echo -e "\e[33m$POST_TRANSFER_SETUPS_WARNINGS"

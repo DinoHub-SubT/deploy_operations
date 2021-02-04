@@ -24,7 +24,7 @@
         - docker push $AZURE_REGISTRY/subt-ugv-sim
         - docker push $AZURE_REGISTRY/subt-ugv-super
         # remove the azure docker images
-        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1) || true
 
       - arm:
         # change the docker context to the default docker daemon
@@ -34,15 +34,18 @@
         - docker tag subt/chonky_l4t $AZURE_REGISTRY/subt/chonky_l4t
         - docker tag subt/perception-arm:ros $AZURE_REGISTRY/subt/perception-arm:ros
         - docker tag subt/perception-arm:0.1 $AZURE_REGISTRY/subt/perception-arm:0.1
+        - docker tag subt/perception-arm-supplement:0.1 $AZURE_REGISTRY/subt/perception-arm-supplement:0.1
         # pull the docker images from the laptop local registry
         - docker push $AZURE_REGISTRY/subt/chonky_l4t
         - docker push $AZURE_REGISTRY/subt/perception-arm:ros
         - docker push $AZURE_REGISTRY/subt/perception-arm:0.1
+        - docker push $AZURE_REGISTRY/subt/perception-arm-supplement:0.1
         # remove the azure docker images
         - docker rmi $AZURE_REGISTRY/subt/chonky_l4t
         - docker rmi $AZURE_REGISTRY/subt/perception-arm:ros
         - docker rmi $AZURE_REGISTRY/subt/perception-arm:0.1
-        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+        - docker rmi $AZURE_REGISTRY/subt/perception-arm-supplement:0.1
+        - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1) || true
         # show the docker images
         - docker images
 
@@ -63,6 +66,6 @@
       - docker tag $AZURE_REGISTRY/subt-ugv-sim subt/ugv:sim
       - docker tag $AZURE_REGISTRY/subt-ugv-super subt/ugv:super
       # remove the azure docker images
-      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1)
+      - docker rmi $(docker images | grep $AZURE_REGISTRY | tr -s ' ' | cut -d ' ' -f 1) || true
       # show the docker images
       - docker images

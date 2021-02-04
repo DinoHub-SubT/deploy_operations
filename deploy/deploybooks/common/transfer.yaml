@@ -36,3 +36,6 @@
 # post-transfer command execute
 - echo $post_transfer_command
 - eval $post_transfer_command
+
+# output any post transfer commetns
+- echo -e "\e[33m$POST_TRANSFER_SETUPS_WARNINGS"
