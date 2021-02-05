@@ -108,8 +108,8 @@
         - cd ~/deploy_ws/src/ugv
         - rm -f .catkin_tools/profiles/profiles.yaml
         # ignore slam/devel repos
-        - touch slam/devel/loam_velodyne_16/CATKIN_IGNORE
-        - touch slam/devel/velodyne_driver_16_32/CATKIN_IGNORE
+        # - touch slam/devel/loam_velodyne_16/CATKIN_IGNORE
+        # - touch slam/devel/velodyne_driver_16_32/CATKIN_IGNORE
         - catkin profile list
         - catkin profile set ugv-loam
         - catkin config

@@ -15,11 +15,11 @@
   - git lfs pull
   - git lfs install
 
-# - operations:
-#   - docker:
-#     - git submodule update --recursive --init operations/deploy/docker
-#     - cd operations/deploy/docker
-#     - git clean -d -f -f
+- operations:
+  - docker:
+    - git submodule update --recursive --init operations/deploy/docker
+    - cd operations/deploy/docker
+    - git clean -d -f -f
 
 - perception:
   - git submodule update --recursive --init perception
