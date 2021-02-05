@@ -31,16 +31,10 @@
           - +extend: systems/robot/ugv/ppc/compose
         - catkin:
           - +ssh:{ ugv1.ppc }
-          - +docker:ppc-shell
           - +extend: systems/robot/ugv/ppc/catkin
         - registry:
           - export DOCKER_CONTEXT=robot-ugv1-ppc
           - +extend: systems/robot/ugv/ppc/registry
-        - ros:
-          - +ssh:{ ugv1.ppc }
-          - +docker:ppc-shell
-          - export ROSBAG_DIR=/home/developer/logging
-          - +extend: systems/robot/common/ros
 
       - nuc:
         # source the computer-level scenario file
@@ -112,7 +106,6 @@
           - +extend: systems/robot/ugv/ppc/compose
         - catkin:
           - +ssh:{ ugv2.ppc }
-          - +docker:ppc-shell
           - +extend: systems/robot/ugv/ppc/catkin
         - registry:
           - export DOCKER_CONTEXT=robot-ugv2-ppc
@@ -178,7 +171,6 @@
           - +extend: systems/robot/ugv/ppc/compose
         - catkin:
           - +ssh:{ ugv3.ppc }
-          - +docker:ppc-shell
           - +extend: systems/robot/ugv/ppc/catkin
         - registry:
           - export DOCKER_CONTEXT=robot-ugv3-ppc
@@ -198,7 +190,8 @@
           - +extend: systems/robot/ugv/nuc/compose
         - catkin:
           - +ssh:{ ugv3.nuc }
-          - touch ~/deploy_ws/src/ugv/slam/robot/ds3_state_estimation
+          # ignore superodom for now, since it does not yet build
+          - touch ~/deploy_ws/src/ugv/slam/robot/ds3_state_estimation/CATKIN_IGNORE
           - +extend: systems/robot/ugv/nuc/catkin
         - registry:
           - export DOCKER_CONTEXT=robot-ugv3-nuc

@@ -2,7 +2,13 @@
 - workspace:
 # ////////////////////////////////////////////////////////////////////////////
 
-  - ppc:
+  # ////////////////////////////////////////////////////////////////////////////
+  - core:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # entry the planning-pc container
+    - +docker:ppc-shell
+
     - cd $SUBT_PATH/
     - pwd
     - whoami
@@ -35,11 +41,49 @@
         - catkin config
         - catkin build --force-cmake
 
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-ppc
+        - catkin config
+        - catkin build --force-cmake
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - vdb:
+  # ////////////////////////////////////////////////////////////////////////////
+    # entry the planning-pc container
+    - +docker:vdb-shell
+
+    - cd $SUBT_PATH/
+    - pwd
+    - whoami
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/ugv/vdb
+      - rm -rf ~/deploy_ws/build/ugv/vdb
+      - rm -rf ~/deploy_ws/install/ugv/vdb
+      - rm -rf ~/deploy_ws/logs/ugv/vdb
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-vdb
+        - catkin config
+        - catkin build --force-cmake
+
       - uav:
         - cd ~/deploy_ws/src/uav
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-ppc
+        - catkin profile set ugv-vdb
         - catkin config
         - catkin build --force-cmake
 
@@ -47,6 +91,6 @@
         - cd ~/deploy_ws/src/subt_launch
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set ugv-ppc
+        - catkin profile set ugv-vdb
         - catkin config
         - catkin build --force-cmake
