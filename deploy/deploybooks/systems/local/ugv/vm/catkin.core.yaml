@@ -35,14 +35,6 @@
         - catkin config
         - catkin build --force-cmake
 
-      - uav:
-        - cd ~/deploy_ws/src/uav
-        - rm -f .catkin_tools/profiles/profiles.yaml
-        - catkin profile list
-        - catkin profile set ugv-vdb
-        - catkin config
-        - catkin build --force-cmake
-
       - darpa:
         - cd ~/deploy_ws/src/simulation/darpa/catkin
         - rm -f .catkin_tools/profiles/profiles.yaml

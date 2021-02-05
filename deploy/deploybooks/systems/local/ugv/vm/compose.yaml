@@ -15,6 +15,7 @@
       - docker-compose-wrapper $scenario build --force-rm super-image
     - sim:
       - docker-compose-wrapper $scenario build --force-rm ugv-sim-image
+
     # ignore any build errors (in case there are no dangling images)
     - docker rmi -f $(docker images -f "dangling=true" -q) || true
 
@@ -34,6 +35,8 @@
         - docker-compose-wrapper $scenario -p super-shell up --force-recreate -d super-shell
       - sim:
         - docker-compose-wrapper $scenario -p ugv-sim-shell up --force-recreate -d ${COMPUTER}-sim-shell
+      - vdb:
+        - docker-compose-wrapper $scenario -p ugv-vdb-shell up --force-recreate -d ${COMPUTER}-vdb-shell
 
     # stopping containers
     - stop:
