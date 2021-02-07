@@ -24,50 +24,41 @@
       - compose:
         - core:
           - +extend: systems/local/ugv/vm/compose
-        - vdb:
-          - export filename=systems/local/ugv1-vdb
-          - source operations/deploy/scenarios/$filename.env
-          - export scenario=" --scenario $filename"
-          - +extend: systems/local/ugv/vm/compose
-
       - catkin:
         - core:
           - +docker:ugv1-sim-shell
           - +extend: systems/local/ugv/vm/catkin.core
-        - vdb:
-          - +docker:ugv1-vdb-shell
-          - +extend: systems/local/ugv/vm/catkin.vdb
 
-#     # ////////////////////////////////////////////////////////////////////////////
-#     - ugv2:
-#     # ////////////////////////////////////////////////////////////////////////////
-#       # source the computer-level scenario file
-# 
-#       - export filename=systems/local/ugv2
-#       - source operations/deploy/scenarios/$filename.env
-#       - export scenario=" --scenario $filename"
-# 
-#       - registry:
-#         - +extend: systems/local/ugv/vm/registry
-#       - compose:
-#         - +extend: systems/local/ugv/vm/compose
-#       - catkin:
-#         - +docker:ugv2-sim-shell
-#         - +extend: systems/local/ugv/vm/catkin
-# 
-#     # ////////////////////////////////////////////////////////////////////////////
-#     - ugv3:
-#     # ////////////////////////////////////////////////////////////////////////////
-#       # source the computer-level scenario file
-# 
-#       - export filename=systems/local/ugv3
-#       - source operations/deploy/scenarios/$filename.env
-#       - export scenario=" --scenario $filename"
-# 
-#       - registry:
-#         - +extend: systems/local/ugv/vm/registry
-#       - compose:
-#         - +extend: systems/local/ugv/vm/compose
-#       - catkin:
-#         - +docker:ugv3-sim-shell
-#         - +extend: systems/local/ugv/vm/catkin
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv2:
+    # ////////////////////////////////////////////////////////////////////////////
+      # source the computer-level scenario file
+
+      - export filename=systems/local/ugv2
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - registry:
+        - +extend: systems/local/ugv/vm/registry
+      - compose:
+        - +extend: systems/local/ugv/vm/compose
+      - catkin:
+        - +docker:ugv2-sim-shell
+        - +extend: systems/local/ugv/vm/catkin.core
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - ugv3:
+    # ////////////////////////////////////////////////////////////////////////////
+      # source the computer-level scenario file
+
+      - export filename=systems/local/ugv3
+      - source operations/deploy/scenarios/$filename.env
+      - export scenario=" --scenario $filename"
+
+      - registry:
+        - +extend: systems/local/ugv/vm/registry
+      - compose:
+        - +extend: systems/local/ugv/vm/compose
+      - catkin:
+        - +docker:ugv3-sim-shell
+        - +extend: systems/local/ugv/vm/catkin.core

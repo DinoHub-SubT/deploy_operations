@@ -72,6 +72,10 @@ our (
   # Local
 
   # ugv1
+  "local.docker.ops.clean",
+  "local.docker.ops.stop",
+  "local.docker.ops.rm",
+  "local.docker.ops.prune",
   "local.docker.network.rm",
   "local.docker.network.create",
 

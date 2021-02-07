@@ -1,24 +1,44 @@
 # //////////////////////////////////////////////////////////////////////////////
 - local:
 # //////////////////////////////////////////////////////////////////////////////
-
   - +extend: common/git
 
-  # ////////////////////////////////////////////////////////////////////////////
-  - docker.network:
-  # ////////////////////////////////////////////////////////////////////////////
-    - rm:
-      - docker network rm robots
-    - create:
-        - docker network rm robots || true
-        - docker network prune -f || true
-        - docker network create -d bridge robots
-              --subnet=10.3.0.0/16
-              --ip-range=10.3.0.0/24
-              --opt com.docker.network.bridge.default_bridge=true
-              --opt com.docker.network.bridge.enable_icc=true
-              --opt com.docker.network.bridge.enable_ip_masquerade=true
-              --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0
-              --opt com.docker.network.driver.mtu=1500
-        - docker network ls
-        - docker network inspect robots
+  # //////////////////////////////////////////////////////////////////////////
+  - docker:
+  # //////////////////////////////////////////////////////////////////////////
+
+    # common docker, general commands
+    - ops:
+      - clean:
+        - docker rmi -f $(docker images -f "dangling=true" -q)  || true
+        - docker images
+      # stopping containers
+      - stop:
+        - docker stop $(docker ps -a -q) || true
+        - docker ps -a
+      # removing containers
+      - rm:
+        - docker rm -f $(docker ps -a -q) || true
+        - docker images
+      # removes all subt docker images
+      - prune:
+        - docker images --filter "reference=subt/*" | awk '{print $3}' | xargs -I {} docker rmi -f {} || true
+        - docker images
+
+    # localhost, simulation docker network setup
+    - network:
+      - rm:
+        - docker network rm robots
+      - create:
+          - docker network rm robots || true
+          - docker network prune -f || true
+          - docker network create -d bridge robots
+                --subnet=10.3.0.0/16
+                --ip-range=10.3.0.0/24
+                --opt com.docker.network.bridge.default_bridge=true
+                --opt com.docker.network.bridge.enable_icc=true
+                --opt com.docker.network.bridge.enable_ip_masquerade=true
+                --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0
+                --opt com.docker.network.driver.mtu=1500
+          - docker network ls
+          - docker network inspect robots
