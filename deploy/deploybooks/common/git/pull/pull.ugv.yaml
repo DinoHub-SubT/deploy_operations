@@ -8,3 +8,8 @@
     - cd nuc
     - git submodule update --init --recursive .
     - git clean -d -f -f
+
+  # pull the simulation repo.
+  - cd $SUBT_PATH/ugv/simulation
+  - git submodule update --init --recursive .
+  - git clean -d -f -f

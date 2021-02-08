@@ -4,3 +4,6 @@
     - git submodule deinit -f planning-pc
   - nuc:
     - git submodule deinit -f nuc
+
+  # remove the simulation repo.
+  - git submodule deinit -f simulation

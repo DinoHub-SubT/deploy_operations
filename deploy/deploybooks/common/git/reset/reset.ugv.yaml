@@ -14,3 +14,10 @@
     - cd nuc
     - git submodule update --init --recursive .
     - git clean -d -f -f
+
+  # reset the simulation repo.
+  - cd $SUBT_PATH/ugv/
+  - git submodule deinit -f simulation
+  - cd simulation
+  - git submodule update --init --recursive .
+  - git clean -d -f -f
