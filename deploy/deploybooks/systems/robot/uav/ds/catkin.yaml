@@ -9,8 +9,11 @@
   # ////////////////////////////////////////////////////////////////////////////
   - px4:
   # ////////////////////////////////////////////////////////////////////////////
-    - cd ~/deploy_ws/src/uav/core/firmwaresubt
-    - ./build.sh
+    - build:
+      - cd ~/deploy_ws/src/uav/core/firmwaresubt
+      - ./build.sh
+    - clean:
+      - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
 
   # //////////////////////////////////////////////////////////////////////////
   - uav.core:
@@ -42,7 +45,7 @@
         - cd ~/deploy_ws/src/uav
         - rm -f .catkin_tools/profiles/profiles.yaml
         - catkin profile list
-        - catkin profile set uav
+        - catkin profile set uav-inside
         - catkin config
         - catkin build --force-cmake
 

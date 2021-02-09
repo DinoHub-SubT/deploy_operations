@@ -636,7 +636,8 @@ our (
   # uav1
   "robots.ds.ds1.transfer.to",
   "robots.ds.ds1.skel_t.to",
-  "robots.ds.ds1.catkin.px4",
+  "robots.ds.ds1.catkin.px4.build",
+  "robots.ds.ds1.catkin.px4.clean",
   "robots.ds.ds1.catkin.build",
   "robots.ds.ds1.catkin.clean",
   "robots.ds.ds1.catkin.core.build",
@@ -663,7 +664,8 @@ our (
   # uav2
   "robots.ds.ds2.transfer.to",
   "robots.ds.ds2.skel_t.to",
-  "robots.ds.ds2.catkin.px4",
+  "robots.ds.ds2.catkin.px4.build",
+  "robots.ds.ds2.catkin.px4.clean",
   "robots.ds.ds2.catkin.build",
   "robots.ds.ds2.catkin.clean",
   "robots.ds.ds2.catkin.core.build",
@@ -691,7 +693,8 @@ our (
   # uav3
   "robots.ds.ds3.transfer.to",
   "robots.ds.ds3.skel_t.to",
-  "robots.ds.ds3.catkin.px4",
+  "robots.ds.ds3.catkin.px4.build",
+  "robots.ds.ds3.catkin.px4.clean",
   "robots.ds.ds3.catkin.build",
   "robots.ds.ds3.catkin.clean",
   "robots.ds.ds3.catkin.core.build",
@@ -718,7 +721,8 @@ our (
   # uav4
   "robots.ds.ds4.transfer.to",
   "robots.ds.ds4.skel_t.to",
-  "robots.ds.ds4.catkin.px4",
+  "robots.ds.ds4.catkin.px4.build",
+  "robots.ds.ds4.catkin.px4.clean",
   "robots.ds.ds4.catkin.build",
   "robots.ds.ds4.catkin.clean",
   "robots.ds.ds4.catkin.core.build",
