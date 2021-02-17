@@ -1,0 +1,4 @@
+- uav:
+  - cd uav
+  - slam:
+    -  git submodule deinit -f slam

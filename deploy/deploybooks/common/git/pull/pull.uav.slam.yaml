@@ -1,0 +1,6 @@
+- uav:
+  - cd uav
+  - slam:
+    - cd slam
+    - git submodule update --init --recursive .
+    - git clean -d -f -f

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# check for detached state before committing
+($SUBT_PATH/operations/bin/automate/hooks.bash $(pwd) check-detached-head)
+exit $
+
+# TODO: check if pushed to origin

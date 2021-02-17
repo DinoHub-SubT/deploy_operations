@@ -1,0 +1,63 @@
+# ////////////////////////////////////////////////////////////////////////////
+- workspace:
+# ////////////////////////////////////////////////////////////////////////////
+
+  - ugv:
+    - cd $SUBT_PATH/
+    - pwd
+    - whoami
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - clean:
+    # ////////////////////////////////////////////////////////////////////////////
+      - rm -rf ~/deploy_ws/devel/ugv
+      - rm -rf ~/deploy_ws/build/ugv
+      - rm -rf ~/deploy_ws/install/ugv
+      - rm -rf ~/deploy_ws/logs/ugv
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - build:
+    # ////////////////////////////////////////////////////////////////////////////
+
+      - common:
+        - cd ~/deploy_ws/src/common
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-sim
+        - catkin config
+        - catkin build --force-cmake
+
+      - ugv:
+        - cd ~/deploy_ws/src/ugv
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set sim
+        - catkin config
+        - catkin build --force-cmake
+
+      - darpa:
+        - cd ~/deploy_ws/src/simulation/darpa/catkin
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv
+        - catkin config
+        - catkin build --force-cmake
+
+      - simulation:
+        - cd ~/deploy_ws/src/simulation
+        # TEMPORARY! REALLY BAD.
+        - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv
+        - catkin config
+        - catkin build --force-cmake
+
+      - subt_launch:
+        - cd ~/deploy_ws/src/subt_launch
+        - rm -f .catkin_tools/profiles/profiles.yaml
+        - catkin profile list
+        - catkin profile set ugv-sim
+        - catkin config
+        - catkin build --force-cmake

@@ -1,0 +1,10 @@
+
+# Install basic dependencies on the remote VM
+- include: tasks/robothost.yaml
+
+# Install docker & docker-tools on the remote VM
+- include: tasks/docker.yaml
+- include: tasks/docker-tools.yaml
+
+# install ros
+- include: tasks/ros.yaml

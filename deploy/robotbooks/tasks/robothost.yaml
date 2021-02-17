@@ -1,0 +1,276 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup robot host system packages
+# ////////////////////////////////////////////////////////////////////////
+- name: robothost setup
+
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/user-inputs.yaml
+    - ../vars/main.yaml
+    - ../vars/hosts.yaml
+
+  # setup hosts to run commands as
+  hosts:
+    - laptop
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    - name: install ubuntu prerequisite packages
+      become: true
+      apt:
+        name: "{{ localhost.apt }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    # note: can output segmentation fault on localhost
+    - name: install python prerequisite packages
+      pip:
+        name: "{{ localhost.pip_packages }}"
+        extra_args: --user
+      when: >
+        "azure-" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Remote Desktop
+    # ////////////////////////////////////////////////////////////////////////
+
+    - name: install RDP prerequisite packages
+      become: true
+      ignore_errors: yes
+      apt:
+        name: "{{ rdp_packages }}"
+        state: present
+        force: yes  # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        "azure-" in inventory_hostname
+
+    - name: enable service xrdp
+      become: true
+      systemd:
+        name: xrdp
+        state: started  # make sure service is running
+        enabled: yes    # start service on boot
+        masked: no
+      when: >
+        "azure-" in inventory_hostname
+
+    - name: add session to xsession
+      shell: echo xfce4-session >~/.xsession
+      when: >
+        "azure-" in inventory_hostname
+
+    - name: restart service xrdp
+      become: true
+      systemd:
+        name: xrdp
+        state: restarted  # make sure service is running
+        enabled: yes    # start service on boot
+        masked: no
+      when: >
+        "azure-" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Update password for default VM user
+    # ////////////////////////////////////////////////////////////////////////
+    - name: setup default 'subt' user password
+      become: true
+      user:
+        name: "{{ default_user.name }}"
+        update_password: always
+        password: "{{ default_user.password | password_hash('sha512') }}"
+      when: >
+        "azure-" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Bitbucket SSH Key Setup
+    # ////////////////////////////////////////////////////////////////////////
+
+    - name: Creates SSH Directory
+      file:
+        path: ~/.ssh/
+        state: directory
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Remove Previously Added Bitbucket SSH Keys
+      file:
+        path: ~/.ssh/"{{ item.filepath }}"
+        state: absent
+      with_items: " {{ bitbucket_ssh_keys }} "
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Copy Bitbucket SSH Keys
+      copy:
+        src: "{{ item.filepath }}"
+        dest: ~/.ssh/
+        mode: '0600'
+      with_items: " {{ bitbucket_ssh_keys }} "
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Remove Previously Added Bitbucket To Known Hosts
+      lineinfile:
+        path: $HOME/.ssh/known_hosts
+        regexp: '^bitbucket.org ssh-rsa'
+        state: absent
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Add Bitbucket to Known Hosts
+      shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Create SSH Config File
+      file:
+        path: ~/.ssh/config
+        state: touch
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    - name: Add Bitubucket to the SSH config
+      lineinfile:
+        path: ~/.ssh/config
+        regexp: 'IdentityFile ~/.ssh/bitbucket'
+        line: IdentityFile ~/.ssh/bitbucket
+      when: >
+        not ("localhost" in inventory_hostname)
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Copy Git Config
+    # ////////////////////////////////////////////////////////////////////////
+    # - name: Remove Previously Added Git Config Keys
+    #   file:
+    #     path: ~/.gitconfig"
+    #     state: absent
+    #   when: >
+    #     copy_git_config and
+    #     not ("localhost" in inventory_hostname)
+
+    - name: Copy Git Config
+      copy:
+        src: ~/.gitconfig
+        dest: ~/.gitconfig
+      when: >
+        copy_git_config and
+        not ("localhost" in inventory_hostname)
+
+    # ////////////////////////////////////////////////////////////////////////
+    # /etc/hosts
+    # ////////////////////////////////////////////////////////////////////////
+    - name: remove any previous azure hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ etc_hosts.azure }} "
+
+    - name: remove any previous basestation robot hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ etc_hosts.robot }} "
+
+    - name: update azure /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ etc_hosts.azure }} "
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: update robot /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ etc_hosts.robot }} "
+      when: >
+        "basestation" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # ~/.ssh/config
+    # ////////////////////////////////////////////////////////////////////////
+    - name: Create ~/.ssh/subt.d directory
+      file:
+        path: ~/.ssh/subt.d
+        state: directory
+
+    - name: Create the azure Jinja2 based template
+      template:
+        src: ../templates/azure_ssh_config.j2
+        dest: ~/.ssh/subt.d/azure.conf
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: Create the robot Jinja2 based template
+      template:
+        src: ../templates/robot_ssh_config.j2
+        dest: ~/.ssh/subt.d/robot.conf
+      when: >
+        "localhost" in inventory_hostname or
+        "basestation" in inventory_hostname
+
+    # add subt.d/ to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/ to ~/.ssh/config
+      shell: grep -c "^Include subt.d/* " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: Include subt.d/*
+        insertbefore: BOF
+      when: test_grep.stdout == "0"
+
+    # add '### SubT ###' to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/ to ~/.ssh/config
+      shell: grep -c "^'\#\#\# SubT \#\#\#' " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: "### SubT ###"
+        insertbefore: BOF
+      when: test_grep.stdout == "0"

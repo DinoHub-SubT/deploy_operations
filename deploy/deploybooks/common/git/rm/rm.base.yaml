@@ -1,0 +1,16 @@
+- base:
+  - basestation:
+    - git submodule deinit -f basestation
+
+  - common:
+    - git submodule deinit -f common
+
+  - operations:
+    - docker:
+      - git submodule deinit -f operations/deploy/docker
+
+  - perception:
+    -  git submodule deinit -f perception
+
+  - subt_launch:
+    -  git submodule deinit -f subt_launch

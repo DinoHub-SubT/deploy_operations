@@ -1,0 +1,6 @@
+- uav:
+  - cd uav
+  - core:
+    - git submodule deinit -f core
+  - hardware:
+    -  git submodule deinit -f hardware

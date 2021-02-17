@@ -1,0 +1,5 @@
+- uav:
+  - git submodule update --init uav
+  - cd uav
+  - slam:
+    - git submodule update --init slam

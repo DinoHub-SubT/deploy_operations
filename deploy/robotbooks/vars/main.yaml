@@ -1,0 +1,149 @@
+# == System Packages ==
+
+# Prerequisites Ubuntu Packages
+localhost:
+  apt:
+    - python2.7
+    - python-setuptools
+    - python-pip
+    - python-requests
+    - build-essential
+    - cmake
+    - cppcheck
+    - gdb
+    - git
+    - lsb-release
+    - software-properties-common
+    - sudo
+    - vim
+    - nano
+    - emacs
+    - wget
+    - curl
+    - less
+    - net-tools
+    - tmux
+    - byobu
+    - iputils-ping
+    - locales
+    - xvfb
+    - tzdata
+    - debian-archive-keyring
+    - apt-transport-https
+    - git-lfs
+    - freerdp-x11
+    - traceroute
+    - zsh
+    - lm-sensors
+    - tmuxp
+    # azure vpn
+    - strongswan
+    - strongswan-pki
+    - libstrongswan-extra-plugins
+    - network-manager-strongswan
+    # azure rdp
+    - rdesktop
+    # azure cli
+    - ca-certificates
+    - curl
+    - gnupg
+
+  # Prerequisites Ubuntu Packages
+  pip_packages:
+    - wheel
+    - setuptools
+    - PyYAML
+    - pexpect
+
+# Prerequisites Docker Packages
+docker_dependency_packages:
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+docker_packages:
+  - docker-ce
+
+# Previous nvidia-docker package, for removal
+nvidia_docker_purge_packages:
+  - nvidia-docker
+
+# nvidia-docker package, for install
+nvidia_docker_packages:
+  - nvidia-docker2
+
+# Prerequisites Azure CLI Tool packages
+azure_cli_packages:
+  - ca-certificates
+  - curl
+  - lsb-release
+  - gnupg
+  - unzip
+  - wget
+
+# Prerequisites Remote Desktop Packages
+rdp_packages:
+  - xfce4
+  - xrdp
+
+  # Prerequisites Remote Desktop Packages
+gnome_vanilla_packages:
+  - gdm3
+  - gnome-session
+
+gnome_prerequisite_packages:
+  - tasksel
+
+gnome_desktop_packages:
+  - ubuntu-desktop
+  - xserver-xorg-video-dummy
+
+# ansible needs to find the nvidia-smi command, otherwise will not install nvidia-docker
+install_nvidia_docker: false
+
+# == Tool Versions ==
+
+# Git Deploy Repository Configuration
+git:
+  deploy:
+    branch: develop
+
+# docker version
+docker:
+  - machine_version: 0.16.0
+
+# terraform version validation
+terraform:
+  - version: 0.12.24
+
+# terraform version validation
+teamviewer:
+  password: teamviewer
+
+# Authorized SSH keys to add on the remote host
+bitbucket_ssh_keys:
+  - filepath: ~/.ssh/bitbucket
+  - filepath: ~/.ssh/bitbucket.pub
+
+ros:
+  version: melodic
+  # ROS packages for base melodic install
+  melodic:
+    key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+    packages:
+      prereq:
+        - python
+        - python-rosdep
+        - python-rosinstall-generator
+        - python-wstool
+        - python-rosinstall
+        - python-catkin-tools
+      extra:
+        - ros-melodic-cmake-modules
+        - ros-melodic-rqt-gui-cpp
+        - ros-melodic-rviz
+        - ros-melodic-gazebo-*
+        - ros-melodic-rqt-gui
+        - ros-melodic-rqt-gui-cpp
+        - ros-melodic-rqt-gui-py
+        - ros-melodic-catch-ros

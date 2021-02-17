@@ -1,0 +1,149 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# setup & install docker
+# ////////////////////////////////////////////////////////////////////////
+- name: docker Setup
+
+  vars_files:
+    - ../vars/user-inputs.yaml
+    - ../vars/main.yaml
+
+  # run playbook on the localhost
+  hosts:
+    - laptop
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Docker
+  # ////////////////////////////////////////////////////////////////////////
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: install docker dependency packages
+    become: true
+    apt:
+      name: "{{ docker_dependency_packages }}"
+      state: present
+      force_apt_get: yes
+
+  - name: add official GPG key of docker
+    become: true
+    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+  - name: save the current Ubuntu release version
+    shell: lsb_release -cs
+    register: ubuntu_version
+
+  - name: set right Docker directory
+    become: true
+    shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version.stdout }} stable"
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: install docker
+    become: true
+    apt:
+      name: "{{ docker_packages }}"
+      state: present
+      force_apt_get: yes
+
+  - name: reset docker group
+    become: true
+    user: name={{ default_user.name }} groups=docker append=yes
+
+  - name: reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
+  - name: validate docker
+    shell: docker --version
+    register: docker_version_out
+
+  - name: output validate docker
+    debug:
+      msg: "Container Output: {{docker_version_out.stdout}}"
+
+  - name: test docker with 'hello world' example
+    shell: docker run --rm hello-world
+    register: hello_world_output
+
+  - name: show output of 'hello word' example
+    debug:
+      msg: "Container Output: {{hello_world_output.stdout}}"
+
+  - name: check nvidia-smi installed
+    shell: nvidia-smi
+    ignore_errors: yes
+    register: nvidia_smi_output
+
+  # change some default parameters in the VMS
+  - name: Set Nvidia Daemon Variable
+    set_fact:
+      install_nvidia_docker: true
+    when: >
+      nvidia_smi_output.rc == 0
+
+  # configure the default docker daemon
+  - name: Deploy GPU Docker daemon.json.
+    become: true
+    copy:
+      src: ../templates/daemon.x86.gpu.template
+      dest: /etc/docker/daemon.json
+    when: >
+      install_nvidia_docker
+
+  # configure the default docker daemon
+  - name: Deploy CPU Docker daemon.json.
+    become: true
+    copy:
+      src: ../templates/daemon.x86.cpu.template
+      dest: /etc/docker/daemon.json
+    when: >
+      not install_nvidia_docker
+
+  - name: prune docker network
+    shell: docker network prune -f
+    when: >
+      "localhost" in inventory_hostname
+    ignore_errors: yes
+
+  - name: remove previous docker network
+    shell: docker network rm robots
+    when: >
+      "localhost" in inventory_hostname
+    ignore_errors: yes
+
+  - name: test docker with 'hello world' example
+    shell: docker network create -d bridge robots \
+            --subnet=10.3.0.0/16 \
+            --ip-range=10.3.0.0/24 \
+            --opt com.docker.network.bridge.default_bridge=true \
+            --opt com.docker.network.bridge.enable_icc=true \
+            --opt com.docker.network.bridge.enable_ip_masquerade=true \
+            --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0 \
+            --opt com.docker.network.driver.mtu=1500
+    when: >
+      "localhost" in inventory_hostname
+
+  - name: Restart docker deamon is running
+    service:
+      name: docker
+      state: started
+    become: true
+    when: >
+      "localhost" in inventory_hostname

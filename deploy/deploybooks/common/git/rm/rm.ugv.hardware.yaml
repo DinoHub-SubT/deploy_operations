@@ -1,0 +1,4 @@
+- ugv:
+  - cd ugv
+  - hardware:
+    -  git submodule deinit -f hardware

@@ -1,0 +1,269 @@
+# //////////////////////////////////////////////////////////////////////////////
+# update all the deploy repo git submodules
+# //////////////////////////////////////////////////////////////////////////////
+
+- pwd
+
+# //////////////////////////////////////////////////////////////////////////////
+- submodule:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # ignore/unignore files from .git index
+  - +extend: common/git/ignore
+  - +extend: common/git/unignore
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - clean:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    # clean for the different system prefixes
+    - localhost:
+      - +extend: common/git/clean
+    - basestation:
+      - system76:
+        - +extend: common/git/clean
+      - laptop:
+          - +extend: common/git/clean
+
+    # remove untracked files
+    - git clean -xfd
+    # remove unstaged changes
+    - git checkout -- .
+    # remove untracked files in all submodules
+    - if [ ! -z "$(ls .)" ]; then git submodule foreach --recursive git clean -xfd; fi
+    # reset top level
+    # - git reset --hard
+    # reset the submodules, recursive
+    # - git submodule foreach --recursive git reset --hard
+    # - git submodule update --init --recursive
+    # show the git status
+    - pwd
+    - if [ ! -z "$(ls .)" ]; then git status; fi
+
+  # ////////////////////////////////////////////////////////////////////////
+  # clones the submodules to where the HEAD in the intermediate repo is set to.
+  - clone:
+  # ////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/clone/clone.base
+      - +extend: common/git/clone/clone.simulation
+      - +extend: common/git/clone/clone.ugv
+      - +extend: common/git/clone/clone.uav
+
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/clone/clone.base
+        - +extend: common/git/clone/clone.ugv
+        - +extend: common/git/clone/clone.ugv.hardware
+        - +extend: common/git/clone/clone.uav
+        - +extend: common/git/clone/clone.simulation
+
+      - laptop:
+        - +extend: common/git/clone/clone.base
+        - +extend: common/git/clone/clone.uav
+        - +extend: common/git/clone/clone.simulation
+
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/clone/clone.ugv.slam
+      - +extend: common/git/clone/clone.uav.slam
+
+    # show the git status in the intermediate-repo
+    - pwd
+    - git status
+
+  # ////////////////////////////////////////////////////////////////////////
+  # clones the submodules to what the branch in the intermediate repo is set to.
+  - pull:
+  # ////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/pull/pull.base
+      - +extend: common/git/pull/pull.simulation
+      - +extend: common/git/pull/pull.ugv
+      - +extend: common/git/pull/pull.uav
+
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/pull/pull.base
+        - +extend: common/git/pull/pull.ugv
+        - +extend: common/git/pull/pull.ugv.hardware
+        - +extend: common/git/pull/pull.uav
+        - +extend: common/git/pull/pull.simulation
+
+      - laptop:
+        - +extend: common/git/pull/pull.base
+        - +extend: common/git/pull/pull.uav
+        - +extend: common/git/pull/pull.simulation
+
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/pull/pull.ugv.slam
+      - +extend: common/git/pull/pull.uav.slam
+
+    # show the git status in the intermediate-repo
+    - pwd
+    - git status
+
+  # //////////////////////////////////////////////////////////////////////////////
+  - reset:
+  # //////////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/reset/reset.base
+      - +extend: common/git/reset/reset.simulation
+      - +extend: common/git/reset/reset.ugv
+      - +extend: common/git/reset/reset.uav
+
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/reset/reset.base
+        - +extend: common/git/reset/reset.ugv
+        - +extend: common/git/reset/reset.ugv.hardware
+        - +extend: common/git/reset/reset.uav
+        - +extend: common/git/reset/reset.simulation
+
+      - laptop:
+        - +extend: common/git/reset/reset.base
+        - +extend: common/git/reset/reset.uav
+        - +extend: common/git/reset/reset.simulation
+
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/reset/reset.ugv.slam
+      - +extend: common/git/reset/reset.uav.slam
+
+    # prompt git status
+    - pwd
+    - git status
+
+  # ////////////////////////////////////////////////////////////////////////
+  - init:
+  # ////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/init/init.base
+      - +extend: common/git/init/init.simulation
+      - +extend: common/git/init/init.ugv
+      - +extend: common/git/init/init.uav
+
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/init/init.base
+        - +extend: common/git/init/init.ugv
+        - +extend: common/git/init/init.ugv.hardware
+        - +extend: common/git/init/init.uav
+        - +extend: common/git/init/init.simulation
+
+      - laptop:
+        - +extend: common/git/init/init.base
+        - +extend: common/git/init/init.uav
+        - +extend: common/git/init/init.simulation
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/init/init.ugv.slam
+      - +extend: common/git/init/init.uav.slam
+
+  # //////////////////////////////////////////////////////////////////////////////
+  - rm:
+  # //////////////////////////////////////////////////////////////////////////////
+
+    # //////////////////////////////////////////////////////////////////////////
+    - localhost:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/rm/rm.base
+      - +extend: common/git/rm/rm.simulation
+      - +extend: common/git/rm/rm.ugv
+      - +extend: common/git/rm/rm.uav
+
+    # //////////////////////////////////////////////////////////////////////////
+    - basestation:
+    # //////////////////////////////////////////////////////////////////////////
+      - system76:
+        - +extend: common/git/rm/rm.base
+        - +extend: common/git/rm/rm.ugv
+        - +extend: common/git/rm/rm.ugv.hardware
+        - +extend: common/git/rm/rm.uav
+        - +extend: common/git/rm/rm.simulation
+
+      - laptop:
+        - +extend: common/git/rm/rm.base
+        - +extend: common/git/rm/rm.uav
+        - +extend: common/git/rm/rm.simulation
+
+    # //////////////////////////////////////////////////////////////////////////
+    - slam:
+    # //////////////////////////////////////////////////////////////////////////
+      - +extend: common/git/rm/rm.ugv.slam
+      - +extend: common/git/rm/rm.uav.slam
+
+  # //////////////////////////////////////////////////////////////////////////////
+  - branch:
+  # //////////////////////////////////////////////////////////////////////////////
+
+    # ////////////////////////////////////////////////////////////////////////////
+    - create:
+    # ////////////////////////////////////////////////////////////////////////////
+      - common:
+        - cd common
+      - basestation:
+        - cd basestation
+      - perception:
+        - cd perception
+      - simulation:
+        - cd simulation
+      - subt_launch:
+        - cd subt_launch
+      - ugv:
+        - cd ugv
+      - uav:
+        - cd uav
+      # checkout to the specified branch & update submodules
+      - git checkout -b $branch
+      - git status
+
+    # //////////////////////////////////////////////////////////////////////////////
+    - co:
+    # //////////////////////////////////////////////////////////////////////////////
+      - common:
+        - cd common
+      - basestation:
+        - cd basestation
+      - perception:
+        - cd perception
+      - subt_launch:
+        - cd subt_launch
+      - ugv:
+        - cd ugv
+      - uav:
+        - cd uav
+      # checkout to the specified branch & update submodules
+      - git fetch --all
+      - git fetch origin
+      - git update-ref refs/heads/$branch origin/$branch
+      - git checkout $branch
+      - git submodule update --recursive --init .
+      - git clean -d -f -f
+      - git status
+

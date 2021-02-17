@@ -1,0 +1,38 @@
+alias sd='source devel/setup.bash'
+alias refresh='source /home/explorer/.bashrc'
+
+#setup static route to DARPA basestation
+#alias ipr='sudo ip route add 10.0.0.0/8 via 10.3.1.1 dev enp8s0'
+
+source /opt/ros/melodic/setup.bash
+#source /home/explorer/workspaces/basestation/devel/setup.bash
+
+export ROS_MASTER_URI=http://system76-pc:11311
+#export ROS_HOSTNAME=system76-pc
+export MCAST_GROUP=224.0.0.251
+alias xctu="cd /opt/Digi/XCTU-NG; sudo ./launcher"
+
+ # aliases for Tmux
+alias tconf='vim ~/.tmux.conf && tmux source ~/.tmux.conf'
+alias ta='tmux attach -t'
+alias tnew='tmux new -s'
+alias tls='tmux ls'
+alias tkill='tmux kill-session -t'
+
+# export PATH="$PATH:/home/explorer/deploy_ws/src/docker/scripts/"
+export RTI_LICENSE_FILE=/home/explorer/deploy_ws/src/basestation/communication_manager/config/rti_license.dat
+alias docker-join="cd /home/explorer/deploy_ws/src/docker/scripts && ./join.bash --name subt "
+
+# navigation
+alias b="cd .."
+alias c="clear"
+
+# git aliases
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit -m"
+alias gp="git pull"
+alias gd="git diff"
+export SUBT_PATH=/home/explorer/deploy_ws/src/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH

@@ -1,0 +1,108 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# setup & install docker tools
+# ////////////////////////////////////////////////////////////////////////
+- name: docker tools setup
+
+  vars_files:
+    - ../vars/user-inputs.yaml
+    - ../vars/main.yaml
+    - ../vars/hosts.yaml
+
+  # run playbook on the specified hosts
+  hosts:
+    - laptop
+    - basestation
+    - ugv
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+  # //////////////////////////////////////////////////////////////////////////
+  # Docker Compose
+  # //////////////////////////////////////////////////////////////////////////
+
+  - name: update apt packages
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: get system info, kernel name
+    shell: uname -s
+    register: uname_kernel
+
+  - name: get system info, machine name
+    shell: uname -m
+    register: uname_machine
+
+  - name: download docker compose
+    become: true
+    get_url:
+        url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-{{ uname_kernel.stdout }}-{{ uname_machine.stdout }}
+        dest: /usr/local/bin/docker-compose
+        mode: a+x
+
+  - name: create docker compose symbolic link
+    become: true
+    file:
+      src: /usr/local/bin/docker-compose
+      dest: /usr/bin/docker-compose
+      state: link
+
+  - name: which docker compose
+    become: true
+    shell: which docker-compose
+    register: docker_compose_which_out
+
+  - name: enable docker-compose permissions
+    become: true
+    shell: chmod a+rx {{docker_compose_which_out.stdout}}
+
+  - name: validate docker compose
+    become: true
+    shell: docker-compose --version
+    register: docker_compose_version_out
+
+  - name: output validate docker compose
+    debug:
+      msg: "Docker Compose Version: {{docker_compose_version_out.stdout}}"
+
+  # ////////////////////////////////////////////////////////////////////////
+  # docker context
+  # ////////////////////////////////////////////////////////////////////////
+
+  # localhost docker context
+  - name: docker context remove
+    shell: docker context rm {{ item.host }}
+    with_items: " {{ docker_context.azure }} "
+    ignore_errors: True
+    when: >
+      "azure-" in inventory_hostname or
+      "localhost" in inventory_hostname
+
+  - name: docker context create
+    shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
+    with_items: " {{ docker_context.azure }} "
+    when: >
+      "azure-" in inventory_hostname or
+      "localhost" in inventory_hostname
+
+  # basestation docker context
+  - name: docker context remove
+    shell: docker context rm {{ item.host }}
+    with_items: " {{ docker_context.robots }} "
+    ignore_errors: True
+    when: >
+      "basestation" in inventory_hostname
+
+  - name: docker context create
+    shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
+    with_items: " {{ docker_context.robots }} "
+    when: >
+      "basestation" in inventory_hostname
