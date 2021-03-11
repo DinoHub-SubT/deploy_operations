@@ -178,3 +178,56 @@ function match_more_than_one() {
   done
   return 1
 }
+
+##
+# Entrypoint main warpper, creates title and traps ctrl-c
+##
+function main() {
+  title " \n\n == ${@} == \n\n"
+
+  # trap ctrl-c and call ctrl_c
+  trap ctrl_c INT
+}
+
+##
+# Find the index of a value in an array
+##
+function arr_idx() {
+    # defined iteration variables
+    local count=0 iter value="$1"
+    shift
+    # for without in, iterates over the given arguements
+    for iter; do
+      ((count++))
+      [[ "$iter" == "$value" ]] && echo $count && return 0;
+    done
+    echo -1
+}
+
+##
+# returns the argument value of a given flag
+# $1 flag associated with argument value
+# $@ array of all given arguments
+##
+function get_arg() {
+    local _flag=$1
+    shift
+    # get the index of the flag
+    idx=$(arr_idx $_flag $@)
+    # missing flag, return empty value
+    [ $idx == -1 ] && echo "" && return 0
+    # increase counter, argment is always next value
+    ((idx++))
+    # return the argument value
+    arg=${@:$idx:1}
+    echo $arg
+}
+
+#
+# Check if directory exists
+#
+function dir_exists() {
+    local direname=$1
+    [[ -d $direname ]] && return 0
+    return 1
+}

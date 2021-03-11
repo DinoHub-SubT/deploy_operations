@@ -134,7 +134,7 @@ __subt_tools_execute() {
 
   if chk_flag ssh $@; then
     shift 2 # shift the 'tools', 'ssh' tokens
-    (subtu_avail_ssh $@)
+    (probe_ssh_connections.sh $@)
 
   elif chk_flag teamviewer $@; then
     shift 2 # shift the 'tools', 'teamviewer' tokens
