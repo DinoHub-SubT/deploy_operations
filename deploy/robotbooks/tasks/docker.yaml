@@ -5,8 +5,8 @@
 - name: docker Setup
 
   vars_files:
-    - ../vars/user-inputs.yaml
     - ../vars/main.yaml
+    - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # run playbook on the localhost
   hosts:

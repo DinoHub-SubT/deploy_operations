@@ -6,10 +6,10 @@
 
   # setup variables to be shared in tasks
   vars_files:
-    - ../vars/user-inputs.yaml
     - ../vars/main.yaml
     - ../vars/hosts.yaml
     - ../vars/robot.yaml
+    - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # setup hosts to run commands as
   hosts:
