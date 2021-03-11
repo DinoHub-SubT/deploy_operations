@@ -1,9 +1,0 @@
-- uav:
-  - cd uav
-  - slam:
-    # remove
-    - git submodule deinit -f slam
-    # re-clone
-    - cd slam
-    - git submodule update --init --recursive .
-    - git clean -d -f -f

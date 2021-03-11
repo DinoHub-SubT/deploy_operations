@@ -2,10 +2,14 @@
 # transfer deploy repo from local host to remote host
 # //////////////////////////////////////////////////////////////////////////////
 
-# About:
-# - 'LOCAL_DEPLOY_PATH' & 'REMOTE_DEPLOY_PATH' are defined in operations/deploy/scenarios/misc.env
-#     - the user change change these paths
-# - 'deploy_ssh' is defined in the corresponding 'system' env scenario file. Example: operations/deploy/scenarios/systems/basestation.env
+# @brief: environment parameters
+# example: deploy_ssh is defined in the corresponding 'system' env scenario file
+#   can be found in here operations/deploy/scenarios/systems/shared
+# - depends on which deployerbooks section was called
+
+# export the local and remote paths
+- export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
+- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/deploy_ws/
 
 # deployer, rsync exclude options
 - export copy_opts="-avzh --delete $skel_deploy_rsync_opts"

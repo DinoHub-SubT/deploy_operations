@@ -1,0 +1,65 @@
+# set the exit command return value as a global (so upper deployer can exit on error return)
+- set_last_command_exit_value() {
+    if [[ $? -ne 0 ]]; then
+      echo "...failed";
+      export GL_LAST_COMMAND_FAILED=1;
+      return 0;
+    fi;
+  }
+
+# change directory to the given workspace workspace
+- cd_workspace() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      cd $1;
+      set_last_command_exit_value;
+      echo "...cd $(pwd)";
+    fi;
+  }
+
+- dir_exists() {
+    local direname=$1;
+    [[ -d $direname ]] && return 0;
+    return 1;
+  }
+
+
+# de-initialize submodules at the given, relative (to SUBT_PATH) workspace
+- git_clean_workspace() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      echo "...clean submodule $(pwd)/$1";
+      git fetch --prune;
+      git clean -xfd;
+      git checkout -- .;
+      for directory in $(pwd)/$1/* ; do
+        if dir_exists $directory; then
+          echo "...clean submodule $directory";
+          cd $directory;
+          git clean -xfd;
+          git checkout -- .;
+        fi;
+      done;
+    fi;
+  }
+
+# main entrypoint function: remove submodules
+- git_clean() {
+    local src_path=$(pwd);
+    cd_workspace $META_SECOND_LEVEL_PATH;
+    git_clean_workspace $META_THIRD_LEVEL_GROUP_PATH;
+    cd $src_path;
+    return $GL_LAST_COMMAND_FAILED;
+  }
+
+- git_clean_tmp() {
+    echo "...clean the submodules";
+    cd $SUBMODULE_META_NAME;
+    pwd;
+    git fetch --prune;
+    git clean -xfd;
+    git checkout -- .;
+    if [ ! -z "$(ls .)" ]; then git submodule foreach --recursive git clean -xfd; fi;
+    if [ ! -z "$(ls .)" ]; then git status; fi;
+  }
+
+# export the git action function
+- export GIT_ACTION_FUNCTOR=git_clean

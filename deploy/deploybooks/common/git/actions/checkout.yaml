@@ -1,0 +1,59 @@
+# set the exit command return value as a global (so upper deployer can exit on error return)
+- set_last_command_exit_value() {
+    if [[ $? -ne 0 ]]; then
+      echo "...failed";
+      export GL_LAST_COMMAND_FAILED=1;
+      return 0;
+    fi;
+  }
+
+# change directory to the given workspace workspace
+- cd_workspace() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      cd $1;
+      set_last_command_exit_value;
+      echo "...cd $(pwd)";
+    fi;
+  }
+
+# fetch & clean submodules at the given workspace
+- git_fetch_and_clean() {
+    if [[ -d $META_SECOND_LEVEL_PATH && $GL_LAST_COMMAND_FAILED -eq 0  ]]; then
+      cd $META_SECOND_LEVEL_PATH;
+      echo "...fetch $(pwd)";
+      git fetch --prune;
+      git reset --hard origin/$(git rev-parse --abbrev-ref HEAD);
+      git clean -d -f -f;
+    fi;
+  }
+
+- git_checkout_branch() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      git checkout $branch 2>/dev/null || git checkout -b $branch;
+    fi;
+  }
+
+# main entrypoint function: clone submodules
+- git_checkout() {
+    local src_path=$(pwd);
+    export GL_LAST_COMMAND_FAILED=0;
+    echo "...checkout";
+    git_fetch_and_clean;
+    cd $src_path;
+    cd_workspace $META_SECOND_LEVEL_PATH;
+    git_checkout_branch;
+    cd $src_path;
+    return $GL_LAST_COMMAND_FAILED;
+  }
+
+# check if given branch name
+- if [[ -z "${branch}" ]]; then
+    red='\033[0;31m';
+    echo;
+    echo -e "${red}Please specify a branch name (without the square branches), by appending the option '-b branch_name' ";
+    echo;
+    false;
+  fi
+
+# export the git action function
+- export GIT_ACTION_FUNCTOR=git_checkout

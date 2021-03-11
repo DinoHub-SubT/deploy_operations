@@ -1,0 +1,9 @@
+- cd $SUBT_PATH/
+
+- +extend: common/git/actions/pull
+- +extend: common/git/actions/reset
+- +extend: common/git/actions/rm
+- +extend: common/git/actions/clean
+
+# apply the git action to the submodule sub-directory
+- if [ "$ENABLE_GIT_ACTION" = true  ]; then $GIT_ACTION_FUNCTOR; fi

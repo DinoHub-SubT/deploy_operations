@@ -1,0 +1,19 @@
+- scenarios:
+  # common remote sync actions
+  - +extend: systems/workspaces/ros
+
+  - core:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=ppc-shell
+    - export SCENARIO=core
+
+    # import the workspace environment setup
+    - +import:systems/env/env.robot
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/ugv.ppc

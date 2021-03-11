@@ -1,0 +1,16 @@
+- scenarios.perception:
+  # setup pre-defined environment variables, for workspace env import
+  - +env:DOCKER_CONTAINER=$ROBOT-perception-shell
+  - export SCENARIO=perception
+  - export CATKIN_PROFILE=${PLATFORM}.sim
+
+  # import the workspace environment setup
+  - +import:systems/env/env.simulation
+
+  # override any default environment setups?
+  - export DOCKER_BASE_IMAGE_PROJECT=${PLATFORM}
+
+  # extend general actions
+  - +extend: common/docker.registry
+  - +extend: common/docker
+  - +extend: systems/catkin/perception

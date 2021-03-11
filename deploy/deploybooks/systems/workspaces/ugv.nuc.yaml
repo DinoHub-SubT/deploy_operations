@@ -1,0 +1,54 @@
+- scenarios:
+  # common remote sync actions
+  - +extend: systems/workspaces/ros
+  - +extend: systems/workspaces/super
+
+  - core:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=nuc-shell
+    - export SCENARIO=core
+
+    # import the workspace environment setup
+    - +import:systems/env/env.robot
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/ugv.nuc.core
+
+  - slam:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=slam-shell
+    - export SCENARIO=slam
+
+    # import the workspace environment setup
+    - +import:systems/env/env.robot
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/ugv.nuc.slam
+
+#     - perception:
+#       # setup pre-defined environment variables, for workspace env import
+#       - +env:DOCKER_CONTAINER=perception-shell
+#       - export SCENARIO=nuc
+#       - export CATKIN_PROFILE=nuc
+# 
+#       # import the workspace environment setup
+#       - +import:systems/env/env.simulation
+# 
+#       # override any default environment setups
+#       - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+#       - export DOCKER_COMPOSE_SERVICE=ugv-nuc
+# 
+#       # extend general actions
+#       - +extend: common/docker.registry
+#       - +extend: common/docker
+#       - +extend: systems/catkin/ugv.nuc.perception

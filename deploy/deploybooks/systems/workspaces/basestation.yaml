@@ -1,0 +1,16 @@
+- scenarios:
+  - +extend: systems/workspaces/ros
+
+  - core:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=basestation-shell
+    - export SCENARIO=core
+    - export CATKIN_PROFILE=basestation
+
+    # import the workspace environment setup
+    - +import:systems/env/env.simulation
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/basestation

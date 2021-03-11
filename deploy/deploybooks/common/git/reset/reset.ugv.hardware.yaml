@@ -1,8 +1,0 @@
-- ugv:
-  - hardware:
-    # remove
-    - git submodule deinit -f hardware
-    # re-clone
-    - cd hardware
-    - git submodule update --init --recursive .
-    - git clean -d -f -f

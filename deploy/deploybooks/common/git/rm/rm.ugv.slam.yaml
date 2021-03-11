@@ -1,7 +1,0 @@
-- ugv:
-  - cd ugv
-  - slam:
-    - devel:
-      - git submodule deinit -f slam/devel
-    - robot:
-      - git submodule deinit -f slam/robot

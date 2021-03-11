@@ -1,0 +1,47 @@
+# export the second level meta submodule group
+- export META_SECOND_LEVEL_PATH=uav
+
+# go to top level subt path
+- cd $SUBT_PATH/
+
+- meta:
+  - export META_THIRD_LEVEL_GROUP_PATH=.
+  - +extend: common/git/actions/checkout
+  - ignore:
+    # -- ignore non-catkin files --
+    - cd $SUBT_PATH
+    - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
+    - grep -qxF 'include "pymavlink/generator"' $filename || echo 'pymavlink/generator/*.pyc' >> $filename || true
+    - grep -qxF 'include "pymavlink"' $filename || echo 'pymavlink/*.pyc' >> $filename || true
+    - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
+    - grep -qxF 'include "rqt_behavior_tree_command"' $filename || echo 'src/rqt_behavior_tree_command/*.pyc' >> $filename || true
+
+    # -- ignore catkin files --
+    - +extend: common/git/actions/ignore
+
+  - unignore:
+    # -- unignore non-catkin files --
+    - cd $SUBT_PATH
+    - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
+    - sed -i '/pymavlink/d' $filename
+    - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
+    - sed -i '/rqt_behavior_tree_command/d' $filename
+
+    # -- unignore catkin files --
+    - +extend: common/git/actions/unignore
+
+  # apply the git action to the submodule sub-directory
+  - $GIT_ACTION_FUNCTOR
+
+- submodules:
+  - core:
+    - export META_THIRD_LEVEL_GROUP_PATH=core
+    - +extend: common/git/misc/uav.sub.sc
+  - slam:
+    - export ENABLE_GIT_ACTION=false
+    - if [ "$ENABLE_SLAM" = true ]; then export ENABLE_GIT_ACTION=true; fi
+    - export META_THIRD_LEVEL_GROUP_PATH=slam
+    - +extend: common/git/misc/uav.sub.sc
+
+# export for top meta name for final cleanup
+- export TOP_LEVEL_META=$SUBT_PATH/uav

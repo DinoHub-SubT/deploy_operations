@@ -1,0 +1,59 @@
+# //////////////////////////////////////////////////////////////////////////////
+- robots:
+# //////////////////////////////////////////////////////////////////////////////
+  # TODO: remove
+  - +local
+  - export DCTX=default
+
+  - export INFRA=robot
+  - export COMPUTER_ARCH=x86
+
+  # source the top-level scenario files
+  - source operations/deploy/scenarios/.base.env
+  - source operations/deploy/scenarios/systems/robot/.robot.env
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - basestation:
+  # ////////////////////////////////////////////////////////////////////////////
+    - +env:ROBOT=basestation
+    - export PLATFORM=basestation
+    - +extend: systems/workspaces/basestation
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - ugv:
+  # ////////////////////////////////////////////////////////////////////////////
+    - ugv1:
+      - +env:ROBOT=ugv1
+      - +extend: main/ugv.split
+    - ugv2:
+      - +env:ROBOT=ugv2
+      - +extend: main/ugv.split
+    - ugv3:
+      - +env:ROBOT=ugv3
+      - +extend: main/ugv.split
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - uav:
+  # ////////////////////////////////////////////////////////////////////////////
+    - export PLATFORM=uav
+
+    - ds1:
+      - +env:ROBOT=uav1
+      - +env:UAV_COMPUTER=ds1
+      - +extend: common/sync
+      - +extend: systems/workspaces/uav.ds
+    - ds2:
+      - +env:ROBOT=uav2
+      - +env:UAV_COMPUTER=ds2
+      - +extend: common/sync
+      - +extend: systems/workspaces/uav.ds
+    - ds3:
+      - +env:ROBOT=uav3
+      - +env:UAV_COMPUTER=ds3
+      - +extend: common/sync
+      - +extend: systems/workspaces/uav.ds
+    - ds4:
+      - +env:ROBOT=uav4
+      - +env:UAV_COMPUTER=ds4
+      - +extend: common/sync
+      - +extend: systems/workspaces/uav.ds

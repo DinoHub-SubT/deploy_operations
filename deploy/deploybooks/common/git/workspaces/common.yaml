@@ -1,0 +1,39 @@
+- cd $SUBT_PATH/
+
+# export the second level meta submodule group
+- export META_SECOND_LEVEL_PATH=common
+# export the third level meta to be the same the second level (since there are no sub-groups)
+- export META_THIRD_LEVEL_GROUP_PATH=.
+
+# export post-deployer actions: get the latest git lfs files
+- post_action_git_lfs () {
+    cd $SUBT_PATH/common/communication_manager;
+    git lfs fetch;
+    git lfs pull;
+    git lfs install;
+  }
+
+- meta:
+  - +extend: common/git/actions/checkout
+  - +extend: common/git/actions/ignore
+  - +extend: common/git/actions/unignore
+
+- submodules:
+  - +extend: common/git/actions/rm
+  - +extend: common/git/actions/clean
+
+  - pull:
+    - +extend: common/git/actions/pull
+    - export POST_ACTION_FUNCTOR=true
+  - reset:
+    - +extend: common/git/actions/reset
+    - export POST_ACTION_FUNCTOR=true
+
+# apply the git action to the submodule sub-directory
+- $GIT_ACTION_FUNCTOR
+
+# apply the post action, git command (if available)
+- if [ ${POST_ACTION_FUNCTOR} = true ]; then post_action_git_lfs; fi;
+
+# export for top meta name for final cleanup
+- export TOP_LEVEL_META=$SUBT_PATH/common

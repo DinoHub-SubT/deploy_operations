@@ -1,0 +1,61 @@
+# set the exit command return value as a global (so upper deployer can exit on error return)
+- set_last_command_exit_value() {
+    if [[ $? -ne 0 ]]; then
+      echo "...failed";
+      export GL_LAST_COMMAND_FAILED=1;
+      return 0;
+    fi;
+  }
+
+# change directory to the given workspace workspace
+- cd_workspace() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      cd $1;
+      set_last_command_exit_value;
+      echo "...cd $(pwd)";
+    fi;
+  }
+
+# initialize submodules at the given, relative (to SUBT_PATH) workspace
+- git_submodule_init() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      echo "...submodule init $(pwd)/$1";
+      git submodule init $1;
+      set_last_command_exit_value;
+    fi;
+  }
+
+# recursive update submodules at the given, relative (to SUBT_PATH) workspace
+- git_submodule_recursive_update() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      echo "...submodule recursive update $(pwd)/$1";
+      git submodule update --init --recursive $1;
+      set_last_command_exit_value;
+    fi;
+  }
+
+# fetch & clean submodules at the given workspace
+- git_fetch_and_clean() {
+    if [[ -d $META_SECOND_LEVEL_PATH && $GL_LAST_COMMAND_FAILED -eq 0  ]]; then
+      cd $META_SECOND_LEVEL_PATH;
+      echo "...clean $(pwd)";
+      git fetch --prune;
+      git clean -d -f -f;
+    fi;
+  }
+
+# main entrypoint function: clone submodules
+- git_clone() {
+    local src_path=$(pwd);
+    export GL_LAST_COMMAND_FAILED=0;
+    echo "...clone";
+    git_submodule_init $META_SECOND_LEVEL_PATH;
+    cd_workspace $META_SECOND_LEVEL_PATH;
+    git_submodule_recursive_update $META_THIRD_LEVEL_GROUP_PATH;
+    git_clean;
+    cd $src_path;
+    return $GL_LAST_COMMAND_FAILED;
+  }
+
+# export the function that is used
+- export GIT_ACTION_FUNCTOR=git_clone

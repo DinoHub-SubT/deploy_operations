@@ -1,0 +1,49 @@
+# //////////////////////////////////////////////////////////////////////////////
+- ws.catkin:
+# //////////////////////////////////////////////////////////////////////////////
+
+  # connect to the remote host
+  - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
+
+  # run catkin builds inside the docker container
+  - +docker:$DOCKER_CONTAINER
+
+  - cd $SUBT_PATH/
+  - pwd
+  - whoami
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - clean:
+  # ////////////////////////////////////////////////////////////////////////////
+    - rm -rf ~/deploy_ws/devel/ugv/core
+    - rm -rf ~/deploy_ws/build/ugv/core
+    - rm -rf ~/deploy_ws/install/ugv/core
+    - rm -rf ~/deploy_ws/logs/ugv/core
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - build:
+  # ////////////////////////////////////////////////////////////////////////////
+
+    - common:
+      - cd ~/deploy_ws/src/common
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set ugv.nuc
+      - catkin config
+      - catkin build --force-cmake
+
+    - ugv:
+      - cd ~/deploy_ws/src/ugv
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set ugv.nuc
+      - catkin config
+      - catkin build --force-cmake
+
+    - subt_launch:
+      - cd ~/deploy_ws/src/subt_launch
+      - rm -f .catkin_tools/profiles/profiles.yaml
+      - catkin profile list
+      - catkin profile set ugv.nuc
+      - catkin config
+      - catkin build --force-cmake

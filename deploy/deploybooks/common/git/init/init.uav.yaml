@@ -1,7 +1,0 @@
-- uav:
-  - git submodule update --init uav
-  - cd uav
-  - core:
-    - git submodule update --init core
-  - hardware:
-    - git submodule update --init hardware

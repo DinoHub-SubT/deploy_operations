@@ -1,0 +1,22 @@
+- cd $SUBT_PATH/
+
+# export the second level meta submodule group
+- export META_SECOND_LEVEL_PATH=subt_launch
+# export the third level meta to be the same the second level (since there are no sub-groups)
+- export META_THIRD_LEVEL_GROUP_PATH=.
+
+- meta:
+  - +extend: common/git/actions/checkout
+  - +extend: common/git/actions/ignore
+  - +extend: common/git/actions/unignore
+- submodules:
+  - +extend: common/git/actions/pull
+  - +extend: common/git/actions/reset
+  - +extend: common/git/actions/rm
+  - +extend: common/git/actions/clean
+
+# apply the git action to the submodule sub-directory
+- $GIT_ACTION_FUNCTOR
+
+# export for top meta name for final cleanup
+- export TOP_LEVEL_META=$SUBT_PATH/subt_launch

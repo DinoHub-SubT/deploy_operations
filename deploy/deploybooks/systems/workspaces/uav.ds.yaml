@@ -1,0 +1,46 @@
+- scenarios:
+  # export the remote docker context
+  - export DCTX=robot-uav-$ROBOT
+
+  # extend common workspaces
+  - +extend: systems/workspaces/ros
+  - +extend: systems/workspaces/super
+
+  # export the scenario type
+  - core:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=$ROBOT-shell
+    - export SCENARIO=core
+    - export CATKIN_PROFILE=core
+
+    # import the workspace environment setup
+    - +import:systems/env/env.simulation
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/uav.core
+
+  # export the scenario type
+  - wifi:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=$ROBOT-shell
+    - export SCENARIO=wifi
+    - export CATKIN_PROFILE=wifi
+
+    # import the workspace environment setup
+    - +import:systems/env/env.simulation
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - +extend: systems/catkin/uav.core
+
+  # extend perception workspace
+  - +extend: systems/workspaces/perception

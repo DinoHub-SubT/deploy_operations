@@ -1,8 +1,0 @@
-- ugv:
-  - git submodule update --init ugv
-  - cd ugv
-  - slam:
-    - devel:
-      - git submodule update --init slam/devel
-    - robot:
-      - git submodule update --init slam/robot

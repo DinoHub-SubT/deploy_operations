@@ -1,0 +1,44 @@
+# set the exit command return value as a global (so upper deployer can exit on error return)
+- set_last_command_exit_value() {
+    if [[ $? -ne 0 ]]; then
+      echo "...failed";
+      export GL_LAST_COMMAND_FAILED=1;
+      return 0;
+    fi;
+  }
+
+# change directory to the given workspace workspace
+- cd_workspace() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      cd $1;
+      set_last_command_exit_value;
+      echo "...cd $(pwd)";
+    fi;
+  }
+
+# de-initialize submodules at the given, relative (to SUBT_PATH) workspace
+- git_unignore() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      find .catkin_tools -name "*build.yaml" -type f -delete;
+      find .catkin_tools -name "devel_collisions.txt" -type f -delete;
+      find .catkin_tools -name "packages" -type d -exec rm -rf {} +;
+      for filename in $(find .catkin_tools -type f -print); do
+        echo "...unignore $filename";
+        git update-index --no-assume-unchanged $filename > /dev/null 2>&1;
+      done;
+    fi;
+  }
+
+# main entrypoint function: remove submodules
+- unignore_catkin () {
+    local src_path=$(pwd);
+    export GL_LAST_COMMAND_FAILED=0;
+    echo "...unignore";
+    cd_workspace $META_SECOND_LEVEL_PATH;
+    git_unignore;
+    cd $src_path;
+    return $GL_LAST_COMMAND_FAILED;
+  }
+
+# export the git action function
+- export GIT_ACTION_FUNCTOR=unignore_catkin

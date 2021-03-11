@@ -1,0 +1,20 @@
+- ppc:
+  - export PLATFORM_COMPUTER_NAME=ppc
+  - +import:systems/env/env.split
+
+  - +extend: common/sync
+  - +extend: systems/workspaces/ugv.ppc
+
+- nuc:
+  - export PLATFORM_COMPUTER_NAME=nuc
+  - +import:systems/env/env.split
+
+  - +extend: common/sync
+  - +extend: systems/workspaces/ugv.nuc
+
+- xavier:
+  - export PLATFORM_COMPUTER_NAME=xavier
+  - +import:systems/env/env.split
+
+  - +extend: common/sync
+  - +extend: systems/workspaces/ugv.xavier

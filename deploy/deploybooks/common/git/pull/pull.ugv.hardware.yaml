@@ -1,6 +1,0 @@
-- ugv:
-  - cd ugv
-  - hardware:
-    - cd hardware
-    - git submodule update --init --recursive .
-    - git clean -d -f -f
