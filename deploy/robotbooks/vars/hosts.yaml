@@ -165,6 +165,31 @@ ssh_config:
         has_proxy_jump: true
         proxy_jump: ugv3.ppc
 
+      # UAVs
+      - host: uav.ds1
+        hostname: ds1
+        username: uav
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: uav.ds2
+        hostname: ds2
+        username: uav
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: uav.ds3
+        hostname: ds3
+        username: uav
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: uav.ds4
+        hostname: ds4
+        username: uav
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
 # //////////////////////////////////////////////////////////////////////////////
 # updating docker context
 # //////////////////////////////////////////////////////////////////////////////

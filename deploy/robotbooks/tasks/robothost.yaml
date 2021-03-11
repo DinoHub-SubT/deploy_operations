@@ -117,7 +117,8 @@
         path: ~/.ssh/
         state: directory
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Remove Previously Added Bitbucket SSH Keys
       file:
@@ -125,7 +126,8 @@
         state: absent
       with_items: " {{ bitbucket_ssh_keys }} "
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Copy Bitbucket SSH Keys
       copy:
@@ -134,7 +136,8 @@
         mode: '0600'
       with_items: " {{ bitbucket_ssh_keys }} "
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Remove Previously Added Bitbucket To Known Hosts
       lineinfile:
@@ -142,19 +145,22 @@
         regexp: '^bitbucket.org ssh-rsa'
         state: absent
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Add Bitbucket to Known Hosts
       shell: ssh-keyscan bitbucket.org >> $HOME/.ssh/known_hosts
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Create SSH Config File
       file:
         path: ~/.ssh/config
         state: touch
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     - name: Add Bitubucket to the SSH config
       lineinfile:
@@ -162,7 +168,8 @@
         regexp: 'IdentityFile ~/.ssh/bitbucket'
         line: IdentityFile ~/.ssh/bitbucket
       when: >
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     # ////////////////////////////////////////////////////////////////////////
     # Copy Git Config
@@ -181,7 +188,8 @@
         dest: ~/.gitconfig
       when: >
         copy_git_config and
-        not ("localhost" in inventory_hostname)
+        not ("localhost" in inventory_hostname) and
+        not ("basestation" in inventory_hostname)
 
     # ////////////////////////////////////////////////////////////////////////
     # /etc/hosts
