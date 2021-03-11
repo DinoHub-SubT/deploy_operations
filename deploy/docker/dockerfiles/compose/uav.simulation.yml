@@ -1,0 +1,182 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief UAV, on Azure or localhost as simulation
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief UGV, ROS, simulation
+  uav-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # @brief UAV, ROS, superodometry
+  uav-superodometry:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.superodometry.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: super-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UAV, mulit-robot simulation
+  # //////////////////////////////////////////////////////////////////////
+
+  # multiple localhost uav simulation robots
+  uav1-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav1_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav1_ip}
+    container_name: uav1-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UAV_WS_SOURCE
+
+  uav2-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav2_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav2_ip}
+    container_name: uav2-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UAV_WS_SOURCE
+
+  uav3-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav3_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav3_ip}
+    container_name: uav3-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UAV_WS_SOURCE
+
+  uav4-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav4_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav4_ip}
+    container_name: uav4-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UAV_WS_SOURCE
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # @brief UAV, mulit-robot perception
+  # ////////////////////////////////////////////////////////////////////////////
+  uav1-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav1_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav1_perception_ip}
+    container_name: uav1-perception-shell
+    entrypoint: $entry_path/uav-objdet-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+
+  uav2-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav2_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav2_perception_ip}
+    container_name: uav2-perception-shell
+    entrypoint: $entry_path/uav-objdet-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+
+  uav3-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav3_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav3_perception_ip}
+    container_name: uav3-perception-shell
+    entrypoint: $entry_path/uav-objdet-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+
+  uav4-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${uav4_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${uav4_perception_ip}
+    container_name: uav4-perception-shell
+    entrypoint: $entry_path/uav-objdet-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief setup external networks
+# //////////////////////////////////////////////////////////////////////////////
+networks:
+  robots:
+    external: true

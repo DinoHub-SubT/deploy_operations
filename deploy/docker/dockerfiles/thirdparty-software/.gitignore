@@ -1,0 +1,3 @@
+# Absolutely do not commit all the libraries
+cuda/
+aarch64-linux-gnu/

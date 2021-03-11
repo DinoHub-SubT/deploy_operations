@@ -1,0 +1,58 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief UGV, on Hardware Robots
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief UGV, base, ROS
+  ugv.nuc-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief UAV, ROS, superodometry
+  ugv.nuc-superodometry:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.superodometry.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: super-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # @brief UGV, nuc
+  ugv.nuc-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: nuc-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_NUC_WS_SOURCE
+
+  # @brief UGV, Superodometry
+  ugv.nuc-slam:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: slam-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_SLAM_WS_SOURCE

@@ -1,0 +1,177 @@
+# //////////////////////////////////////////////////////////////////////////////
+# UGV, x86, docker images and containers (simulation infrastructure)
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, ROS, simulation
+  # //////////////////////////////////////////////////////////////////////
+  ugv-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, ROS, simulation
+  # //////////////////////////////////////////////////////////////////////
+  ugv-superodometry:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.superodometry.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: super-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # @brief UGV, planning-pc
+  ugv-ppc:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.ppc.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ppc-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_PPC_WS_SOURCE
+
+  # @brief UGV, nuc
+  ugv-nuc:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: nuc-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_NUC_WS_SOURCE
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, simulation
+  # //////////////////////////////////////////////////////////////////////
+
+  ugv1-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.sim.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${ugv1_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv1_ip}
+    container_name: ugv1-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_SIM_WS_SOURCE
+
+  ugv2-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.sim.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${ugv2_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv2_ip}
+    container_name: ugv2-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_SIM_WS_SOURCE
+
+  ugv3-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.sim.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${ugv3_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv3_ip}
+    container_name: ugv3-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_SIM_WS_SOURCE
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, perception
+  # //////////////////////////////////////////////////////////////////////
+
+  ugv1-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${ugv1_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv1_perception_ip}
+    container_name: ugv1-perception-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_PERCEPTION_WS_SOURCE
+
+  ugv2-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    hostname: ${ugv2_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv2_perception_ip}
+    container_name: ugv2-perception-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_PERCEPTION_WS_SOURCE
+
+  ugv3-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    hostname: ${ugv3_perception_hostname}
+    networks:
+      robots:
+        ipv4_address: ${ugv3_perception_ip}
+    container_name: ugv3-perception-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_PERCEPTION_WS_SOURCE
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief setup external networks
+# //////////////////////////////////////////////////////////////////////////////
+networks:
+  robots:
+    external: true
+

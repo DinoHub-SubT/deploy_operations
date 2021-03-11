@@ -1,0 +1,31 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief UGV, on Hardware Robots
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief UGV, base, ROS
+  ugv.ppc-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief UGV, planning-pc
+  ugv.ppc-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.ppc.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ppc-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_PPC_WS_SOURCE

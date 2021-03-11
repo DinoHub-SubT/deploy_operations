@@ -1,0 +1,92 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief Perception, on Hardware Robots
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief ARM deviceQuery, verify nvidia gpu works in docker container on an arm system
+  device-query:
+    image: device_query
+    build:
+      context: ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/arm/x86.base.deviceQuery.dockerfile
+    container_name: device-query
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    entrypoint: $entry_path/base-shell.bash
+    tty: true # keep container running
+
+  # @brief Perception, x86 base, ROS
+  x86-perception-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief Perception, arm base, ROS
+  arm-perception-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/arm.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief Perception, x86 core
+  x86-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: perception-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    tty: true # keep container running
+    privileged: true
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+
+  # @brief Perception, arm core
+  arm-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/arm.perception.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: perception-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    tty: true # keep container running
+    privileged: true
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+    volumes:
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt
+
+  # @brief Perception, arm core
+  arm-perception-supplement:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/perception/services/arm.perception.supplement.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: perception-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    tty: true # keep container running
+    privileged: true
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+    volumes:
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt

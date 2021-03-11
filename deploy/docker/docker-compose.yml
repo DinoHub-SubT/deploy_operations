@@ -1,0 +1,453 @@
+version: '2.3'
+services:
+  # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm
+  # ////////////////////////////////////////////////////////////////////////////
+  non-gpu:
+    build:
+      context: ${SUBT_DOCKERFILE_PATH}/
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm
+  # ////////////////////////////////////////////////////////////////////////////
+  arm-gpu:
+    build:
+      context: ${SUBT_DOCKERFILE_PATH}/
+    # allow nvidia passthru
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /usr/bin/tegrastats:/usr/bin/tegrastats
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm (but with a chonky image that includes a crap ton of libs)
+  # ////////////////////////////////////////////////////////////////////////////
+  arm-gpu-chonky:
+    build:
+      context: ${SUBT_DOCKERFILE_PATH}/
+    # allow nvidia passthru
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /usr/bin/tegrastats:/usr/bin/tegrastats
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      # Because this chonky image has everything in it already we don't need to pass in any libs
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm (but with a skinny image that needs a lot passed in from the host)
+  # this is special to our xavier setup
+  # ////////////////////////////////////////////////////////////////////////////
+  arm-gpu-skinny:
+    build:
+      # docker build context
+      context: ${SUBT_DOCKERFILE_PATH}/
+    # allow nvidia passthru
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /usr/bin/tegrastats:/usr/bin/tegrastats
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /usr/lib/aarch64-linux-gnu:/usr/lib/aarch64-linux-gnu
+      - /usr/local/cuda:/usr/local/cuda
+      - /usr/local/cuda/lib64:/usr/local/cuda/lib64
+      # other opencv libs need mounted in... but the docker base needs match the l4t install...
+      # This is disgusting but it works...
+      - /usr/lib/libopencv_imgproc.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.3.1
+      - /usr/lib/libopencv_core.so:/usr/lib/aarch64-linux-gnu/libopencv_core.so
+      - /usr/lib/libopencv_imgcodecs.so:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
+      - /usr/lib/libopencv_calib3d.so:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+      - /usr/lib/libopencv_calib3d.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.3
+      - /usr/lib/libopencv_stitching.so:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so
+      - /usr/lib/libopencv_shape.so:/usr/lib/aarch64-linux-gnu/libopencv_shape.so
+      - /usr/lib/libopencv_flann.so:/usr/lib/aarch64-linux-gnu/libopencv_flann.so
+      - /usr/lib/libopencv_features2d.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.3
+      - /usr/lib/libopencv_dnn.so:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so
+      - /usr/lib/libopencv_objdetect.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.3.3
+      - /usr/lib/libopencv_stitching.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.3.3
+      - /usr/lib/libopencv_imgcodecs.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.3
+      - /usr/lib/libopencv_superres.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_superres.so.3.3.1
+      - /usr/lib/libopencv_photo.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.3.3
+      - /usr/lib/libopencv_flann.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.3.1
+      - /usr/lib/libopencv_core.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.3.1
+      - /usr/lib/libopencv_videostab.so:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so
+      - /usr/lib/libopencv_video.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_video.so.3.3
+      - /usr/lib/libopencv_highgui.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.3.1
+      - /usr/lib/libopencv_objdetect.so:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so
+      - /usr/lib/libopencv_imgproc.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.3
+      - /usr/lib/libopencv_shape.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_shape.so.3.3
+      - /usr/lib/libopencv_superres.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_superres.so.3.3
+      - /usr/lib/libopencv_videostab.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so.3.3
+      - /usr/lib/libopencv_ml.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.3.1
+      - /usr/lib/libopencv_videoio.so:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so
+      - /usr/lib/libopencv_photo.so:/usr/lib/aarch64-linux-gnu/libopencv_photo.so
+      - /usr/lib/libopencv_videoio.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.3.1
+      - /usr/lib/libopencv_flann.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.3
+      - /usr/lib/libopencv_ml.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.3
+      - /usr/lib/libopencv_videoio.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.3
+      - /usr/lib/libopencv_video.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.3.3.1
+      - /usr/lib/libopencv_shape.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_shape.so.3.3.1
+      - /usr/lib/libopencv_core.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.3
+      - /usr/lib/libopencv_calib3d.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.3.1 
+      - /usr/lib/libopencv_features2d.so:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so
+      - /usr/lib/libopencv_imgproc.so:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
+      - /usr/lib/libopencv_video.so:/usr/lib/aarch64-linux-gnu/libopencv_video.so
+      - /usr/lib/libopencv_photo.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.3.3.1
+      - /usr/lib/libopencv_objdetect.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.3.3.1
+      - /usr/lib/libopencv_videostab.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so.3.3.1
+      - /usr/lib/libopencv_superres.so:/usr/lib/aarch64-linux-gnu/libopencv_superres.so
+      - /usr/lib/libopencv_imgcodecs.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.3.1
+      - /usr/lib/libopencv_highgui.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.3
+      - /usr/lib/libopencv_highgui.so:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so
+      - /usr/lib/libopencv_dnn.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.3.3
+      - /usr/lib/libopencv_features2d.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.3.1
+      - /usr/lib/libopencv_stitching.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.3.3.1
+      - /usr/lib/libopencv_dnn.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.3.3.1
+      - /usr/lib/libopencv_ml.so:/usr/lib/aarch64-linux-gnu/libopencv_ml.so
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base ros, x86, gpu workspace setup
+  # ////////////////////////////////////////////////////////////////////////////
+  x86-gpu:
+    build:
+      context: ${SUBT_DOCKERFILE_PATH}/
+    # allow nvidia passthru
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base docker context
+  # -- sets up the base docker context, including docker images, security privileged, volumes
+  # ////////////////////////////////////////////////////////////////////////////
+  base:
+    extends:
+      # gpu enabled type is defined in the 'scenarios'
+      service: ${GPU_ENABLE_TYPE}
+    build:
+      args:
+        - user_id
+        - arch
+        - ssh_priv_key
+        - ssh_pub_key
+        # get the parent's docker image tag
+        - DOCKER_IMAGE_TAG
+        # get the initial most, base image (i.e. what ros image extends)
+        - DOCKER_BASE_IMAGE_ROS
+        # for any other base image (todo, use this one instead of the above DOCKER_ROS_BASE_IMAGE)
+        - DOCKER_BASE_IMAGE_PROJECT
+        # get the docker image architecture type (cpu vs gpu)
+        - DOCKER_IMAGE_ARCH
+    # shared memory size
+    # shm_size: 2560m
+    # extend gpu or non-gpu
+    privileged: true
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      # subt workspace
+      - ${SUBT_PATH}/../:/home/developer/deploy_ws/:rw
+      # ugv:[ppc, nuc] rosbag logging path
+      - ~/logging:/home/developer/logging/:rw
+      # ugv:xavier rosbag logging path
+      - /logging:/logging/:rw
+      # drone rosbag logging path
+      - ~/bags:/home/developer/bags/:rw
+      # gui configurations
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      # ugly for now. needed for uav hardware
+      - /dev/:/dev/
+      - "/tmp/.docker.xauth:/tmp/.docker.xauth"
+      # shared memory
+      - /dev/shm/:/dev/shm/
+    # setup container env variables in the container
+    environment:
+      # Set environment params for GUI container passthrough
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      # deploy system type: robot or azure
+      - DOCKER_COMPOSE_INFRASTRUCTURE_TYPE
+      # add all of deployer's expected environment settings
+      - DEPLOYER_PATH
+      - DEPLOYER_BOOKS_PATH
+      - DEPLOYER_SCRIPTS
+      - DEPLOYER_EXPORT_FILEPATH
+      - DEPLOYER_BASHRC_FILEPATH
+      # deployer configuration settings
+      - DEPLOYER_PARALLELIZE_MATCHES_JOBS
+      - DEPLOYER_WS_NAME
+    # use host network
+    logging:
+      options:
+        max-size: 50m
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # azure docker context
+  # -- sets up azure context, mostly to setup ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    # extend gpu or non-gpu
+    extends:
+      service: base
+    # use host network
+    network_mode: "host"
+    # networks:
+    #   driver: host
+    # add hosts to /etc/hosts
+    extra_hosts:
+      # Basestation
+      - ${basestation_hostname}:${basestation_ip}
+      # UGV
+      - ${ugv1_hostname}:${ugv1_ip}
+      - ${ugv2_hostname}:${ugv2_ip}
+      - ${ugv3_hostname}:${ugv3_ip}
+      # UGV (vdb)
+      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
+      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
+      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
+      # UGV (perception)
+      - ${ugv1_perception_hostname}:${ugv1_perception_ip}
+      - ${ugv2_perception_hostname}:${ugv2_perception_ip}
+      - ${ugv3_perception_hostname}:${ugv3_perception_ip}
+      # UAVs
+      - ${uav1_hostname}:${uav1_ip}
+      - ${uav2_hostname}:${uav2_ip}
+      - ${uav3_hostname}:${uav3_ip}
+      - ${uav4_hostname}:${uav4_ip}
+      # UAV (perception)
+      - ${uav1_perception_hostname}:${uav1_perception_ip}
+      - ${uav2_perception_hostname}:${uav2_perception_ip}
+      - ${uav3_perception_hostname}:${uav3_perception_ip}
+      - ${uav4_perception_hostname}:${uav4_perception_ip}
+
+    # setup container env variables in the container
+    environment:
+      # Set environment params for GUI container passthrough
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      # ros master computer name
+      - COMPUTER
+      # Set the ros master hostname
+      - ROS_HOSTNAME
+      - ROS_MASTER_IP
+      # Set the hostname of different systems
+      - basestation_hostname
+      # UGVs
+      - ugv1_hostname
+      - ugv2_hostname
+      - ugv3_hostname
+      # UGVs (vdb)
+      - ugv1_vdb_hostname
+      - ugv2_vdb_hostname
+      - ugv3_vdb_hostname
+      # UGVs (perception)
+      - ugv1_perception_hostname
+      - ugv2_perception_hostname
+      - ugv3_perception_hostname
+      # UAVs
+      - uav1_hostname
+      - uav2_hostname
+      - uav3_hostname
+      - uav4_hostname
+      # UAV (perception)
+      - uav1_perception_hostname
+      - uav2_perception_hostname
+      - uav3_perception_hostname
+      - uav4_perception_hostname
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # localhost docker context
+  # -- sets up localhost context, mostly to setup ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  local:
+    # extend gpu or non-gpu
+    extends:
+      service: base
+    # add hosts to /etc/hosts
+    extra_hosts:
+      # Basestation
+      - ${basestation_hostname}:${basestation_ip}
+      # UGV
+      - ${ugv1_hostname}:${ugv1_ip}
+      - ${ugv2_hostname}:${ugv2_ip}
+      - ${ugv3_hostname}:${ugv3_ip}
+      # UGV (vdb)
+      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
+      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
+      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
+      # UGV (perception)
+      - ${ugv1_perception_hostname}:${ugv1_perception_ip}
+      - ${ugv2_perception_hostname}:${ugv2_perception_ip}
+      - ${ugv3_perception_hostname}:${ugv3_perception_ip}
+      # UAV
+      - ${uav1_hostname}:${uav1_ip}
+      - ${uav2_hostname}:${uav2_ip}
+      - ${uav3_hostname}:${uav3_ip}
+      - ${uav4_hostname}:${uav4_ip}
+      # UAV (perception)
+      - ${uav1_perception_hostname}:${uav1_perception_ip}
+      - ${uav2_perception_hostname}:${uav2_perception_ip}
+      - ${uav3_perception_hostname}:${uav3_perception_ip}
+      - ${uav4_perception_hostname}:${uav4_perception_ip}
+    # setup container env variables in the container
+    environment:
+      # Set environment params for GUI container passthrough
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      # ros master computer name
+      - COMPUTER
+      # Set the ros master hostname
+      - ROS_HOSTNAME
+      - ROS_MASTER_IP
+      # Set the hostname of different systems
+      - basestation_hostname
+      # UGVs
+      - ugv1_hostname
+      - ugv2_hostname
+      - ugv3_hostname
+      # UGVs (vdb)
+      - ugv1_vdb_hostname
+      - ugv2_vdb_hostname
+      - ugv3_vdb_hostname
+      # UGVs (perception)
+      - ugv1_perception_hostname
+      - ugv2_perception_hostname
+      - ugv3_perception_hostname
+      # UAV
+      - uav1_hostname
+      - uav2_hostname
+      - uav3_hostname
+      - uav4_hostname
+      # UAV (perception)
+      - uav1_perception_hostname
+      - uav2_perception_hostname
+      - uav3_perception_hostname
+      - uav4_perception_hostname
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # basestation (robot) docker context
+  # -- sets up robot docker context: sets up ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  basestation:
+    extends:
+      service: base
+    # use host network
+    network_mode: "host"
+    # networks:
+    #   driver: host
+    # add hosts to /etc/hosts
+    extra_hosts:
+      # Basestation
+      - ${basestation_hostname}:${basestation_ip}
+      # UGV
+      - ${ugv1_hostname}:${ugv1_ip}
+      - ${ugv2_hostname}:${ugv2_ip}
+      - ${ugv3_hostname}:${ugv3_ip}
+      # UAVs
+      - ${uav1_hostname}:${uav1_ip}
+      - ${uav2_hostname}:${uav2_ip}
+      - ${uav3_hostname}:${uav3_ip}
+      - ${uav4_hostname}:${uav4_ip}
+
+    # setup container env variables in the container
+    environment:
+      # Set environment params for GUI container passthrough
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      # Set the ros master hostname
+      - ROS_HOSTNAME
+      - ROS_MASTER_IP
+      # Set the hostnames of different systems
+      # Basestation
+      - basestation_hostname
+      # UGVs
+      - ugv1_hostname
+      - ugv2_hostname
+      - ugv3_hostname
+      # UAVs
+      - uav1_hostname
+      - uav2_hostname
+      - uav3_hostname
+      - uav4_hostname
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # robot docker context
+  # -- sets up robot context, mostly to setup ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  robot:
+    extends:
+      service: base
+    # use host network
+    network_mode: "host"
+    # add hosts to /etc/hosts
+    extra_hosts:
+      # Basestation
+      - ${basestation_hostname}:${basestation_ip}
+      # UGV
+      - ${ppc_hostname}:${ppc_ip}
+      - ${nuc_hostname}:${nuc_ip}
+      - ${xavier_hostname}:${xavier_ip}
+      # UAVs
+      - ${uav1_hostname}:${uav1_ip}
+      - ${uav2_hostname}:${uav2_ip}
+      - ${uav3_hostname}:${uav3_ip}
+      - ${uav4_hostname}:${uav4_ip}
+      # John's laptops
+      - ${john1_hostname}:${john1_ip}
+      - ${john2_hostname}:${john2_ip}
+    # setup container env variables in the container
+    environment:
+      # Set environment params for GUI container passthrough
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+      # ros master computer name
+      - COMPUTER
+      # Set the ros master hostname
+      - ROS_HOSTNAME
+      - ROS_MASTER_IP
+      # Set the hostname of different systems
+      - basestation_hostname
+      # UGV1
+      - ppc_hostname
+      - nuc_hostname
+      - xavier_hostname
+      # UAVs
+      - uav1_hostname
+      - uav2_hostname
+      - uav3_hostname
+      - uav4_hostname
+      # John's laptops
+      - john1_hostname
+      - john2_hostname

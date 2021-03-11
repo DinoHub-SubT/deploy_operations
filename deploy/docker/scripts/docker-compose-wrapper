@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+# load header helper functions
+. "$SUBT_PATH/operations/scripts/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
+
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
+  GL_TEXT_COLOR=$FG_LCYAN
+  text
+  title "Usage: $(basename $0) [flag] "
+  text_color "Flags:"
+  text_color "      -help : shows usage message."
+  text_color "Runs docker compose, with sourced environment variables defined in 'operations/deploy/scenarios'."
+  text_color "For more help, please see the README.md or wiki."
+  GL_TEXT_COLOR=$FG_DEFAULT
+  exit_success
+fi
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief: script main entrypoint
+# //////////////////////////////////////////////////////////////////////////////
+
+title " \n\n == Docker Compose == \n\n"
+
+# Set the given docker options
+DOCKER_COMPOSE_OPTIONS=${@}
+
+# print debug information
+warning "robot: ${ROBOT}"
+warning "scenario: ${ROBOT_SCENARIO_FILE}"
+
+# source the base scenario file (verify the file exists)
+BASE_SCENARIO_FILE=$SUBT_PATH/operations/deploy/scenarios/.base.env
+if ! file_exists $BASE_SCENARIO_FILE; then
+  error "Please notify the maintainer: base scenario file does not exist."
+  exit_failure
+fi
+. $BASE_SCENARIO_FILE
+
+# source the 'specific' robot scenario file (verify the file exists)
+if ! file_exists ${ROBOT_SCENARIO_FILE}; then
+  error "Please notify the maintainer: robot scenario file does not exist."
+  exit_failure
+fi
+
+# deployerbooks exports this callee scenario file
+. ${ROBOT_SCENARIO_FILE} ${ROBOT} ${DOCKER_BASE_IMAGE_PROJECT}
+
+# print debug information
+warning "docker image name: ${DOCKER_IMAGE_NAME}"
+newline
+
+# go to the docker compose top path
+pushd $SUBT_PATH/operations/deploy/docker/
+
+# execute docker-compose
+docker-compose -f docker-compose.yml -f dockerfiles/compose/${CHILD_DOCKER_COMPOSE} ${DOCKER_COMPOSE_OPTIONS}
+
+# cleanup & exit
+exit_on_success

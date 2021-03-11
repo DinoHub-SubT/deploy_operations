@@ -1,0 +1,36 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief Basestation
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+
+services:
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, ROS, simulation
+  # //////////////////////////////////////////////////////////////////////
+  basestation-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # //////////////////////////////////////////////////////////////////////
+  # @brief UGV, ROS, simulation
+  # //////////////////////////////////////////////////////////////////////
+  basestation:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.basestation.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: basestation-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$BASESTATION_WS
