@@ -1,0 +1,6 @@
+[submodule "deploy/docker"]
+	path = deploy/docker
+	url = git@bitbucket.org:cmusubt/deploy_docker.git
+[submodule "deploy/deployer"]
+	path = deploy/deployer
+	url = git@bitbucket.org:castacks/deployer.git
