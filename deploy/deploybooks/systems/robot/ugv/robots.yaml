@@ -191,7 +191,7 @@
         - catkin:
           - +ssh:{ ugv3.nuc }
           # ignore superodom for now, since it does not yet build
-          - touch ~/deploy_ws/src/ugv/slam/robot/ds3_state_estimation/CATKIN_IGNORE
+          # - touch ~/deploy_ws/src/ugv/slam/robot/ds3_state_estimation/CATKIN_IGNORE
           - +extend: systems/robot/ugv/nuc/catkin
         - registry:
           - export DOCKER_CONTEXT=robot-ugv3-nuc
