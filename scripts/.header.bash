@@ -154,7 +154,7 @@ function val_in_arr() {
 }
 
 ##
-# Checks if a string contains another
+# Checks if a string contains a substring
 ##
 function contains() {
   local _str="$1" _substr="$2"
@@ -180,54 +180,57 @@ function match_more_than_one() {
 }
 
 ##
-# Entrypoint main warpper, creates title and traps ctrl-c
+# Write a given string to a given output file
+# :param file: given output file
+# :param str: given string
 ##
-function main() {
-  title " \n\n == ${@} == \n\n"
-
-  # trap ctrl-c and call ctrl_c
-  trap ctrl_c INT
+function write() {
+  local file=$1 str=$2
+  # write to file
+  echo $str >> $file
 }
 
 ##
-# Find the index of a value in an array
+# removes a file from disk
 ##
-function arr_idx() {
-    # defined iteration variables
-    local count=0 iter value="$1"
-    shift
-    # for without in, iterates over the given arguements
-    for iter; do
-      ((count++))
-      [[ "$iter" == "$value" ]] && echo $count && return 0;
-    done
-    echo -1
+function rm_file() {
+  # remove the rc and the configuration files
+  if file_exists $1; then
+    rm $1
+  # else
+  #   warning "file $1 does not exist"
+  fi
 }
 
 ##
-# returns the argument value of a given flag
-# $1 flag associated with argument value
-# $@ array of all given arguments
+# removes a file from disk
 ##
-function get_arg() {
-    local _flag=$1
-    shift
-    # get the index of the flag
-    idx=$(arr_idx $_flag $@)
-    # missing flag, return empty value
-    [ $idx == -1 ] && echo "" && return 0
-    # increase counter, argment is always next value
-    ((idx++))
-    # return the argument value
-    arg=${@:$idx:1}
-    echo $arg
+function rm_dir() {
+  # remove the rc and the configuration files
+  if dir_exists $1; then
+    rmdir $1
+  else
+    warning "directory $1 does not exist"
+  fi
 }
 
-#
-# Check if directory exists
-#
-function dir_exists() {
-    local direname=$1
-    [[ -d $direname ]] && return 0
-    return 1
+##
+# return the flag's argument
+##
+function get_arg_at_flag() {
+  local iter value="$1"
+  shift
+  # get the index of the flag's argument
+  idx=$(arr_idx $value $@)
+  ((idx++))
+
+  # check if argument is out-of bounds
+  if [[ $idx > $# ]]; then
+    error "Flag $value, missing argument."
+    exit_failure
+  fi
+
+  # return the argument
+  arg=${@:$idx:1}
+  echo $arg
 }

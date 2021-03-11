@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # load header helper functions
-. "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/automate/.header.bash"
-. "$SUBT_PATH/operations/bin/automate/.help.bash"
+. "$SUBT_PATH/operations/scripts/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
 
 # @brief find the the current auto-complete token matches
 __matcher() {
@@ -53,6 +53,10 @@ _ac_subt_completion() {
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
       ! __matcher "cloud" $_curr && __ac_cloud_help
 
+    # robots menu
+    elif chk_flag robots "${COMP_WORDS[@]}"; then
+      ! __matcher "robots" $_curr && __ac_robots_help
+
     # tools menu
     elif chk_flag tools "${COMP_WORDS[@]}"; then
       ! __matcher "tools" $_curr && __ac_tools_help
@@ -69,44 +73,38 @@ _ac_subt_completion() {
   # third level menu: 'subt <subcommand> <subcommand> '
   else
 
-    # second level 'subt git'
-    if chk_flag git "${COMP_WORDS[@]}"; then
+    # second level is: 'subt git'
+    if chk_flag status "${COMP_WORDS[@]}"; then
+      ! __matcher "git_status" "$_curr" && __ac_git_status_help
+    elif chk_flag sync "${COMP_WORDS[@]}"; then
+      ! __matcher "git_sync" "$_curr" && __ac_git_sync_help
+    elif chk_flag add "${COMP_WORDS[@]}"; then
+      ! __matcher "git_add" "$_curr" && __ac_git_add_help
+    elif chk_flag git "${COMP_WORDS[@]}"; then
+      local _subcmd=${COMP_WORDS[2]} # get the git subcommand
+      ! __matcher "git_$_subcmd" "$_curr" && __ac_git_help
 
-      if chk_flag status "${COMP_WORDS[@]}"; then
-        ! __matcher "git_status" "$_curr" && __ac_git_status_help
-      elif chk_flag sync "${COMP_WORDS[@]}"; then
-        ! __matcher "git_sync" "$_curr" && __ac_git_sync_help
-      elif chk_flag add "${COMP_WORDS[@]}"; then
-        ! __matcher "git_add" "$_curr" && __ac_git_add_help
-      elif chk_flag clone "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clone" "$_curr" && __ac_submenu_help "git_clone" $_prev
-      elif chk_flag reset "${COMP_WORDS[@]}"; then
-        ! __matcher "git_reset" "$_curr" && __ac_submenu_help "git_reset" $_prev
-      elif chk_flag pull "${COMP_WORDS[@]}"; then
-        ! __matcher "git_pull" "$_curr" && __ac_submenu_help "git_pull" $_prev
-      elif chk_flag clean "${COMP_WORDS[@]}"; then
-        ! __matcher "git_clean" "$_curr" && __ac_submenu_help "git_clean" $_prev
-      elif chk_flag rm "${COMP_WORDS[@]}"; then
-        ! __matcher "git_rm" "$_curr" && __ac_submenu_help "git_rm" $_prev
-      elif chk_flag ignore "${COMP_WORDS[@]}"; then
-        ! __matcher "git_ignore" "$_curr" && __ac_submenu_help "git_ignore" $_prev
-      elif chk_flag unignore "${COMP_WORDS[@]}"; then
-        ! __matcher "git_unignore" "$_curr" && __ac_submenu_help "git_unignore" $_prev
+    # second level is: 'subt robots'
+    elif chk_flag robots "${COMP_WORDS[@]}"; then
+
+      if chk_flag ansible "${COMP_WORDS[@]}"; then
+        ! __matcher "robots_ani" "$_curr" && __ac_ansible_help
       fi
 
-    # second level 'subt cloud'
+    # second level is: 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
 
       if chk_flag terraform "${COMP_WORDS[@]}"; then
         ! __matcher "cloud_terra" "$_curr" && __ac_cloud_terra_help
       elif chk_flag ansible "${COMP_WORDS[@]}"; then
-        ! __matcher "cloud_ani" "$_curr" && __ac_cloud_ansible_help
+        ! __matcher "cloud_ani" "$_curr" && __ac_ansible_help
       fi
 
-    # second level 'subt deployer'
+    # second level is: 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
       ! __matcher "deployer" $_curr && __ac_submenu_help "deployer" $_prev
-
     fi
+
   fi
+
 }

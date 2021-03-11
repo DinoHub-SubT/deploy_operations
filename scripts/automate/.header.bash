@@ -36,8 +36,8 @@ DISABLE_WARNING=0
 GL_TEXT_COLOR=${FG_DEFAULT}
 
 # globals
-GL_BIN_AUTOMATE_DIR=$SUBT_PATH/operations/bin/automate/
-GL_CMPL_DIR=$SUBT_PATH/operations/bin/automate/cmpl
+GL_BIN_AUTOMATE_DIR=$SUBT_PATH/operations/scripts/automate/
+GL_CMPL_DIR=$SUBT_PATH/operations/scripts/automate/cmpl
 
 # @source: operations/deploy/azurebooks/scripts/header.sh
 # @brief Checks arguments to make sure they exist and are equal
@@ -83,6 +83,26 @@ _chk_eq() {
   return 1
 }
 
+# @brief: get the positional argument index, given a valid falg
+get_idx() {
+  value=$1
+
+  if ! chk_flag $value ${@:2}; then
+    echo "-1" && return
+  fi
+
+  # find the index location
+  local idx=0
+  for var in "${@:2}"; do
+    if [[ $value == $var ]]; then
+      echo $idx && return
+    fi
+    ((idx++))
+  done
+  # return an invalid value
+  echo "-1" && return
+}
+
 # @brief get all the submodules in the current directory
 __get_all_submodules() {
   echo $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
@@ -121,14 +141,17 @@ _git_nuncommit() {
   expr $(git status --porcelain 2>/dev/null| egrep "^(M| M)" | wc -l)
 }
 
+# @breif get the names of all the git branches
 _git_branches(){
   echo "$(git for-each-ref --shell --format="%(refname)" refs/$1/)"
 }
 
+# @brief check if two variables have equal values
 chk_eq() {
   [ "$1" = "$2" ] && return 0 || return 1
 }
 
+# @brief setup & run the deployer
 _run_deployer() {
   local _dir=$(pwd)
   local _cmd=$1

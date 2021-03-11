@@ -12,14 +12,9 @@ use File::Basename;
 use lib dirname (__FILE__);
 
 use cmpl_header;
+use cmpl_utils;
 use cmpl_deployer;
-use cmpl_git_clone;
-use cmpl_git_reset;
-use cmpl_git_rm;
-use cmpl_git_clean;
-use cmpl_git_pull;
-use cmpl_git_ignore;
-use cmpl_git_unignore;
+use cmpl_git;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief [TAB] autocompletion matcher functionality
@@ -30,37 +25,10 @@ my %_deployer_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_deployer_help_array;
 
-my %_git_clone_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_clone_help;
-
-my %_git_reset_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_reset_help;
-
-my %_git_rm_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_rm_help;
-
-my %_git_clean_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_clean_help;
-
-my %_git_pull_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_pull_help;
-
-my %_git_ignore_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_ignore_help;
-
-my %_git_unignore_help_hash = map {
-  $_->{id} => { help => $_->{help} }
-} @_git_unignore_help;
-
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
 # //////////////////////////////////////////////////////////////////////////////
+
 # @brief match the suffix of the target token (for deployer help tab-complete)
 sub help_sregex {
   my ($_target, $_i) = @_;
@@ -171,67 +139,56 @@ my ($_func, $_target) = @ARGV;
 if (chk_flag($_func, "subt")  ) {
   print general_matcher($_target, @_subt);
 
-} elsif (chk_flag($_func, "git")  ) {
-  print general_matcher($_target, @_git);
+# } elsif (chk_flag($_func, "git" )) {
+#   print general_matcher($_target, @_git);
 
-} elsif (chk_flag($_func, "git_status")  ) {
-  print general_matcher($_target, @_git_status);
+# match subcommand for 'git'
+} elsif (chk_flag( get_btw_delim($_func, 0), "git" )) {
 
-} elsif (chk_flag($_func, "git_sync")  ) {
-  print general_matcher($_target, @_git_sync);
+  # get total number of matches found
+  my $_nmatches = get_nbtw_delim($_func);
 
-} elsif (chk_flag($_func, "git_add")  ) {
-  print general_matcher($_target, @_git_add);
+  # get the suffix match
+  my @_suffix = get_btw_delim($_func, $_nmatches - 1);
 
-} elsif (chk_flag($_func, "git_clone")  ) {
-  my $_match = deploy_matcher($_target, @_git_clone);
-  print deploy_matcher($_target);
+  # get the git command match
+  my @_match = get_btw_delim($_func, $_nmatches - 2);
 
-} elsif (chk_flag($_func, "git_clone_help")  ) {
-  print deployer_help_matcher($_target, %_git_clone_help_hash);
+  # ////////////////////////////////////////////////////////////////////////////
+  # input is a git help request
+  if (chk_flag(@_suffix, "help" )) {
 
-} elsif (chk_flag($_func, "git_reset")  ) {
-  my $_match = deploy_matcher($_target, @_git_reset);
-  print deploy_matcher($_target);
+    # check we are given a value git command input
+    if (! chk_in(@_match, @_git)) {
+      print "";
+    } else {
+      # create the help id <-> message hash
+      my %_git_help_hash = map {
+        $_->{id} => { help => $_->{help} }
+      } get_git_help_messages(@_match);
 
-} elsif (chk_flag($_func, "git_reset_help")  ) {
-  print deployer_help_matcher($_target, %_git_reset_help_hash);
+      # print the selected help message
+      print deployer_help_matcher($_target, %_git_help_hash);
+    }
 
-} elsif (chk_flag($_func, "git_pull")  ) {
-  my $_match = deploy_matcher($_target, @_git_pull);
-  print deploy_matcher($_target);
+  # ////////////////////////////////////////////////////////////////////////////
+  # input is a git command request
+  } else {
+    # get the git deployer auto-generated deployer phases
+    my $_match = deploy_matcher($_target, @_git_deployer);
 
-} elsif (chk_flag($_func, "git_pull_help")  ) {
-  print deployer_help_matcher($_target, %_git_pull_help_hash);
+    # print the matches deployer phases
+    print deploy_matcher($_target);
+  }
 
-} elsif (chk_flag($_func, "git_rm")  ) {
-  my $_match = deploy_matcher($_target, @_git_rm);
-  print deploy_matcher($_target);
+# match subcommands for 'cloud'
+} elsif (chk_flag($_func, "robots")  ) {
+  print general_matcher($_target, @_robots);
 
-} elsif (chk_flag($_func, "git_rm_help")  ) {
-  print deployer_help_matcher($_target, %_git_rm_help_hash);
+} elsif (chk_flag($_func, "robots_ani")  ) {
+  print general_matcher($_target, @_robots_ani);
 
-} elsif (chk_flag($_func, "git_clean")  ) {
-  my $_match = deploy_matcher($_target, @_git_clean);
-  print deploy_matcher($_target);
-
-} elsif (chk_flag($_func, "git_clean_help")  ) {
-  print deployer_help_matcher($_target, %_git_clean_help_hash);
-
-} elsif (chk_flag($_func, "git_ignore")  ) {
-  my $_match = deploy_matcher($_target, @_git_ignore);
-  print deploy_matcher($_target);
-
-} elsif (chk_flag($_func, "git_ignore_help")  ) {
-  print deployer_help_matcher($_target, %_git_ignore_help_hash);
-
-} elsif (chk_flag($_func, "git_unignore")  ) {
-  my $_match = deploy_matcher($_target, @_git_unignore);
-  print deploy_matcher($_target);
-
-} elsif (chk_flag($_func, "git_unignore_help")  ) {
-  print deployer_help_matcher($_target, %_git_unignore_help_hash);
-
+# match subcommands for 'cloud'
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);
 
@@ -241,9 +198,11 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "cloud_ani")  ) {
   print general_matcher($_target, @_cloud_ani);
 
+# match subcommands for 'tools'
 } elsif (chk_flag($_func, "tools")  ) {
   print general_matcher($_target, @_tools);
 
+# match subcommands for general deployer
 } elsif (chk_flag($_func, "deployer") ) {
   my $_match = deploy_matcher($_target, @_deployer);
   # print $_, "\n" for split ' ', "$_match";
@@ -253,3 +212,4 @@ if (chk_flag($_func, "subt")  ) {
 } else {
   print "";  # return empy string on failure
 }
+

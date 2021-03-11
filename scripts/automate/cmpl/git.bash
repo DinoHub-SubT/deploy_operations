@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-. "$SUBT_PATH/operations/bin/.header.bash"
-. "$SUBT_PATH/operations/bin/automate/.header.bash"
-. "$SUBT_PATH/operations/bin/automate/.help.bash"
+. "$SUBT_PATH/operations/scripts/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
 
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   GL_TEXT_COLOR=$FG_LCYAN

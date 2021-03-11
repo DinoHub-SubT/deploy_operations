@@ -16,7 +16,8 @@ __ac_subt_help() {
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
-    "tools      : general helper tools."
+    "robots     : tools automating base robot system install setups."
+    "tools      : general helper tools, can be used for any infrastructure system (azure, robot, local)."
     "update     : update the deployer operations scripts."
     "help       : view help usage message in more detail."
   )
@@ -57,19 +58,38 @@ __ac_git_help() {
     "About: 01... git helper scripts, for automating git commands over the 3-level deploy repo structure."
     "About: 02... example, 'status' runs a 'git fetch -all' for all the submodules, for a given intermediate meta repo."
     "About: 03... tab complete each subcommand to see what arguments are available."
-    "About: 04... == Your Options Are =="
-    "About: 05... "
-    "status   : show the general git info for every submodule (all three levels)."
-    "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
-    "add      : adds the uncommitted changes for intermediate repos."
-    "ignore   : ignore pre-defined files from git index."
-    "unignore : unignore pre-defined files from git index"
-    "clone    : clones intermediate repo or submodules."
-    "rm       : removes intermediate repo or submodules."
-    "reset    : resets intermediate repo or submodules to their DETACHED HEAD state."
-    "clean    : clean an intermediate or submodule repo ."
-    "pull     : pulls the submodules updates in the intermediate repos (equivalent to 'git submoudle update --init --recursive')."
-    "help     : view help usage message."
+    "About: 04... "
+    "About: 11... == Git Command Summary =="
+    "About: 12... "
+    "About: 13... checkout : Checkout an existing or new git branch (second level meta repo). Append '-b [branch name]' to command to specifiy branch name."
+    "About: 14... status   : Show the general git info for every submodule."
+    "About: 15... sync     : Fetch & syncs the local branches with the remote branches (all three levels)."
+    "About: 16... ignore   : Ignore pre-defined files from git index  (like catkin_profile, pyc files)."
+    "About: 17... unignore : Unignore pre-defined files from git index (like catkin_profile, pyc files)."
+    "About: 18... rm       : Removes all submodules."
+    "About: 19... reset    : Reset all submodules to their DETACHED HEAD state."
+    "About: 21... clean    : Clean all submodules (second level meta repo) of outstanding changes."
+    "About: 22... pull     : Pulls the (second level meta repo) branch latest updates, must be on a branch already."
+    "About: 23... help     : View help usage message."
+    "About: 24..."
+    "About: 31... == Optional Flags =="
+    "About: 32..."
+    "About: 33...   -p           : preview the deployer commands that will be run"
+    "About: 34...   -verbose     : show the exact (verbose) bash commands that will run"
+    "About: 35... "
+    "About: 41... == Your Options Are =="
+    "About: 42..."
+    "basestation  : basestation intermediate level repo -> ~/deploy_ws/src/basestation"
+    "common       : common intermediate level repo -> ~/deploy_ws/src/common"
+    "perception   : perception intermediate level repo -> ~/deploy_ws/src/perception"
+    "simuation    : simulation intermediate level repo -> ~/deploy_ws/src/simulation"
+    "subt_launch  : central launch intermediate level repo -> ~/deploy_ws/src/subt_launch"
+    "ugv          : ugv intermediate level repo -> ~/deploy_ws/src/ugv"
+    "uav          : uav intermediate level repo -> ~/deploy_ws/src/uav"
+    "localhost    : submodules only for localhost development "
+    "system76     : submodules only for basestation system76 deployment and robot hardware "
+    "drone_laptop : submodules only for basestation drone laptop deployment and robot hardware "
+
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -81,6 +101,7 @@ __git_help() {
   text_color "usage: subt git [subcommand] "
   text_color
   text_color "flags:"
+  text_color "checkout : checkout a git branch in the intermediate level (or create a new branch if does not exist)."
   text_color "status   : show the general git info for every submodule (all three levels)."
   text_color "sync     : fetch & syncs the local branches with the remote branches (all three levels)."
   text_color "clone    : clones or resets intermediate repo or submodules."
@@ -101,6 +122,22 @@ __git_help() {
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief 'subt cloud'
+# //////////////////////////////////////////////////////////////////////////////
+__ac_robots_help() {
+  local usage=(
+    "About: 01... scripts for automating robot system setup."
+    "About: 02...   - tab complete each subcommand to see what arguments are available."
+    "About: 03... == Your Options Are =="
+    "About: 04... "
+    "ansible      : ansible scripts, for installing base system packages on the Azure VMs."
+  )
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
+  COMPREPLY=("${usage[@]}")
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -292,7 +329,7 @@ __add_help() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief 'subt cloud ansible'
 # //////////////////////////////////////////////////////////////////////////////
-__ac_cloud_ansible_help() {
+__ac_ansible_help() {
   local usage=(
     "About: 01... Usage: < system_name > < playbook > [ optional flags ] "
     "About: 02... if running on your laptop, use the options:  localhost install-localhost.yaml"
@@ -333,6 +370,7 @@ __ac_cloud_terra_help() {
     "destroy  : destroys all Azure resources"
     "monitor  : monitor utils for Azure resources"
     "env      : install your user's terraform bash or zsh environment variables."
+    "list     : lists the power status of virtual machines."
     "help     : view help usage message for subcommand."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -364,17 +402,24 @@ __ac_deploy_help() {
   COMPREPLY=("${usage[@]}")
 }
 
+# //////////////////////////////////////////////////////////////////////////////
+# @brief general help matcher
+# //////////////////////////////////////////////////////////////////////////////
 __ac_submenu_help() {
   local _subcommand=$1
   local _prev=$2
   local _result=$(perl $GL_CMPL_DIR/cmpl.pl "${_subcommand}_help" "$_prev")
-  # split resulting string based on newlines
-  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
-  IFS=$'\n'           # change IFS to split on new lines
-  _result=($_result)
-  IFS=$SAVEIFS        # revert to old IFS
 
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
-  COMPREPLY=("${_result[@]}")
+  # help matcher found a valid help message
+  if [ ! -z "$_result" ]; then
+    # split resulting string based on newlines
+    SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+    IFS=$'\n'           # change IFS to split on new lines
+    _result=($_result)
+    IFS=$SAVEIFS        # revert to old IFS
+
+    local IFS=$'\n' # split output of compgen below by lines, not spaces
+    _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+    COMPREPLY=("${_result[@]}")
+  fi
 }
