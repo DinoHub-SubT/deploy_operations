@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+. "$SUBT_PATH/operations/scripts/.header.bash"
+. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
+
+
+# checks whether all the version files are up-to-date
+is_version_up_to_date() {
+  # get the current versions
+  source $SUBT_CONFIGURATION_PATH/version
+
+  # ansible
+  local curr_version=$DEPLOYER_VERSION_ANSIBLE
+  echo "current version is: $curr_version"
+
+  source $DEPLOYER_VERSION_FILEPATH
+  echo "cloned version is: $DEPLOYER_VERSION_ANSIBLE"
+}
+
+# //////////////////////////////////////////////////////////////////////////////
+# @brief: script main entrypoint
+# //////////////////////////////////////////////////////////////////////////////
+
+title " \n\n == Deployer Updater == \n\n"
+
+echo "hello world!"
+
+# check the operation versions are up-to-date
+# check that the repos (and intermedate repos) are behind develop?
+#   - git fetch in all the intermediate repos
+#   - git sync in all the intermediate repos
+#   - tells you which intermediate repos are behind develop
