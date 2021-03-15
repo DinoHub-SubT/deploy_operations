@@ -14,6 +14,7 @@
 
 - xavier:
   - export PLATFORM_COMPUTER_NAME=xavier
+  - export COMPUTER_ARCH=arm
   - +import:systems/env/env.split
 
   - +extend: common/sync

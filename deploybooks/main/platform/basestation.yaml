@@ -1,0 +1,9 @@
+# ////////////////////////////////////////////////////////////////////////////
+- basestation:
+# ////////////////////////////////////////////////////////////////////////////
+  # general platform type
+  - export PLATFORM=basestation
+  # exact name of remote/local system
+  - +env:ROBOT=basestation
+  # extend the basestation workspace
+  - +extend: systems/workspaces/basestation

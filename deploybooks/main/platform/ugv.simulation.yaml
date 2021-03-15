@@ -1,0 +1,17 @@
+# ////////////////////////////////////////////////////////////////////////////
+- ugv:
+# ////////////////////////////////////////////////////////////////////////////
+  - export PLATFORM=ugv
+
+  - ugv1:
+    - +env:ROBOT=ugv1
+    - export DCTX=azure-ugv1
+    - +extend: systems/workspaces/ugv.simulation
+  - ugv2:
+    - +env:ROBOT=ugv2
+    - export DCTX=azure-ugv2
+    - +extend: systems/workspaces/ugv.simulation
+  - ugv3:
+    - +env:ROBOT=ugv3
+    - export DCTX=azure-ugv3
+    - +extend: systems/workspaces/ugv.simulation

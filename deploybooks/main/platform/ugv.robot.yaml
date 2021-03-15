@@ -1,0 +1,14 @@
+# ////////////////////////////////////////////////////////////////////////////
+- ugv:
+# ////////////////////////////////////////////////////////////////////////////
+  - export PLATFORM=ugv
+
+  - ugv1:
+    - +env:ROBOT=ugv1
+    - +extend: main/ugv.split
+  - ugv2:
+    - +env:ROBOT=ugv2
+    - +extend: main/ugv.split
+  - ugv3:
+    - +env:ROBOT=ugv3
+    - +extend: main/ugv.split

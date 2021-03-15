@@ -1,0 +1,25 @@
+# ////////////////////////////////////////////////////////////////////////////
+- uav:
+# ////////////////////////////////////////////////////////////////////////////
+  - export PLATFORM=uav
+
+  - ds1:
+    - +env:ROBOT=uav1
+    - +env:UAV_COMPUTER=ds1
+    - +extend: common/sync
+    - +extend: systems/workspaces/uav.ds
+  - ds2:
+    - +env:ROBOT=uav2
+    - +env:UAV_COMPUTER=ds2
+    - +extend: common/sync
+    - +extend: systems/workspaces/uav.ds
+  - ds3:
+    - +env:ROBOT=uav3
+    - +env:UAV_COMPUTER=ds3
+    - +extend: common/sync
+    - +extend: systems/workspaces/uav.ds
+  - ds4:
+    - +env:ROBOT=uav4
+    - +env:UAV_COMPUTER=ds4
+    - +extend: common/sync
+    - +extend: systems/workspaces/uav.ds
