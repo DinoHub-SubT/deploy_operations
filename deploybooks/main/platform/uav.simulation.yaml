@@ -5,10 +5,10 @@
 
   - uav1:
     - +env:ROBOT=uav1
-    - +extend: systems/workspaces/uav.simulation
+    - +extend: workspaces/uav.simulation
   - uav2:
     - +env:ROBOT=uav2
-    - +extend: systems/workspaces/uav.simulation
+    - +extend: workspaces/uav.simulation
   - uav3:
     - +env:ROBOT=uav3
-    - +extend: systems/workspaces/uav.simulation
+    - +extend: workspaces/uav.simulation

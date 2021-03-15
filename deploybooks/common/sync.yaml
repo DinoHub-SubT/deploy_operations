@@ -1,5 +1,11 @@
-- source operations/deploy/scenarios/systems/${INFRASTRUCTURE}/${ROBOT_PLATFORM}.env ${ROBOT}
+- source operations/scenarios/systems/${INFRASTRUCTURE}/${ROBOT_PLATFORM}.env ${ROBOT}
 
 # transfer to remote host
-- +extend: common/transfer
-- +extend: common/skel_t
+- transfer:
+  - export TRANSFER_EXCLUDE_TYPE=${skel_deploy_rsync_opts}
+  - +extend: common/transfer
+
+# slim transfer to remote host
+- skel_to:
+  - export TRANSFER_EXCLUDE_TYPE=${deploy_rsync_opts}
+  - +extend: common/transfer

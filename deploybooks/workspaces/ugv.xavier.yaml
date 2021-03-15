@@ -1,19 +1,24 @@
 - scenarios:
   # common remote sync actions
-  - +extend: systems/workspaces/ros
+  - +extend: workspaces/melodic
 
+  # TODO: chonky...
+
+  # export the scenario type
   - core:
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=ppc-shell
-    - export SCENARIO=core
+    - +env:DOCKER_CONTAINER=xavier-shell
+    - export SCENARIO=xavier
+    - export CATKIN_PROFILE=xavier
 
     # import the workspace environment setup
-    - +import:systems/env/env.robot
+    - +import:env/robot.env
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic
+    - export DOCKER_COMPOSE_SERVICE=ugv-xavier
 
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: systems/catkin/ugv.ppc
+    - +extend: catkin/ugv.xavier

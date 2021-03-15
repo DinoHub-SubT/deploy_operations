@@ -20,7 +20,7 @@ if [ -e $HOME/.terraform_id.bashrc ]; then
     echo "Terraform ID Bashrc (~/.terraform_id.bashrc) already exists.. not overwritting. Delete the file to reset."
 else
     echo "Installing Terraform ID Bashrc (~/.terraform_id.bashrc)... MAKE SURE TO FILL OUT DEFAULT VALUES!"
-    cp $SUBT_PATH/operations/deploy/azurebooks/.default_terraform_bash/.terraform_id.bashrc $HOME/.terraform_id.bashrc
+    cp $SUBT_PATH/operations/azurebooks/.default_terraform_bash/.terraform_id.bashrc $HOME/.terraform_id.bashrc
 fi
 
 grep -q "# source .terraform_id.bashrc" $HOME/.bashrc
@@ -45,7 +45,7 @@ if [ -e $HOME/.terraform_flags.bashrc ]; then
     mv $HOME/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc.bkp
 fi
 echo "Installing Terraform Flags Bashrc (~/.terraform_flags.bashrc)."
-cp $SUBT_PATH/operations/deploy/azurebooks/.default_terraform_bash/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc
+cp $SUBT_PATH/operations/azurebooks/.default_terraform_bash/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc
 
 grep -q "# source .terraform_flags.bashrc" $HOME/.bashrc
 if [ "$?" == "1" ]; then

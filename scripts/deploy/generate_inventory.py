@@ -54,7 +54,7 @@ def create_inventories(filename):
 
 def main():
   print "hello world"
-  create_inventories("/home/katarina/deploy_ws/src/operations/deploy/inventory/etc_hosts.yaml")
+  create_inventories("/home/katarina/deploy_ws/src/operations/inventory/etc_hosts.yaml")
 
 # process main call
 main()

@@ -1,8 +1,8 @@
 - scenarios:
 
   # common remote sync actions
-  - +extend: systems/workspaces/ros
-  - +extend: systems/workspaces/super
+  - +extend: workspaces/melodic
+  - +extend: workspaces/super
 
   # export the scenario type
   - core:
@@ -12,7 +12,7 @@
     - export CATKIN_PROFILE=sim
 
     # import the workspace environment setup
-    - +import:systems/env/env.simulation
+    - +import:env/simulation.env
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -20,7 +20,7 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: systems/catkin/uav.core
+    - +extend: catkin/uav.core
 
   # extend perception workspace
-  # - +extend: systems/workspaces/perception
+  # - +extend: workspaces/perception

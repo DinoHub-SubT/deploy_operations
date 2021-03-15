@@ -3,26 +3,26 @@
 # // /////////////////////////////////////////////////////////////////////////////
 
 # example
-operations/deploy/azurebooks/example/.terraform/
-operations/deploy/azurebooks/example/terraform.tfstate
-operations/deploy/azurebooks/example/terraform.tfstate.backup
-operations/deploy/azurebooks/example/.terraform.*
-operations/deploy/azurebooks/example/terraform.tfstate.d
+operations/azurebooks/example/.terraform/
+operations/azurebooks/example/terraform.tfstate
+operations/azurebooks/example/terraform.tfstate.backup
+operations/azurebooks/example/.terraform.*
+operations/azurebooks/example/terraform.tfstate.d
 
 # subt
-operations/deploy/azurebooks/subt/main.tf
-operations/deploy/azurebooks/subt/.terraform/
-operations/deploy/azurebooks/subt/terraform.tfstate
-operations/deploy/azurebooks/subt/terraform.tfstate.backup
-operations/deploy/azurebooks/subt/.terraform.*
-operations/deploy/azurebooks/subt/terraform.tfstate.d
+operations/azurebooks/subt/main.tf
+operations/azurebooks/subt/.terraform/
+operations/azurebooks/subt/terraform.tfstate
+operations/azurebooks/subt/terraform.tfstate.backup
+operations/azurebooks/subt/.terraform.*
+operations/azurebooks/subt/terraform.tfstate.d
 
 # admin
-operations/deploy/azurebooks/admin/.terraform/
-operations/deploy/azurebooks/admin/terraform.tfstate
-operations/deploy/azurebooks/admin/terraform.tfstate.backup
-operations/deploy/azurebooks/admin/.terraform.*
-operations/deploy/azurebooks/admin/terraform.tfstate.d
+operations/azurebooks/admin/.terraform/
+operations/azurebooks/admin/terraform.tfstate
+operations/azurebooks/admin/terraform.tfstate.backup
+operations/azurebooks/admin/.terraform.*
+operations/azurebooks/admin/terraform.tfstate.d
 
 # example subt launch -- force adding any new catkin tools configs
 subt_launch/.catkin_tools/

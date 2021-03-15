@@ -1,21 +1,21 @@
 - ppc:
   - export PLATFORM_COMPUTER_NAME=ppc
-  - +import:systems/env/env.split
+  - +import:env/split.env
 
   - +extend: common/sync
-  - +extend: systems/workspaces/ugv.ppc
+  - +extend: workspaces/ugv.ppc
 
 - nuc:
   - export PLATFORM_COMPUTER_NAME=nuc
-  - +import:systems/env/env.split
+  - +import:env/split.env
 
   - +extend: common/sync
-  - +extend: systems/workspaces/ugv.nuc
+  - +extend: workspaces/ugv.nuc
 
 - xavier:
   - export PLATFORM_COMPUTER_NAME=xavier
   - export COMPUTER_ARCH=arm
-  - +import:systems/env/env.split
+  - +import:env/split.env
 
   - +extend: common/sync
-  - +extend: systems/workspaces/ugv.xavier
+  - +extend: workspaces/ugv.xavier

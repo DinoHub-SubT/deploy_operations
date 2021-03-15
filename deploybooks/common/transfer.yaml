@@ -4,7 +4,7 @@
 
 # @brief: environment parameters
 # example: deploy_ssh is defined in the corresponding 'system' env scenario file
-#   can be found in here operations/deploy/scenarios/systems/shared
+#   can be found in here operations/scenarios/systems/shared
 # - depends on which deployerbooks section was called
 
 # export the local and remote paths

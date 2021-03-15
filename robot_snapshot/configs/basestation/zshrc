@@ -52,7 +52,7 @@ PROMPT="$fg[cyan]%}$USER@%{$fg[blue]%}%m ${PROMPT}"
 
 # == Deploy Repo Setup ==
 export SUBT_PATH=/home/explorer/deploy_ws/src/
-export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/docker/scripts/
 export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH
 alias docker-join="cd /home/explorer/deploy_ws/src/docker/scripts && ./join.bash --name subt "
 
@@ -95,6 +95,6 @@ alias gd="git diff"
 # == Deploy Setup ==
 alias cd-deploy="cd /home/explorer/deploy_ws/src/"
 export SUBT_PATH=/home/explorer/deploy_ws/src/
-export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/docker/scripts/
 export DEPLOY_UTILS_PATH=/home/explorer/deploy_ws/src/operations/utils/sysadmin/
 export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH:$DEPLOY_UTILS_PATH

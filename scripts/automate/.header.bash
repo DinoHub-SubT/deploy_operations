@@ -1,6 +1,6 @@
 # globals
 
-# @source: operations/deploy/azurebooks/scripts/header.sh
+# @source: operations/azurebooks/scripts/header.sh
 # Change text colors
 # Thanks: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 FG_DEFAULT="\e[39m"
@@ -39,7 +39,7 @@ GL_TEXT_COLOR=${FG_DEFAULT}
 GL_BIN_AUTOMATE_DIR=$SUBT_PATH/operations/scripts/automate/
 GL_CMPL_DIR=$SUBT_PATH/operations/scripts/automate/cmpl
 
-# @source: operations/deploy/azurebooks/scripts/header.sh
+# @source: operations/azurebooks/scripts/header.sh
 # @brief Checks arguments to make sure they exist and are equal
 # @params $1  flag to check for arguments to contain
 # @params $>1 arguments to check against
@@ -158,7 +158,7 @@ _run_deployer() {
   shift
   local _opts="$@"
   cd "$SUBT_PATH/"
-  local deployer_cmd="./deployer "$_opts" -s $_cmd"
+  local deployer_cmd="deployer "$_opts" -s $_cmd"
   eval $deployer_cmd
   cd $_dir
 }

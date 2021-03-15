@@ -5,5 +5,9 @@
   - export PLATFORM=basestation
   # exact name of remote/local system
   - +env:ROBOT=basestation
+  # setup docker context
+  - +import:env/header.env
+  - set_docker_dctx
+
   # extend the basestation workspace
-  - +extend: systems/workspaces/basestation
+  - +extend: workspaces/basestation

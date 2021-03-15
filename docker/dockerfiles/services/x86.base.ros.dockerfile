@@ -8,7 +8,7 @@ ARG DOCKER_BASE_IMAGE_ROS=$DOCKER_BASE_IMAGE_ROS
 ARG DOCKER_BASE_IMAGE_PROJECT=$DOCKER_BASE_IMAGE_PROJECT
 ARG DOCKER_IMAGE_ARCH=$DOCKER_IMAGE_ARCH
 
-# Get the base image, either cpu or gpu version, found defined in: operations/deploy/scenarios/.docker.env
+# Get the base image, either cpu or gpu version, found defined in: operations/scenarios/.docker.env
 FROM $DOCKER_BASE_IMAGE_ROS
 
 # //////////////////////////////////////////////////////////////////////////////

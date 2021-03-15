@@ -5,7 +5,7 @@
   - export CATKIN_PROFILE=${PLATFORM}.sim
 
   # import the workspace environment setup
-  - +import:systems/env/env.simulation
+  - +import:env/simulation.env
 
   # override any default environment setups?
   - export DOCKER_BASE_IMAGE_PROJECT=${PLATFORM}
@@ -13,4 +13,4 @@
   # extend general actions
   - +extend: common/docker.registry
   - +extend: common/docker
-  - +extend: systems/catkin/perception
+  - +extend: catkin/perception

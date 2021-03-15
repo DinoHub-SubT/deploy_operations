@@ -1,9 +1,9 @@
-- scenarios.ros:
+- scenarios.melodic:
   # setup the docker image name (used in the below source)
   - export DOCKER_COMPOSE_IMAGE_SHORT_NAME=ros.melodic
 
   # re-source the scenarios file (since not calling actions)
-  - source operations/deploy/scenarios/systems/${INFRA}/${PLATFORM}.env ${SCENARIO}
+  - source operations/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${PLATFORM}.env ${SCENARIO}
 
   # setup the docker service calls
   - export DOCKER_COMPOSE_SERVICE=${PLATFORM}-ros

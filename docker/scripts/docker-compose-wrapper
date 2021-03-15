@@ -3,7 +3,7 @@
 # load header helper functions
 . "$SUBT_PATH/operations/scripts/.header.bash"
 . "$SUBT_PATH/operations/scripts/automate/.header.bash"
-. "$SUBT_PATH/operations/deploy/azurebooks/scripts/header.sh"
+. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
 
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   GL_TEXT_COLOR=$FG_LCYAN
@@ -11,7 +11,7 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   title "Usage: $(basename $0) [flag] "
   text_color "Flags:"
   text_color "      -help : shows usage message."
-  text_color "Runs docker compose, with sourced environment variables defined in 'operations/deploy/scenarios'."
+  text_color "Runs docker compose, with sourced environment variables defined in 'operations/scenarios'."
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
   exit_success
@@ -31,7 +31,7 @@ warning "robot: ${ROBOT}"
 warning "scenario: ${ROBOT_SCENARIO_FILE}"
 
 # source the base scenario file (verify the file exists)
-BASE_SCENARIO_FILE=$SUBT_PATH/operations/deploy/scenarios/.base.env
+BASE_SCENARIO_FILE=$SUBT_PATH/operations/scenarios/.base.env
 if ! file_exists $BASE_SCENARIO_FILE; then
   error "Please notify the maintainer: base scenario file does not exist."
   exit_failure
@@ -52,7 +52,7 @@ warning "docker image name: ${DOCKER_IMAGE_NAME}"
 newline
 
 # go to the docker compose top path
-pushd $SUBT_PATH/operations/deploy/docker/
+pushd $SUBT_PATH/operations/docker/
 
 # execute docker-compose
 docker-compose -f docker-compose.yml -f dockerfiles/compose/${CHILD_DOCKER_COMPOSE} ${DOCKER_COMPOSE_OPTIONS}

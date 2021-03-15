@@ -1,7 +1,7 @@
 - scenarios:
   # common remote sync actions
-  - +extend: systems/workspaces/ros
-  - +extend: systems/workspaces/super
+  - +extend: workspaces/melodic
+  - +extend: workspaces/super
 
   - core:
     # setup pre-defined environment variables, for workspace env import
@@ -9,7 +9,7 @@
     - export SCENARIO=core
 
     # import the workspace environment setup
-    - +import:systems/env/env.robot
+    - +import:env/robot.env
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -17,7 +17,7 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: systems/catkin/ugv.nuc.core
+    - +extend: catkin/ugv.nuc.core
 
   - slam:
     # setup pre-defined environment variables, for workspace env import
@@ -25,7 +25,7 @@
     - export SCENARIO=slam
 
     # import the workspace environment setup
-    - +import:systems/env/env.robot
+    - +import:env/robot.env
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -33,7 +33,7 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: systems/catkin/ugv.nuc.slam
+    - +extend: catkin/ugv.nuc.slam
 
 #     - perception:
 #       # setup pre-defined environment variables, for workspace env import
@@ -42,7 +42,7 @@
 #       - export CATKIN_PROFILE=nuc
 # 
 #       # import the workspace environment setup
-#       - +import:systems/env/env.simulation
+#       - +import:env/simulation.env
 # 
 #       # override any default environment setups
 #       - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -51,4 +51,4 @@
 #       # extend general actions
 #       - +extend: common/docker.registry
 #       - +extend: common/docker
-#       - +extend: systems/catkin/ugv.nuc.perception
+#       - +extend: catkin/ugv.nuc.perception

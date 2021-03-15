@@ -34,5 +34,5 @@ alias gc="git commit -m"
 alias gp="git pull"
 alias gd="git diff"
 export SUBT_PATH=/home/explorer/deploy_ws/src/
-export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/deploy/docker/scripts/
+export SUBT_DOCKER_PATH=/home/explorer/deploy_ws/src/operations/docker/scripts/
 export PATH=$PATH:$SUBT_PATH:$SUBT_DOCKER_PATH

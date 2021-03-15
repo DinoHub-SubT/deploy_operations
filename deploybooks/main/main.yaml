@@ -1,5 +1,5 @@
 # source the base scenarios
-- source operations/deploy/scenarios/.base.env
+- source operations/scenarios/.base.env
 
 # //////////////////////////////////////////////////////////////////////////////
 - local:
@@ -10,43 +10,44 @@
   - export COMPUTER_ARCH=x86
 
   # source the platform scenario files
-  - source operations/deploy/scenarios/systems/local/.local.env
+  - source operations/scenarios/systems/local/.local.env
 
   # extend simulation platforms
   - +extend: main/platform/basestation
   - +extend: main/platform/ugv.simulation
-  - +extend: main/platform/uav.simulation
+#   - +extend: main/platform/uav.simulation
 
-# //////////////////////////////////////////////////////////////////////////////
-- azure:
-# //////////////////////////////////////////////////////////////////////////////
-  # TODO: remove
-  - +local
-
-  # source the platform scenario files
-  - source operations/deploy/scenarios/systems/azure/.azure.env
-
-  - export INFRASTRUCTURE_SYSTEM=azure
-  - export COMPUTER_ARCH=x86
-
-  # extend simulation platforms
-  - +extend: main/platform/basestation
-  - +extend: main/platform/ugv.simulation
-  - +extend: main/platform/uav.simulation
-
-# //////////////////////////////////////////////////////////////////////////////
-- robots:
-# //////////////////////////////////////////////////////////////////////////////
-  # TODO: remove
-  - +local
-
-  # source the platform scenario files
-  - source operations/deploy/scenarios/systems/robots/.robots.env
-
-  - export INFRASTRUCTURE_SYSTEM=robot
-  - export COMPUTER_ARCH=x86
-
-  # extend robot platforms
-  - +extend: main/platform/basestation
-  - +extend: main/platform/ugv.robot
-  - +extend: main/platform/uav.robot
+# # //////////////////////////////////////////////////////////////////////////////
+# - azure:
+# # //////////////////////////////////////////////////////////////////////////////
+#   # TODO: remove
+#   - +local
+# 
+#   # source the platform scenario files
+#   - source operations/scenarios/systems/azure/.azure.env
+# 
+#   - export INFRASTRUCTURE_SYSTEM=azure
+#   - export COMPUTER_ARCH=x86
+# 
+#   # extend simulation platforms
+#   - +extend: main/platform/basestation
+#   - +extend: main/platform/ugv.simulation
+#   - +extend: main/platform/uav.simulation
+# 
+# # //////////////////////////////////////////////////////////////////////////////
+# - robots:
+# # //////////////////////////////////////////////////////////////////////////////
+#   # TODO: remove
+#   - +local
+# 
+#   # source the platform scenario files
+#   - source operations/scenarios/systems/robots/.robots.env
+# 
+#   - export INFRASTRUCTURE_SYSTEM=robot
+#   - export COMPUTER_ARCH=x86
+# 
+#   # extend robot platforms
+#   - +extend: main/platform/basestation
+#   - +extend: main/platform/ugv.robot
+#   - +extend: main/platform/uav.robot
+# 

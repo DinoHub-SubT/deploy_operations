@@ -1,5 +1,5 @@
 - scenarios:
-  - +extend: systems/workspaces/ros
+  - +extend: workspaces/melodic
 
   - core:
     # setup pre-defined environment variables, for workspace env import
@@ -8,9 +8,9 @@
     - export CATKIN_PROFILE=basestation
 
     # import the workspace environment setup
-    - +import:systems/env/env.simulation
+    - +import:env/simulation.env
 
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: systems/catkin/basestation
+    - +extend: catkin/basestation
