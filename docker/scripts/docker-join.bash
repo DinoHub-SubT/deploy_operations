@@ -26,7 +26,7 @@ fi
 title " \n\n == Docker Join == \n\n"
 
 # verify user has given the '--name' flag
-if ! chk_flag --name $@; then
+if ! chk_flag --name $@ && ! chk_flag -n $@; then
   error "Docker joing missing flag and argument as such: '--name [container name]' . "
   xhost -
   exit_failure;
@@ -40,7 +40,11 @@ pushd $script_path  # go so script path
 xhost +
 
 # get the docker container name
-docker_container=$(get_arg_at_flag --name $@)
+if chk_flag --name $@; then
+  docker_container=$(get_arg --name $@)
+else
+  docker_container=$(get_arg -n $@)
+fi
 
 # verify the docker container exists
 if [[ "$(docker ps -a | grep ${docker_container})" == "" ]]; then

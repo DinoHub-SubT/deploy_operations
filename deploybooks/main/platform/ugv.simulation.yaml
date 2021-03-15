@@ -6,18 +6,32 @@
   - ugv1:
     # exact name of remote/local system
     - +env:ROBOT=ugv1
+
     # setup docker context
     - +import:env/header.env
     - set_docker_dctx
+
     # extend ugv simulation workspace
     - +extend: workspaces/ugv.simulation
 
-#   - ugv2:
-#     - +env:ROBOT=ugv2
-#     - export DCTX=azure-ugv2
-#     - +extend: workspaces/ugv.simulation
-#   - ugv3:
-#     - +env:ROBOT=ugv3
-#     - export DCTX=azure-ugv3
-#     - +extend: workspaces/ugv.simulation
-#
+  - ugv2:
+    # exact name of remote/local system
+    - +env:ROBOT=ugv2
+
+    # setup docker context
+    - +import:env/header.env
+    - set_docker_dctx
+
+    # extend ugv simulation workspace
+    - +extend: workspaces/ugv.simulation
+
+  - ugv3:
+    # exact name of remote/local system
+    - +env:ROBOT=ugv3
+
+    # setup docker context
+    - +import:env/header.env
+    - set_docker_dctx
+
+    # extend ugv simulation workspace
+    - +extend: workspaces/ugv.simulation

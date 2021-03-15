@@ -215,22 +215,49 @@ function rm_dir() {
 }
 
 ##
-# return the flag's argument
+# Find the index of a value in an array
 ##
-function get_arg_at_flag() {
-  local iter value="$1"
-  shift
-  # get the index of the flag's argument
-  idx=$(arr_idx $value $@)
-  ((idx++))
-
-  # check if argument is out-of bounds
-  if [[ $idx > $# ]]; then
-    error "Flag $value, missing argument."
-    exit_failure
-  fi
-
-  # return the argument
-  arg=${@:$idx:1}
-  echo $arg
+function arr_idx() {
+    # defined iteration variables
+    local count=0 iter value="$1"
+    shift
+    # for without in, iterates over the given arguements
+    for iter; do
+      ((count++))
+      [[ "$iter" == "$value" ]] && echo $count && return 0;
+    done
+    echo -1
 }
+
+##
+# returns the argument value of a given flag
+# $1 flag associated with argument value
+# $@ array of all given arguments
+##
+function get_arg() {
+    local _flag=$1
+    shift
+    # get the index of the flag
+    idx=$(arr_idx $_flag $@)
+    # missing flag, return empty value
+    [ $idx == -1 ] && echo "" && return 0
+    # increase counter, argment is always next value
+    ((idx++))
+    # return the argument value
+    arg=${@:$idx:1}
+    echo $arg
+}
+
+##
+# Find the index of a value in an array
+##
+function idx() {
+    local iter value="$1"
+    shift
+    # for without in, iterates over the given arguements
+    for iter; do
+        [[ "$iter" == "$value" ]] && echo $((count++)) && return 0;
+    done
+    echo -1
+}
+
