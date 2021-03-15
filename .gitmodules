@@ -1,3 +1,6 @@
 [submodule "deploy/deployer"]
 	path = deployer
 	url = git@bitbucket.org:castacks/deployer.git
+[submodule "docker/dockerfiles/thirdparty-software/uav/xsens_cpp_driver"]
+	path = docker/dockerfiles/thirdparty-software/uav/xsens_cpp_driver
+	url = git@bitbucket.org:cmusubt/xsens_cpp_driver.git
