@@ -4,6 +4,7 @@
   - export SCENARIO=perception
   - export CATKIN_PROFILE=${PLATFORM}.sim
 
+  # TODO: change the simulation import?
   # import the workspace environment setup
   - +import:env/simulation.env
 
@@ -13,4 +14,4 @@
   # extend general actions
   - +extend: common/docker.registry
   - +extend: common/docker
-  - +extend: catkin/perception
+  # - +extend: catkin/perception

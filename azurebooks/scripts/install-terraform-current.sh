@@ -2,7 +2,11 @@
 # This script will update the terraform bash scripting to contain the correct variables
 # Joshua Spisak <joshs333@live.com>
 # Jul 7, 2020
+
+# include headers
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 if [ -z "$SUBT_PATH" ]; then
     echo "SUBT_PATH not found!!! Make sure the deployer is installed and ~/bashrc is sourced!"

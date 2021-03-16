@@ -5,20 +5,28 @@
 # //////////////////////////////////////////////////////////////////////////////
 __ac_subt_help() {
   local usage=(
-    "About: 01... SubT Tab Autocompleter: one stop access to all the operations tools. "
-    "About: 02... "
-    "About: 03... Autocomplete gives you access to all the operation scripts, all accessible in one place."
-    "About: 04... You should be able to navigate all the subcommands & arguments, at all levels, using [TAB] "
-    "About: 05... [TAB] will reveal the help, autocomplete the subcommands and autocomplete the optional arguments."
-    "About: 06... Once you have autcompleted your subcommand, continue [TAB] to see the next level of subcommands."
-    "About: 07... == Your Options Are =="
-    "About: 08... "
+    "About: 01... == SubT == "
+    "About: 02... Enabling Enhanced Situational Awareness and Human Augmentation through Efficient Autonomous Systems"
+    "About: 03..."
+    "About: 04... HowTo:"
+    "About: 05...  - Press 'Tab' once, to preview a list of completed word options."
+    "About: 06...  - Input a tab-complete word, from the preview list of completed words."
+    "About: 07...  - Press '.', TAB to preview the next list of next available deployer actions."
+    "About: 08...  - Press SPACE, TAB to show the help message and preview words (for your current completion match)."
+    "About: 09... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU SELECT THE NEXT KEYWORD (i.e. press backspace to show tab-complete list)"
+    "About: 11..."
+    "About: 12... == Optional Flags =="
+    "About: 13..."
+    "About: 14...   -p           : preview the deployer commands that will be run"
+    "About: 15...   -verbose     : show the exact (verbose) bash commands that will run"
+    "About: 16..."
+    "About: 17... == Your Tab-Completed Word Options Are =="
+    "About: 18..."
     "deployer   : deployer, your access point to 'deploy' subt to the localhost, azure or robots systems."
     "git        : git helper scripts, for maintaining subt deploy three level repo."
     "cloud      : cloud tools for creating & managing azure cloud setups."
-    "robots     : tools automating base robot system install setups."
+    "ansible    : tools for pulling updates to localhost or robot system."
     "tools      : general helper tools, can be used for any infrastructure system (azure, robot, local)."
-    "update     : update the deployer operations scripts."
     "help       : view help usage message in more detail."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
@@ -122,22 +130,6 @@ __git_help() {
   text_color
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT
-}
-
-# //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt cloud'
-# //////////////////////////////////////////////////////////////////////////////
-__ac_robots_help() {
-  local usage=(
-    "About: 01... scripts for automating robot system setup."
-    "About: 02...   - tab complete each subcommand to see what arguments are available."
-    "About: 03... == Your Options Are =="
-    "About: 04... "
-    "ansible      : ansible scripts, for installing base system packages on the Azure VMs."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -327,23 +319,24 @@ __add_help() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt cloud ansible'
+# @brief 'mmpug ansible'
 # //////////////////////////////////////////////////////////////////////////////
 __ac_ansible_help() {
   local usage=(
-    "About: 01... Usage: < system_name > < playbook > [ optional flags ] "
-    "About: 02... if running on your laptop, use the options:  localhost install-localhost.yaml"
-    "About: 03... if running on basestation, use the options:  basestation install-localhost.yaml"
-    "About: 04... if you wish to not run anything, but want to view information about the different ansible installs, just use the 'optional flags'"
-    "About: 05... == Optional Flags =="
-    "About: 07...     -az  : Show the available azure ansible system names."
-    "About: 08...     -r   : Show the available robot ansible system names."
-    "About: 09...     -l   : Show the available localhost system names."
-    "About: 10...     -b   : Show the available playbooks."
-    "About: 11...     -p   : Provide system password, to allow sudo installs."
-    "About: 12... == Your Options Are =="
-    "About: 13... "
-    "help : view help usage message for subcommand."
+    "About: 00... == Ansible =="
+    "About: 01... Installs base system library dependencies, extra tools & sets up system configuration on the different systems."
+    "About: 02... - personalize your install by changing the options here: ~/.mmpug/ansible_cfg.yaml"
+    "About: 03..."
+    "About: 11... Flags:"
+    "About: 12...   -s  : Show the available system names."
+    "About: 13...   -b  : Show the available playbooks."
+    "About: 14...   -p  : Provide system password, to allow sudo installs."
+    "About: 15... Args:"
+    "About: 16...   system_name: the name of the remote system to install on"
+    "About: 17...   playbook: the name of the robot ansible playbook to run"
+    "About: 18... Input: "
+    "About: 19...   [ flags ] < system_name > < playbook > "
+    "             "
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
@@ -378,48 +371,3 @@ __ac_cloud_terra_help() {
   COMPREPLY=("${usage[@]}")
 }
 
-# //////////////////////////////////////////////////////////////////////////////
-# @brief 'subt deployer'
-# //////////////////////////////////////////////////////////////////////////////
-__ac_deploy_help() {
-  local usage=(
-    "About: 01... deploys subt to a remote or local system."
-    "About: 02... operations include: "
-    "About: 03...    - pulling docker images from azure registries or local basestation registries"
-    "About: 04...    - building docker images"
-    "About: 05...    - starting, stopping, removing docker containers"
-    "About: 06...    - transferring code to remote system (azure or robots)"
-    "About: 07...    - catkin build & clean the different (already pre-configured) catkin profile workspaces."
-    "About: 08... * MAKE SURE THERE IS NO WHITESPACE WHEN YOU ADD THE NEXT OPTION (press backspace)"
-    "About: 09... == Your Options Are =="
-    "About: 10... "
-    "azure      : deploys subt on azure cloud."
-    "robots     : deploys subt on harware ugv & uav robots."
-    "local      : deploys subt on your localhost."
-  )
-  local IFS=$'\n' # split output of compgen below by lines, not spaces
-  usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"
-  COMPREPLY=("${usage[@]}")
-}
-
-# //////////////////////////////////////////////////////////////////////////////
-# @brief general help matcher
-# //////////////////////////////////////////////////////////////////////////////
-__ac_submenu_help() {
-  local _subcommand=$1
-  local _prev=$2
-  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "${_subcommand}_help" "$_prev")
-
-  # help matcher found a valid help message
-  if [ ! -z "$_result" ]; then
-    # split resulting string based on newlines
-    SAVEIFS=$IFS        # save current IFS, so we can revert back to it
-    IFS=$'\n'           # change IFS to split on new lines
-    _result=($_result)
-    IFS=$SAVEIFS        # revert to old IFS
-
-    local IFS=$'\n' # split output of compgen below by lines, not spaces
-    _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
-    COMPREPLY=("${_result[@]}")
-  fi
-}

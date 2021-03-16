@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
+
+# include headers
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
+
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name [ flags ] -g < resource group name >: Monitors azure resources."
     text "Flags:"

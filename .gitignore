@@ -27,6 +27,9 @@ operations/azurebooks/admin/terraform.tfstate.d
 # example subt launch -- force adding any new catkin tools configs
 subt_launch/.catkin_tools/
 
+# ignore all downloaded azure thirdparty libraries
+docker/dockerfiles/thirdparty-software/download/
+
 # // /////////////////////////////////////////////////////////////////////////////
 # // other
 # // /////////////////////////////////////////////////////////////////////////////

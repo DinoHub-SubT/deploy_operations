@@ -9,7 +9,7 @@
   # export the scenario type
   - core:
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-shell
+    - +env:DOCKER_CONTAINER=uav-shell
     - export SCENARIO=core
     - export CATKIN_PROFILE=core
 
@@ -24,23 +24,22 @@
     - +extend: common/docker
     - +extend: catkin/uav.core
 
+  # extend perception workspace (docker and catkin)
+  - perception:
+    - +extend: workspaces/perception
+    - scenarios.perception:
+      - +extend: catkin/perception
+
   # export the scenario type
   - wifi:
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-shell
+    - +env:DOCKER_CONTAINER=uav-perception-shell
     - export SCENARIO=wifi
     - export CATKIN_PROFILE=wifi
 
     # import the workspace environment setup
     - +import:env/simulation.env
 
-    # override any default environment setups
-    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
-
     # extend general actions
-    - +extend: common/docker.registry
-    - +extend: common/docker
-    - +extend: catkin/uav.core
+    - +extend: catkin/uav.wifi
 
-  # extend perception workspace
-  - +extend: workspaces/perception

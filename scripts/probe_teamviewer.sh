@@ -44,4 +44,4 @@ trap ctrl_c INT
 sshtraverse $GL_SSH_CONFIG display
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

@@ -3,9 +3,9 @@
 # transfer to remote host
 - transfer:
   - export TRANSFER_EXCLUDE_TYPE=${skel_deploy_rsync_opts}
-  - +extend: common/transfer
+  - +extend: common/rsync
 
 # slim transfer to remote host
 - skel_to:
   - export TRANSFER_EXCLUDE_TYPE=${deploy_rsync_opts}
-  - +extend: common/transfer
+  - +extend: common/rsync

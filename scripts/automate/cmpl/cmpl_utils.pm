@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(
   get_matches_between_delim
   get_btw_delim
   chk_in
+  newline
 );
 
 # these are exported by default.
@@ -28,6 +29,7 @@ our @EXPORT = qw(
   get_btw_delim
   get_nbtw_delim
   chk_in
+  newline
 );
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -114,3 +116,6 @@ sub chk_in {
   # check if value is in array
   return exists($params{$_param});
 }
+
+# @brief print newline
+sub newline { print " \n"; }

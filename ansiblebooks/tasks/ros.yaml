@@ -117,18 +117,18 @@
     - name: bash environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
-        - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ default_user.name }}/.bashrc" }
+        - { line: 'source /opt/ros/melodic/setup.bash', file: "/home/{{ lookup('env', 'USER') }}/.bashrc" }
       when: install_ros
 
     - name: check that zshrc exists
       stat:
-        path: /home/{{ default_user.name }}/.zshrc
+        path: /home/{{ lookup('env', 'USER') }}/.zshrc
       register: stat_result
 
     - name: zsh environment setup
       lineinfile: dest={{ item.file }} state=present line={{ item.line }}
       with_items:
-        - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ default_user.name }}/.zshrc" }
+        - { line: 'source /opt/ros/melodic/setup.zsh', file: "/home/{{ lookup('env', 'USER') }}/.zshrc" }
       when: install_ros and stat_result.stat.exists
 
     - name: install nuc prerequisite packages

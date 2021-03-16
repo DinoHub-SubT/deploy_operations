@@ -109,4 +109,4 @@ else
 fi
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

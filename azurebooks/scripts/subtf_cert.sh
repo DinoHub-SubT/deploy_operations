@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
+
+# include headers
 eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
+
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name [ flags ]: Creates the vpn ca and user certifcations for creating an Azure VPN connection."
     text "Flags:"
@@ -10,20 +15,6 @@ fi
 
 # //////////////////////////////////////////////////////////////////////////////
 # script only utilities
-
-# exit on success
-function exit_on_success() {
-  newline
-  popd
-  exit_success
-}
-
-# exit on failure
-function exit_on_error() {
-  error $1
-  popd
-  exit_failure
-}
 
 # //////////////////////////////////////////////////////////////////////////////
 # Create the Root & User Certificates
@@ -60,12 +51,12 @@ if ! chk_flag -s $@; then
 
   ipsec pki --gen --outform pem > caKey.pem
   if last_command_failed; then
-    exit_on_error failed to create caKey.pem. Please see readme and install "strongswan" correctly.
+    exit_pop_error failed to create caKey.pem. Please see readme and install "strongswan" correctly.
   fi
 
   ipsec pki --self --in caKey.pem --dn "CN=VPN CA" --ca --outform pem > caCert.pem
   if last_command_failed; then
-    exit_on_error failed to create caCert.pem. Please notify the maintainer.
+    exit_pop_error failed to create caCert.pem. Please notify the maintainer.
   fi
 
   # creation done.
@@ -76,7 +67,7 @@ if ! chk_flag -s $@; then
   # generate the user private key
   ipsec pki --gen --outform pem > "${client_username}Key.pem"
   if last_command_failed; then
-    exit_on_error failed to create user Key.pem. Please notify the maintainer.
+    exit_pop_error failed to create user Key.pem. Please notify the maintainer.
   fi
 
   # generate the user public key
@@ -90,7 +81,7 @@ if ! chk_flag -s $@; then
     --outform pem > "${client_username}Cert.pem"
 
   if last_command_failed; then
-    exit_on_error failed to create user Cert.pem. Please notify the maintainer.
+    exit_pop_error failed to create user Cert.pem. Please notify the maintainer.
   fi
 
   # generate the p12 bunder
@@ -103,7 +94,7 @@ if ! chk_flag -s $@; then
     -password "pass:${client_password}"
 
   if last_command_failed; then
-    exit_on_error failed to create p12 bunder. Please notify the maintainer.
+    exit_pop_error failed to create p12 bunder. Please notify the maintainer.
   fi
 
   # creation done.
@@ -122,10 +113,10 @@ if ! chk_flag -c $@; then
   text Please copy the below output to the "'~/.terraform_id.bashrc'" setup file, for the variable "'TF_VAR_azure_vpn_cert'". \\n
   openssl x509 -in caCert.pem -outform der | base64 -w0 ; echo
   if last_command_failed; then
-    exit_on_error failed to show client vpn key. Please see readme and install "strongswan" correctly.
+    exit_pop_error failed to show client vpn key. Please see readme and install "strongswan" correctly.
   fi
 
 fi
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

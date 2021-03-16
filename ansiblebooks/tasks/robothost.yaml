@@ -102,7 +102,7 @@
     - name: setup default 'subt' user password
       become: true
       user:
-        name: "{{ default_user.name }}"
+        name: "{{ azure_user.name }}"
         update_password: always
         password: "{{ default_user.password | password_hash('sha512') }}"
       when: >

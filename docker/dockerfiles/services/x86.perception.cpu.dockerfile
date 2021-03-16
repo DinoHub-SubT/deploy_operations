@@ -328,7 +328,9 @@ RUN mkdir -p /home/developer/thirdparty-software/ \
 # //////////////////////////////////////////////////////////////////////////////
 # install ROS ueye driver
 COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
-RUN cd /home/$USERNAME/thirdparty-software/uav/ids-software-suite-linux-4.94-64 \
+RUN cd /home/$USERNAME/thirdparty-software/download/uav/ \
+ && unzip ids-software-suite-linux-4.94-64 \
+ && cd ids-software-suite-linux-4.94-64 \
  && sudo chmod +x ueye_4.94.0.1229_amd64.run \
  && echo "yes" | sudo sh ueye_4.94.0.1229_amd64.run
 

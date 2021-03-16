@@ -23,7 +23,7 @@ use cmpl_git;
 # @brief covert the array to hashmap
 my %_deployer_help_hash = map {
   $_->{id} => { help => $_->{help} }
-} @_deployer_help_array;
+} @_deployer_help;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -139,6 +139,26 @@ my ($_func, $_target) = @ARGV;
 if (chk_flag($_func, "subt")  ) {
   print general_matcher($_target, @_subt);
 
+# -- deployer --
+
+# match subcommands for general deployer
+} elsif (chk_flag($_func, "deployer") ) {
+  # my $_match = deploy_matcher($_target, @_deployer);
+  # # print $_, "\n" for split ' ', "$_match";
+  # print deploy_matcher($_target);
+
+  my $_match = deploy_matcher($_target, @_deployer);
+  # print $_, "\n" for split ' ', "$_match";
+  my @_result = split(' ', deploy_matcher($_target), x);
+  my @filtered = uniq(@_result);
+  print join(" ", @filtered);
+  print "\n";
+
+} elsif (chk_flag($_func, "deployer_help") ) {
+  print deployer_help_matcher($_target, %_deployer_help_hash);
+
+# -- git --
+
 # } elsif (chk_flag($_func, "git" )) {
 #   print general_matcher($_target, @_git);
 
@@ -181,12 +201,7 @@ if (chk_flag($_func, "subt")  ) {
     print deploy_matcher($_target);
   }
 
-# match subcommands for 'cloud'
-} elsif (chk_flag($_func, "robots")  ) {
-  print general_matcher($_target, @_robots);
-
-} elsif (chk_flag($_func, "robots_ani")  ) {
-  print general_matcher($_target, @_robots_ani);
+# -- cloud --
 
 # match subcommands for 'cloud'
 } elsif (chk_flag($_func, "cloud")  ) {
@@ -195,21 +210,12 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "cloud_terra")  ) {
   print general_matcher($_target, @_cloud_terra);
 
-} elsif (chk_flag($_func, "cloud_ani")  ) {
-  print general_matcher($_target, @_cloud_ani);
+# -- tool --
 
 # match subcommands for 'tools'
 } elsif (chk_flag($_func, "tools")  ) {
   print general_matcher($_target, @_tools);
 
-# match subcommands for general deployer
-} elsif (chk_flag($_func, "deployer") ) {
-  my $_match = deploy_matcher($_target, @_deployer);
-  # print $_, "\n" for split ' ', "$_match";
-  print deploy_matcher($_target);
-} elsif (chk_flag($_func, "deployer_help") ) {
-  print deployer_help_matcher($_target, %_deployer_help_hash);
 } else {
   print "";  # return empy string on failure
 }
-

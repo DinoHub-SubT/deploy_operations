@@ -17,6 +17,6 @@ copy_git_config: true
 
 # default user & password for remote server login
 # -- remember to change, depending on which host you are installing on
-default_user:
+azure_user:
   name: subt
   password: Password1234!

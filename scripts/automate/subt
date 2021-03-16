@@ -116,7 +116,6 @@ __subt_tools_execute() {
     error "Please enter a valid tools command."
     exit_failure
   fi
-
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -134,7 +133,7 @@ subt() {
   # execute any deployer's git books (section given as user input)
   elif chk_nth_flag 1 "ansible" "$@"; then
     shift 1 # shift 'ansible'
-    (mmpug_ani_install.sh $@)
+    (subtani_install.sh $@)
 
   # # execute any deployer's git books (section given as user input)
   elif chk_nth_flag 1 "tools" "$@"; then

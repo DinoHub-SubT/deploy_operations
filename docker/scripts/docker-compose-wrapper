@@ -57,4 +57,4 @@ pushd $SUBT_PATH/operations/docker/
 docker-compose -f docker-compose.yml -f dockerfiles/compose/${CHILD_DOCKER_COMPOSE} ${DOCKER_COMPOSE_OPTIONS}
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

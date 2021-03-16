@@ -4,10 +4,10 @@
 
   # TODO: chonky...
 
-  # export the scenario type
+  # TODO: cannot rebuild entire perception stack...missing opencv libs on host
   - core:
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=xavier-shell
+    - +env:DOCKER_CONTAINER=perception-shell
     - export SCENARIO=xavier
     - export CATKIN_PROFILE=xavier
 

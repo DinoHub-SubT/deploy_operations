@@ -111,4 +111,4 @@ pushd $HOME/.ssh/
 traverse_ssh_cfgs $_GL_ssh_config display
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

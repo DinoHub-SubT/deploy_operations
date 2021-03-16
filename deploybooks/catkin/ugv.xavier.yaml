@@ -57,4 +57,4 @@
       - catkin profile list
       - catkin profile set $CATKIN_PROFILE
       - catkin config
-    - catkin build --force-cmake
+      - catkin build --force-cmake

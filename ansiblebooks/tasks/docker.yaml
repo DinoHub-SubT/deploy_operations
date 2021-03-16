@@ -65,7 +65,7 @@
 
   - name: reset docker group
     become: true
-    user: name={{ default_user.name }} groups=docker append=yes
+    user: name={{ lookup('env', 'USER') }} groups=docker append=yes
 
   - name: reset ssh connection to allow user changes to affect 'current login user'
     meta: reset_connection
@@ -115,6 +115,14 @@
       dest: /etc/docker/daemon.json
     when: >
       not install_nvidia_docker
+
+  # update the user config, for using nvidia driver
+  - name: Set default subtrc user nvidia configuration (true)
+    shell: sed -i 's/USE_NVIDIA_DRIVER=true/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' ~/.subt/user_config.bash
+
+  # update the user config, for using nvidia driver
+  - name: Set default subtrc user nvidia configuration (false)
+    shell: sed -i 's/USE_NVIDIA_DRIVER=false/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' ~/.subt/user_config.bash
 
   - name: prune docker network
     shell: docker network prune -f

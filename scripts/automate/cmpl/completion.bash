@@ -5,8 +5,28 @@
 . "$SUBT_PATH/operations/scripts/automate/header.sh"
 . "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
 
+##
+# @brief find the auto-complete help results (expanded from deployer sections)
+##
+ac_matcher_help() {
+  local _subcommand=$1
+  local _prev=$2
+  local _result=$(perl $GL_CMPL_DIR/cmpl.pl "${_subcommand}_help" "$_prev")
+  # split resulting string based on newlines
+  SAVEIFS=$IFS        # save current IFS, so we can revert back to it
+  IFS=$'\n'           # change IFS to split on new lines
+  _result=($_result)
+  IFS=$SAVEIFS        # revert to old IFS
+
+  local IFS=$'\n' # split output of compgen below by lines, not spaces
+  _result[0]="$(printf '%*s' "-$COLUMNS"  "${_result[0]}")"
+  COMPREPLY=("${_result[@]}")
+}
+
+##
 # @brief find the the current auto-complete token matches
-__matcher() {
+##
+ac_matcher() {
   local _matcher_t=$1 _curr=$2
   [[ "$_curr" == "" ]] && return 1  # if not given a current token, then show the help usage message
   # evaluate the matcher
@@ -42,28 +62,28 @@ _ac_subt_completion() {
 
   # first level menu: 'subt'
   if [ $COMP_CWORD = 1 ]; then
-    ! __matcher "subt" $_curr && __ac_subt_help
+    ! ac_matcher "subt" $_curr && __ac_subt_help
 
   # second level menu: 'subt <subcommand> '
   elif [ $COMP_CWORD = 2 ]; then
     if chk_flag git "${COMP_WORDS[@]}"; then
-      ! __matcher "git" "$_curr" && __ac_git_help
+      ! ac_matcher "git" "$_curr" && __ac_git_help
 
     # cloud menu
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
-      ! __matcher "cloud" $_curr && __ac_cloud_help
+      ! ac_matcher "cloud" $_curr && __ac_cloud_help
 
-    # robots menu
-    elif chk_flag robots "${COMP_WORDS[@]}"; then
-      ! __matcher "robots" $_curr && __ac_robots_help
+    # ansible menu
+    elif chk_flag ansible "${COMP_WORDS[@]}"; then
+      ! ac_matcher "ansible" $_curr && __ac_ansible_help
 
     # tools menu
     elif chk_flag tools "${COMP_WORDS[@]}"; then
-      ! __matcher "tools" $_curr && __ac_tools_help
+      ! ac_matcher "tools" $_curr && __ac_tools_help
 
     # deployer menu
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      ! __matcher "deployer" $_curr && __ac_deploy_help
+      ! ac_matcher "deployer" $_curr        && ac_matcher_help "deployer" "deployer"
 
     # 'subt <subcommand>' match failed -- show display usage help menu
     else
@@ -75,36 +95,31 @@ _ac_subt_completion() {
 
     # second level is: 'subt git'
     if chk_flag status "${COMP_WORDS[@]}"; then
-      ! __matcher "git_status" "$_curr" && __ac_git_status_help
+      ! ac_matcher "git_status" "$_curr"     && ac_matcher_help "git_status" $_prev
     elif chk_flag sync "${COMP_WORDS[@]}"; then
-      ! __matcher "git_sync" "$_curr" && __ac_git_sync_help
+      ! ac_matcher "git_sync" "$_curr"       && ac_matcher_help "git_sync" $_prev
     elif chk_flag add "${COMP_WORDS[@]}"; then
-      ! __matcher "git_add" "$_curr" && __ac_git_add_help
+      ! ac_matcher "git_add" "$_curr"        && ac_matcher_help "git_add" $_prev
     elif chk_flag git "${COMP_WORDS[@]}"; then
       local _subcmd=${COMP_WORDS[2]} # get the git subcommand
-      ! __matcher "git_$_subcmd" "$_curr" && __ac_git_help
+      ! ac_matcher "git_$_subcmd" "$_curr"   && __ac_git_help
 
-    # second level is: 'subt robots'
-    elif chk_flag robots "${COMP_WORDS[@]}"; then
-
-      if chk_flag ansible "${COMP_WORDS[@]}"; then
-        ! __matcher "robots_ani" "$_curr" && __ac_ansible_help
-      fi
+    # third level 'mmpug ansible'
+    elif chk_flag ansible "${COMP_WORDS[@]}"; then
+      ! ac_matcher "ansible" "$_curr"        && ac_matcher_help "ansible" $_prev
 
     # second level is: 'subt cloud'
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
 
       if chk_flag terraform "${COMP_WORDS[@]}"; then
-        ! __matcher "cloud_terra" "$_curr" && __ac_cloud_terra_help
+        ! ac_matcher "cloud_terra" "$_curr"  && ac_matcher_help "cloud_terra" $_prev
       elif chk_flag ansible "${COMP_WORDS[@]}"; then
-        ! __matcher "cloud_ani" "$_curr" && __ac_ansible_help
+        ! ac_matcher "cloud_ani" "$_curr"    && ac_matcher_help "cloud_ani" $_prev
       fi
 
     # second level is: 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
-      ! __matcher "deployer" $_curr && __ac_submenu_help "deployer" $_prev
+      ! ac_matcher "deployer" $_curr        && ac_matcher_help "deployer" $_prev
     fi
-
   fi
-
 }

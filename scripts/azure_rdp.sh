@@ -108,4 +108,4 @@ rdesktop  -u $GL_USER -p $GL_PASS -g $GL_RESOLUTION -T $title \
           $host
 
 # cleanup & exit
-exit_on_success
+exit_pop_success

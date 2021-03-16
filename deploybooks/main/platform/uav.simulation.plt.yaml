@@ -1,0 +1,37 @@
+# ////////////////////////////////////////////////////////////////////////////
+- uav:
+# ////////////////////////////////////////////////////////////////////////////
+  - export PLATFORM=uav
+
+  - uav1:
+    # exact name of remote/local system
+    - +env:ROBOT=uav1
+
+    # setup docker context
+    - +import:env/header.env
+    - set_docker_dctx
+
+    # extend uav simulation workspace
+    - +extend: workspaces/uav.simulation
+
+  - uav2:
+    # exact name of remote/local system
+    - +env:ROBOT=uav2
+
+    # setup docker context
+    - +import:env/header.env
+    - set_docker_dctx
+
+    # extend uav simulation workspace
+    - +extend: workspaces/uav.simulation
+
+  - uav3:
+    # exact name of remote/local system
+    - +env:ROBOT=uav3
+
+    # setup docker context
+    - +import:env/header.env
+    - set_docker_dctx
+
+    # extend uav simulation workspace
+    - +extend: workspaces/uav.simulation
