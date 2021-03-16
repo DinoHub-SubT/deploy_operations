@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 # load header helper functions
-. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
-. "$(dirname $0)/.header.bash"
-. "$(dirname $0)/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 # checks if branch has something pending
 function parse_git_dirty() {

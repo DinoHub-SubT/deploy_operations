@@ -1,39 +1,26 @@
 #!/usr/bin/env bash
-eval "$(cat $(dirname "${BASH_SOURCE[0]}")/../../azurebooks/scripts/header.sh)"
+
+. "$SUBT_OPERATIONS_PATH/scripts/header.sh"
+. "$SUBT_OPERATIONS_PATH/scripts/formatters.sh"
 
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
-  title "$__file_name [ flags ] < system_name > < playbook > : Installs ."
+  title "$__file_name [ flags ] < system_name > < playbook > : Installs base system library dependencies, extra tools & sets up system configuration on the different systems."
   text "Flags:"
-  text "    -az : Show the available azure ansible system names."
-  text "    -r  : Show the available robot ansible system names."
-  text "    -l  : Show the available localhost system names."
+  text "    -s  : Show the available system names."
   text "    -b  : Show the available playbooks."
   text "    -p  : Provide system password, to allow sudo installs."
   text "Args:"
   text "    system_name: the name of the remote system to install on"
   text "    playbook: the name of the robot ansible playbook to run"
-  exit 0
+  text
+	text "For more help, please see the README.md or wiki."
+  exit_success
 fi
-
-# //////////////////////////////////////////////////////////////////////////////
 
 # globals
 _GL_EXTRA_OPTS= # extra ansible options
-# script only utilities
-
-# exit on success
-function exit_on_success() {
-  newline
-  popd
-  exit_success
-}
-
-# exit on failure
-function exit_on_error() {
-  error $1
-  popd
-  exit_failure
-}
+_GL_pwd="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../"
+_GL_inv_dir="$_GL_pwd/inventory/"
 
 # parse ansible .ini file lines, to find the list of remote (or local) ansible system names
 function get_system_names() {
@@ -98,7 +85,7 @@ function get_system_names() {
       is_empty $system && { continue; }
 
       # add system name
-      if ! val_in_arr "$system" "${systems[@]}"; then
+      if ! in_arr "$system" "${systems[@]}"; then
         systems+=( "$system" )
       fi
     done <<< "$systemlines"
@@ -113,24 +100,72 @@ function get_system_names() {
 # //////////////////////////////////////////////////////////////////////////////
 # @brief run the ansible robot playbook
 # //////////////////////////////////////////////////////////////////////////////
-title == Running SubT ansible robotbooks ==
+main MMPUG Ansible PlayBooks
 
 # go to top-level ansible robotbooks path
-pushd $__dir/../
+pushd $_GL_pwd
 
-# set the password, if given to enable by user input
-if chk_flag -p $@; then
-  read -sp "Enter system password (leave empty for default): " client_password
-  # _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
+# exit on error if any other type of flag given (besides system name check)
+# if ! chk_flag -s $@ && ! chk_flag -b $@ && ! chk_flag -p $@ ; then
+#   error Unrecognized given flag $@. Run '--help'
+#   exit_pop_error
+# fi
+
+# -- get available playbooks --
+
+if chk_flag -b $@; then
+  text \\n Ansible Playbooks \\n
+
+  # find all ansible playbooks, in top-level robotbooks path
+  for file in $_GL_pwd/*.yaml; do
+    if file_exists $file; then
+      text \\t $(basename $file)
+    fi
+  done
+
+  # find all ansible playbooks, in tasks robotbooks path
+  for file in $_GL_pwd/tasks/*.yaml; do
+    if file_exists $file; then
+      text \\t tasks/$(basename $file)
+    fi
+  done
 fi
 
-# install playbook on remote system
-if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@; then
+# -- get available system names --
+
+# get localhost ansible system names
+if chk_flag -s $@ ; then
+  # output the system name resutls
+  text \\n System Names Available  \\n
+
+  # go through every inventory file
+  for _filename in $_GL_inv_dir/*.ini; do
+    # print the system name results
+    systems=($(get_system_names $_filename))
+    printf '\t%s\n' "${systems[@]}"
+  done
+fi
+
+# exit early, if given books or system flags
+if chk_flag -s $@ || chk_flag -b $@ ; then
+  # cleanup & exit
+  exit_pop_success
+fi
+
+# -- install playbook on remote system --
+
+if ! chk_flag -s $@ && ! chk_flag -b $@; then
 
   # Make sure we actually have an argument...
   if [[ $# -lt 2 ]]; then
     error Not enough arguments provided, unable to run command. Run '--help'
-    exit_on_error
+    exit_pop_error
+  fi
+
+  # set the password, if given to enable by user input
+  if chk_flag -p $@; then
+    read -sp "Enter system password (leave empty for default): " client_password
+    # _GL_EXTRA_OPTS="$_GL_EXTRA_OPTS --extra-vars \"ansible_sudo_pass=$client_password\""
   fi
 
   # named arguments (for readably)
@@ -138,13 +173,11 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
   playbook=$2
 
   # find the inventory file matching system name
-  # -- assuming UNIQUE system names between all inventory file (weak assumption?)
-  filenames=("" "./inventory/localhost.ini" "./inventory/azure.ini" "./inventory/robot.ini")
-  for filename in "${filenames[@]:1}"; do
-    systems=($(get_system_names $filename))
+  for _filename in $_GL_inv_dir/*.ini; do
+    systems=($(get_system_names $_filename))
     # inventory file contains system name
-    if val_in_arr "$system" "${systems[@]}"; then
-      inv=$filename
+    if in_arr "$system" "${systems[@]}"; then
+      inv=$_filename
       break
     fi
   done
@@ -154,10 +187,15 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
     error Something went wrong.
     text - check your \'system_name\' or \'playbook\' filename arguments are valid.
     text - if given valid arguments, then please notify the maintainer.
-    exit_on_error
+    exit_pop_error
   fi
 
-  text "using inventory file: $inv"
+  # print, for user verification and debugging purposes
+  text "...system: $system"
+  text "...task: $playbook"
+  text "...inventory: $(basename $inv)"
+  newline
+
   # run ansible installer
   ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS --extra-vars "ansible_sudo_pass=$client_password"
 
@@ -167,67 +205,19 @@ if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -b $@ && ! chk_flag -l $@
     text - please check your network connection. If you were disconnected, re-connect and try again.
     text - please check if there were any errors during an install command. If so, please notify the maintainer.
     text - if \'user interrupted execution\' invoked \(by CTRL-C\), then you can safely ignore this error message.
-    exit_on_error
+    exit_pop_error
   fi
 
   # cleanup & exit
-  exit_on_success
+  exit_pop_success
 fi
-
-# get available playbooks
-if chk_flag -b $@; then
-  text Ansible Playbooks \\n
-
-  # find all ansible playbooks, in top-level robotbooks path
-  for file in $(pwd)/*.yaml; do
-    if file_exists $file; then
-      text \\t $(basename $file)
-    fi
-  done
-
-  # find all ansible playbooks, in tasks robotbooks path
-  for file in $(pwd)/tasks/*.yaml; do
-    if file_exists $file; then
-      text \\t tasks/$(basename $file)
-    fi
-  done
-
-  # cleanup & exit
-  exit_on_success
-fi
-
-# exit on error if any other type of flag given (besides system name check)
-if ! chk_flag -az $@ && ! chk_flag -r $@ && ! chk_flag -l $@; then
-  error Unrecognized given flag. Run '--help'
-  exit_on_error
-fi
-
-# get localhost ansible system names
-if chk_flag -l $@ ; then
-  filename="./inventory/localhost.ini"
-fi
-# get robot ansible system names
-if chk_flag -r $@ ; then
-  filename="./inventory/robot.ini"
-fi
-# # get azure ansible system names
-if chk_flag -az $@ ; then
-  filename="./inventory/azure.ini"
-fi
-
-# print the system name results
-systems=($(get_system_names $filename))
 
 # verify file parser did not fail
 if last_command_failed; then
   echo ${systems[@]}  # gets the last error message, since systems is expecting an echo return
   error Something went wrong. Please notify the maintainer.
-  exit_on_error
+  exit_pop_error
 fi
 
-# output the system name resutls
-text System Names Available  \\n
-printf '\t%s\n' "${systems[@]}"
-
 # cleanup & exit
-exit_on_success
+exit_pop_success

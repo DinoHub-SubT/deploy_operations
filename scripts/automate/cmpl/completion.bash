@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # load header helper functions
-. "$SUBT_PATH/operations/scripts/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/automate/header.sh"
 . "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
 
 # @brief find the the current auto-complete token matches

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-. "$SUBT_PATH/operations/scripts/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
-. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 # @brief checks if currently on any branch
 __detached_head() {

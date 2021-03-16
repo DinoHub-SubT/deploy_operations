@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # include headers
-. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
-. "$(dirname $0)/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 # help message
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
@@ -45,7 +45,7 @@ for FILENAME in $path/*; do
 	NORMAL_HOSTNAME=$(hostname)
 	CAPITAL_HOSTNAME=${NORMAL_HOSTNAME^^}
 	echo "$CAPITAL_HOSTNAME"
-	
+
 	# copy files to azure
 	warning "transfering file: $FILENAME"
 	warning "transfering to: https://subtdatasets.blob.core.windows.net/$DIRECTORY/$ROBOT/$COMPUTER/"
@@ -54,5 +54,3 @@ done
 
 # cleanup, exit success
 exit_success
-
-***

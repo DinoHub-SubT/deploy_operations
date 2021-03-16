@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # load header helper functions
-. "$SUBT_PATH/operations/scripts/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
 . "$SUBT_PATH/operations/scripts/automate/cmpl/completion.bash"
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -48,19 +47,7 @@ __subt_git_execute() {
   # apply the deployer action scripts
   else
     shift 1 # shift 'git'
-    _run_deployer "$@" "$_opts"
-#     shift 2
-#     for _subrepo in "$@"; do
-#       # ignore the preview or verbose flags, added seperately
-#       chk_flag -p $_subrepo || chk_flag -v $_subrepo && continue
-#       # apply the deployer git actions
-#       _run_deployer "git.$_subrepo.$_git_action_cmd" "$_opts"
-#       # ignore all catkin files, if pulling the latest updates
-#       if  chk_flag clone $_git_action_cmd || chk_flag reset $_git_action_cmd ||
-#           chk_flag pull $_git_action_cmd; then
-#         _run_deployer "git.$_subrepo.ignore" "$_opts"
-#       fi
-#     done
+    deployer "$@" "$_opts"
   fi
 }
 
@@ -117,10 +104,19 @@ __subt_cloud_execute() {
 # //////////////////////////////////////////////////////////////////////////////
 __subt_tools_execute() {
   # verify given the correct tool input script names
-  if chk_flag ssh $@ || chk_flag teamviewer $@ || chk_flag rdp $@ || chk_flag snapshot $@; then
-    shift
-    (subtu_avail_${@[1]} ${@:2})
+  if chk_flag ssh.probe $@; then
+    (probe_ssh_connections.sh)
+  elif chk_flag teamviewer.probe $@; then
+    (probe_teamviewer.sh)
+  elif chk_flag snapshot $@; then
+    (snapshot.sh)
+  elif chk_flag discover $@; then
+    echo "TODO";
+  else
+    error "Please enter a valid tools command."
+    exit_failure
   fi
+
 }
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -130,31 +126,30 @@ subt() {
   # get the current directory
   local __pwd=$(pwd)
 
-  # execute actual git command (filter any 'git subt' subcommands)
-  if chk_nth_flag 1 "git" "$@"; then
-    # execute git subt main entrypoint
-    __subt_git_execute $@
-    # command git "$@"
-
-  # execute 'git subt' subcommand
-  elif chk_nth_flag 1 "deployer" "$@"; then
+  # execute any deployer's git books (section given as user input)
+  if chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
-    _run_deployer "$@"
+    deployer -s $@
 
-  elif chk_nth_flag 1 "robots" "$@"; then
-    __subt_robots_execute $@
+  # execute any deployer's git books (section given as user input)
+  elif chk_nth_flag 1 "ansible" "$@"; then
+    shift 1 # shift 'ansible'
+    (mmpug_ani_install.sh $@)
 
-  elif chk_nth_flag 1 "cloud" "$@"; then
-    __subt_cloud_execute $@
-
+  # # execute any deployer's git books (section given as user input)
   elif chk_nth_flag 1 "tools" "$@"; then
+    shift 1 # shift 'tools'
     __subt_tools_execute $@
 
-  elif chk_nth_flag 1 "update" "$@"; then
-    cd $SUBT_PATH
-    ./install-deployer.bash --uninstall
-    ./install-deployer.bash --install
-    text "Please source your bash or zsh rc: 'source ~/.bashrc'"
+  # execute actual git command (filter any 'git subt' subcommands)
+  elif chk_nth_flag 1 "git" "$@"; then
+    shift 1 # shift git
+    __subt_git_execute $@
+
+
+  elif chk_nth_flag 1 "cloud" "$@"; then
+    shift 1 # shift git
+    __subt_cloud_execute $@
 
   elif chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
     __subt_help

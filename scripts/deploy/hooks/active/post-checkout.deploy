@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-. "$SUBT_PATH/operations/scripts/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/.header.bash"
-. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 
 # checks whether all the version files are up-to-date

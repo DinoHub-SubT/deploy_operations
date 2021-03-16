@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-. "$SUBT_PATH/operations/scripts/.header.bash"
-. "$SUBT_PATH/operations/scripts/automate/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
+. "$SUBT_PATH/operations/scripts/automate/header.sh"
 . "$SUBT_PATH/operations/scripts/automate/cmpl/help.bash"
 
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
@@ -51,9 +52,9 @@ _status() {
   local _hash=$(git rev-parse --verify HEAD)
   local _branch=$(git rev-parse --abbrev-ref HEAD)
   local _url=$(git config --get remote.origin.url)
-  local _dirty=$(_git_is_dirty)
-  local _untrack=$(_git_nuntrack)
-  local _uncommit=$(_git_nuncommit)
+  local _dirty=$(git_is_dirty)
+  local _untrack=$(git_ntracked)
+  local _uncommit=$(git_ncommit)
   local _status=""
 
   # determine the type of output display format for detached or non-detached head
@@ -145,8 +146,8 @@ _sync() {
   # - removes all deleted branches
 
   # collect the local & remote branches
-  local _heads=($(_git_branches heads))
-  local _remotes=($(_git_branches remotes))
+  local _heads=($(git_branches heads))
+  local _remotes=($(git_branches remotes))
 
   # get the current checked out branch
   local _co=$(git symbolic-ref -q HEAD)
@@ -161,7 +162,7 @@ _sync() {
     short=${branch#"refs/heads/"}           # find the short branch name
 
     # match the local & remote branches
-    if val_in_arr "'refs/remotes/origin/$short'" "${_remotes[@]}"; then
+    if get_value "'refs/remotes/origin/$short'" "${_remotes[@]}"; then
       # reset the local branch to the remote
       git update-ref "$branch" "refs/remotes/origin/$short"
     else
@@ -230,8 +231,8 @@ _add_traverse() {
   local _hash=$(git rev-parse --verify HEAD)
   local _br=$(git symbolic-ref --short HEAD)
   local _brshort="autofeat/${_br#"heads/"}"
-  local _heads=($(_git_branches heads))
-  local _remotes=($(_git_branches remotes))
+  local _heads=($(git_branches heads))
+  local _remotes=($(git_branches remotes))
 
   # stage & commit all intermediate repo changes
   for _inter in "$@"; do
@@ -248,7 +249,7 @@ _add_traverse() {
     git checkout  -q -f -b $_brshort
 
     # sync local 'deploy named' branch to remote origin
-    if val_in_arr "'refs/remotes/origin/$_brshort'" "${_remotes[@]}"; then
+    if get_value "'refs/remotes/origin/$_brshort'" "${_remotes[@]}"; then
       git update-ref "$branch" "refs/remotes/origin/$_brshort"
     fi
 

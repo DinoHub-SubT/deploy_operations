@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # load header helper functions
-. "$SUBT_PATH/operations/azurebooks/scripts/header.sh"
-. "$(dirname $0)/.header.bash"
+. "$SUBT_PATH/operations/scripts/header.sh"
+. "$SUBT_PATH/operations/scripts/formatters.sh"
 
 if chk_flag --help $@ || chk_flag help $@ ; then
   GL_TEXT_COLOR=$FG_LCYAN
