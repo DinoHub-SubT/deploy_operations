@@ -23,7 +23,8 @@
     - +extend: catkin/ugv.core
 
   # extend perception workspace (docker and catkin)
-  - perception:
-    - +extend: workspaces/perception
-    - scenarios.perception:
-      - +extend: catkin/perception
+  - +extend: workspaces/perception
+  # - perception:
+  # - +extend: workspaces/perception
+  #   - scenarios.perception:
+  #     - +extend: catkin/perception

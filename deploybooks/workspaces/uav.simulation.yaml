@@ -23,7 +23,7 @@
     - +extend: catkin/uav.core
 
   # extend perception workspace (docker and catkin)
-  - perception:
-    - +extend: workspaces/perception
-    - scenarios.perception:
-      - +extend: catkin/perception
+#   - perception:
+#     - +extend: workspaces/perception
+#     - scenarios.perception:
+#       - +extend: catkin/perception

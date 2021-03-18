@@ -29,12 +29,24 @@
     fi;
   }
 
+# clean submodules at the given workspace
+- git_clean() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
+      echo "...cleanup catkin files";
+      find . -type f -name "build.yaml" -delete;
+      find . -type f -name "devel_collisions.txt" -delete;
+      find . -type d -name "packages" -exec rm -rv {} +;
+    fi;
+  }
+
+
 # main entrypoint function: remove submodules
 - unignore_catkin () {
     local src_path=$(pwd);
     export GL_LAST_COMMAND_FAILED=0;
     echo "...unignore";
     cd_workspace $META_SECOND_LEVEL_PATH;
+    git_clean;
     git_unignore;
     cd $src_path;
     return $GL_LAST_COMMAND_FAILED;

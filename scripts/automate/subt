@@ -23,18 +23,18 @@ fi
 # @brief evaluate which subcommand to switch and execute
 # //////////////////////////////////////////////////////////////////////////////
 __subt_git_execute() {
-  local _opts=""
-  chk_flag -p $@ && _opts="$_opts -p"
-  chk_flag -v $@ && _opts="$_opts -v"
-
-  # echo "try to execute? $@"
-  # remove the argument flag & its value (append to the end of the git deployer call)
-  while chk_flag -e $@; do
-    local idx=$(get_idx -e $@)
-    ((idx++))
-     _opts="$_opts -e ${@[idx + 1]}"
-    set -- "${@:1:$idx-1}" "${@:$idx+2}"
-  done
+#  local _opts=""
+#  chk_flag -p $@ && _opts="$_opts -p"
+#  chk_flag -v $@ && _opts="$_opts -v"
+#
+#  # echo "try to execute? $@"
+#  # remove the argument flag & its value (append to the end of the git deployer call)
+#  while chk_flag -e $@; do
+#    local idx=$(get_idx -e $@)
+#    ((idx++))
+#     _opts="$_opts -e ${@[idx + 1]}"
+#    set -- "${@:1:$idx-1}" "${@:$idx+2}"
+#  done
 
   # get the given git action command
   local _git_action_cmd=${@[1]}
@@ -46,8 +46,7 @@ __subt_git_execute() {
     __git_help
   # apply the deployer action scripts
   else
-    shift 1 # shift 'git'
-    deployer "$@" "$_opts"
+    deployer -s "$@"
   fi
 }
 

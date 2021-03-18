@@ -1,5 +1,5 @@
 # source the base scenarios
-- source operations/scenarios/.base.env
+- source $SUBT_OPERATIONS_PATH/scenarios/.base.env
 
 # //////////////////////////////////////////////////////////////////////////////
 - local:
@@ -10,7 +10,7 @@
   - export COMPUTER_ARCH=x86
 
   # source the platform scenario files
-  - source operations/scenarios/systems/local/.local.env
+  - source $SUBT_OPERATIONS_PATH/scenarios/systems/local/.local.env
 
   # extend simulation platforms
   - +extend: main/platform/basestation.plt
@@ -27,7 +27,7 @@
   - export COMPUTER_ARCH=x86
 
   # source the platform scenario files
-  - source operations/scenarios/systems/azure/.azure.env
+  - source $SUBT_OPERATIONS_PATH/scenarios/systems/azure/.azure.env
 
   # extend simulation platforms
   - +extend: main/platform/basestation.plt
@@ -44,7 +44,7 @@
   - export COMPUTER_ARCH=x86
 
   # source the platform scenario files
-  - source operations/scenarios/systems/robot/.robot.env
+  - source $SUBT_OPERATIONS_PATH/scenarios/systems/robot/.robot.env
 
   # extend robot platforms
   - +extend: main/platform/basestation.plt

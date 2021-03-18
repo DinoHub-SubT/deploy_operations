@@ -35,17 +35,6 @@
     - +extend: common/docker
     - +extend: catkin/ugv.nuc.slam
 
-  # extend perception workspace (docker and catkin)
-  - perception:
-    # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=perception-shell
-    - export SCENARIO=wifi
-    - export CATKIN_PROFILE=wifi
-
-    # import the workspace environment setup
-    - +import:env/robot.env
-
-    # extend general actions
-    - +extend: workspaces/perception
-    - scenarios.perception:
-      - +extend: catkin/ugv.nuc.perception
+  # extend the perception wifi workspace (docker and catkin)
+  - wifi:
+    - +extend: workspaces/perception.wifi

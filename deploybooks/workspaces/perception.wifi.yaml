@@ -1,0 +1,3 @@
+- scenarios.perception.wifi:
+  # extend general actions (no docker, its just on host)
+  - +extend: catkin/perception.wifi

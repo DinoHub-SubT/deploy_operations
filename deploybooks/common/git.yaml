@@ -2,10 +2,13 @@
 - ENABLE_GIT_ACTION=true
 
 - git:
-  - +extend: common/git/main/localhost
-  - +extend: common/git/main/system76
-  - +extend: common/git/main/drone_laptop
-  # - +extend: common/git/main/all
+  # allow the following workspaces, for localhost
+  - +extend: common/git/workspaces/common
+  - +extend: common/git/workspaces/basestation
+  - +extend: common/git/workspaces/simulation
+  - +extend: common/git/workspaces/subt_launch
+  - +extend: common/git/workspaces/ugv
+  - +extend: common/git/workspaces/uav
 
   # clean the top level meta directory
   - cd $TOP_LEVEL_META

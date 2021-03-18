@@ -5,9 +5,6 @@
   # connect to the remote host
   - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
 
-  # run catkin builds inside the docker container ?
-  # - +docker:$DOCKER_CONTAINER
-
   - cd $SUBT_PATH/
   - pwd
   - whoami
@@ -15,10 +12,10 @@
   # ////////////////////////////////////////////////////////////////////////////
   - clean:
   # ////////////////////////////////////////////////////////////////////////////
-    - rm -rf ~/deploy_ws/devel/ugv/perception
-    - rm -rf ~/deploy_ws/build/ugv/perception
-    - rm -rf ~/deploy_ws/install/ugv/perception
-    - rm -rf ~/deploy_ws/logs/ugv/perception
+    - rm -rf ~/deploy_ws/devel/wifi
+    - rm -rf ~/deploy_ws/build/wifi
+    - rm -rf ~/deploy_ws/install/wifi
+    - rm -rf ~/deploy_ws/logs/wifi
 
   # ////////////////////////////////////////////////////////////////////////////
   - build:
@@ -28,16 +25,16 @@
       - cd ~/deploy_ws/src/common
       - rm -f .catkin_tools/profiles/profiles.yaml
       - catkin profile list
-      - catkin profile set ugv.nuc.wifi
+      - catkin profile set perception.wifi
       - catkin config
       - catkin build --force-cmake
 
     - perception:
-      - cd ~/deploy_ws/src/perception
+      # build objdet
+      - cd ~/deploy_ws/src/perception/
       - rm -f .catkin_tools/profiles/profiles.yaml
-      # ignore slam/devel repos
       - catkin profile list
-      - catkin profile set ugv.nuc.wifi
+      - catkin profile set perception.wifi
       - catkin config
       - catkin build --force-cmake
 
@@ -45,6 +42,6 @@
       - cd ~/deploy_ws/src/subt_launch
       - rm -f .catkin_tools/profiles/profiles.yaml
       - catkin profile list
-      - catkin profile set ugv.nuc.wifi
+      - catkin profile set perception.wifi
       - catkin config
       - catkin build --force-cmake

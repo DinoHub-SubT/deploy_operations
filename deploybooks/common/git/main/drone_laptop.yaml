@@ -1,5 +1,0 @@
-# allow the following workspaces, for localhost
-- +extend: common/git/workspaces/common
-- +extend: common/git/workspaces/simulation
-- +extend: common/git/workspaces/subt_launch
-- +extend: common/git/workspaces/uav
