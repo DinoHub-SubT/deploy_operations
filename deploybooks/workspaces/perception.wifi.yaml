@@ -1,3 +1,7 @@
 - scenarios.perception.wifi:
-  # extend general actions (no docker, its just on host)
-  - +extend: catkin/perception.wifi
+  # TODO: non-docker
+  - catkin:
+    - export CATKIN_PROFILE=perception.wifi
+    - +extend: catkin/common
+    - +extend: catkin/perception
+    - +extend: catkin/subt_launch

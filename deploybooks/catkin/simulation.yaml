@@ -1,0 +1,13 @@
+- +import:env/catkin.env
+
+- darpa:
+  - export CATKIN_WORKSPACE=simulation/darpa/catkin
+  - +extend: catkin/build
+  - +extend: catkin/clean
+
+- core:
+  - export CATKIN_WORKSPACE=simulation/
+  # TEMPORARY! REALLY BAD.
+  - touch velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+  - +extend: catkin/build
+  - +extend: catkin/clean

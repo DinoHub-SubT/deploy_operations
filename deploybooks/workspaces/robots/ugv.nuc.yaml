@@ -17,7 +17,11 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: catkin/ugv.nuc.core
+    - catkin:
+      - export CATKIN_PROFILE=ugv.nuc
+      - +extend: catkin/common
+      - +extend: catkin/ugv
+      - +extend: catkin/subt_launch
 
   - slam:
     # setup pre-defined environment variables, for workspace env import
@@ -33,8 +37,11 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: catkin/ugv.nuc.slam
+    # TODO: non-docker
+    - catkin:
+      - export CATKIN_PROFILE=ugv.nuc.slam
+      - +extend: catkin/ugv
+      - +extend: catkin/subt_launch
 
   # extend the perception wifi workspace (docker and catkin)
-  - wifi:
-    - +extend: workspaces/perception.wifi
+  # - +extend: workspaces/perception.wifi

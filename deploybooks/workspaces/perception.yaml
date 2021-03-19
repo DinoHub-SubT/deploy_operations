@@ -16,4 +16,8 @@
   # extend general actions
   - +extend: common/docker.registry
   - +extend: common/docker
-  - +extend: catkin/perception
+  - catkin:
+    - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+    - +extend: catkin/common
+    - +extend: catkin/perception
+    - +extend: catkin/subt_launch

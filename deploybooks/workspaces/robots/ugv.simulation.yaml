@@ -1,0 +1,7 @@
+- scenarios:
+
+  # extend common workspaces
+  - +extend: workspaces/melodic
+  - +extend: workspaces/super
+  - +extend: workspaces/ugv.core
+  - +extend: workspaces/perception

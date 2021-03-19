@@ -5,7 +5,6 @@
     # setup pre-defined environment variables, for workspace env import
     - +env:DOCKER_CONTAINER=basestation-shell
     - export SCENARIO=core
-    - export CATKIN_PROFILE=basestation
 
     # import the workspace environment setup
     - +import:env/simulation.env
@@ -13,4 +12,9 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: catkin/basestation
+
+    - catkin:
+      - export CATKIN_PROFILE=basestation
+      - +extend: catkin/common
+      - +extend: catkin/basestation
+      - +extend: catkin/subt_launch

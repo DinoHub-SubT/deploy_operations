@@ -1,0 +1,19 @@
+- xavier:
+  - export PLATFORM_COMPUTER_NAME=xavier
+  - export COMPUTER_ARCH=arm
+
+  # ugv computer split
+  - +import:env/split.env
+
+  # setup docker context
+  - +import:env/header.env
+  - set_docker_dctx
+
+  # TODO: TEMPORARY for localhost testing
+  - export DCTX=default
+
+  # extend remote rsync actions
+  - +extend: common/sync
+
+  # extend ugv nuc workspace
+  - +extend: workspaces/robots/ugv.xavier

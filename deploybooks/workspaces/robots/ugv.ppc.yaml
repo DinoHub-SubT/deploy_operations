@@ -16,4 +16,9 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: catkin/ugv.ppc
+    - catkin:
+      - export CATKIN_PROFILE=ugv.ppc
+      - +extend: catkin/common
+      - +extend: catkin/ugv
+      - +extend: catkin/uav
+      - +extend: catkin/subt_launch

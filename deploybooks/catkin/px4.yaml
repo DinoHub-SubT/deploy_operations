@@ -1,0 +1,9 @@
+- +import:env/catkin.env
+
+- build:
+  - cd ~/deploy_ws/src/uav/core/firmwaresubt
+  - ./build.sh
+
+- clean:
+  # remove the px4 firmware
+  - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build

@@ -1,0 +1,5 @@
+- scenarios:
+  - +extend: workspaces/melodic
+  - +extend: workspaces/super
+  - +extend: workspaces/uav.core
+  - +extend: workspaces/perception

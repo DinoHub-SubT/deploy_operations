@@ -1,7 +1,6 @@
 - scenarios:
   # common remote sync actions
   - +extend: workspaces/melodic
-
   # TODO: chonky...
 
   # TODO: cannot rebuild entire perception stack...missing opencv libs on host
@@ -21,4 +20,8 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    - +extend: catkin/ugv.xavier
+    - catkin:
+      - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+      - +extend: catkin/common
+      - +extend: catkin/perception
+      - +extend: catkin/subt_launch

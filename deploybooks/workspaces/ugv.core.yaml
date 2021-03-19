@@ -1,0 +1,21 @@
+- scenarios.ugv.core:
+  # setup pre-defined environment variables, for workspace env import
+  - +env:DOCKER_CONTAINER=$ROBOT-shell
+  - export SCENARIO=core
+
+  # import the workspace environment setup
+  - +import:env/simulation.env
+
+  # override any default environment setups
+  - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+  # extend general actions
+  - +extend: common/docker.registry
+  - +extend: common/docker
+  - catkin:
+    - export CATKIN_PROFILE=ugv.core
+    - +extend: catkin/common
+    - +extend: catkin/ugv
+    - +extend: catkin/uav
+    - +extend: catkin/simulation
+    - +extend: catkin/subt_launch

@@ -1,0 +1,4 @@
+- rm -rf ~/deploy_ws/devel/$CATKIN_WORKSPACE
+- rm -rf ~/deploy_ws/build/$CATKIN_WORKSPACE
+- rm -rf ~/deploy_ws/install/$CATKIN_WORKSPACE
+- rm -rf ~/deploy_ws/logs/$CATKIN_WORKSPACE

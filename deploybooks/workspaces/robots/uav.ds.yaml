@@ -1,0 +1,10 @@
+- scenarios:
+  # export the remote docker context
+  - export DCTX=robot-uav-$ROBOT
+
+  # extend common workspaces
+  - +extend: workspaces/melodic
+  - +extend: workspaces/super
+  - +extend: workspaces/uav.core
+  - +extend: workspaces/perception
+  # - +extend: workspaces/perception.wifi
