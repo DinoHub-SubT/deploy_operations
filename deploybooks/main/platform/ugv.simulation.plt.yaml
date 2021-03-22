@@ -12,7 +12,7 @@
     - set_docker_dctx
 
     # extend ugv simulation workspace
-    - +extend: workspaces/robots/ugv.simulation
+    - +extend: workspaces/ugv.simulation
 
   - ugv2:
     # exact name of remote/local system
@@ -23,7 +23,7 @@
     - set_docker_dctx
 
     # extend ugv simulation workspace
-    - +extend: workspaces/robots/ugv.simulation
+    - +extend: workspaces/ugv.simulation
 
   - ugv3:
     # exact name of remote/local system
@@ -34,4 +34,4 @@
     - set_docker_dctx
 
     # extend ugv simulation workspace
-    - +extend: workspaces/robots/ugv.simulation
+    - +extend: workspaces/ugv.simulation

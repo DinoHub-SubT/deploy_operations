@@ -15,4 +15,4 @@
   - +extend: common/sync
 
   # extend ugv ppc workspace
-  - +extend: workspaces/robots/ugv.ppc
+  - +extend: workspaces/ugv.ppc

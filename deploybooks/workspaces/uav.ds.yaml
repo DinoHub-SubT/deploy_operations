@@ -1,0 +1,35 @@
+- scenarios:
+  # run on the remote server (except for any books that specific +local, to force local deployment)
+  - +ssh:{ robot.$ROBOT }
+
+  # extend common workspaces
+  - +extend: workspaces/shared/melodic
+  - +extend: workspaces/shared/super
+
+  - core:
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=uav-shell
+    - export SCENARIO=core
+
+    # import the workspace environment setup
+    - +import:env/workspace.env
+    - +import:env/robot.env
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - catkin:
+      - export CATKIN_PROFILE=uav.core
+      - +import:env/catkin.env
+
+      - +extend: catkin/px4
+      - +extend: catkin/common
+      - +extend: catkin/uav
+      - +extend: catkin/simulation
+      - +extend: catkin/subt_launch
+
+  - +extend: workspaces/shared/perception
+  # - +extend: workspaces/shared/perception.wifi

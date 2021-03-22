@@ -3,8 +3,10 @@
 # ////////////////////////////////////////////////////////////////////////////
   # general platform type
   - export PLATFORM=basestation
+
   # exact name of remote/local system
   - +env:ROBOT=basestation
+
   # setup docker context
   - +import:env/header.env
   - set_docker_dctx

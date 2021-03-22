@@ -18,6 +18,9 @@
   - +extend: common/docker
   - catkin:
     - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+    - +import:env/catkin.env
+
     - +extend: catkin/common
+    - +extend: catkin/perception.deps
     - +extend: catkin/perception
     - +extend: catkin/subt_launch

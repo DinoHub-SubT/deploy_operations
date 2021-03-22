@@ -1,6 +1,6 @@
 - scenarios:
   # common remote sync actions
-  - +extend: workspaces/melodic
+  - +extend: workspaces/shared/melodic
   # TODO: chonky...
 
   # TODO: cannot rebuild entire perception stack...missing opencv libs on host
@@ -11,6 +11,7 @@
     - export CATKIN_PROFILE=xavier
 
     # import the workspace environment setup
+    - +import:env/workspace.env
     - +import:env/robot.env
 
     # override any default environment setups
@@ -22,6 +23,8 @@
     - +extend: common/docker
     - catkin:
       - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+      - +import:env/catkin.env
+
       - +extend: catkin/common
       - +extend: catkin/perception
       - +extend: catkin/subt_launch

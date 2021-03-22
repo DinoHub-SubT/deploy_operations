@@ -1,6 +1,6 @@
 - scenarios:
   # common remote sync actions
-  - +extend: workspaces/melodic
+  - +extend: workspaces/shared/melodic
 
   - core:
     # setup pre-defined environment variables, for workspace env import
@@ -8,6 +8,7 @@
     - export SCENARIO=core
 
     # import the workspace environment setup
+    - +import:env/workspace.env
     - +import:env/robot.env
 
     # override any default environment setups
@@ -18,6 +19,8 @@
     - +extend: common/docker
     - catkin:
       - export CATKIN_PROFILE=ugv.ppc
+      - +import:env/catkin.env
+
       - +extend: catkin/common
       - +extend: catkin/ugv
       - +extend: catkin/uav

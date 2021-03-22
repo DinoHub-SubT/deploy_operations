@@ -15,4 +15,4 @@
   - +extend: common/sync
 
   # extend ugv nuc workspace
-  - +extend: workspaces/robots/ugv.nuc
+  - +extend: workspaces/ugv.nuc

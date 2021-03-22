@@ -1,5 +1,3 @@
-- +import:env/catkin.env
-
 - export CATKIN_WORKSPACE=basestation
 - +extend: catkin/build
 - +extend: catkin/clean

@@ -47,6 +47,8 @@
   - source $SUBT_OPERATIONS_PATH/scenarios/systems/robot/.robot.env
 
   # extend robot platforms
-  - +extend: main/platform/basestation.plt
+  - basestation:
+    - export INFRASTRUCTURE_SYSTEM=local
+    - +extend: main/platform/basestation.plt
   - +extend: main/platform/ugv.robot.plt
   - +extend: main/platform/uav.robot.plt

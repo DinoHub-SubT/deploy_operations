@@ -1,3 +1,5 @@
+- +local
+
 - source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE}/${ROBOT_PLATFORM}.env ${ROBOT}
 
 # transfer to remote host

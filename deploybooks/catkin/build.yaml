@@ -1,6 +1,7 @@
 # go to the catkin workspace directory
 - cd ~/deploy_ws/src/$CATKIN_WORKSPACE
 - rm -f .catkin_tools/profiles/profiles.yaml
+- pwd
 - catkin profile list
 - catkin profile set $CATKIN_PROFILE
 - catkin config

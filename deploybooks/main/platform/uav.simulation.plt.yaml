@@ -12,7 +12,7 @@
     - set_docker_dctx
 
     # extend uav simulation workspace
-    - +extend: workspaces/robots/uav.simulation
+    - +extend: workspaces/uav.simulation
 
   - uav2:
     # exact name of remote/local system
@@ -23,7 +23,7 @@
     - set_docker_dctx
 
     # extend uav simulation workspace
-    - +extend: workspaces/robots/uav.simulation
+    - +extend: workspaces/uav.simulation
 
   - uav3:
     # exact name of remote/local system
@@ -34,4 +34,4 @@
     - set_docker_dctx
 
     # extend uav simulation workspace
-    - +extend: workspaces/robots/uav.simulation
+    - +extend: workspaces/uav.simulation

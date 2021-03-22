@@ -1,7 +1,7 @@
 - scenarios:
   # common remote sync actions
-  - +extend: workspaces/melodic
-  - +extend: workspaces/super
+  - +extend: workspaces/shared/melodic
+  - +extend: workspaces/shared/super
 
   - core:
     # setup pre-defined environment variables, for workspace env import
@@ -9,6 +9,7 @@
     - export SCENARIO=core
 
     # import the workspace environment setup
+    - +import:env/workspace.env
     - +import:env/robot.env
 
     # override any default environment setups
@@ -19,6 +20,8 @@
     - +extend: common/docker
     - catkin:
       - export CATKIN_PROFILE=ugv.nuc
+      - +import:env/catkin.env
+
       - +extend: catkin/common
       - +extend: catkin/ugv
       - +extend: catkin/subt_launch
@@ -29,6 +32,7 @@
     - export SCENARIO=slam
 
     # import the workspace environment setup
+    - +import:env/workspace.env
     - +import:env/robot.env
 
     # override any default environment setups
@@ -37,11 +41,12 @@
     # extend general actions
     - +extend: common/docker.registry
     - +extend: common/docker
-    # TODO: non-docker
     - catkin:
       - export CATKIN_PROFILE=ugv.nuc.slam
+      - +import:env/catkin.host.env
+
       - +extend: catkin/ugv
       - +extend: catkin/subt_launch
 
   # extend the perception wifi workspace (docker and catkin)
-  # - +extend: workspaces/perception.wifi
+  - +extend: workspaces/shared/perception.wifi

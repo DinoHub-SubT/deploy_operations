@@ -15,7 +15,7 @@
     - +extend: common/sync
 
     # extend uav ds workspace
-    - +extend: workspaces/robots/uav.ds
+    - +extend: workspaces/uav.ds
 
   - ds2:
     - +env:ROBOT=uav2
@@ -29,7 +29,7 @@
     - +extend: common/sync
 
     # extend uav ds workspace
-    - +extend: workspaces/robots/uav.ds
+    - +extend: workspaces/uav.ds
 
   - ds3:
     - +env:ROBOT=uav3
@@ -43,7 +43,7 @@
     - +extend: common/sync
 
     # extend uav ds workspace
-    - +extend: workspaces/robots/uav.ds
+    - +extend: workspaces/uav.ds
 
   - ds4:
     - +env:ROBOT=uav4
@@ -57,4 +57,4 @@
     - +extend: common/sync
 
     # extend uav ds workspace
-    - +extend: workspaces/robots/uav.ds
+    - +extend: workspaces/uav.ds
