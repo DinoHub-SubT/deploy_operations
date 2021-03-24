@@ -8,7 +8,7 @@
     - +env:UAV_COMPUTER=ds1
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend remote rsync actions
@@ -22,7 +22,7 @@
     - +env:UAV_COMPUTER=ds2
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend remote rsync actions
@@ -36,7 +36,7 @@
     - +env:UAV_COMPUTER=ds3
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend remote rsync actions
@@ -50,7 +50,7 @@
     - +env:UAV_COMPUTER=ds4
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend remote rsync actions

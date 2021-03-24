@@ -8,7 +8,7 @@
     - +env:ROBOT=uav1
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend uav simulation workspace
@@ -19,7 +19,7 @@
     - +env:ROBOT=uav2
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend uav simulation workspace
@@ -30,7 +30,7 @@
     - +env:ROBOT=uav3
 
     # setup docker context
-    - +import:env/header.env
+    - +import:env/platform.env
     - set_docker_dctx
 
     # extend uav simulation workspace

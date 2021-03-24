@@ -48,15 +48,15 @@ our (
 # -- infrastructure types --
 },{
   id      => "local",
-  help    => create_help(get_help(qw(basestation docker ugv uav))),
+  help    => create_help(get_help(qw(basestation ugv uav))),
 
 },{
   id      => "azure",
-  help    => create_help(get_help(qw(basestation docker ugv uav))),
+  help    => create_help(get_help(qw(basestation ugv uav))),
 
 },{
   id      => "robots",
-  help    => create_help(get_help(qw(basestation docker ugv uav))),
+  help    => create_help(get_help(qw(basestation ugv uav))),
 
 # -- platforms --
 },{
@@ -202,6 +202,15 @@ our (
 },{
   id      => "pull",
   help    => create_help(get_help(qw(docker_registry_push docker_registry_pull))),
+
+},{
+  id      => "skel_to",
+  help    => create_help(get_help(qw(sync_skel_to_to sync_transfer_to))),
+
+},{
+  id      => "transfer",
+  help    => create_help(get_help(qw(sync_skel_to_to sync_transfer_to))),
+
 
 # TODO: build workspaces: ugv_build <- need to filter this... (any matches between ugv*build)
 

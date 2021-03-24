@@ -99,7 +99,7 @@ our %_help_main = (
   slam              => "slam docker image and catkin workspace -- loam or superodometry (optional outside docker).",
   wifi              => "wifi object detection catkin workspace (runs outside of docker).",
   # action:  catkin
-  catkin_build    => "build the core catkin workspace",
+  catkin_build    => "build the catkin workspace",
   catkin_clean    => "clean the catkin workspace",
   # action:  docker
   docker_make             => "build docker images",
@@ -110,7 +110,7 @@ our %_help_main = (
   docker_registry_pull    => "pull docker images from remote registry",
   # action: transfer
   sync_transfer_to    => "build the core catkin workspace",
-  sync_skel_t    => "clean the catkin workspace",
+  sync_skel_to_to    => "clean the catkin workspace",
 );
 
 # //////////////////////////////////////////////////////////////////////////////

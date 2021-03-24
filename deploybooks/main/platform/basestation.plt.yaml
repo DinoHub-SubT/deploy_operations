@@ -8,7 +8,7 @@
   - +env:ROBOT=basestation
 
   # setup docker context
-  - +import:env/header.env
+  - +import:env/platform.env
   - set_docker_dctx
 
   # extend the basestation workspace

@@ -6,7 +6,7 @@
   - +import:env/split.env
 
   # setup docker context
-  - +import:env/header.env
+  - +import:env/platform.env
   - set_docker_dctx
 
   # TODO: TEMPORARY for localhost testing
