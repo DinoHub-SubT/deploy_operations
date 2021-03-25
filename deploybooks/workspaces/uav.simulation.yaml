@@ -27,4 +27,10 @@
       - +extend: catkin/simulation
       - +extend: catkin/subt_launch
 
-  - +extend: workspaces/shared/perception
+  - perception:
+    - export SCENARIO=perception
+    - +import:env/simulation.env
+    - +extend: workspaces/shared/perception
+
+  - wifi:
+    - +extend: workspaces/shared/perception.wifi

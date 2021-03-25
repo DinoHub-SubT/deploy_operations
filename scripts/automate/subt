@@ -23,19 +23,6 @@ fi
 # @brief evaluate which subcommand to switch and execute
 # //////////////////////////////////////////////////////////////////////////////
 __subt_git_execute() {
-#  local _opts=""
-#  chk_flag -p $@ && _opts="$_opts -p"
-#  chk_flag -v $@ && _opts="$_opts -v"
-#
-#  # echo "try to execute? $@"
-#  # remove the argument flag & its value (append to the end of the git deployer call)
-#  while chk_flag -e $@; do
-#    local idx=$(get_idx -e $@)
-#    ((idx++))
-#     _opts="$_opts -e ${@[idx + 1]}"
-#    set -- "${@:1:$idx-1}" "${@:$idx+2}"
-#  done
-
   # get the given git action command
   local _git_action_cmd=${@[1]}
   # apply the general git action scripts
@@ -78,11 +65,11 @@ __subt_robots_execute() {
 __subt_cloud_execute() {
   # ansible azure install
   if chk_flag ansible $@; then
-    shift 2 # shift the 'git', 'info' tokens
+    shift 1 # shift the 'ansible'
     (subtani_install.sh $@)
   # terraform azure setup
   elif chk_flag terraform $@; then
-    shift 2 # shift the 'cloud terraform' tokens
+    shift 1 # shift the 'cloud terraform' tokens
 
     # go through all terraform files, check if filename suffix is a given arguments
     for filename in $SUBT_OPERATIONS_PATH/azurebooks/scripts/*.sh; do
@@ -104,13 +91,16 @@ __subt_cloud_execute() {
 __subt_tools_execute() {
   # verify given the correct tool input script names
   if chk_flag ssh.probe $@; then
-    (probe_ssh_connections.sh)
+    shift 1
+    (probe_ssh_connections.sh $@)
   elif chk_flag teamviewer.probe $@; then
-    (probe_teamviewer.sh)
+    shift 1
+    (probe_teamviewer.sh $@)
   elif chk_flag snapshot $@; then
-    (snapshot.sh)
-  elif chk_flag discover $@; then
-    echo "TODO";
+    shift 1
+    (snapshot.sh $@)
+  # elif chk_flag discover $@; then
+  #   echo "TODO";
   else
     error "Please enter a valid tools command."
     exit_failure
@@ -128,11 +118,6 @@ subt() {
   if chk_nth_flag 1 "deployer" "$@"; then
     shift 1 # shift 'deployer'
     deployer -s $@
-
-  # execute any deployer's git books (section given as user input)
-  elif chk_nth_flag 1 "ansible" "$@"; then
-    shift 1 # shift 'ansible'
-    (subtani_install.sh $@)
 
   # # execute any deployer's git books (section given as user input)
   elif chk_nth_flag 1 "tools" "$@"; then

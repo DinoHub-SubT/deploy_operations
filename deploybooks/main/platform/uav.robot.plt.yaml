@@ -11,6 +11,9 @@
     - +import:env/platform.env
     - set_docker_dctx
 
+    # TODO: TEMPORARY for localhost testing
+    - export DCTX=default
+
     # extend remote rsync actions
     - +extend: common/sync
 

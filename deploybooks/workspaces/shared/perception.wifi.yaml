@@ -1,8 +1,7 @@
 - scenarios.perception.wifi:
   - catkin:
-    - export CATKIN_PROFILE=perception.wifi
     - +import:env/catkin.host.env
-
+    - export CATKIN_PROFILE=perception.wifi
     - +extend: catkin/common
     - +extend: catkin/perception
     - +extend: catkin/subt_launch

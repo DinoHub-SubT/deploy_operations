@@ -9,10 +9,10 @@
     # //////////////////////////////////////////////////////////////////////////
     - download:
     # //////////////////////////////////////////////////////////////////////////
-      - rm -rf $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/download
-      - azcopy login
-      - azcopy copy --recursive https://subtdeployterrastate.blob.core.windows.net/docker-image-thirdparty/ $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/
-      - mv $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/docker-image-thirdparty $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/download
+      - cd $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/
+      - rm -rf download || true
+      - mkdir download
+      - az_docker_download.sh --down -p download -c docker-image-thirdparty
 
     # //////////////////////////////////////////////////////////////////////////
     - ops:

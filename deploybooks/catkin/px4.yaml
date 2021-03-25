@@ -1,5 +1,3 @@
-- +import:env/catkin.env
-
 - build:
   - cd ~/deploy_ws/src/uav/core/firmwaresubt
   - ./build.sh

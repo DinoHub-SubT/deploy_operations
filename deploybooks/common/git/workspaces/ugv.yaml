@@ -13,27 +13,25 @@
   # apply the git action to the submodule sub-directory
   - $GIT_ACTION_FUNCTOR
 
-- submodules:
-  - ppc:
-    - export META_THIRD_LEVEL_GROUP_PATH=planning-pc
-    - +extend: common/git/misc/ugv.sub.sc
-  - nuc:
-    - export META_THIRD_LEVEL_GROUP_PATH=nuc
-    - +extend: common/git/misc/ugv.sub.sc
-  - hardware:
-    - export META_THIRD_LEVEL_GROUP_PATH=hardware
-    - +extend: common/git/misc/ugv.sub.sc
-  - slam:
-    - slam:
-      - export ENABLE_GIT_ACTION=false
-      - devel:
-        - if [ "$ENABLE_SLAM" = true ]; then export ENABLE_GIT_ACTION=true; fi
-        - export META_THIRD_LEVEL_GROUP_PATH=slam/devel
-        - +extend: common/git/misc/ugv.sub.sc
-      - robot:
-        - if [ "$ENABLE_SLAM_ROBOT" = true ]; then export ENABLE_GIT_ACTION=true; fi
-        - export META_THIRD_LEVEL_GROUP_PATH=slam/robot
-        - +extend: common/git/misc/ugv.sub.sc
+- ppc.submodules:
+  - export META_THIRD_LEVEL_GROUP_PATH=planning-pc
+  - +extend: common/git/misc/ugv.sub.sc
+- nuc.submodules:
+  - export META_THIRD_LEVEL_GROUP_PATH=nuc
+  - +extend: common/git/misc/ugv.sub.sc
+- hardware.submodules:
+  - export ENABLE_GIT_ACTION=false
+  - if [ "$ENABLE_UGV_HARDWARE" = true ]; then export ENABLE_GIT_ACTION=true; fi
+  - export META_THIRD_LEVEL_GROUP_PATH=hardware
+  - +extend: common/git/misc/ugv.sub.sc
+- simulation.submodules:
+  - export META_THIRD_LEVEL_GROUP_PATH=simulation
+  - +extend: common/git/misc/ugv.sub.sc
+- slam.submodules:
+  - export ENABLE_GIT_ACTION=false
+  - if [ "$ENABLE_SLAM" = true ]; then export ENABLE_GIT_ACTION=true; fi
+  - export META_THIRD_LEVEL_GROUP_PATH=slam
+  - +extend: common/git/misc/ugv.sub.sc
 
 # export for top meta name for final cleanup
 - export TOP_LEVEL_META=$SUBT_PATH/ugv

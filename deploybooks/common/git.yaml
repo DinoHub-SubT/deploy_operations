@@ -1,7 +1,7 @@
 # enable all git actions
 - ENABLE_GIT_ACTION=true
 
-- git:
+- git.all:
   # allow the following workspaces, for localhost
   - +extend: common/git/workspaces/common
   - +extend: common/git/workspaces/basestation
@@ -9,6 +9,7 @@
   - +extend: common/git/workspaces/subt_launch
   - +extend: common/git/workspaces/ugv
   - +extend: common/git/workspaces/uav
+  - +extend: common/git/workspaces/perception
 
   # clean the top level meta directory
   - cd $TOP_LEVEL_META

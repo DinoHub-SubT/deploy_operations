@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl#!/usr/local/bin/perl
 
-package cmpl_deployer;
+package cmpl_help;
 use Exporter;
 use FindBin;
 use cmpl_utils;
@@ -14,27 +14,17 @@ our @ISA= qw( Exporter );
 # these CAN be exported.
 our @EXPORT_OK = qw(
   $_help_title
-  %_help_repository
-  %_help_robots
   format_help_str
   create_help
-  get_main_help
-  get_catkin_help
-  get_docker_help
-  get_workspace_help
+  get_help
 );
 
 # these are exported by default.
 our @EXPORT = qw(
   $_help_title
-  %_help_repository
-  %_help_robots
   format_help_str
   create_help
-  get_main_help
-  get_catkin_help
-  get_docker_help
-  get_workspace_help
+  get_help
 );
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -65,6 +55,7 @@ About: 18...
 ";
 
 our %_help_main = (
+  # -- deployer --
   local       => "laptop simulation deployment, including all types of platforms deployments (basestation, ugv, uav) and multi-robot simulation.",
   azure       => "azure (remote) virtual machines, including all types of platforms deployments (basestation, ugv, uav).",
   robots      => "basestation (local) and robot (local, remote) computers deployments.",
@@ -111,6 +102,53 @@ our %_help_main = (
   # action: transfer
   sync_transfer_to    => "build the core catkin workspace",
   sync_skel_to_to    => "clean the catkin workspace",
+
+  # -- terraform --
+  init     => "initializes subt's terraform setup with the correct tfstate file",
+  cert     => "creates the vpn ca and user certifcations for creating an Azure VPN connection",
+  plan     => "terraform plan (dry run) args are passed to terraform.",
+  apply    => "terraform apply in the azurebooks/subt directory, args are passed to terraform.",
+  mkvpn    => "creates the vpn needed to access azure (both through terraform and with network manager",
+  rmvpn    => "removes the vpn needed to access azure (both through terraform and with network manager.",
+  start    => "starts any or all VMs on Azure",
+  stop     => "stops any or all VMs on Azure",
+  destroy  => "destroys all Azure resources",
+  monitor  => "monitor utils for Azure resources",
+  env      => "install your user's terraform bash or zsh environment variables.",
+  list     => "lists the power status of virtual machines.",
+
+  # -- git --
+  all_reset               => "resets all 2-level, 3-level submodules, respective to the 1-level commit (as DETACHED HEAD).",
+  all_pull                => "pulls submodule updates, respective to the 2-level branch checkout (must be on a branch).",
+  common_meta             => "meta commands: git actions available for 2-level meta 'common'.",
+  common_submodules       => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'common.",
+  basestation_meta        => "meta commands: git actions available for 2-level meta 'basestation'",
+  basestation_submodules  => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'basestation.",
+  simulation_meta         => "meta commands: git actions available for 2-level meta 'simulation'",
+  simulation_submodules   => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'simulation.",
+  subt_launch_meta        => "meta commands: git actions available for 3-level meta 'subt_launch'",
+  subt_launch_submodules  => "submodule commands: git actions available for 3-level 'subt_launch'.",
+
+  ugv_meta                => "meta commands: git actions available for 2-level meta 'ugv'",
+  ugv_ppc_submodules      => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'ugv.",
+  ugv_nuc_submodules      => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'ugv.",
+  ugv_hardware_submodules => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'ugv.",
+  ugv_slam_submodules     => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'ugv.",
+
+  uav_meta                => "meta commands: git actions available for 2-level meta 'uav'",
+  uav_core_submodules     => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'uav.",
+  uav_hardware_submodules => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'uav.",
+
+  perception_meta         => "meta commands: git actions available for 2-level meta 'perception'",
+  perception_submodules   => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'perception.",
+
+  meta_checkout           => "checkout a specific branch in 2-level meta",
+  meta_ignore             => "ignore all catkin files in 2-level meta",
+  meta_unignore           => "ignore all catkin files in 2-level meta",
+  submodules_clean        => "clean all uncommitted changes, in 2-level meta and 3-levels submodules",
+  submodules_pull         => "pull the latest updates in 2-level meta (must be on a branch)",
+  submodules_reset        => "reset 2-level meta to the commit associated with 1-level",
+  submodules_rm           => "remove (deinitializes) the 2-level meta and all 3-level submodules",
 );
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -130,11 +168,9 @@ sub _create_help {
 
 # @brief create the 'main', tab-completion help message
 sub get_help {
-  # @keyword = qw(local azure robots);
   @keyword = @_;
   return _create_help(\%_help_main, \@keyword);
 }
-
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief general wrappers

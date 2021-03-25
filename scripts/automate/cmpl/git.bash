@@ -15,13 +15,13 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
   text_color "      reset : Removes all snapshot logfiles in operations/field_testing/*.log"
 
   # show flags for specific subcommand
-  if chk_flag status $@; then
-    __status_help
-  elif chk_flag sync $@; then
-    __sync_help
-  elif chk_flag add $@; then
-    __add_help
-  fi
+  # if chk_flag status $@; then
+  #   __status_help
+  # elif chk_flag sync $@; then
+  #   __sync_help
+  # elif chk_flag add $@; then
+  #   __add_help
+  # fi
 
   text_color "For more help, please see the README.md or wiki."
   GL_TEXT_COLOR=$FG_DEFAULT

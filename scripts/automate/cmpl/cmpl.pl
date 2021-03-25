@@ -14,6 +14,7 @@ use lib dirname (__FILE__);
 use cmpl_header;
 use cmpl_utils;
 use cmpl_deployer;
+use cmpl_terraform;
 use cmpl_git;
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -24,6 +25,16 @@ use cmpl_git;
 my %_deployer_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_deployer_help;
+
+# @brief covert the array to hashmap
+my %_terraform_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_terraform_help;
+
+# @brief covert the array to hashmap
+my %_git_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_git_help;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -79,7 +90,6 @@ sub deploy_matcher {
 # @brief match the deployer help message id with its usage string message
 sub find_deployer_help_usage {
   my ($_str, %_help_usage) = @_, $_result;
-
   foreach my $_help (keys %_help_usage) {
     if ( $_help eq $_str ) {
       my $_usage = $_help_usage{$_help}->{help};
@@ -106,7 +116,9 @@ sub deployer_help_matcher {
     # set the next suffix
     $_suffix = help_sregex($_prefix, ++$_dot_counter);
   }
-  if ($_prefix eq "") { $_prefix = $_target; }
+  if ($_prefix eq "") {
+    $_prefix = $_target;
+  }
   return find_deployer_help_usage($_prefix, %_help_usage);
 }
 
@@ -141,12 +153,7 @@ if (chk_flag($_func, "subt")  ) {
 
 # -- deployer --
 
-# match subcommands for general deployer
 } elsif (chk_flag($_func, "deployer") ) {
-  # my $_match = deploy_matcher($_target, @_deployer);
-  # # print $_, "\n" for split ' ', "$_match";
-  # print deploy_matcher($_target);
-
   my $_match = deploy_matcher($_target, @_deployer);
   # print $_, "\n" for split ' ', "$_match";
   my @_result = split(' ', deploy_matcher($_target), x);
@@ -159,47 +166,11 @@ if (chk_flag($_func, "subt")  ) {
 
 # -- git --
 
-# } elsif (chk_flag($_func, "git" )) {
-#   print general_matcher($_target, @_git);
+} elsif (chk_flag($_func, "git") ) {
+  print general_matcher($_target, @_git);
 
-# match subcommand for 'git'
-} elsif (chk_flag( get_btw_delim($_func, 0), "git" )) {
-
-  # get total number of matches found
-  my $_nmatches = get_nbtw_delim($_func);
-
-  # get the suffix match
-  my @_suffix = get_btw_delim($_func, $_nmatches - 1);
-
-  # get the git command match
-  my @_match = get_btw_delim($_func, $_nmatches - 2);
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # input is a git help request
-  if (chk_flag(@_suffix, "help" )) {
-
-    # check we are given a value git command input
-    if (! chk_in(@_match, @_git)) {
-      print "";
-    } else {
-      # create the help id <-> message hash
-      my %_git_help_hash = map {
-        $_->{id} => { help => $_->{help} }
-      } get_git_help_messages(@_match);
-
-      # print the selected help message
-      print deployer_help_matcher($_target, %_git_help_hash);
-    }
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # input is a git command request
-  } else {
-    # get the git deployer auto-generated deployer phases
-    my $_match = deploy_matcher($_target, @_git_deployer);
-
-    # print the matches deployer phases
-    print deploy_matcher($_target);
-  }
+} elsif (chk_flag($_func, "git_help") ) {
+  print deployer_help_matcher($_target, %_git_help_hash);
 
 # -- cloud --
 
@@ -207,10 +178,13 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "cloud")  ) {
   print general_matcher($_target, @_cloud);
 
-} elsif (chk_flag($_func, "cloud_terra")  ) {
-  print general_matcher($_target, @_cloud_terra);
+} elsif (chk_flag($_func, "terraform")  ) {
+  print general_matcher($_target, @_terraform);
 
-# -- tool --
+} elsif (chk_flag($_func, "terraform_help")  ) {
+  print deployer_help_matcher($_target, %_terraform_help_hash);
+
+# -- tools --
 
 # match subcommands for 'tools'
 } elsif (chk_flag($_func, "tools")  ) {

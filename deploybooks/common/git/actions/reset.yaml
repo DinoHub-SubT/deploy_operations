@@ -20,6 +20,7 @@
 - git_submodule_init() {
     if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
       echo "...submodule init $(pwd)/$1";
+      cd; cd -;
       git submodule update --init $1;
       set_last_command_exit_value;
     fi;
@@ -29,6 +30,15 @@
 - git_submodule_deinit() {
     if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
       echo "...submodule deinit $(pwd)/$1";
+      git submodule deinit -f $1;
+      set_last_command_exit_value;
+    fi;
+  }
+
+# de-initialize submodules at the given, relative (to SUBT_PATH) workspace
+- git_submodule_deinit_2level() {
+    if [[ $GL_LAST_COMMAND_FAILED -eq 0 && $1 == "." ]]; then
+      echo "...submodule deinit 2-level $(pwd)/$1";
       git submodule deinit -f $1;
       set_last_command_exit_value;
     fi;
@@ -48,9 +58,10 @@
     local src_path=$(pwd);
     export GL_LAST_COMMAND_FAILED=0;
     echo "...reset";
+    git_submodule_init ${META_SECOND_LEVEL_PATH};
     cd_workspace ${META_SECOND_LEVEL_PATH};
-    git_submodule_deinit ${META_THIRD_LEVEL_GROUP_PATH};
     git_submodule_init ${META_THIRD_LEVEL_GROUP_PATH};
+    git_submodule_deinit ${META_THIRD_LEVEL_GROUP_PATH};
     git_submodule_recursive_update ${META_THIRD_LEVEL_GROUP_PATH};
     cd $src_path;
     return $GL_LAST_COMMAND_FAILED;

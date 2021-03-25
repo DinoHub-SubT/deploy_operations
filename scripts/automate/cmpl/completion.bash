@@ -67,7 +67,7 @@ _ac_subt_completion() {
   # second level menu: 'subt <subcommand> '
   elif [ $COMP_CWORD = 2 ]; then
     if chk_flag git "${COMP_WORDS[@]}"; then
-      ! ac_matcher "git" "$_curr" && __ac_git_help
+      ! ac_matcher "git" "$_curr" && ac_matcher_help "git" "git"
 
     # cloud menu
     elif chk_flag cloud "${COMP_WORDS[@]}"; then
@@ -93,29 +93,25 @@ _ac_subt_completion() {
   # third level menu: 'subt <subcommand> <subcommand> '
   else
 
-    # second level is: 'subt git'
-    if chk_flag status "${COMP_WORDS[@]}"; then
-      ! ac_matcher "git_status" "$_curr"     && ac_matcher_help "git_status" $_prev
-    elif chk_flag sync "${COMP_WORDS[@]}"; then
-      ! ac_matcher "git_sync" "$_curr"       && ac_matcher_help "git_sync" $_prev
-    elif chk_flag add "${COMP_WORDS[@]}"; then
-      ! ac_matcher "git_add" "$_curr"        && ac_matcher_help "git_add" $_prev
+#    # second level is: 'subt git'
+#    if chk_flag status "${COMP_WORDS[@]}"; then
+#      ! ac_matcher "git_status" "$_curr"     && ac_matcher_help "git_status" $_prev
+#    elif chk_flag sync "${COMP_WORDS[@]}"; then
+#      ! ac_matcher "git_sync" "$_curr"       && ac_matcher_help "git_sync" $_prev
+#    elif chk_flag add "${COMP_WORDS[@]}"; then
+#      ! ac_matcher "git_add" "$_curr"        && ac_matcher_help "git_add" $_prev
+#    # elif chk_flag git "${COMP_WORDS[@]}"; then
+#    #   local _subcmd=${COMP_WORDS[2]} # get the git subcommand
+#    #   ! ac_matcher "git_$_subcmd" "$_curr"   && __ac_git_help
+
+    if chk_flag ansible "${COMP_WORDS[@]}"; then
+      __ac_ansible_help
+
+    elif chk_flag terraform "${COMP_WORDS[@]}"; then
+      ! ac_matcher "terraform" "$_curr"       && ac_matcher_help "terraform" $_prev
+
     elif chk_flag git "${COMP_WORDS[@]}"; then
-      local _subcmd=${COMP_WORDS[2]} # get the git subcommand
-      ! ac_matcher "git_$_subcmd" "$_curr"   && __ac_git_help
-
-    # third level 'mmpug ansible'
-    elif chk_flag ansible "${COMP_WORDS[@]}"; then
-      ! ac_matcher "ansible" "$_curr"        && ac_matcher_help "ansible" $_prev
-
-    # second level is: 'subt cloud'
-    elif chk_flag cloud "${COMP_WORDS[@]}"; then
-
-      if chk_flag terraform "${COMP_WORDS[@]}"; then
-        ! ac_matcher "cloud_terra" "$_curr"  && ac_matcher_help "cloud_terra" $_prev
-      elif chk_flag ansible "${COMP_WORDS[@]}"; then
-        ! ac_matcher "cloud_ani" "$_curr"    && ac_matcher_help "cloud_ani" $_prev
-      fi
+      ! ac_matcher "git" "$_curr"             && ac_matcher_help "git" $_prev
 
     # second level is: 'subt deployer'
     elif chk_flag deployer "${COMP_WORDS[@]}"; then

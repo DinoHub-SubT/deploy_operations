@@ -33,15 +33,14 @@
   # apply the git action to the submodule sub-directory
   - $GIT_ACTION_FUNCTOR
 
-- submodules:
-  - core:
-    - export META_THIRD_LEVEL_GROUP_PATH=core
-    - +extend: common/git/misc/uav.sub.sc
-  - slam:
-    - export ENABLE_GIT_ACTION=false
-    - if [ "$ENABLE_SLAM" = true ]; then export ENABLE_GIT_ACTION=true; fi
-    - export META_THIRD_LEVEL_GROUP_PATH=slam
-    - +extend: common/git/misc/uav.sub.sc
+- core.submodules:
+  - export META_THIRD_LEVEL_GROUP_PATH=core
+  - +extend: common/git/misc/uav.sub.sc
+- slam.submodules:
+  - export ENABLE_GIT_ACTION=false
+  - if [ "$ENABLE_SLAM" = true ]; then export ENABLE_GIT_ACTION=true; fi
+  - export META_THIRD_LEVEL_GROUP_PATH=slam
+  - +extend: common/git/misc/uav.sub.sc
 
 # export for top meta name for final cleanup
 - export TOP_LEVEL_META=$SUBT_PATH/uav
