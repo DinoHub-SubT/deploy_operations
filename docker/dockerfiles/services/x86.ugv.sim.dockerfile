@@ -93,15 +93,8 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
 
 RUN rosdep update
 
-# add tmux configuration
-RUN git clone https://github.com/gpakosz/.tmux.git \
- && ln -s -f .tmux/.tmux.conf \
- && cp .tmux/.tmux.conf.local .
-
 # add user to groups
 RUN sudo usermod -a -G dialout developer
-
-RUN rosdep update
 
 # install subt python packages
 RUN pip install --user wheel

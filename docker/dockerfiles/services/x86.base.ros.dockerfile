@@ -41,6 +41,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   locales \
   xvfb \
   tzdata \
+  emacs \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -124,11 +125,26 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   ros-melodic-cmake-modules \
   ros-melodic-rqt-gui-cpp \
   ros-melodic-rviz \
+  # common workspace dependencies \
+  ros-melodic-ros-type-introspection \
+  ros-melodic-geometry \
   ros-melodic-tf2-geometry-msgs \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 # force a rosdep update
 RUN sudo rosdep init && rosdep update
+
+# //////////////////////////////////////////////////////////////////////////////
+# Install pcl 1.9.1 -- don't install yet, needs ros_osrf changes.
+# RUN mkdir -p thirdparty/pcl \
+#  && cd thirdparty/pcl \
+#  && wget https://github.com/PointCloudLibrary/pcl/archive/pcl-1.9.1.tar.gz \
+#  && tar xvfz pcl-1.9.1.tar.gz \
+#  && mkdir build \
+#  && cd build \
+#  && cmake -DCMAKE_BUILD_TYPE=Release ../pcl-pcl-1.9.1/ \
+#  && make -j8 \
+#  && sudo make install
 
 # //////////////////////////////////////////////////////////////////////////////
 # basic python packages
@@ -139,6 +155,11 @@ RUN pip install --user \
  pexpect \
  tmuxp \
  libtmux
+
+# add tmux configuration
+RUN git clone https://github.com/gpakosz/.tmux.git \
+ && ln -s -f .tmux/.tmux.conf \
+ && cp .tmux/.tmux.conf.local .
 
 # //////////////////////////////////////////////////////////////////////////////
 # export environment variables

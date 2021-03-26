@@ -195,11 +195,6 @@ RUN mkdir ~/labjack \
  && cd labjack_ljm_software_2019_07_16_x86_64 \
  && sudo ./labjack_ljm_installer.run -- --no-restart-device-rules
 
-# add tmux configuration
-RUN git clone https://github.com/gpakosz/.tmux.git \
- && ln -s -f .tmux/.tmux.conf \
- && cp .tmux/.tmux.conf.local .
-
 # install subt python packages
 RUN pip install --user wheel
 RUN pip install --user \

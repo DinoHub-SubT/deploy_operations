@@ -45,6 +45,18 @@ RUN sudo apt-get update --no-install-recommends \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
+# Dependencies for glvnd and X11.
+RUN apt-get update \
+  && apt-get install -y -qq --no-install-recommends \
+    libglvnd0 \
+    libgl1 \
+    libglx0 \
+    libegl1 \
+    libxext6 \
+    libx11-6 \
+    mesa-utils \
+  && rm -rf /var/lib/apt/lists/*
+
 # //////////////////////////////////////////////////////////////////////////////
 # ros install
 RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
@@ -131,11 +143,6 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release 
  && sudo rm -rf /var/lib/apt/lists/*
 RUN rosdep update
 
-# add tmux configuration
-RUN git clone https://github.com/gpakosz/.tmux.git \
- && ln -s -f .tmux/.tmux.conf \
- && cp .tmux/.tmux.conf.local .
-
 # add user to groups
 RUN sudo usermod -a -G dialout developer
 
@@ -166,6 +173,16 @@ RUN pip install --user \
 # -- assumes OpenCL download already exists in the `dockerfiles/thirdparty-software` context path.
 # //////////////////////////////////////////////////////////////////////////////
 COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
+
+# RUN cd /home/$USERNAME/thirdparty-software/opencl/ \
+#  && tar -xvf l_opencl_p_18.1.0.015.tgz \
+#  && cd l_opencl_p_18.1.0.015 \
+#  && sudo ./install.sh --silent ../silent-install.cfg --ignore-cpu \
+#  && cd ../ \
+#  && rm -rf l_opencl_p_18.1.0.015.tgz \
+#  && rm -rf l_opencl_p_18.1.0.015 \
+#  && clinfo
+
 RUN sudo add-apt-repository ppa:intel-opencl/intel-opencl \
  && sudo apt-get update --no-install-recommends \
  && sudo apt-get install -y --no-install-recommends \
@@ -183,6 +200,10 @@ RUN cd /home/$USERNAME/thirdparty-software/uav/ \
 RUN cd /home/$USERNAME/thirdparty-software/uav/ \
  && cd xsens_cpp_driver/receive_xsens/config/mt_sdk/ \
  && sudo ./mt_sdk_4.8.sh
+
+# Env vars for the nvidia-container-runtime.
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup

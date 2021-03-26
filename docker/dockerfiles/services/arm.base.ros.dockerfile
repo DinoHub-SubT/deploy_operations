@@ -148,6 +148,11 @@ RUN pip install --user \
  tmuxp \
  libtmux
 
+# add tmux configuration
+RUN git clone https://github.com/gpakosz/.tmux.git \
+ && ln -s -f .tmux/.tmux.conf \
+ && cp .tmux/.tmux.conf.local .
+
 # //////////////////////////////////////////////////////////////////////////////
 # export environment variables
 

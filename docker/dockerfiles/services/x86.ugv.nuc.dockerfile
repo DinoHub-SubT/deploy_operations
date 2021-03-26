@@ -31,6 +31,15 @@ RUN sudo apt-get update --no-install-recommends \
   libflann-dev \
   libbluetooth-dev \
   libserial-dev \
+  # realsesne \
+  libssl-dev \
+  libusb-1.0-0-dev \
+  pkg-config \
+  libgtk-3-dev \
+  libglfw3-dev \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev \
+  at \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
@@ -53,18 +62,40 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release 
   ros-melodic-diagnostic-aggregator \
   libncurses5-dev \
   libpcap0.8-dev \
+  # realsense \
+  ros-melodic-ddynamic-reconfigure \
+  ros-melodic-xacro \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 RUN rosdep update
 
-# add tmux configuration
-RUN git clone https://github.com/gpakosz/.tmux.git \
- && ln -s -f .tmux/.tmux.conf \
- && cp .tmux/.tmux.conf.local .
-
 # add user to groups
 RUN sudo usermod -a -G dialout developer
 
+# //////////////////////////////////////////////////////////////////////////////
+# Install librealsense for realsense 515 camera
+RUN mkdir -p ~/thirdparty/realsense \
+ && cd ~/thirdparty/realsense \
+ && git clone https://github.com/IntelRealSense/librealsense realsense_sdk \
+ && cd realsense_sdk \
+ && mkdir build \
+ && cd build \
+ && cmake ../ -DCMAKE_BUILD_TYPE=Release \
+ && sudo make uninstall \
+ && make clean \
+ && make \
+ && sudo make install
+
+# Install the librealsense ros driver
+RUN mkdir -p ~/thirdparty/realsense/ros/src \
+ && cd ~/thirdparty/realsense/ros/src \
+ && git clone https://github.com/IntelRealSense/realsense-ros \
+ && cd ~/thirdparty/realsense/ros/ \
+ && catkin config --extend /opt/ros/melodic/ \
+ && catkin config -DCMAKE_BUILD_TYPE=Release \
+ && catkin build
+
+# //////////////////////////////////////////////////////////////////////////////
 # install subt python packages
 RUN pip install --user wheel
 RUN pip install --user \
