@@ -2,52 +2,51 @@
 # @brief docker registry image push or pulls
 # @comment: needs to be separate from 'docker' because registry not set to work over ssh
 # ////////////////////////////////////////////////////////////////////////////
-- +local
+# - +local
 
-- docker.registry:
-  # use given docker context
-  - docker context use $DCTX
-  - docker context ls
+# use given docker context
+- docker context use $DCTX
+- docker context ls
 
-  # using the azure docker registry
-  - azure:
-    # automatic login to azure registry
-    - az acr login --name ${AZURE_REGISTRY}
-    - echo "docker image is ${DOCKER_IMAGE_NAME}"
+# using the azure docker registry
+- azure:
+  # automatic login to azure registry
+  - az acr login --name ${AZURE_REGISTRY}
+  - echo "docker image is ${DOCKER_IMAGE_NAME}"
 
-    - pull:
-      # pull the docker image from the azure registry
-      - docker pull $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} || true
-      # tag the azure registry docker image, as a non-registry prefix docker images
-      - docker tag $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
+  - pull:
+    # pull the docker image from the azure registry
+    - docker pull $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    # tag the azure registry docker image, as a non-registry prefix docker images
+    - docker tag $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
 
-    - push:
-      # tag the non-registry prefix docker images, as a azure registry docker image
-      - docker tag ${DOCKER_IMAGE_NAME} $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} || true
-      # push the docker image to the azure registry
-      - docker push ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME} || true
+  - push:
+    # tag the non-registry prefix docker images, as a azure registry docker image
+    - docker tag ${DOCKER_IMAGE_NAME} $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    # push the docker image to the azure registry
+    - docker push ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME} || true
 
-    # remove the azure docker images
-    - docker-clean.bash ${AZURE_REGISTRY}
+  # remove the azure docker images
+  - docker-clean.bash ${AZURE_REGISTRY}
 
-  # using the basestation docker registry
-  - basestation:
-    - pull:
-      # pull the docker image from the azure registry
-      - docker pull $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
-      # tag the azure registry docker image, as a non-registry prefix docker images
-      - docker tag  $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
+# using the basestation docker registry
+- basestation:
+  - pull:
+    # pull the docker image from the azure registry
+    - docker pull $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    # tag the azure registry docker image, as a non-registry prefix docker images
+    - docker tag  $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
 
-    - push:
-      # tag the non-registry prefix docker images, as a azure registry docker image
-      - docker tag {DOCKER_IMAGE_NAME} $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
-      # push the docker image to the azure registry
-      - docker push $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+  - push:
+    # tag the non-registry prefix docker images, as a azure registry docker image
+    - docker tag {DOCKER_IMAGE_NAME} $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    # push the docker image to the azure registry
+    - docker push $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
 
-    # remove the azure docker images
-    - docker-clean.bash $BASESTATION_REGISTRY
+  # remove the azure docker images
+  - docker-clean.bash $BASESTATION_REGISTRY
 
-  # show the docker images
-  - docker images
-  # change the docker context back to the default docker daemon
-  - docker context use default
+# show the docker images
+- docker images
+# change the docker context back to the default docker daemon
+- docker context use default

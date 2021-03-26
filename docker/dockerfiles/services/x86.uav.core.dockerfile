@@ -46,8 +46,8 @@ RUN sudo apt-get update --no-install-recommends \
  && sudo rm -rf /var/lib/apt/lists/*
 
 # Dependencies for glvnd and X11.
-RUN apt-get update \
-  && apt-get install -y -qq --no-install-recommends \
+RUN sudo apt-get update \
+  && sudo apt-get install -y -qq --no-install-recommends \
     libglvnd0 \
     libgl1 \
     libglx0 \
@@ -55,7 +55,7 @@ RUN apt-get update \
     libxext6 \
     libx11-6 \
     mesa-utils \
-  && rm -rf /var/lib/apt/lists/*
+  && sudo rm -rf /var/lib/apt/lists/*
 
 # //////////////////////////////////////////////////////////////////////////////
 # ros install

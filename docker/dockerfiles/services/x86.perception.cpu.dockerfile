@@ -209,6 +209,8 @@ RUN echo "source $INSTALL_DIR/bin/setupvars.sh" >> /home/developer/.bashrc
 RUN sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE \
 && sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
 
+RUN sudo usermod -a -G users "$(whoami)"
+
 # Build librealsense
 # RUN git clone -b v2.31.0 https://github.com/IntelRealSense/librealsense.git ~/librealsense
 # # RUN sed -i '/^#include "..\/include\/librealsense2\/hpp\/rs_frame.hpp"/a #include "synthetic-stream.h"' ~/librealsense/src/proc/pointcloud.h

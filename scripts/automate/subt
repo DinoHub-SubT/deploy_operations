@@ -134,10 +134,6 @@ subt() {
     shift 1 # shift git
     __subt_cloud_execute $@
 
-  elif chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@; then
-    __subt_help
-    cd $__pwd
-    return 0
   fi
 
   # return to path of call
