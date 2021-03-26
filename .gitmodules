@@ -4,3 +4,6 @@
 [submodule "docker/dockerfiles/thirdparty-software/uav/xsens_cpp_driver"]
 	path = docker/dockerfiles/thirdparty-software/uav/xsens_cpp_driver
 	url = git@bitbucket.org:cmusubt/xsens_cpp_driver.git
+[submodule "robot_snapshot/ugv_setup"]
+	path = robot_snapshot/ugv_setup
+	url = git@bitbucket.org:cmusubt/ugv_setup.git
