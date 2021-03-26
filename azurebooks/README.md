@@ -6,7 +6,7 @@ There are two operational tools available to use: `az` or `terraform`
 
 - `az` is the [azure commandline interface](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
 
-- `terraform` is the [terraform command line interface](https://learn.hashicorp.com/terraform) to interact with `terraform` files found in `operations/deploy/azurebooks`
+- `terraform` is the [terraform command line interface](https://learn.hashicorp.com/terraform) to interact with `terraform` files found in `operations/azurebooks`
 
 ## Prerequisites
 
@@ -71,7 +71,7 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 Your terraform subt workspace is located at:
 
-        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt
+        cd ~/deploy_ws/src/operations/azurebooks/subt
 
 ### Terraform Subt Project Prerequisites
 
@@ -267,7 +267,7 @@ Remember, everytime you change the `~/.terraform_flags.bashrc`, you will need to
 
 **Example:** Remove an existing Virtual Machine:
 
-        cd ~/deploy_ws/src/operations/deploy/azurebooks/subt/
+        cd ~/deploy_ws/src/operations/azurebooks/subt/
 
         # this will destroy everything create  in the example terraform workspace
         terraform destroy

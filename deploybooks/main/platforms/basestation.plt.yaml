@@ -10,6 +10,7 @@
   # setup docker context
   - +import:env/platform.env
   - set_docker_dctx
+  - export DCTX=default
 
   # extend the basestation workspace
   - +extend: workspaces/basestation

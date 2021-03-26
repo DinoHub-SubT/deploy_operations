@@ -43,7 +43,7 @@ our (
 # //////////////////////////////////////////////////////////////////////////////
 @_subt          = ( "cloud", "deployer", "git", "tools", "ansible", "help" );
 
-@_tools         = ( "ssh.probe" , "teamviewer.probe", "snapshot", "discover");
+@_tools         = ( "ssh.probe" , "teamviewer.probe", "snapshot", "rdp");
 
 @_cloud         = ( "terraform", "ansible", "help" );
 

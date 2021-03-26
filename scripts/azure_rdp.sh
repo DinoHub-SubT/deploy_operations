@@ -4,7 +4,7 @@
 . "$SUBT_PATH/operations/scripts/header.sh"
 . "$SUBT_PATH/operations/scripts/formatters.sh"
 
-if chk_flag --help $@ || chk_flag help $@ ; then
+if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ ; then
   GL_TEXT_COLOR=$FG_LCYAN
   text
   title "Usage: $(basename $0) [flag] <arg> [flag] <arg> ..."

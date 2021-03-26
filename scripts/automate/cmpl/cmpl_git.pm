@@ -88,5 +88,9 @@ our (
   id      => "submodules",
   help    => create_help(get_help(qw(submodules_clean submodules_pull submodules_reset submodules_rm))),
 
+},{
+  id      => "all",
+  help    => create_help(get_help(qw(all_reset all_pull))),
+
 });
 

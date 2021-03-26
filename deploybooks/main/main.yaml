@@ -13,9 +13,34 @@
   - source $SUBT_OPERATIONS_PATH/scenarios/systems/local/.local.env
 
   # extend simulation platforms
-  - +extend: main/platform/basestation.plt
-  - +extend: main/platform/ugv.simulation.plt
-  - +extend: main/platform/uav.simulation.plt
+  - +extend: main/platforms/basestation.plt
+
+  - ugv:
+    - export PLATFORM=ugv
+    - ugv1:
+      - +env:ROBOT=ugv1
+      - +extend: main/platforms/ugv.simulation.plt
+    - ugv2:
+      - +env:ROBOT=ugv2
+      - +extend: main/platforms/ugv.simulation.plt
+    - ugv3:
+      - +env:ROBOT=ugv3
+      - +extend: main/platforms/ugv.simulation.plt
+
+  - uav:
+    - export PLATFORM=uav
+    - uav1:
+      - +env:ROBOT=uav1
+      - +extend: main/platforms/uav.simulation.plt
+    - uav2:
+      - +env:ROBOT=uav2
+      - +extend: main/platforms/uav.simulation.plt
+    - uav3:
+      - +env:ROBOT=uav3
+      - +extend: main/platforms/uav.simulation.plt
+    - uav4:
+      - +env:ROBOT=uav4
+      - +extend: main/platforms/uav.simulation.plt
 
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
@@ -29,10 +54,43 @@
   # source the platform scenario files
   - source $SUBT_OPERATIONS_PATH/scenarios/systems/azure/.azure.env
 
-  # extend simulation platforms
-  - +extend: main/platform/basestation.plt
-  - +extend: main/platform/ugv.simulation.plt
-  - +extend: main/platform/uav.simulation.plt
+  - basestation:
+    - +extend: common/sync
+    - +extend: main/platforms/basestation.plt
+
+  - ugv:
+    - export PLATFORM=ugv
+    - ugv1:
+      - +env:ROBOT=ugv1
+      - +extend: common/sync
+      - +extend: main/platforms/ugv.simulation.plt
+    - ugv2:
+      - +env:ROBOT=ugv2
+      - +extend: common/sync
+      - +extend: main/platforms/ugv.simulation.plt
+    - ugv3:
+      - +env:ROBOT=ugv3
+      - +extend: common/sync
+      - +extend: main/platforms/ugv.simulation.plt
+
+  - uav:
+    - export PLATFORM=uav
+    - uav1:
+      - +env:ROBOT=uav1
+      - +extend: common/sync
+      - +extend: main/platforms/uav.simulation.plt
+    - uav2:
+      - +env:ROBOT=uav2
+      - +extend: common/sync
+      - +extend: main/platforms/uav.simulation.plt
+    - uav3:
+      - +env:ROBOT=uav3
+      - +extend: common/sync
+      - +extend: main/platforms/uav.simulation.plt
+    - uav4:
+      - +env:ROBOT=uav4
+      - +extend: common/sync
+      - +extend: main/platforms/uav.simulation.plt
 
 # //////////////////////////////////////////////////////////////////////////////
 - robots:
@@ -47,8 +105,47 @@
   - source $SUBT_OPERATIONS_PATH/scenarios/systems/robot/.robot.env
 
   # extend robot platforms
-  - basestation:
-    - export INFRASTRUCTURE_SYSTEM=local
-    - +extend: main/platform/basestation.plt
-  - +extend: main/platform/ugv.robot.plt
-  - +extend: main/platform/uav.robot.plt
+  - +extend: main/platforms/basestation.plt
+
+  - ugv:
+    - export PLATFORM=ugv
+    - ugv1:
+      - +env:ROBOT=ugv1
+      - +extend: main/platforms/ugv.ppc.plt
+      - +extend: main/platforms/ugv.nuc.plt
+      - +extend: main/platforms/ugv.xavier.plt
+
+    - ugv2:
+      - +env:ROBOT=ugv2
+      - +extend: main/platforms/ugv.ppc.plt
+      - +extend: main/platforms/ugv.nuc.plt
+      - +extend: main/platforms/ugv.xavier.plt
+
+    - ugv3:
+      - +env:ROBOT=ugv3
+      - +extend: main/platforms/ugv.ppc.plt
+      - +extend: main/platforms/ugv.nuc.plt
+      - +extend: main/platforms/ugv.xavier.plt
+
+  - uav:
+    - export PLATFORM=uav
+    - ds1:
+      - +env:ROBOT=uav1
+      - +env:UAV_COMPUTER=ds1
+      - +extend: main/platforms/uav.robot.plt
+    - ds2:
+      - +env:ROBOT=uav2
+      - +env:UAV_COMPUTER=ds2
+      - +extend: main/platforms/uav.robot.plt
+    - ds3:
+      - +env:ROBOT=uav3
+      - +env:UAV_COMPUTER=ds3
+      - +extend: main/platforms/uav.robot.plt
+    - ds4:
+      - +env:ROBOT=uav4
+      - +env:UAV_COMPUTER=ds4
+      - +extend: main/platforms/uav.robot.plt
+    - canary1:
+      - +env:ROBOT=uav5
+      - +env:UAV_COMPUTER=canary1
+      - +extend: main/platforms/uav.robot.plt

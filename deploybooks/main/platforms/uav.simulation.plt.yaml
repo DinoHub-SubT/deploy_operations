@@ -1,0 +1,6 @@
+# setup docker context
+- +import:env/platform.env
+- set_docker_dctx
+
+# extend uav simulation workspace
+- +extend: workspaces/uav.simulation

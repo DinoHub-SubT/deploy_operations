@@ -247,7 +247,7 @@ To test out that docker NVIDIA passthu works, please try out the following:
 
 deploy (meta-repo) [submodule]
 
-    operations/deploy/docker/
+    operations/docker/
 
       docker-compose.yml
         * This is the top level docker compose entrpypint.
@@ -303,16 +303,16 @@ The docker compose files are expecting environment variables, which are variable
 - The `docker-compose-wrapper` takes in a file as an user argument, called a *scenario* file.
 
     - Scenario files explicitly export env variable that the `docker-compose.yml` files are expecting.
-    - Scenario files are found in: `operations/deploy/scenarios`
-    - Example scenario file: `operations/deploy/scenarios/systems/azure/basestation-cpu.env`
+    - Scenario files are found in: `operations/scenarios`
+    - Example scenario file: `operations/scenarios/systems/azure/basestation-cpu.env`
 
 ## Docker Compose Wrapper
 
 The docker compose wrapper, hides the implementation details of extending multiple `docker-compose.yml` files.
 
-The docker-compose-wrapper runs from the relative path: `operations/deploy/docker/dockerfiles`
+The docker-compose-wrapper runs from the relative path: `operations/docker/dockerfiles`
 
-- Scenario files that are required as an argument, look in the relative path: `operations/deploy/scenarios`
+- Scenario files that are required as an argument, look in the relative path: `operations/scenarios`
 
 ## Example: Build Docker Images
 
