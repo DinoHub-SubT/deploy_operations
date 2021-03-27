@@ -1,0 +1,231 @@
+- +import:env/formatters.env
+- +import:env/tutorial.env
+
+# //////////////////////////////////////////////////////////////////////////////
+- tutorial:
+# //////////////////////////////////////////////////////////////////////////////
+
+  - operations:
+    - update_operations
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - local:
+  # ////////////////////////////////////////////////////////////////////////////
+    - update_operations
+
+    - basestation:
+      - tutorial_basestation_registry local
+      - tutorial_docker_network
+      - tutorial_basestation_shell local
+      - tutorial_docker_general
+      - tutorial_basestation_catkin local
+      - tutorial_launch_local local
+
+    - ugv:
+      - ugv1:
+        - tutorial_registry local ugv ugv1
+        - tutorial_docker_network
+        - tutorial_shell local ugv ugv1
+        - tutorial_docker_general
+        - tutorial_catkin local ugv ugv1
+        - tutorial_launch_local local ugv ugv1
+      - ugv2:
+        - tutorial_registry local ugv ugv2
+        - tutorial_docker_network
+        - tutorial_shell local ugv ugv2
+        - tutorial_docker_general
+        - tutorial_catkin local ugv ugv2
+        - tutorial_launch_local local ugv ugv2
+      - ugv3:
+        - tutorial_registry local ugv ugv3
+        - tutorial_docker_network
+        - tutorial_shell local ugv ugv3
+        - tutorial_docker_general
+        - tutorial_catkin local ugv ugv3
+        - tutorial_launch_local local ugv ugv3
+
+    - uav:
+      - uav1:
+        - tutorial_registry local uav uav1
+        - tutorial_docker_network
+        - tutorial_shell local uav uav1
+        - tutorial_docker_general
+        - tutorial_catkin local uav uav1
+        - tutorial_launch_local local uav uav1
+
+      - uav2:
+        - tutorial_registry local uav uav2
+        - tutorial_docker_network
+        - tutorial_shell local uav uav2
+        - tutorial_docker_general
+        - tutorial_catkin local uav uav2
+        - tutorial_launch_local local uav uav2
+
+      - uav3:
+        - tutorial_registry local uav uav3
+        - tutorial_docker_network
+        - tutorial_shell local uav uav3
+        - tutorial_docker_general
+        - tutorial_catkin local uav uav3
+        - tutorial_launch_local local uav uav3
+
+      - uav4:
+        - tutorial_registry local uav uav4
+        - tutorial_docker_network
+        - tutorial_shell local uav uav4
+        - tutorial_docker_general
+        - tutorial_catkin local uav uav4
+        - tutorial_launch_local local uav uav4
+
+  # ////////////////////////////////////////////////////////////////////////////
+  - azure:
+  # ////////////////////////////////////////////////////////////////////////////
+    - update_operations
+
+    - basestation:
+      - tutorial_ansible_remote azure basestation basestation
+      - tutorial_basestation_registry azure
+      - tutorial_basestation_shell azure
+      - tutorial_docker_general
+      - tutorial_basestation_sync
+      - tutorial_basestation_catkin azure
+      - tutorial_launch_remote azure
+
+    - ugv:
+      - ugv1:
+        - tutorial_ansible_remote azure ugv ugv1
+        - tutorial_registry azure ugv ugv1
+        - tutorial_docker_network
+        - tutorial_shell azure ugv ugv1
+        - tutorial_docker_general
+        - tutorial_catkin azure ugv ugv1
+        - tutorial_launch_remote azure ugv ugv1
+      - ugv2:
+        - tutorial_ansible_remote azure ugv ugv2
+        - tutorial_registry azure ugv ugv2
+        - tutorial_docker_network
+        - tutorial_shell azure ugv ugv2
+        - tutorial_docker_general
+        - tutorial_catkin azure ugv ugv2
+        - tutorial_launch_remote azure ugv ugv2
+      - ugv3:
+        - tutorial_ansible_remote azure ugv ugv3
+        - tutorial_registry azure ugv ugv3
+        - tutorial_docker_network
+        - tutorial_shell azure ugv ugv3
+        - tutorial_docker_general
+        - tutorial_catkin azure ugv ugv3
+        - tutorial_launch_remote azure ugv ugv3
+
+    - uav:
+      - uav1:
+        - tutorial_ansible_remote azure uav uav1
+        - tutorial_registry azure uav uav1
+        - tutorial_docker_network
+        - tutorial_shell azure uav uav1
+        - tutorial_docker_general
+        - tutorial_catkin azure uav uav1
+        - tutorial_launch_remote azure uav uav1
+      - uav2:
+        - tutorial_ansible_remote azure uav uav2
+        - tutorial_registry azure uav uav2
+        - tutorial_docker_network
+        - tutorial_shell azure uav uav2
+        - tutorial_docker_general
+        - tutorial_catkin azure uav uav2
+        - tutorial_launch_remote azure uav uav2
+      - uav3:
+        - tutorial_ansible_remote azure uav uav3
+        - tutorial_registry azure uav uav3
+        - tutorial_docker_network
+        - tutorial_shell azure uav uav3
+        - tutorial_docker_general
+        - tutorial_catkin azure uav uav3
+        - tutorial_launch_remote azure uav uav3
+      - uav4:
+        - tutorial_ansible_remote azure uav uav4
+        - tutorial_registry azure uav uav4
+        - tutorial_docker_network
+        - tutorial_shell azure uav uav4
+        - tutorial_docker_general
+        - tutorial_catkin azure uav uav4
+        - tutorial_launch_remote azure uav uav4
+
+  # //////////////////////////////////////////////////////////////////////////////
+  - robots:
+  # //////////////////////////////////////////////////////////////////////////////
+    - update_operations
+
+    - basestation:
+      - tutorial_basestation_registry robots
+      - tutorial_docker_network
+      - tutorial_basestation_shell robots
+      - tutorial_docker_general
+      - tutorial_basestation_catkin robots
+      - tutorial_launch_local robots
+
+    - ugv:
+      - ugv1:
+        - ppc:
+          - tutorial_registry robots ugv ugv1.ppc
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv1.ppc
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv1.ppc
+        - nuc:
+          - tutorial_registry robots ugv ugv1.nuc
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv1.nuc
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv1.nuc
+        - xavier:
+          - tutorial_registry robots ugv ugv1.xavier
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv1.xavier
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv1.xavier
+      - ugv2:
+        - ppc:
+          - tutorial_registry robots ugv ugv2.ppc
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv2.ppc
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv2.ppc
+        - nuc:
+          - tutorial_registry robots ugv ugv2.nuc
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv2.nuc
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv2.nuc
+        - xavier:
+          - tutorial_registry robots ugv ugv2.xavier
+          - tutorial_docker_network
+          - tutorial_shell robots ugv ugv2.xavier
+          - tutorial_docker_general
+          - tutorial_catkin robots ugv ugv2.xavier
+
+    - uav:
+      - ds1:
+        - tutorial_registry robots uav ds1
+        - tutorial_docker_network
+        - tutorial_shell robots uav ds1
+        - tutorial_docker_general
+        - tutorial_catkin robots uav ds1
+      - ds2:
+        - tutorial_registry robots uav ds2
+        - tutorial_docker_network
+        - tutorial_shell robots uav ds2
+        - tutorial_docker_general
+        - tutorial_catkin robots uav ds2
+      - ds3:
+        - tutorial_registry robots uav ds3
+        - tutorial_docker_network
+        - tutorial_shell robots uav ds3
+        - tutorial_docker_general
+        - tutorial_catkin robots uav ds3
+      - ds4:
+        - tutorial_registry robots uav ds4
+        - tutorial_docker_network
+        - tutorial_shell robots uav ds4
+        - tutorial_docker_general
+        - tutorial_catkin robots uav ds4

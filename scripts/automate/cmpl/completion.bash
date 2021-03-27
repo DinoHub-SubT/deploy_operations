@@ -81,6 +81,10 @@ _ac_subt_completion() {
     elif chk_flag tools "${COMP_WORDS[@]}"; then
       ! ac_matcher "tools" $_curr && __ac_tools_help
 
+    # tutorial menu
+    elif chk_flag tutorial "${COMP_WORDS[@]}"; then
+      ! ac_matcher "tutorial" $_curr && ac_matcher_help "tutorial" "tutorial"
+
     # deployer menu
     elif chk_flag deployer "${COMP_WORDS[@]}"; then
       ! ac_matcher "deployer" $_curr        && ac_matcher_help "deployer" "deployer"
@@ -93,22 +97,14 @@ _ac_subt_completion() {
   # third level menu: 'subt <subcommand> <subcommand> '
   else
 
-#    # second level is: 'subt git'
-#    if chk_flag status "${COMP_WORDS[@]}"; then
-#      ! ac_matcher "git_status" "$_curr"     && ac_matcher_help "git_status" $_prev
-#    elif chk_flag sync "${COMP_WORDS[@]}"; then
-#      ! ac_matcher "git_sync" "$_curr"       && ac_matcher_help "git_sync" $_prev
-#    elif chk_flag add "${COMP_WORDS[@]}"; then
-#      ! ac_matcher "git_add" "$_curr"        && ac_matcher_help "git_add" $_prev
-#    # elif chk_flag git "${COMP_WORDS[@]}"; then
-#    #   local _subcmd=${COMP_WORDS[2]} # get the git subcommand
-#    #   ! ac_matcher "git_$_subcmd" "$_curr"   && __ac_git_help
-
     if chk_flag ansible "${COMP_WORDS[@]}"; then
       __ac_ansible_help
 
     elif chk_flag terraform "${COMP_WORDS[@]}"; then
       ! ac_matcher "terraform" "$_curr"       && ac_matcher_help "terraform" $_prev
+
+    elif chk_flag tutorial "${COMP_WORDS[@]}"; then
+      ! ac_matcher "tutorial" "$_curr"       && ac_matcher_help "tutorial" $_prev
 
     elif chk_flag git "${COMP_WORDS[@]}"; then
       ! ac_matcher "git" "$_curr"             && ac_matcher_help "git" $_prev

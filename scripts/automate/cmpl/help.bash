@@ -27,6 +27,7 @@ __ac_subt_help() {
     "cloud      : cloud tools for creating & managing azure cloud setups."
     "ansible    : tools for pulling updates to localhost or robot system."
     "tools      : general helper tools, can be used for any infrastructure system (azure, robot, local)."
+    "tutorial   : tutorials on commonly used deployer commands."
   )
   local IFS=$'\n' # split output of compgen below by lines, not spaces
   usage[0]="$(printf '%*s' "-$COLUMNS"  "${usage[0]}")"

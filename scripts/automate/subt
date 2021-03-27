@@ -130,10 +130,34 @@ subt() {
     shift 1 # shift git
     __subt_git_execute $@
 
-
   elif chk_nth_flag 1 "cloud" "$@"; then
     shift 1 # shift git
     __subt_cloud_execute $@
+
+  # execute any deployer's git books (section given as user input)
+  elif chk_nth_flag 1 "tutorial" "$@"; then
+    shift 1 # shift 'deployer'
+
+    # addon any preview or verbose commands
+    local opts=""
+    if chk_flag -p $@; then
+      opts+="-p"
+    fi
+
+    if chk_flag -v $@; then
+      opts+=" -v"
+    fi
+
+    # go through all the given tutorial commands
+    for tut in "${@}"; do
+      # ignore any preview or verbose commands
+      if [[ $tut == "-p" || $tut == "-v" ]]; then
+        continue;
+      fi
+      # evaluate the deployer command
+      cmd="deployer -s tutorial.$tut $opts"
+      eval $cmd
+    done
 
   fi
 

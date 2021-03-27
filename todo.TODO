@@ -1,0 +1,89 @@
+not-doing:
+  ✘ add ssh keys to the vms, so can ssh between the vms... @cancelled(21-03-16 20:07)
+  ✘ change verify install -> to verify install script, just move it to anisble @cancelled(21-03-16 20:06)
+  ✘ make a user key "true" for ansible setting ? @cancelled(21-03-16 20:08)
+  ✘ warn users that px4 is not built, for localhost sim setup @cancelled(21-03-22 16:10)
+  ✘ @low deployer, collapse auto-complete @cancelled(21-03-25 22:05)
+  ✘ copy scripts @cancelled(21-03-16 16:49)
+  ✘ add simulation desktop icons @cancelled(21-03-16 20:02)
+  ✘ change the git name 'reset' to clone? nah... @cancelled(21-03-16 17:29)
+  ✘ in docker join, add help message on what tmux script to run, when starting (local, vs robot, etc) @cancelled(21-03-16 17:29)
+  ✘ remove super shell from local...not needed? @cancelled(21-03-18 16:58)
+  ✘ docker-compose add 'hosts' as service @cancelled(21-03-25 02:11)
+  ✘ make it a flag on which registry to push to... @cancelled(21-03-24 23:05)
+  ✘ easily switch between versions @cancelled(21-03-26 14:58)
+
+deploy:
+  ☐ subt cloud terraform env needs to happen before cert??!?
+  ☐ add in the "deployer questions" in the readme
+  catkin build:
+    ☐ catkin build all workspaces on localhost
+        ☐ ugv sim not working
+        ☐ multi robot simulation working
+    ☐ catkin build all workspaces on azure
+    ☐ catkin build all workspaces on robots: ugv
+    ☐ catkin build all workspaces on robots: uav
+  ☐ finish docker update for the perception stack on arm...
+  ☐ create the gpu docker images (non-perception ones)
+  ☐ build all cpu docker image types
+  ☐ push all cpu docker images
+  ☐ build all gpu docker image types
+  ☐ push all gpu docker images
+  ☐ push all catkin profiles to develop branches (its fine if they change later)
+  ☐ compare old deployerbooks with new and make sure they are the same
+  ☐ make sure remote ssh works (azure, robots)
+  ☐ ugv simulation is not running...
+  ☐ check uav multi simulation setup
+  ☐ add uav map sharing rviz?
+  ☐ make sure compute stick is still working...
+  ☐ message Ian about previous bin scripts moved to scripts
+  ☐ copy over basestation_utils here
+  ☐ 2-level removal
+  ☐ snapshot on skel_to, transfer remove snapshot
+
+ansible:
+  ☐ add hub (https://github.com/github/hub/releases/tag/v2.14.2) to the ansible install
+  ✔ add the intel realsense install in payload install? @done(21-03-22 16:09)
+  ✔ add intel MYRIAD install on host @done(21-03-22 16:09)
+  ☐ @low ansible auto-generate ip scripts. To be used by scenarios TOO. Make it in ~/.subt env vars...
+  ☐ subt localhost [ansible, prereq, validate] : checks for prereq requirements, validate all stuff is installed
+
+readme:
+  ☐ ansible failed with "password"
+  ☐ ansible failed with "apt-get"
+  ☐ copy bitbucket instructions from mmpug to deploy
+  ☐ add the docker network part of the readme
+    ✘ localhost (docker network) | azure (rm docker network) | robots (rm docker network) @cancelled(21-03-16 20:07)
+    ☐ just add to readme -- double check
+
+jenkins:
+  ☐ jenkins: initial setup on azure
+  ☐ jenkins: docker automated build, push to docker registry on subt room nuc
+  ☐ jenkins: docker automated build (arm, xavier), push to docker registry on subt room nuc
+
+subt_launch:
+  ☐ add `pass_all_args="true" ` to all launch vars
+  ☐ change ugv slam -> slam/robot, slam/devel, slam/common
+  ☐ git hooks for ignore .catkin
+  ☐ tmux, make nicer windows
+  ☐ add a bootstrap script, that runs any commands before starting the docker container
+  ☐ uav launch, requires sleep...
+  ☐ subt_launch -- second setup, launch file cleanup
+  ☐ pull in the auto-create desktop icons
+
+nice-to-haves:
+  ☐ when operations changes are done, then change the file
+    - when the file has changes, then update all operations
+  ☐ similar with ansible, have a invisible file for the trigger of automated updates
+  ☐ move the .terraform files to ~/.subt
+  ☐ automate ssh azure_vpn key, move to ~/.ssh/azure, automate adding to config --> ansible
+  ☐ add a visualization of repo state (with branches, not just commit hashes)
+    - fix the snapshot script
+  ☐ git hooks (post-checkout): to check versions of operations and prompt for update
+  ☐ add a `subt git sync`
+    - reset, pull should not remove uncomitted changes
+  ☐ add a `subt git status`: prints status nicely?
+  ☐ add a 'rm registry', to remove a image from azure registry command
+  ☐ add nuc as docker registry
+  ☐ no IPs in config file
+

@@ -15,6 +15,7 @@ use cmpl_header;
 use cmpl_utils;
 use cmpl_deployer;
 use cmpl_terraform;
+use cmpl_tutorial;
 use cmpl_git;
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,10 @@ my %_deployer_help_hash = map {
 my %_terraform_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_terraform_help;
+
+my %_tutorial_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_tutorial_help;
 
 # @brief covert the array to hashmap
 my %_git_help_hash = map {
@@ -189,6 +194,14 @@ if (chk_flag($_func, "subt")  ) {
 # match subcommands for 'tools'
 } elsif (chk_flag($_func, "tools")  ) {
   print general_matcher($_target, @_tools);
+
+# -- tutorial --
+
+} elsif (chk_flag($_func, "tutorial")  ) {
+  print general_matcher($_target, @_tutorial);
+
+} elsif (chk_flag($_func, "tutorial_help")  ) {
+  print deployer_help_matcher($_target, %_tutorial_help_hash);
 
 } else {
   print "";  # return empy string on failure

@@ -17,6 +17,7 @@ our @EXPORT_OK = qw(
   format_help_str
   create_help
   get_help
+  get_tutorial
 );
 
 # these are exported by default.
@@ -25,6 +26,7 @@ our @EXPORT = qw(
   format_help_str
   create_help
   get_help
+  get_tutorial
 );
 
 # //////////////////////////////////////////////////////////////////////////////
@@ -151,6 +153,40 @@ our %_help_main = (
   submodules_rm           => "remove (deinitializes) the 2-level meta and all 3-level submodules",
 );
 
+our %_help_tutorial = (
+  local         => "laptop simulation deployment, including all types of platforms deployments (basestation, ugv, uav) and multi-robot simulation.",
+  azure         => "azure (remote) virtual machines, including all types of platforms deployments (basestation, ugv, uav).",
+  robots        => "basestation (local) and robot (local, remote) computers deployments.",
+  operations    => "how to update operations -- terraform, ansible, configurations, dockerfiles, etc (i.e. updates in operations dir)",
+
+  basestation   => "Tutorials on how to setup basestatation for localhost simulation or actual basestation for robots.",
+  ugv_ugv1      => "Tutorials on how to setup ugv1 for localhost (or azure) simulation. This will include multi-robot simulation setup.",
+  ugv_ugv2      => "Tutorials on how to setup ugv2 for localhost (or azure) simulation. This will include multi-robot simulation setup.",
+  ugv_ugv3      => "Tutorials on how to setup ugv3 for localhost (or azure) simulation. This will include multi-robot simulation setup.",
+
+  ugv_ugv1_ppc  => "Tutorials on how to setup robot ugv1, for ppc comptuer.",
+  ugv_ugv2_ppc  => "Tutorials on how to setup robot ugv2, for ppc comptuer.",
+  ugv_ugv3_ppc  => "Tutorials on how to setup robot ugv3, for ppc comptuer.",
+
+  ugv_ugv1_nuc  => "Tutorials on how to setup robot ugv1, for nuc comptuer.",
+  ugv_ugv2_nuc  => "Tutorials on how to setup robot ugv2, for nuc comptuer.",
+  ugv_ugv3_nuc  => "Tutorials on how to setup robot ugv3, for nuc comptuer.",
+
+  ugv_ugv1_xavier  => "Tutorials on how to setup robot ugv1, for xavier comptuer.",
+  ugv_ugv2_xavier  => "Tutorials on how to setup robot ugv2, for xavier comptuer.",
+  ugv_ugv3_xavier  => "Tutorials on how to setup robot ugv3, for xavier comptuer.",
+
+  uav_uav1  => "Tutorials on how to setup uav1 for localhost (or azure) simulation. This will include multi-robot simulation setup.",
+  uav_uav2  => "Tutorials on how to setup uav2 for localhost (or azure) simulation. This will include multi-robot simulation setup.",,
+  uav_uav3  => "Tutorials on how to setup uav3 for localhost (or azure) simulation. This will include multi-robot simulation setup.",,
+  uav_uav4  => "Tutorials on how to setup uav4 for localhost (or azure) simulation. This will include multi-robot simulation setup.",,
+
+  uav_ds1  => "Tutorials on how to setup robot ds1.",
+  uav_ds2  => "Tutorials on how to setup robot ds2.",
+  uav_ds3  => "Tutorials on how to setup robot ds3.",
+  uav_ds4  => "Tutorials on how to setup robot ds4.",
+);
+
 # //////////////////////////////////////////////////////////////////////////////
 # @brief create the help messages
 # //////////////////////////////////////////////////////////////////////////////
@@ -170,6 +206,12 @@ sub _create_help {
 sub get_help {
   @keyword = @_;
   return _create_help(\%_help_main, \@keyword);
+}
+
+# @brief create the 'main', tab-completion help message
+sub get_tutorial {
+  @keyword = @_;
+  return _create_help(\%_help_tutorial, \@keyword);
 }
 
 # //////////////////////////////////////////////////////////////////////////////
