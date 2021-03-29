@@ -38,8 +38,14 @@ deploy:
   ☐ make sure compute stick is still working...
   ☐ message Ian about previous bin scripts moved to scripts
   ☐ copy over basestation_utils here
-  ☐ 2-level removal
   ☐ snapshot on skel_to, transfer remove snapshot
+  ☐ wrong IPs in robot containers
+  ☐ nvidia gpu config in user_configs, needs to be automatically set on robots
+    - add deployer config for that? -- no make the INSTALLER find it!!!
+  ☐ deployer command to run installer on remote
+  ☐ if ROBOT is env var on computer, deployerbooks gets messed up....
+  ☐ rename slam catkin profile from loam to slam
+  ☐ nuc bashrc on localhost needs to add missing paramets for new subt_launch....
 
 ansible:
   ☐ add hub (https://github.com/github/hub/releases/tag/v2.14.2) to the ansible install
