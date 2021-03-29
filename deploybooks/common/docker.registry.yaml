@@ -16,9 +16,12 @@
 
   - pull:
     # pull the docker image from the azure registry
-    - docker pull $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    # -- if slow connection, enabled the below option instead
+    # - docker pull ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME} || docker pull ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME}  || docker pull ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME}  || true
+    - docker pull ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME} || true
+
     # tag the azure registry docker image, as a non-registry prefix docker images
-    - docker tag $AZURE_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
+    - docker tag ${AZURE_REGISTRY}/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
 
   - push:
     # tag the non-registry prefix docker images, as a azure registry docker image
@@ -33,18 +36,18 @@
 - basestation:
   - pull:
     # pull the docker image from the azure registry
-    - docker pull $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    - docker pull ${BASESTATION_REGISTRY}/${DOCKER_IMAGE_NAME} || true
     # tag the azure registry docker image, as a non-registry prefix docker images
-    - docker tag  $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
+    - docker tag  ${BASESTATION_REGISTRY}/${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_NAME} || true
 
   - push:
     # tag the non-registry prefix docker images, as a azure registry docker image
-    - docker tag {DOCKER_IMAGE_NAME} $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    - docker tag {DOCKER_IMAGE_NAME} ${BASESTATION_REGISTRY}/${DOCKER_IMAGE_NAME} || true
     # push the docker image to the azure registry
-    - docker push $BASESTATION_REGISTRY/${DOCKER_IMAGE_NAME} || true
+    - docker push ${BASESTATION_REGISTRY}/${DOCKER_IMAGE_NAME} || true
 
   # remove the azure docker images
-  - docker-clean.bash $BASESTATION_REGISTRY
+  - docker-clean.bash ${BASESTATION_REGISTRY}
 
 # show the docker images
 - docker images

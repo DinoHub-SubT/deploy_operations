@@ -1,10 +1,8 @@
 # //////////////////////////////////////////////////////////////////////////
 - docker:
 # //////////////////////////////////////////////////////////////////////////
-  - +ssh:{ robot.$ROBOT }
-
-  # use given docker context (assume ssh has already connected)
-  - docker context use $DCTX
+  # use given docker context (assume ssh has already connected) ?
+  # - docker context use $DCTX
 
   # ////////////////////////////////////////////////////////////////////////////
   - make:
@@ -25,7 +23,7 @@
         # always create the default network if does not exist
         - echo "Docker network subnet is $LOCAL_NETWORK_SUBNET"
         - echo "Docker network ip range is $LOCAL_NETWORK_IP_RANGE"
-        - docker network create -d bridge robots --subnet=$LOCAL_NETWORK_SUBNET --ip-range=$LOCAL_NETWORK_IP_RANGE || true
+        # - docker network create -d bridge robots --subnet=$LOCAL_NETWORK_SUBNET --ip-range=$LOCAL_NETWORK_IP_RANGE || true
 
         # start the docker create container service
         - docker-compose-wrapper -p project-${DOCKER_COMPOSE_SERVICE} up --force-recreate -d ${DOCKER_COMPOSE_SERVICE}

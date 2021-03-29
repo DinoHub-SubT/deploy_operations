@@ -1,5 +1,8 @@
 - nuc:
+  # run on the remote server (except for any books that specific +local, to force local deployment)
+  - +ssh:{ $ROBOT.nuc }
   - export PLATFORM_COMPUTER_NAME=nuc
+  - export ROBOT_PLATFORM=ugv.nuc
 
   # ugv computer split
   - +import:env/split.env

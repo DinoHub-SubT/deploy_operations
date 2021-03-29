@@ -1,3 +1,7 @@
+# run on the remote server (except for any books that specific +local, to force local deployment)
+- +ssh:{ uav.$UAV_COMPUTER }
+- export ROBOT_PLATFORM=uav
+
 # setup docker context
 - export DCTX=robot-uav-$UAV_COMPUTER
 
