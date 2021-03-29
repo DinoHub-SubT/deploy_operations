@@ -1,6 +1,6 @@
 - scenarios:
   # run on the remote server (except for any books that specific +local, to force local deployment)
-  - +ssh:{ robot.$ROBOT }
+  # - +ssh:{ robot.$ROBOT }
 
   # extend common workspaces
   - +extend: workspaces/shared/melodic

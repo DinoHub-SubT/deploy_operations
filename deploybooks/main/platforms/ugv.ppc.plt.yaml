@@ -1,15 +1,12 @@
 - ppc:
+  - +ssh:{ $ROBOT.ppc }
   - export PLATFORM_COMPUTER_NAME=ppc
-
+  
   # ugv computer split
   - +import:env/split.env
 
   # setup docker context
-  - +import:env/platform.env
-  - set_docker_dctx
-
-  # TODO: TEMPORARY for localhost testing
-  - export DCTX=default
+  - export DCTX=robot-$ROBOT-ppc
 
   # extend remote rsync actions
   - +extend: common/sync

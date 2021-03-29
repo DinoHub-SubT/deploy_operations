@@ -2,7 +2,7 @@
 # @brief docker registry image push or pulls
 # @comment: needs to be separate from 'docker' because registry not set to work over ssh
 # ////////////////////////////////////////////////////////////////////////////
-# - +local
+- +local
 
 # use given docker context
 - docker context use $DCTX
