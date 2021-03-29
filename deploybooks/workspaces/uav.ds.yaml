@@ -34,7 +34,7 @@
 
   - perception:
     - export SCENARIO=perception
-    - +import:env/simulation.env
+    - +import:env/robot.env
     - +extend: workspaces/shared/perception
 
   - wifi:
