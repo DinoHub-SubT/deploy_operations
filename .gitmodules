@@ -4,3 +4,6 @@
 [submodule "robot_snapshot/ugv_setup"]
 	path = robot_snapshot/ugv_setup
 	url = git@bitbucket.org:cmusubt/ugv_setup.git
+[submodule "deployer"]
+	path = deployer
+	url = git@bitbucket.org:castacks/deployer.git
