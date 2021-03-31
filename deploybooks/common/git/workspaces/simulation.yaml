@@ -11,6 +11,7 @@
     git lfs fetch;
     git lfs pull;
     git lfs install;
+    cd -;
   }
 
 - meta:
