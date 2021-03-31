@@ -434,3 +434,10 @@ function sshtraverse() {
   done
 }
 
+##
+# get the current date as yyyy-mm-dd HH:MM
+##
+function get_current_date() {
+  local date=$(date '+%YY-%mM-%dD-%HH-%MM')
+  echo $date
+}

@@ -40,10 +40,33 @@ fi
 # globals params
 GL_SNAPSHOT_DIR="operations/field_testing/"
 
+# @brief get all the submodules in the current directory
+function get_all_submodules() {
+  echo $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
+}
+
+# @brief traverse through all the submodules in the given source directory
+function traverse_submodules() {
+  # find all the submodules in the current path level
+  local _sub=$(get_all_submodules)
+  local _funptr=$1
+
+  # recursive traverse for found submodules
+  for _sub in $_sub; do
+    # if exists, traverse submodule for any nested submodules & execute _funptr
+    if [ -d "$_sub" ]; then
+      pushd $_sub  # cd to the submodule directory
+      ($_funptr)      # execute function
+      traverse_submodules $2 # recursively traverse the submodules, for any nested submodules
+      popd  # return to the previous current directory (before recursive traversal)
+    fi
+  done
+}
+
 # traverse through all the submodules in the given source directory
 function traverse() {
   # find all the submodules in the current path level
-  local submodules=$(__get_all_submodules $1)
+  local submodules=$(get_all_submodules $1)
   local logfile=$2
 
   # recursive traverse for found submodules
@@ -64,7 +87,7 @@ function traverse() {
       traverse "$(pwd)" "$logfile"
       popd
       # write the `(commit hash) (submodule path)` to logfile
-      echo "$snapshot_commit_hash $snapshot_submodule $(parse_git_branch) $(parse_git_dirty)" >> $logfile
+      echo "$snapshot_commit_hash $snapshot_submodule" >> $logfile
     fi
   done
 }
@@ -73,12 +96,16 @@ function traverse() {
 function snapshot() {
   # create log file
   local logfile="$SUBT_PATH/$GL_SNAPSHOT_DIR/snapshot-$(get_current_date).log"
-  touch $logfile
-  text "Creating logfile: $logfile"
+  touch "${logfile}.tmp"
+  text "Creating logfile: ${logfile}"
 
   # traverse submodules
   pushd $SUBT_PATH
-  traverse "$SUBT_PATH" "$logfile"
+  traverse "$SUBT_PATH" "${logfile}.tmp"
+
+  # sort the snapshot logfile and remove the tmp logfile
+  sort -k 2 "${logfile}.tmp" >> ${logfile}
+  rm "${logfile}.tmp"
   popd
 }
 
