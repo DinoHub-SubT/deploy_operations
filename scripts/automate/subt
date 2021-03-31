@@ -24,7 +24,7 @@ fi
 # //////////////////////////////////////////////////////////////////////////////
 __subt_git_execute() {
   # get the given git action command
-  local _git_action_cmd=${@[1]}
+  local _git_action_cmd=${@}
   # apply the general git action scripts
   if chk_flag status $@ || chk_flag sync $@  || chk_flag add $@; then
     shift 1
