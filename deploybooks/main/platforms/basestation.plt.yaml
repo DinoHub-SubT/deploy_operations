@@ -9,6 +9,7 @@
 
   # setup docker context
   - export DCTX=default
+  - export SCENARIOS_PLATFORM=basestation
 
   # extend the basestation workspace
   - +extend: workspaces/basestation

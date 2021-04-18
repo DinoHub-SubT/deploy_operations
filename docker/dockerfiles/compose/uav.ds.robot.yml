@@ -5,7 +5,7 @@ version: '2.3'
 
 services:
   # @brief UGV, ROS, simulation
-  uav-ros:
+  uav.ds-ros:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
@@ -18,7 +18,7 @@ services:
     # TODO: base image as env variable
 
   # @brief UAV, superodometry
-  uav-superodometry:
+  uav.ds-superodometry:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
@@ -31,7 +31,7 @@ services:
     # TODO: base image as env variable
 
   # @brief UAV, core
-  uav-core:
+  uav.ds-core:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
@@ -45,7 +45,7 @@ services:
       - ws_devel_source=$UAV_WS_SOURCE
 
   # @brief UAV, perception
-  uav-perception:
+  uav.ds-perception:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
