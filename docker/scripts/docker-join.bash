@@ -101,6 +101,10 @@ newline
 
 # execute the docker exec command, if not in 'preview' mode
 if ! chk_flag --preview $@ && ! chk_flag -p $@; then
+  # start the docker container
+  docker start ${docker_container}
+
+  # execute docker-join, via /bin/bash
   eval ${docker_execute_command}
 fi
 

@@ -17,7 +17,7 @@ services:
     tty: true # keep container running
 
   # @brief UGV, planning-pc
-  ugv.xavier-core:
+  ugv.xavier-perception:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
@@ -25,7 +25,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.perception.supplement.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: perception-shell
+    container_name: $ROBOT-perception-shell
     entrypoint: $entry_path/objdet-shell.bash
     privileged: true
     tty: true # keep container running

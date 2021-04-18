@@ -24,7 +24,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.superodometry.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: super-shell
+    container_name: $ROBOT-super-shell
     entrypoint: $entry_path/ros-shell.bash
     tty: true # keep container running
     # TODO: base image as env variable
@@ -37,7 +37,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: nuc-shell
+    container_name: $ROBOT-nuc-shell
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
     environment:
@@ -51,7 +51,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: slam-shell
+    container_name: $ROBOT-slam-shell
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
     environment:

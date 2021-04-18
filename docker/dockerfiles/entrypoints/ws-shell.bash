@@ -16,7 +16,7 @@ echo " ==  Install The Deploy Workspace =="
 # chown -R developer:developer /home/developer/.local/lib/python2.7/site-packages/
 # chown -R developer:developer /home/developer/deploy_ws/
 
-cd ~/deploy_ws/src/
+cd $ENTRYPOINT_SUBT_PATH
 ./install-deployer.bash --install
 
 # source the bashrc -- so we have the deploy_ws path set

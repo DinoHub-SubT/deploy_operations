@@ -161,7 +161,7 @@ RUN pip install --user \
  labjack-ljm
 
 # make deploy_ws top level directory -- required for setting rw deveploer permissions
-RUN mkdir ~/deploy_ws/
+# RUN mkdir ~/deploy_ws/
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup

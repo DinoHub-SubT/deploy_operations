@@ -149,24 +149,23 @@ RUN sudo usermod -a -G dialout developer
 # install subt python packages
 RUN pip install --user wheel
 RUN pip install --user \
- hurry.filesize \
- graphviz \
- serial \
- pyserial \
- shapely \
- empy \
- pybluez \
- pyyaml \
- rospkg \
- shapely \
- graphviz \
- protobuf \
- vislib \
- matplotlib \
- numpy \
- toml \
- future \
- psutil
+ hurry.filesize==0.9 \
+ graphviz==0.14.1 \
+ serial==0.0.97 \
+ pyserial==3.4 \
+ shapely==1.7.1 \
+ empy==3.3.4 \
+ pybluez==0.23 \
+ pyyaml==5.3.1 \
+ rospkg==1.2.8 \
+ protobuf==3.13.0 \
+ decorator==4.4.2 \
+ vislib==0.2 \
+ matplotlib==2.2.5 \
+ numpy==1.16.6 \
+ toml==0.10.1 \
+ future==0.18.2 \
+ psutil==5.7.2
 
 # //////////////////////////////////////////////////////////////////////////////
 # Install opencl
@@ -187,7 +186,18 @@ RUN sudo add-apt-repository ppa:intel-opencl/intel-opencl \
  && sudo apt-get update --no-install-recommends \
  && sudo apt-get install -y --no-install-recommends \
   intel-opencl-icd \
-  clinfo
+  ocl-icd-libopencl1 \
+  clinfo \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# Commands below run as the developer user
+USER root
+
+RUN mkdir -p /etc/OpenCL/vendors \
+ && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+
+# Commands below run as the developer user
+USER $USERNAME
 
 # add user to groups
 RUN sudo usermod -a -G video developer
@@ -201,7 +211,7 @@ RUN cd /home/$USERNAME/thirdparty-software/uav/ \
  && cd xsens_cpp_driver/receive_xsens/config/mt_sdk/ \
  && sudo ./mt_sdk_4.8.sh
 
-# Env vars for the nvidia-container-runtime.
+# nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 

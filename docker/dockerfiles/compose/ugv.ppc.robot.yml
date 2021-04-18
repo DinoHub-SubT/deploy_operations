@@ -24,7 +24,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.ppc.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: ppc-shell
+    container_name: $ROBOT-ppc-shell
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
     environment:

@@ -9,7 +9,7 @@ echo " == Workspace Shell == "
 
 # Install the deploy workspace
 echo " ==  Install The Deploy Workspace =="
-cd ~/deploy_ws/src/
+cd $ENTRYPOINT_SUBT_PATH
 ./install-deployer.bash --install
 
 # source the bashrc -- so we have the deploy_ws path set
