@@ -3,10 +3,10 @@
   - export DOCKER_COMPOSE_IMAGE_SHORT_NAME=ros.melodic
 
   # re-source the scenarios file (since not calling actions)
-  - source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${PLATFORM}.env melodic
+  - source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${SCENARIOS_PLATFORM}.env melodic
 
   # setup the docker service calls
-  - export DOCKER_COMPOSE_SERVICE=${PLATFORM}-ros
+  - export DOCKER_COMPOSE_SERVICE=${SCENARIOS_PLATFORM}-ros
 
   # extend only docker calls
   - +extend: common/docker.registry

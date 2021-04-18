@@ -9,7 +9,7 @@
   - set_workspace_configuration
 
   # override any default environment setups?
-  - export DOCKER_BASE_IMAGE_PROJECT=${PLATFORM}
+  - export DOCKER_BASE_IMAGE_PROJECT=${SCENARIOS_PLATFORM}
 
   # extend general actions
   - +extend: common/docker.registry

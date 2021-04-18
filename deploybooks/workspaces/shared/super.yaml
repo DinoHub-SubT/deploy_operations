@@ -3,13 +3,13 @@
   - export DOCKER_COMPOSE_IMAGE_SHORT_NAME=superodometry
 
   # setup the superodom's base service
-  - export DOCKER_BASE_IMAGE_PROJECT=${PLATFORM}
+  - export DOCKER_BASE_IMAGE_PROJECT=${SCENARIOS_PLATFORM}
 
   # re-source the scenarios file (since not calling actions)
-  - source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${PLATFORM}.env ${PLATFORM}
+  - source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${SCENARIOS_PLATFORM}.env ${PLATFORM}
 
   # setup the docker service calls
-  - export DOCKER_COMPOSE_SERVICE=${PLATFORM}-superodometry
+  - export DOCKER_COMPOSE_SERVICE=${SCENARIOS_PLATFORM}-superodometry
 
   # extend only docker calls
   - +extend: common/docker.registry
