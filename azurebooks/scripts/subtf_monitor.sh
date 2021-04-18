@@ -8,15 +8,15 @@ eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@; then
     title "$__file_name [ flags ] -g < resource group name >: Monitors azure resources."
     text "Flags:"
-    text "    -ns       : list resource groups."
-    text "    -g        : azure resource group."
-    text "    -all      : use all resource groups names."
-    text "    -vm       : show VM status."
-    text "    -vnet     : list vnet resources."
-    text "    -ip    : list public IPs resources."
-    text "    -disk     : list all managed disks attached to VMs."
-    text "    -flt        : filter the types of disk to show: 'Standard_LRS', 'StandardSSD_LRS', 'Premium_LRS'."
-    text "    -v        : display verbose output."
+    text "    -ns                   : list resource groups."
+    text "    -g                    : azure resource group."
+    text "    -all                  : use all resource groups names."
+    text "    -vm                   : show VM status."
+    text "    -vnet                 : list vnet resources."
+    text "    -ip                   : list public IPs resources."
+    text "    -disk                 : list all managed disks attached to VMs."
+    text "    -flt                    : filter the types of disk to show: 'Standard_LRS', 'StandardSSD_LRS', 'Premium_LRS'."
+    text "    -v                    : display verbose output."
     exit 0
 fi
 
@@ -186,11 +186,10 @@ monitor_disk_usage() {
 }
 
 # //////////////////////////////////////////////////////////////////////////////
-title == Azure Monitor ==
+# azure monitor entrypoint
 # //////////////////////////////////////////////////////////////////////////////
 
-# trap ctrl-c and call ctrl_c
-trap ctrl_c INT
+main == Azure Monitor ==
 
 # setup the resource group list
 set_resource_group_list $@

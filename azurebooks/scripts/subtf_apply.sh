@@ -14,8 +14,10 @@ fi
 # source the terraform environment
 source_terra_env
 
-cd $__dir/../subt
+# go to the terraform project path
+pushd $SUBT_OPERATIONS_PATH/azurebooks/subt
 
 terraform apply $@
 
-cd $__call_dir
+# cleanup & exit
+exit_pop_success

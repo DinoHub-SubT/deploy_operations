@@ -25,7 +25,7 @@ terraform {
   backend "azurerm" {
 
     # existing storage account (make sure exists on azure)
-    storage_account_name = "subtdeployterrastate"
+    storage_account_name = "subtdatasets"
 
     # existing storage container
     container_name       = "subtdeploy-statefile-container"
@@ -87,7 +87,7 @@ module "example" {
 
   # location of local ssh key to connect to remote VM
   #   -- PLEASE DO NOT CHANGE!! KEEP THE DEFAULT PATH!!
-  vm_pub_ssh_key                    = "~/.ssh/azure_vpn.pub"
+  vm_pub_ssh_key                    = "~/.ssh/subt.d/azure_vm_rsa.pub"
 
   # VM disk sizes (in GB)
   # !! -- PLEASE CHANGE THE VALUE TO YOUR PREFERENCE -- !!

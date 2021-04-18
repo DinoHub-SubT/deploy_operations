@@ -2,60 +2,13 @@
 
 [TOC]
 
+## About
+
 There are two operational tools available to use: `az` or `terraform`
 
 - `az` is the [azure commandline interface](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
 
 - `terraform` is the [terraform command line interface](https://learn.hashicorp.com/terraform) to interact with `terraform` files found in `operations/azurebooks`
-
-## Prerequisites
-
-**Azure SSH Keys**
-
-- Generate ssh keys for azure vms:
-
-        mkdir -p ~/.ssh/
-        cd ~/.ssh/
-        ssh-keygen
-
-    - Answer the prompts from `ssh-keygen` as shown below:
-
-            Enter file in which to save the key (/home/<USER-NAME>/.ssh/id_rsa): /home/<USER-NAME>/.ssh/azure_vpn
-            Enter passphrase (empty for no passphrase):
-
-    - **DO NOT ENTER A PASSPHRASE on `ssh-keygen`! LEAVE IT BLANK.**
-    - Replace `<USER-NAME>` with your actual username
-
-- Add the ssh azure vpn key to your localhost ssh config file:
-
-        # create (if not created) ssh config file
-        touch ~/.ssh/config
-
-        # open the ssh config file
-        gedit ~/.ssh/config
-
-        # Add the following to the top of the config file:
-        IdentityFile ~/.ssh/azure_vpn
-
-        # exit the ssh config file
-
-**About Connection Keys**
-
-You will have a total of three types of connection keys:
-
-- Bitubcket ssh key, used to clone repos from the subt bitbucket account.
-    - Found in `/home/<USER-NAME>/.ssh/bitbucket`
-- Azure VM ssh key, used to connect to the Azure VMs.
-    - Found in ` /home/<USER-NAME>/.ssh/azure_vpn`
-- Azure VPN certificates, used to connect to the Azure VPN setup.
-    - Found in: `/home/<USER-NAME>/.ssh/azure/vpn`
-
-Please **keep the default paths** as discussed in the readme instructions.
-- Some of these paths are hard-coded in scripts. If you do not wish to use these paths, please notify the maintainer to discuss which hard-coded values must be changed.
-
-* * *
-
-## Mini-Tutorial: Terraform Example Project
 
 This terraform example will create Virtual Machines, Networking and VPN setup on Azure.
 
@@ -63,7 +16,7 @@ This terraform example will create Virtual Machines, Networking and VPN setup on
 
 **Things to keep in mind:**
 
-- The `azure username` to be used in this tutorial, is the *user name* found before your `@...hotmail.onmicrosoft.com` account email.
+- The `azure username` to be used in this tutorial, is the **user name** found before your `@...hotmail.onmicrosoft.com` account email.
 
 - The `azure resource group` that will be used in this tutorial is `SubT`.
 
@@ -73,7 +26,19 @@ Your terraform subt workspace is located at:
 
         cd ~/deploy_ws/src/operations/azurebooks/subt
 
-### Terraform Subt Project Prerequisites
+## Prerequisites
+
+Make sure the docker network on localhost is running.
+
+To remove:
+
+        # remove all containers (since all are using the docker network)
+        subt deployer local.docker.ops.rm
+
+        # remove the docker network
+        subt deployer local.docker.network.rm
+
+## Terraform Setup
 
 **Azure CLI Initial Login:**
 
@@ -120,9 +85,9 @@ Your Tenant id is:
         # -> To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code [SOME KEY CODE] to authenticate.
 
         # Follow these steps:
-        # - go to the given webpage "https://microsoft.com/devicelogin"
-        # - then enter the given "CODE" in your browser.
-        # - then select your Azure user account (if prompted).
+        - 1. Go to the given webpage "https://microsoft.com/devicelogin"
+        - 2. Then enter the given "CODE" in your browser.
+        - 3. Then select your Azure user account (if prompted).
 
 - You can find more information about azcopy login [here](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).
 
@@ -138,24 +103,29 @@ Your Tenant id is:
 
 **Add your Azure user info to terraform ids**
 
-        # Install the terraform environment variables
-        subt cloud terraform env
+        # Open the terraform user account configuration file
+        gedit ~/.subt/terraform_id.bashrc
 
-        # Modify the variables in .terraform_id.bashrc to match your setup
-        # Set TF_VAR_subscription_id and TF_VAR_tenant_id to what the results of az account list
-        # Then set TF_VAR_azure_username to the username provided by Kat
-        # Set TF_VAR_azure_resource_name_prefix to your prefered prefix (usually your andrew ID, must be unique to you)
-        # Set TF_VAR_azure_vpn_cert to the output of the openssl command from above
-        gedit ~/.terraform_id.bashrc
+        # Modify the variables in to match your azure account setup:
+
+        - Set 'TF_VAR_subscription_id'            to what the results of az account list
+        - Set 'TF_VAR_tenant_id'                  to what the results of az account list
+        - Set 'TF_VAR_azure_username'             to your azure username to login into azure portal (i.e. name before the @...hotmail.onmicrosoft.com)
+        - Set 'TF_VAR_azure_resource_name_prefix' to your prefered prefix (usually your andrew ID, must be unique to you. Or use the same as azure username)
+        - Set 'TF_VAR_subt.d/azure_vm_rsa_cert'   to the output of the openssl command from above
+
 
 **Personalize your Azure setup**
 
-        # Modify the common terraform flags
-        # - Keep the default `region` value. However you can change the region if you wish to.
-        # - Change `*_create_vm` to create the VM or not (if VM already exists, setting to false will destroy the VM)
-        # - Change `*_disk_size` to the disk size for each VM type (default values are already set).
-        # - Change `*_vm_instance` to the type of VM instance to create (default values are already set).
-        gedit ~/.terraform_flags.bashrc
+        # Open the terraform user general configuration file
+        gedit ~/.subt/terraform_flags.bashrc
+
+        # Modify the common terraform flags:
+
+        - Set 'region'        keep the default 'region' value. However you can change the region if you wish to.
+        - Set '*_create_vm'   to create the VM or not (if VM already exists, setting to false will destroy the VM)
+        - Set '*_disk_size'   to the disk size for each VM type (default values are already set).
+        - Set '*_vm_instance' to the type of VM instance to create (default values are already set).
 
 **Source your `bashrc` or `zshrc`**:
 
@@ -165,7 +135,7 @@ Your Tenant id is:
         # source zshrc
         source ~/.zshrc
 
-### Deploy Terraform SubT Project
+## Deploy Terraform SubT Project
 
 **Initialize the terraform workspace**
 
@@ -176,7 +146,7 @@ Your Tenant id is:
         # Shows the user the azure deployment
         subt cloud terraform plan
 
-- Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `subtf_init.sh` again.
+- Errors: if you see `"Error: Initialization required. Please see the error message above."`, please do `subt cloud terraform init` again.
 
 **Apply the terraform infrastructure setup to Azure**
 
@@ -190,17 +160,16 @@ Your Tenant id is:
         # will create the gnome network manager connection for your Azure VPN
         subt cloud terraform mkvpn -n
 
-- See the "Create a VPN Connection" and "Destroy an existing VPN Connection" below for VPN maintenance.
+- (optional) See the "Create a VPN Connection" and "Destroy an existing VPN Connection" below for VPN maintenance.
 
-**Verify your VMs are created**
+**Verify your Virtual Machines are created**
 
-- Go to the Azure Portal Website
+        # show your started virtual machines
+        subt cloud terraform list
 
-- Or, run the command below, with `resource_name_prefix` as set previously in `~/.terraform_flags.bashrc`:
+- Alternatively, you can check on the [Azure Portal Website](https://portal.azure.com/#home).
 
-        az vm list-ip-addresses -g SubT -o table | grep [resource_name_prefix]
-
-**Connect to your VM (over the VPN)**
+**Connect to Virtual Machine over the VPN**
 
         # verify you can connect to the Azure VM
         ping [ private IP ]
@@ -211,11 +180,23 @@ Your Tenant id is:
 - if you have issues pinging the VMs, please check your VPN connection.
 - if you have issues ssh into the VMs, please see the `Issues` title below.
 
+**Check SSH Connection To All Virtual Machines**
+
+        # probes all ssh connections configured in ~/.ssh/config
+        subt tools ssh.probe
+
 You should now have resources deployed on Azure and be able to connect to them.
+
+**(Optional) Destroy all resources**
+
+        # destroy all azure resources
+        subt cloud terraform destroy
+
+- Please verify on [Azure Portal Website](https://portal.azure.com/#home) that all your resources are destroyed.
 
 * * *
 
-# Discussion
+# More Tutorials
 
 ## Updating Azure Setup
 
@@ -332,6 +313,12 @@ List the public IPs found in `SubT` resource group, matching prefix:
 
 ## Issues
 
+**Azure Disconnection**
+
+- The Azure VPN gets disconnected often.
+
+- If you can no longer ping your VM, restart the VPN. It takes a few minutes and a few restarts (turn off/on your VPN connection), until you are able to connect again.
+
 **Exceed Quota Limits**
 
 - You can check regional quota limits:
@@ -437,6 +424,3 @@ If you are the only user, using thee terraform `state` file, go ahead and force 
 
         terraform force-unlock <lock-id-guid>
 
-**More discussion**
-
-For solving ssh errors, it might be easier to setup an [ssh connection setup](https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client) in `~/.ssh/config`

@@ -13,9 +13,11 @@ fi
 # source the terraform environment
 source_terra_env
 
-cd $__dir/../subt
+# go to the terraform project path
+pushd $SUBT_OPERATIONS_PATH/azurebooks/subt
 
 # Echo the path to the state file variable into the terraform init command
 echo "workspaces/${TF_VAR_azure_username}/terraform.tfstate" | terraform init
 
-cd $__call_dir
+# cleanup & exit
+exit_pop_success

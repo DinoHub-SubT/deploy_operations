@@ -18,19 +18,18 @@ fi
 # source the terraform environment
 source_terra_env
 
+# go to the terraform project path
+pushd $SUBT_OPERATIONS_PATH/azurebooks/subt
+
 # Make sure resource name is set
 if [[ -z "$TF_VAR_azure_resource_name_prefix" ]] && chk_flag -a $@; then
-    error Unable to find TF_VAR_azure_resource_name_prefix... make sure deployer is installed and terraform is setup according to the readme!
-    exit 1
+    exit_pop_error Unable to find TF_VAR_azure_resource_name_prefix... make sure deployer is installed and terraform is setup according to the readme!
 fi
 
 # Make sure we actually have an argument...
 if [[ $# == 0 ]]; then
-    error No arguments provided, unable to run command. Run `--help`.
-    exit 1
+    exit_pop_error "No arguments provided, unable to run command. Run '--help'."
 fi
-
-cd $__dir/../subt
 
 if chk_flag -l $@; then
     vms=($(az vm list -g SubT --query "[?contains(name, '$TF_VAR_azure_resource_name_prefix')].id" -o tsv))
@@ -38,7 +37,7 @@ if chk_flag -l $@; then
         _vm_name=${vm##*/}
         echo "$_vm_name"
     done
-    exit 1
+    exit_pop_success
 fi
 
 # Get the ID(s) of the VM(s) we want to shut down
@@ -53,9 +52,7 @@ fi
 
 # Make sure we actually have ID's
 if last_command_failed; then
-    error "Azure command failed, make sure you are logged in!"
-    cd $__call_dir
-    exit 1
+    exit_pop_error "Azure command failed, make sure you are logged in!"
 fi
 
 if [[ -z "$vm_spec" ]]; then
@@ -74,11 +71,10 @@ az vm deallocate --ids $vm_spec
 
 # Make sure we actually have ID's
 if last_command_failed; then
-    error "Azure command failed, make sure you are logged in! Or contact maintainer!"
-    cd $__call_dir
-    exit 1
+    exit_pop_error "Azure command failed, make sure you are logged in! Or contact maintainer!"
 else
     text Command Succeeded!
 fi
 
-cd $__call_dir
+# cleanup & exit
+exit_pop_success

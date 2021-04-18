@@ -11,14 +11,18 @@ if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ || chk_flag -help $@
     text "    -y : do not ask for confirmation before running terraform apply"
     text "    -t : Apply only the terraform changes (Takes ~25 minutes)"
     text "    -n : Apply only network manager changes"
-    text "    -c : Use existing files in ~/.ssh/azure/vpn "
+    text "    -c : Use existing files in ~/.ssh/subt.d/azure_vpn "
     exit 0
 fi
+
+# terraform config install path
+GL_TERRA_ENV_PATH=$SUBT_CONFIGURATION_PATH
 
 # source the terraform environment
 source_terra_env
 
-cd $__dir/../subt
+# go to the terraform project path
+pushd $SUBT_OPERATIONS_PATH/azurebooks/subt
 
 if ! chk_flag -n $@; then
     title Applying Terraform
@@ -35,19 +39,15 @@ fi
 if ! chk_flag -t $@; then
     title Applying Network Manager
     if [[ -z $TF_VAR_azure_resource_name_prefix ]]; then
-        error \$TF_VAR_azure_resource_name_prefix is NOT set! Please make sure deployer is installed, and the azure_books README.md was followed.
-        cd $__call_dir
-        exit 1
+        exit_pop_error "$TF_VAR_azure_resource_name_prefix is NOT set! Please make sure deployer is installed, and the azure_books README.md was followed."
     fi
 
-    mkdir -p ~/.ssh/azure/vpn
-    cd ~/.ssh/azure/vpn
+    mkdir -p ~/.ssh/subt.d/azure_vpn
+    cd ~/.ssh/subt.d/azure_vpn
     if ! chk_flag -c $@; then
         zip_url=$(az network vnet-gateway vpn-client generate --name ${TF_VAR_azure_resource_name_prefix}-vnet-gateway --processor-architecture x86 --resource-group SubT)
         if last_command_failed; then
-            error Azure command failed.. please check your azure login and setup [az login] and [~/.terraform_id.bashrc]
-            cd $__call_dir
-            exit 1
+            exit_pop_error "Azure command failed. please check your azure login and setup [az login] and [ $SUBT_OPERATIONS_PATH/terraform_id.bashrc ]"
         fi
 
         debug $zip_url
@@ -55,50 +55,42 @@ if ! chk_flag -t $@; then
         cleaned_zip_url=$(sed -e 's/^"//' -e 's/"$//' <<<"$zip_url")
         debug $cleaned_zip_url
 
-        if [ -d client_download ]; then
-            if [ -d client_download.bkp ]; then
+        if dir_exists client_download; then
+            if dir_exists client_download.bkp; then
                 rm -rf client_download.bkp
             fi
             mv client_download client_download.bkp
         fi
+
+        # extract download vpn settings
         rm vpn_settings.zip
         wget --directory-prefix=. -O vpn_settings.zip $cleaned_zip_url
 
         if last_command_failed; then
-            error Wget command failed.. please contact maintainer..
-            cd $__call_dir
-            exit 1
+            exit_pop_error "Wget command failed. Please notify maintainer."
         fi
 
         # This usually gives warning so we won't check it...
         unzip -j -d client_download vpn_settings.zip
 
-        if [[ ! -e client_download/VpnSettings.xml ]]; then
-            error [$(pwd)/client_download/VpnSettings.xml] does not exist... contact maintainer...
-            cd $__call_dir
-            exit 1
+        if ! file_exists client_download/VpnSettings.xml; then
+            exit_pop_error "[$(pwd)/client_download/VpnSettings.xml] does not exist. Please notify maintainer."
         fi
     fi
 
     azure_url=$(grep -o -P '(?<=VpnServer\>).*(?=\</VpnServer)' <<< cat client_download/VpnSettings.xml)
     debug $azure_url
 
-    if [[ ! -e client_download/VpnServerRoot.cer ]]; then
-        error [$(pwd)/client_download/VpnServerRoot.cer] does not exist... contact maintainer...
-        cd $__call_dir
-        exit 1
+    if ! file_exists client_download/VpnServerRoot.cer; then
+        exit_pop_error "[$(pwd)/client_download/VpnServerRoot.cer] does not exist. Please notify maintainer."
     fi
 
-    if [[ ! -e $(pwd)/${TF_VAR_azure_username}Cert.pem ]]; then
-        error [$(pwd)/${TF_VAR_azure_username}Cert.pem] does not exist... make sure you followed the azure setup instructions correctly
-        cd $__call_dir
-        exit 1
+    if ! file_exists $(pwd)/${TF_VAR_azure_username}Cert.pem; then
+        exit_pop_error "[$(pwd)/${TF_VAR_azure_username}Cert.pem] does not exist. Please notify maintainer."
     fi
 
-    if [[ ! -e $(pwd)/${TF_VAR_azure_username}Key.pem ]]; then
-        error [$(pwd)/${TF_VAR_azure_username}Key.pem] does not exist... make sure you followed the azure setup instructions correctly
-        cd $__call_dir
-        exit 1
+    if ! file_exists $(pwd)/${TF_VAR_azure_username}Key.pem; then
+        exit_pop_error "[$(pwd)/${TF_VAR_azure_username}Key.pem] does not exist. Please notify maintainer."
     fi
 
     title Removing Old Connection if it exists
@@ -132,4 +124,5 @@ if ! chk_flag -t $@; then
 
 fi
 
-cd $__call_dir
+# cleanup & exit
+exit_pop_success

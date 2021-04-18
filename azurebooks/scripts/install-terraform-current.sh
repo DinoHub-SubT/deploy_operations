@@ -8,62 +8,54 @@ eval "$(cat $(dirname "${BASH_SOURCE[0]}")/header.sh)"
 . "$SUBT_PATH/operations/scripts/header.sh"
 . "$SUBT_PATH/operations/scripts/formatters.sh"
 
-if [ -z "$SUBT_PATH" ]; then
-    echo "SUBT_PATH not found!!! Make sure the deployer is installed and ~/bashrc is sourced!"
-    exit 1
-fi
-
 if chk_flag --help $@ || chk_flag -h $@ || chk_flag -help $@; then
-    echo "Usage: install-terraform-current.sh"
-    echo
-    echo "Installs the current terraform bashrc's to ~/"
-    exit 0
+    text "Usage: install-terraform-current.sh"
+    text
+    text "    -c : Configuration file path."
+    text "Installs the current terraform bashrc's to ~/"
+    exit_success
 fi
 
-if [ -e $HOME/.terraform_id.bashrc ]; then
-    echo "Terraform ID Bashrc (~/.terraform_id.bashrc) already exists.. not overwritting. Delete the file to reset."
+# terraform install path
+GL_TERRA_ENV_PATH=$SUBT_CONFIGURATION_PATH
+if ! chk_flag -c $@; then
+    GL_TERRA_ENV_PATH=$(get_arg -c $@)
+fi
+newline
+
+# verify the subt configuration folders are created
+
+if ! dir_exists $SUBT_PATH; then
+    error "SUBT_PATH not found!!! Make sure the deployer is installed and ~/bashrc is sourced!"
+    exit_failure
+fi
+
+if ! dir_exists $GL_TERRA_ENV_PATH; then
+    error "$GL_TERRA_ENV_PATH not found!!! Make sure the deployer is installed and ~/bashrc is sourced!"
+    exit_failure
+fi
+
+# -- install the terraform configurations --
+
+
+# install the terramform id configurations
+if file_exists $GL_TERRA_ENV_PATH/terraform_id.bashrc; then
+    warning "Terraform ID Bashrc (~/$GL_TERRA_ENV_PATH/terraform_id.bashrc) already exists, not overwritting. Delete the file to reset."
 else
-    echo "Installing Terraform ID Bashrc (~/.terraform_id.bashrc)... MAKE SURE TO FILL OUT DEFAULT VALUES!"
-    cp $SUBT_PATH/operations/azurebooks/.default_terraform_bash/.terraform_id.bashrc $HOME/.terraform_id.bashrc
+    text "Installing Terraform ID Bashrc (~/$GL_TERRA_ENV_PATH/terraform_id.bashrc)... MAKE SURE TO FILL OUT DEFAULT VALUES!"
+    cp $SUBT_OPERATIONS_PATH/azurebooks/.template/.terraform_id.bashrc $GL_TERRA_ENV_PATH/terraform_id.bashrc
 fi
 
-grep -q "# source .terraform_id.bashrc" $HOME/.bashrc
-if [ "$?" == "1" ]; then
-    echo "Making ~/.bashrc source ~/.terraform_id.bashrc"
-    echo "source ~/.terraform_id.bashrc # source .terraform_id.bashrc" >> $HOME/.bashrc
+# install the terramform flags configurations
+
+if file_exists $GL_TERRA_ENV_PATH/terraform_flags.bashrc ; then
+    warning "Terraform Flags Bashrc (~/$GL_TERRA_ENV_PATH/terraform_flags.bashrc) already exists. Copying existing config to ~/$GL_TERRA_ENV_PATH/terraform_flags.bashrc.bkp."
+    text
+    mv $GL_TERRA_ENV_PATH/terraform_flags.bashrc $GL_TERRA_ENV_PATH/terraform_flags.bashrc.bkp
 fi
+text "Installing Terraform Flags Bashrc (~/$GL_TERRA_ENV_PATH/terraform_flags.bashrc)."
+cp $SUBT_OPERATIONS_PATH/azurebooks/.template/.terraform_flags.bashrc $GL_TERRA_ENV_PATH/terraform_flags.bashrc
 
-if [ -e $HOME/.zshrc ]; then
-    grep -q "# source .terraform_id.bashrc" $HOME/.zshrc
-    if [ "$?" == "1" ]; then
-        echo "Making ~/.zshrc source ~/.terraform_id.bashrc"
-        echo "source ~/.terraform_id.bashrc # source .terraform_id.bashrc" >> $HOME/.zshrc
-    fi
-fi
+text "Terraform: Make sure to run \`source ~/.bashrc\` or \`source ~/.zshrc\` to update your environment every time you change the variables!"
 
-echo
-
-if [ -e $HOME/.terraform_flags.bashrc ]; then
-    echo "Terraform Flags Bashrc (~/.terraform_flags.bashrc) already exists. Copying existing config to ~/.terraform_flags.bashrc.bkp before copying over default .terraform_flags.bashrc"
-    echo
-    mv $HOME/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc.bkp
-fi
-echo "Installing Terraform Flags Bashrc (~/.terraform_flags.bashrc)."
-cp $SUBT_PATH/operations/azurebooks/.default_terraform_bash/.terraform_flags.bashrc $HOME/.terraform_flags.bashrc
-
-grep -q "# source .terraform_flags.bashrc" $HOME/.bashrc
-if [ "$?" == "1" ]; then
-    echo "Making ~/.bashrc source ~/.terraform_flags.bashrc"
-    echo "source ~/.terraform_flags.bashrc # source .terraform_flags.bashrc" >> $HOME/.bashrc
-fi
-
-if [ -e $HOME/.zshrc ]; then
-    grep -q "# source .terraform_flags.bashrc" $HOME/.zshrc
-    if [ "$?" == "1" ]; then
-        echo "Making ~/.zshrc source ~/.terraform_flags.bashrc"
-        echo "source ~/.terraform_flags.bashrc # source .terraform_flags.bashrc" >> $HOME/.zshrc
-    fi
-fi
-
-echo
-echo "Make sure to run \`source ~/.bashrc\` or \`source ~/.zshrc\` to update your environment every time you change the variables!"
+exit_success

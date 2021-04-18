@@ -17,7 +17,8 @@ fi
 # source the terraform environment
 source_terra_env
 
-cd $__dir/../subt
+# go to the terraform project path
+pushd $SUBT_OPERATIONS_PATH/azurebooks/subt
 
 if ! chk_flag -n $@; then
     title Applying Terraform
@@ -43,4 +44,5 @@ if ! chk_flag -t $@; then
     fi
 fi
 
-cd $__call_dir
+# cleanup & exit
+exit_pop_success

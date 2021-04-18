@@ -2,16 +2,18 @@
 # source the terraform environment variables
 ##
 function source_terra_env() {
+    local GL_TERRA_ENV_PATH=$SUBT_CONFIGURATION_PATH
+
     # source the terraform env
-    if [ ! -e ~/.terraform_id.bashrc ]; then
-        echo "WARNING: [~/.terraform_id.bashrc] does not exist..., this command might not work..."
+    if ! file_exists $GL_TERRA_ENV_PATH/terraform_id.bashrc ]; then
+        warning "[ $GL_TERRA_ENV_PATH/terraform_id.bashrc ] does not exist..., this command might not work..."
     else
-        source ~/.terraform_id.bashrc
+        source $GL_TERRA_ENV_PATH/terraform_id.bashrc
     fi
 
-    if [ ! -e ~/.terraform_flags.bashrc ]; then
-        echo "WARNING: [~/.terraform_flags.bashrc] does not exist..., this command might not work..."
+    if ! file_exists $GL_TERRA_ENV_PATH/terraform_flags.bashrc; then
+        warning "[ $GL_TERRA_ENV_PATH/terraform_flags.bashrc ] does not exist..., this command might not work..."
     else
-        source ~/.terraform_flags.bashrc
+        source $GL_TERRA_ENV_PATH/terraform_flags.bashrc
     fi
 }
