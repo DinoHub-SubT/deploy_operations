@@ -4,7 +4,7 @@
 . "$SUBT_PATH/operations/scripts/header.sh"
 . "$SUBT_PATH/operations/scripts/formatters.sh"
 
-if chk_flag --help $@ || chk_flag help $@ || chk_flag -h $@ ; then
+if chk_flag --help $@ || chk_flag help $@ ; then
   GL_TEXT_COLOR=$FG_LCYAN
   text
   title "Usage: $(basename $0) [flag] <arg> [flag] <arg> ..."
@@ -49,25 +49,6 @@ function display_settings() {
   GL_TEXT_COLOR=$FG_DEFAULT
 }
 
-# return the flag's argument
-function get_arg_at_flag() {
-  local iter value="$1"
-  shift
-  # get the index of the flag's argument
-  idx=$(arr_idx $value $@)
-  ((idx++))
-
-  # check if argument is out-of bounds
-  if [[ $idx > $# ]]; then
-    error "Flag $value, missing argument."
-    exit_failure
-  fi
-
-  # return the argument
-  arg=${@:$idx:1}
-  echo $arg
-}
-
 # //////////////////////////////////////////////////////////////////////////////
 # @brief: script main entrypoint
 # //////////////////////////////////////////////////////////////////////////////
@@ -78,18 +59,18 @@ __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 pushd $__dir
 
 # get the required arguments
-title=$(get_arg_at_flag -t $@)
-host=$(get_arg_at_flag -h $@)
+title=$(get_arg -t $@)
+host=$(get_arg -h $@)
 
 # get the optional arguments
 if chk_flag -u $@; then
-  GL_USER=$(get_arg_at_flag -u $@)
+  GL_USER=$(get_arg -u $@)
 fi
 if chk_flag -p $@; then
-  GL_PASS=$(get_arg_at_flag -p $@)
+  GL_PASS=$(get_arg -p $@)
 fi
 if chk_flag -r $@; then
-  GL_RESOLUTION=$(get_arg_at_flag -r $@)
+  GL_RESOLUTION=$(get_arg -r $@)
 fi
 
 # display & check connection

@@ -43,8 +43,6 @@ our (
 # //////////////////////////////////////////////////////////////////////////////
 @_subt          = ( "cloud", "deployer", "git", "tools", "tutorial" );
 
-@_tools         = ( "ssh.probe" , "teamviewer.probe", "snapshot", "rdp");
-
 @_cloud         = ( "terraform", "ansible" );
 
 @_git_status    = ( "basestation", "common", "perception", "simulation", "subt_launch",

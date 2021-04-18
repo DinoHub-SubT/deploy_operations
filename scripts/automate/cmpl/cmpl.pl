@@ -17,6 +17,7 @@ use cmpl_deployer;
 use cmpl_terraform;
 use cmpl_tutorial;
 use cmpl_git;
+use cmpl_tools;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief [TAB] autocompletion matcher functionality
@@ -40,6 +41,11 @@ my %_tutorial_help_hash = map {
 my %_git_help_hash = map {
   $_->{id} => { help => $_->{help} }
 } @_git_help;
+
+# @brief covert the array to hashmap
+my %_tools_help_hash = map {
+  $_->{id} => { help => $_->{help} }
+} @_tools_help;
 
 # //////////////////////////////////////////////////////////////////////////////
 # @brief regex functionality
@@ -189,12 +195,6 @@ if (chk_flag($_func, "subt")  ) {
 } elsif (chk_flag($_func, "terraform_help")  ) {
   print deployer_help_matcher($_target, %_terraform_help_hash);
 
-# -- tools --
-
-# match subcommands for 'tools'
-} elsif (chk_flag($_func, "tools")  ) {
-  print general_matcher($_target, @_tools);
-
 # -- tutorial --
 
 } elsif (chk_flag($_func, "tutorial")  ) {
@@ -202,6 +202,15 @@ if (chk_flag($_func, "subt")  ) {
 
 } elsif (chk_flag($_func, "tutorial_help")  ) {
   print deployer_help_matcher($_target, %_tutorial_help_hash);
+
+# -- tools --
+
+} elsif (chk_flag($_func, "tools")  ) {
+  print general_matcher($_target, @_tools);
+
+} elsif (chk_flag($_func, "tools_help")  ) {
+  print deployer_help_matcher($_target, %_tools_help_hash);
+
 
 } else {
   print "";  # return empy string on failure

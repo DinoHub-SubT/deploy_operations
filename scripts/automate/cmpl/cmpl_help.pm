@@ -122,6 +122,11 @@ our %_help_main = (
   # -- git --
   all_reset               => "resets all 2-level, 3-level submodules, respective to the 1-level commit (as DETACHED HEAD).",
   all_pull                => "pulls submodule updates, respective to the 2-level branch checkout (must be on a branch).",
+  all_clean               => "clean all uncommitted changes, in 2-level meta and 3-levels submodules",
+  all_rm                  => "remove (deinitializes) the 2-level meta and all 3-level submodules",
+  all_ignore              => "ignore all catkin files in 2-level meta",
+  all_unignore            => "ignore all catkin files in 2-level meta",
+
   common_meta             => "meta commands: git actions available for 2-level meta 'common'.",
   common_submodules       => "submodule commands: git actions available for 3-level submodules found in 2-level meta 'common.",
   basestation_meta        => "meta commands: git actions available for 2-level meta 'basestation'",
@@ -151,6 +156,13 @@ our %_help_main = (
   submodules_pull         => "pull the latest updates in 2-level meta (must be on a branch)",
   submodules_reset        => "reset 2-level meta to the commit associated with 1-level",
   submodules_rm           => "remove (deinitializes) the 2-level meta and all 3-level submodules",
+
+  # -- tools --
+  probe_ssh        => "shows which configured ssh connections are are available to connect.",
+  probe_teamviewer => "shows which teamviewer connections are are available to connect.",
+  rdp              => "establish a rdp (rdesktop) session with an Azure VM.",
+  snapshot         => "creates a snapshot logfile of deploy repo submodules.",
+  verify_ops       => "verify all operations tools are functional.",
 );
 
 our %_help_tutorial = (

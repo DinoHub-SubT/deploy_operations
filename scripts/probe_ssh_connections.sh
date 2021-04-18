@@ -107,6 +107,9 @@ main Probe Available SSH Connections
 # push script path
 pushd $HOME/.ssh/
 
+warning "Enable any passphrases by adding the ssh-key to ssh agent before probe ( 'ssh-add [path to rsa key]' )."
+newline
+
 # check every connection in the user's ssh config
 traverse_ssh_cfgs $_GL_ssh_config display
 

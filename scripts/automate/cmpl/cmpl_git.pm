@@ -41,10 +41,10 @@ our (
 @_git_help = ({
   id      => "git",
   help    => create_help(get_help(qw(
-    all_reset all_pull
-    common_meta basestation_meta simulation_meta subt_launch_meta ugv_meta uav_meta perception_meta
+    all_reset all_pull all_clean all_rm all_ignore all_unignore
+    common_meta basestation_meta simulation_meta subt_launch_meta uav_meta perception_meta
     common_submodules basestation_submodules simulation_submodules subt_launch_submodules
-    ugv_submodules uav_submodules perception_submodules
+    uav_submodules perception_submodules
   ))),
 
 # -- workspaces --
@@ -69,11 +69,6 @@ our (
     uav_meta uav_core_submodules uav_hardware_submodules))),
 
 },{
-  id      => "ugv",
-  help    => create_help(get_help(qw(
-    ugv_meta ugv_ppc_submodules ugv_nuc_submodules ugv_hardware_submodules ugv_slam_submodules))),
-
-},{
   id      => "perception",
   help    => create_help(get_help(qw(
     meta_checkout meta_ignore meta_unignore submodules_clean submodules_pull submodules_reset submodules_rm))),
@@ -90,7 +85,7 @@ our (
 
 },{
   id      => "all",
-  help    => create_help(get_help(qw(all_reset all_pull))),
+  help    => create_help(get_help(qw(all_reset all_pull all_clean all_rm all_ignore all_unignore))),
 
 });
 

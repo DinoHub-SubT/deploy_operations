@@ -79,7 +79,7 @@ _ac_subt_completion() {
 
     # tools menu
     elif chk_flag tools "${COMP_WORDS[@]}"; then
-      ! ac_matcher "tools" $_curr && __ac_tools_help
+      ! ac_matcher "tools" $_curr && ac_matcher_help "tools" "tools"
 
     # tutorial menu
     elif chk_flag tutorial "${COMP_WORDS[@]}"; then
@@ -105,6 +105,9 @@ _ac_subt_completion() {
 
     elif chk_flag tutorial "${COMP_WORDS[@]}"; then
       ! ac_matcher "tutorial" "$_curr"       && ac_matcher_help "tutorial" $_prev
+
+    elif chk_flag tools "${COMP_WORDS[@]}"; then
+      ! ac_matcher "tools" "$_curr"       && ac_matcher_help "tools" $_prev
 
     elif chk_flag git "${COMP_WORDS[@]}"; then
       ! ac_matcher "git" "$_curr"             && ac_matcher_help "git" $_prev

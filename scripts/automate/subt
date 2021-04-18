@@ -53,7 +53,7 @@ __subt_robots_execute() {
       suffix="${filename##*_}"
       # execute the terraform script if script found in input
       if chk_flag $suffix $@; then
-        (subtf_${@[1]}.sh ${@:2})
+        (subtf_${1}.sh ${@:2})
       fi
     done
   fi
@@ -79,7 +79,7 @@ __subt_cloud_execute() {
       suffix="${filename##*_}"
       # execute the terraform script if script found in input
       if chk_flag $suffix $@; then
-        (subtf_${@[1]}.sh ${@:2})
+        (subtf_${1}.sh ${@:2})
       fi
     done
   fi
@@ -89,22 +89,29 @@ __subt_cloud_execute() {
 # @brief evaluate which subcommand to switch and execute
 # //////////////////////////////////////////////////////////////////////////////
 __subt_tools_execute() {
-  # verify given the correct tool input script names
-  if chk_flag ssh.probe $@; then
+
+  if chk_flag probe.ssh $@; then
     shift 1
     (probe_ssh_connections.sh $@)
-  elif chk_flag teamviewer.probe $@; then
+
+  elif chk_flag probe.teamviewer $@; then
     shift 1
     (probe_teamviewer.sh $@)
+
   elif chk_flag snapshot $@; then
     shift 1
     (snapshot.sh $@)
+
   elif chk_flag rdp $@; then
     shift 1
     (azure_rdp.sh $@)
+
+  elif chk_flag verify.ops $@; then
+    shift 1
+    (verify_ops_tools.sh $@)
+
   else
-    error "Please enter a valid tools command."
-    exit_failure
+    echo "Error: Please enter a valid tools command."
   fi
 }
 
@@ -159,6 +166,8 @@ subt() {
       eval $cmd
     done
 
+  elif chk_nth_flag 1 "help" "$@"; then
+    subt_help
   fi
 
   # return to path of call

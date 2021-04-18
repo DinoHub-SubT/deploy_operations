@@ -127,14 +127,6 @@ function is_empty() {
 }
 
 ##
-# Check if file exists
-##
-function file_exists() {
-    [[ -f $1 ]] && return 0
-    return 1
-}
-
-##
 # Trap control-c
 ##
 function ctrl_c() {
@@ -155,8 +147,7 @@ function write() {
 # Check if file exists
 #
 function file_exists() {
-    local filename=$1
-    [[ -f $filename ]] || [[ -L $filename ]] && return 0
+    [[ -e $1 ]] && return 0;
     return 1
 }
 
@@ -164,8 +155,7 @@ function file_exists() {
 # Check if directory exists
 #
 function dir_exists() {
-    local direname=$1
-    [[ -d $direname ]] && return 0
+    [[ -d $1 ]] && return 0
     return 1
 }
 
@@ -315,15 +305,6 @@ function is_empty() {
     [[ -n "$value" ]] && return 1
     # empty value
     return 0
-}
-
-##
-# Check if file exists
-##
-function file_exists() {
-    local filename=$1
-    [[ -f $filename ]] && return 0
-    return 1
 }
 
 ##
