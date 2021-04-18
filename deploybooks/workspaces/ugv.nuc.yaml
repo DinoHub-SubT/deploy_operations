@@ -4,13 +4,15 @@
   - +extend: workspaces/shared/super
 
   - core:
+    # setup docker service name
+    - export SERVICE=core
+
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=nuc-shell
-    - export SCENARIO=core
+    - +env:DOCKER_CONTAINER=$ROBOT-nuc-shell
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/robot.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -28,12 +30,12 @@
 
   - slam:
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=slam-shell
-    - export SCENARIO=slam
+    - +env:DOCKER_CONTAINER=$ROBOT-slam-shell
+    - export SERVICE=slam
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/robot.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry

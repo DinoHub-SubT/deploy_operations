@@ -1,5 +1,6 @@
 # source the base scenarios
 - source $SUBT_OPERATIONS_PATH/scenarios/.base.env
+- +import:env/platform.header.env
 
 # //////////////////////////////////////////////////////////////////////////////
 - local:
@@ -45,9 +46,7 @@
 # //////////////////////////////////////////////////////////////////////////////
 - azure:
 # //////////////////////////////////////////////////////////////////////////////
-  # TODO: remove
-  - +local
-
+  - +env:INFRASTRUCTURE_SYSTEM=azure
   - export INFRASTRUCTURE_SYSTEM=azure
   - export COMPUTER_ARCH=x86
 
@@ -95,6 +94,7 @@
 # //////////////////////////////////////////////////////////////////////////////
 - robots:
 # //////////////////////////////////////////////////////////////////////////////
+  - +env:INFRASTRUCTURE_SYSTEM=robot
   - export INFRASTRUCTURE_SYSTEM=robot
   - export COMPUTER_ARCH=x86
 
@@ -129,20 +129,20 @@
     - ds1:
       - +env:ROBOT=uav1
       - +env:UAV_COMPUTER=ds1
-      - +extend: main/platforms/uav.robot.plt
+      - +extend: main/platforms/uav.ds.plt
     - ds2:
       - +env:ROBOT=uav2
       - +env:UAV_COMPUTER=ds2
-      - +extend: main/platforms/uav.robot.plt
+      - +extend: main/platforms/uav.ds.plt
     - ds3:
       - +env:ROBOT=uav3
       - +env:UAV_COMPUTER=ds3
-      - +extend: main/platforms/uav.robot.plt
+      - +extend: main/platforms/uav.ds.plt
     - ds4:
       - +env:ROBOT=uav4
       - +env:UAV_COMPUTER=ds4
-      - +extend: main/platforms/uav.robot.plt
+      - +extend: main/platforms/uav.ds.plt
     - canary1:
       - +env:ROBOT=uav5
       - +env:UAV_COMPUTER=canary1
-      - +extend: main/platforms/uav.robot.plt
+      - +extend: main/platforms/uav.ds.plt

@@ -4,17 +4,18 @@
   # TODO: chonky...
 
   - core:
+    # setup docker service name
+    - export SERVICE=core
+
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=perception-shell
-    - export SCENARIO=core
+    - +env:DOCKER_CONTAINER=$ROBOT-perception-shell
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/robot.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
-    # override any default environment setups
+    # override any default environment setups (not needed -- hardcoded in docker image for now)
     # - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic
-    - export DOCKER_COMPOSE_SERVICE=ugv-xavier
 
     # extend general actions
     - +extend: common/docker.registry

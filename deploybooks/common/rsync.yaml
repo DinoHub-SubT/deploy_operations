@@ -8,8 +8,8 @@
 # - depends on which deployerbooks section was called
 
 # export the local and remote paths
-- export LOCAL_DEPLOY_PATH=/home/$USER/deploy_ws/src
-- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/deploy_ws/
+- export LOCAL_DEPLOY_PATH=/home/$USER/$DEPLOYER_WS_NAME/src
+- export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/$DEPLOYER_WS_NAME/
 
 # deployer, rsync exclude options
 - export copy_opts="-avzh --delete $deploy_rsync_opts"

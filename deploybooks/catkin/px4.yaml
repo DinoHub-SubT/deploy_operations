@@ -1,7 +1,7 @@
 - build:
-  - cd ~/deploy_ws/src/uav/core/firmwaresubt
+  - cd $SUBT_PATH/uav/core/firmwaresubt
   - ./build.sh
 
 - clean:
   # remove the px4 firmware
-  - rm -rf ~/deploy_ws/src/uav/core/firmwaresubt/build
+  - rm -rf $SUBT_PATH/uav/core/firmwaresubt/build

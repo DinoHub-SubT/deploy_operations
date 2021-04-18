@@ -1,6 +1,10 @@
 - +local
 
-- source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${ROBOT_PLATFORM}.env ${ROBOT}
+- set_scenarios_configuration
+- source $SUBT_OPERATIONS_PATH/scenarios/systems/${INFRASTRUCTURE_SYSTEM}/${SCENARIOS_PLATFORM}.env ${ROBOT}
+
+# for debugging
+- echo "sync source is - ${INFRASTRUCTURE_SYSTEM}/${SCENARIOS_PLATFORM}.env ${ROBOT}"
 
 # transfer to remote host
 - transfer:

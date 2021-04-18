@@ -1,5 +1,5 @@
 - build:
-  - cd ~/deploy_ws/src/uav/hardware/ds_teensy_server
+  - cd $SUBT_PATH/uav/hardware/ds_teensy_server
   - rm -rf build || true
   - mkdir build
   - cd build
@@ -7,4 +7,4 @@
   - make -j4
 
 - clean:
-  - rm -rf ~/deploy_ws/src/uav/hardware/ds_teensy_server/build
+  - rm -rf $SUBT_PATH/uav/hardware/ds_teensy_server/build

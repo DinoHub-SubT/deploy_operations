@@ -21,7 +21,7 @@
     if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
       echo "...submodule init $(pwd)/$1";
       cd; cd -;
-      git submodule update --init $1;
+      git submodule init $1;
       set_last_command_exit_value;
     fi;
   }
@@ -48,6 +48,7 @@
 - git_submodule_recursive_update() {
     if [[ $GL_LAST_COMMAND_FAILED -eq 0 ]]; then
       echo "...submodule recursive update $(pwd)/$1";
+      cd; cd -;
       git submodule update --init --recursive $1;
       set_last_command_exit_value;
     fi;

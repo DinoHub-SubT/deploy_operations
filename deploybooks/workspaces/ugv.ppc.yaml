@@ -3,13 +3,15 @@
   - +extend: workspaces/shared/melodic
 
   - core:
+    # setup docker service name
+    - export SERVICE=core
+
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=ppc-shell
-    - export SCENARIO=core
+    - +env:DOCKER_CONTAINER=$ROBOT-ppc-shell
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/robot.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic

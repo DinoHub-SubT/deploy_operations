@@ -10,11 +10,11 @@
   - ignore:
     # -- ignore non-catkin files --
     - cd $SUBT_PATH
-    - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
-    - grep -qxF 'include "pymavlink/generator"' $filename || echo 'pymavlink/generator/*.pyc' >> $filename || true
-    - grep -qxF 'include "pymavlink"' $filename || echo 'pymavlink/*.pyc' >> $filename || true
-    - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
-    - grep -qxF 'include "rqt_behavior_tree_command"' $filename || echo 'src/rqt_behavior_tree_command/*.pyc' >> $filename || true
+    # - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
+    # - grep -qxF 'include "pymavlink/generator"' $filename || echo 'pymavlink/generator/*.pyc' >> $filename || true
+    # - grep -qxF 'include "pymavlink"' $filename || echo 'pymavlink/*.pyc' >> $filename || true
+    # - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
+    # - grep -qxF 'include "rqt_behavior_tree_command"' $filename || echo 'src/rqt_behavior_tree_command/*.pyc' >> $filename || true
 
     # -- ignore catkin files --
     - +extend: common/git/actions/ignore
@@ -22,10 +22,10 @@
   - unignore:
     # -- unignore non-catkin files --
     - cd $SUBT_PATH
-    - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
-    - sed -i '/pymavlink/d' $filename
-    - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
-    - sed -i '/rqt_behavior_tree_command/d' $filename
+    # - export filename=".git/modules/uav/modules/core/mavlink/info/exclude"
+    # - sed -i '/pymavlink/d' $filename
+    # - export filename=".git/modules/uav/modules/core/rqt_behavior_tree_command/info/exclude"
+    # - sed -i '/rqt_behavior_tree_command/d' $filename
 
     # -- unignore catkin files --
     - +extend: common/git/actions/unignore
@@ -35,6 +35,9 @@
 
 - core.submodules:
   - export META_THIRD_LEVEL_GROUP_PATH=core
+  - +extend: common/git/misc/uav.sub.sc
+- hardware.submodules:
+  - export META_THIRD_LEVEL_GROUP_PATH=hardware
   - +extend: common/git/misc/uav.sub.sc
 - slam.submodules:
   - export ENABLE_GIT_ACTION=false

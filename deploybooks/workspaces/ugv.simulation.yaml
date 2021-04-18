@@ -5,13 +5,15 @@
   - +extend: workspaces/shared/super
 
   - core:
+    # setup docker service name
+    - export SERVICE=core
+
     # setup pre-defined environment variables, for workspace env import
     - +env:DOCKER_CONTAINER=$ROBOT-shell
-    - export SCENARIO=core
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/simulation.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=superodometry
@@ -30,8 +32,6 @@
       - +extend: catkin/subt_launch
 
   - perception:
-    - export SCENARIO=perception
-    - +import:env/simulation.env
     - +extend: workspaces/shared/perception
 
   # only enable if debugging -- not needed for simulation

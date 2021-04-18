@@ -2,13 +2,15 @@
   - +extend: workspaces/shared/melodic
 
   - core:
+    # setup docker service name
+    - export SERVICE=core
+
     # setup pre-defined environment variables, for workspace env import
     - +env:DOCKER_CONTAINER=basestation-shell
-    - export SCENARIO=core
 
     # import the workspace environment setup
-    - +import:env/workspace.env
-    - +import:env/simulation.env
+    - set_workspace_configuration
+    - set_docker_compose_service
 
     # extend general actions
     - +extend: common/docker.registry

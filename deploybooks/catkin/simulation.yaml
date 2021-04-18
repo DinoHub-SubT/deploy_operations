@@ -6,6 +6,6 @@
 - core:
   - export CATKIN_WORKSPACE=simulation/
   # TEMPORARY! REALLY BAD.
-  - touch ~/deploy_ws/src/simulation/velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
+  - touch $SUBT_PATH/simulation/velodyne_simulator/velodyne_gazebo_plugins/CATKIN_IGNORE
   - +extend: catkin/build
   - +extend: catkin/clean

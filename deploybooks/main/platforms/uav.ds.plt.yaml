@@ -1,15 +1,16 @@
-- ppc:
-  - export ROBOT_COMPUTER=ppc;
+- ds:
+  - export ROBOT_COMPUTER=ds;
 
   # run on the remote server (except for any books that specific +local, to force local deployment)
   - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
 
-  # setup the configurations for a 'robot ugv', for the robot computer split
+  # setup the configurations for a 'robot uav', for the robot computer split
   - set_docker_context
   - set_scenarios_configuration
 
   # extend remote rsync actions
   - +extend: common/sync
 
-  # extend ugv ppc workspace
-  - +extend: workspaces/ugv.ppc
+  # extend uav ds workspace
+  - +extend: workspaces/uav.ds
+
