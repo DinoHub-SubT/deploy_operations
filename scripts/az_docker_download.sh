@@ -26,7 +26,7 @@ fi
 
 # setup some default azure account globals
 GL_RESOURCE_GROUP_NAME=subt
-GL_STORAGE_ACCOUNT_NAME=subtdeployterrastate
+GL_STORAGE_ACCOUNT_NAME=subtdatasets
 GL_CONTAINER_NAME=docker
 GL_DATA_PATH="*"
 GL_LOCALHOST_PATH="$(pwd)"

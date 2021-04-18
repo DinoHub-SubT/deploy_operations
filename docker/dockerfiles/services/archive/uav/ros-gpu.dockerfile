@@ -155,8 +155,6 @@ RUN pip install --user \
 # Install opencl
 # -- assumes OpenCL download already exists in the `dockerfiles/thirdparty-software` context path.
 # //////////////////////////////////////////////////////////////////////////////
-
-# COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 # RUN cd /home/$USERNAME/thirdparty-software/opencl/ \
 #  && tar -xvf l_opencl_p_18.1.0.015.tgz \
 #  && cd l_opencl_p_18.1.0.015 \
@@ -166,7 +164,6 @@ RUN pip install --user \
 #  && rm -rf l_opencl_p_18.1.0.015 \
 #  && clinfo
 
-COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 RUN sudo add-apt-repository ppa:intel-opencl/intel-opencl \
  && sudo apt-get update --no-install-recommends \
  && sudo apt-get install -y --no-install-recommends \

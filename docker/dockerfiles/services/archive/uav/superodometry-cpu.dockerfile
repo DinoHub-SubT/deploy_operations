@@ -61,7 +61,6 @@ RUN mkdir -p /home/developer/thirdparty-software/ \
  && sudo make install -j8
 
 # sophus
-COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 RUN mkdir -p /home/developer/thirdparty-software/ \
  && cd /home/developer/thirdparty-software/ \
  && git clone http://github.com/strasdat/Sophus.git sophus/src \

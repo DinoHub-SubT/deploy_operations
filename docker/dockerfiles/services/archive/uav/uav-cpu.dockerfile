@@ -159,7 +159,6 @@ RUN pip install --user \
 # Install opencl
 # -- assumes OpenCL download already exists in the `dockerfiles/thirdparty-software` context path.
 # //////////////////////////////////////////////////////////////////////////////
-COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 RUN sudo add-apt-repository ppa:intel-opencl/intel-opencl \
  && sudo apt-get update --no-install-recommends \
  && sudo apt-get install -y --no-install-recommends \

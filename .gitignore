@@ -29,6 +29,7 @@ subt_launch/.catkin_tools/
 
 # ignore all downloaded azure thirdparty libraries
 docker/dockerfiles/thirdparty-software/download/
+docker/dockerfiles/thirdparty-software/azure_download/
 
 # // /////////////////////////////////////////////////////////////////////////////
 # // other

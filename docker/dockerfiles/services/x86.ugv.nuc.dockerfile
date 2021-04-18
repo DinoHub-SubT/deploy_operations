@@ -116,7 +116,6 @@ RUN pip install --user \
 # //////////////////////////////////////////////////////////////////////////////
 # Install any thirdparty libraries
 # //////////////////////////////////////////////////////////////////////////////
-COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 
 # # install xsens libraries (already installed in superodometry image)
 RUN cd /home/$USERNAME/thirdparty-software/uav/ \

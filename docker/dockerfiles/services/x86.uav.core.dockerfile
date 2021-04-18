@@ -171,7 +171,6 @@ RUN pip install --user \
 # Install opencl
 # -- assumes OpenCL download already exists in the `dockerfiles/thirdparty-software` context path.
 # //////////////////////////////////////////////////////////////////////////////
-COPY --chown=$USERNAME:$USERNAME thirdparty-software/ /home/$USERNAME/thirdparty-software/
 
 # RUN cd /home/$USERNAME/thirdparty-software/opencl/ \
 #  && tar -xvf l_opencl_p_18.1.0.015.tgz \
