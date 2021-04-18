@@ -104,7 +104,7 @@
       user:
         name: "{{ azure_user.name }}"
         update_password: always
-        password: "{{ default_user.password | password_hash('sha512') }}"
+        password: "{{ azure_user.password | password_hash('sha512') }}"
       when: >
         "azure-" in inventory_hostname
 
@@ -259,15 +259,27 @@
         "localhost" in inventory_hostname or
         "basestation" in inventory_hostname
 
-    # add subt.d/ to ~/.ssh/config -- if does not exist
-    - name: Check subt.d/ to ~/.ssh/config
-      shell: grep -c "^Include subt.d/* " ~/.ssh/config || true
+    # add subt.d/robot.conf to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/robot.conf to ~/.ssh/config
+      shell: grep -c "^Include subt.d/robot.conf " ~/.ssh/config || true
       register: test_grep
 
     - name: Add subt.d/ to ~/.ssh/config
       lineinfile:
         dest: ~/.ssh/config
-        line: Include subt.d/*
+        line: Include subt.d/robot.conf
+        insertbefore: BOF
+      when: test_grep.stdout == "0"
+
+    # add subt.d/azure.conf to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/azure.conf to ~/.ssh/config
+      shell: grep -c "^Include subt.d/azure.conf " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: Include subt.d/azure.conf
         insertbefore: BOF
       when: test_grep.stdout == "0"
 

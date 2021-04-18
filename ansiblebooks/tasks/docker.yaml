@@ -116,13 +116,21 @@
     when: >
       not install_nvidia_docker
 
+  # verify the user_config file exists (example, azure vms do not have this file on default)
+  - name: Check that the somefile.conf exists
+    stat:
+      path:  "~/.{{ project_name }}/user_config.bash"
+    register: stat_result
+
   # update the user config, for using nvidia driver
   - name: Set default subtrc user nvidia configuration (true)
-    shell: sed -i 's/USE_NVIDIA_DRIVER=true/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' ~/.subt/user_config.bash
+    shell: sed -i 's/USE_NVIDIA_DRIVER=true/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' "~/.{{ project_name }}/user_config.bash"
+    when: stat_result.stat.exists
 
   # update the user config, for using nvidia driver
   - name: Set default subtrc user nvidia configuration (false)
-    shell: sed -i 's/USE_NVIDIA_DRIVER=false/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' ~/.subt/user_config.bash
+    shell: sed -i 's/USE_NVIDIA_DRIVER=false/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' "~/.{{ project_name }}/user_config.bash"
+    when: stat_result.stat.exists
 
   - name: prune docker network
     shell: docker network prune -f

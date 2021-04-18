@@ -198,7 +198,7 @@ if ! chk_flag -s $@ && ! chk_flag -b $@; then
   newline
 
   # run ansible installer
-  ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS --extra-vars "ansible_sudo_pass=$client_password"
+  ansible-playbook -v -i $inv $playbook --limit $system $_GL_EXTRA_OPTS --extra-vars "ansible_sudo_pass=$client_password project_name=$DEPLOYER_PROJECT_NAME"
 
   # ansible-playbook install failed
   if last_command_failed; then

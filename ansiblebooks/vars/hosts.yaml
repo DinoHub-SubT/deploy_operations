@@ -72,31 +72,31 @@ ssh_config:
       - host: azure.basestation
         hostname: azure-basestation
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.ugv1
         hostname: azure-ugv1
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.ugv2
         hostname: azure-ugv2
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.ugv3
         hostname: azure-ugv3
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.uav1
         hostname: azure-uav1
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.uav2
         hostname: azure-uav2
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
       - host: azure.uav3
         hostname: azure-uav3
         username: subt
-        identity_file: ~/.ssh/azure_vpn
+        identity_file: ~/.ssh/subt.d/azure_vm_rsa
   # ////////////////////////////////////////////////////////////////////////////
   # basestation <-> robot
   # ////////////////////////////////////////////////////////////////////////////

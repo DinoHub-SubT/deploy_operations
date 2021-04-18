@@ -7,6 +7,10 @@
   vars_files:
     - ../vars/main.yaml
 
+  vars_prompt:
+    - name: "ssh_passphrase"
+      prompt: "Enter the passphrase for the Azure Terraform SSH key"
+
   hosts:
     - laptop
   connection: local
@@ -138,3 +142,16 @@
         path: /tmp/terraform_{{ item.version }}_linux_amd64.zip
         state: absent
       with_items: " {{ terraform }} "
+
+    # ////////////////////////////////////////////////////////////////////////////
+    # Install azure vm ssh key
+    # ////////////////////////////////////////////////////////////////////////////
+    - name: generate SSH key ~/.ssh/subt.d/azure_vm_rsa
+      user:
+        name: "{{ lookup('env','USER') }}"
+        generate_ssh_key: yes
+        ssh_key_type: rsa
+        ssh_key_bits: 4096
+        ssh_key_file: .ssh/subt.d/azure_vm_rsa
+        ssh_key_passphrase: "{{ssh_passphrase}}"
+        force: no
