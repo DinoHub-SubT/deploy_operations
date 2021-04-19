@@ -1,5 +1,6 @@
 - ppc:
   - export ROBOT_COMPUTER=ppc;
+  - +env:ROBOT_COMPUTER=ppc
 
   # run on the remote server (except for any books that specific +local, to force local deployment)
   - +ssh:{ $ROBOT.$ROBOT_COMPUTER }

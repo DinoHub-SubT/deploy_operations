@@ -8,7 +8,7 @@
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-shell
+    - +env:DOCKER_CONTAINER=${UAV_COMPUTER}-core-shell
 
     # import the workspace environment setup
     - set_workspace_configuration
@@ -33,6 +33,8 @@
 
   - perception:
     - +extend: workspaces/shared/perception
+    # hack fix, for now...
+    - +env:DOCKER_CONTAINER=${UAV_COMPUTER}-perception-shell
 
   - wifi:
     - +extend: workspaces/shared/perception.wifi

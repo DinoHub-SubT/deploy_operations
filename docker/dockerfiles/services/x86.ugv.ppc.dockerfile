@@ -158,6 +158,8 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   ros-melodic-image-proc \
   ros-melodic-image-transport-plugins \
   ros-melodic-diagnostic-aggregator \
+  ros-melodic-ddynamic-reconfigure \
+  ros-melodic-xacro \
   libncurses5-dev \
   libpcap0.8-dev \
   # vdbmap \

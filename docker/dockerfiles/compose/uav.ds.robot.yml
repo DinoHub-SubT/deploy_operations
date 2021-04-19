@@ -38,7 +38,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.core.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: $ROBOT-shell
+    container_name: ${ROBOT}-core-shell
     entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
     tty: true # keep container running
     environment:
@@ -52,7 +52,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: $ROBOT-perception-shell
+    container_name: ${ROBOT}-perception-shell
     entrypoint: $entry_path/uav-objdet-shell.bash
     tty: true # keep container running
     environment:

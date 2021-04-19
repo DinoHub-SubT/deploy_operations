@@ -8,7 +8,7 @@
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-nuc-shell
+    - +env:DOCKER_CONTAINER=$ROBOT-core-shell
 
     # import the workspace environment setup
     - set_workspace_configuration

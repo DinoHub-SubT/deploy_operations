@@ -37,7 +37,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.ugv.nuc.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: $ROBOT-nuc-shell
+    container_name: $ROBOT-core-shell
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
     environment:

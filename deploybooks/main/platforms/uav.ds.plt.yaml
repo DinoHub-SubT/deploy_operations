@@ -1,5 +1,6 @@
 - ds:
   - export ROBOT_COMPUTER=ds;
+  - +env:ROBOT_COMPUTER=ds
 
   # run on the remote server (except for any books that specific +local, to force local deployment)
   - +ssh:{ $ROBOT.$ROBOT_COMPUTER }

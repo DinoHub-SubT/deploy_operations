@@ -1,5 +1,6 @@
 - nuc:
   - export ROBOT_COMPUTER=nuc;
+  - +env:ROBOT_COMPUTER=nuc
 
   # run on the remote server (except for any books that specific +local, to force local deployment)
   - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
