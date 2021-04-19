@@ -24,6 +24,31 @@ RUN chown root:root /usr/bin/sudo \
 # add user to groups
 RUN usermod -a -G dialout developer
 
+# ceras solver
+RUN mkdir -p /home/developer/thirdparty-software/ \
+ && cd /home/developer/thirdparty-software/ \
+ && git clone https://ceres-solver.googlesource.com/ceres-solver ceres-solver/src \
+ && cd ceres-solver/src \
+ && git checkout 1.14.0 \
+ && cd /home/developer/thirdparty-software/ceres-solver \
+ && mkdir build \
+ && cd build \
+ && cmake ../src \
+ && make -j3 \
+ # && make test \
+ && sudo make install
+
+RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense \
+ && cd ~/librealsense \
+ && git checkout v2.39.0 \
+ && mkdir build \
+ && cd build \
+ && cmake .. -DCMAKE_BUILD_TYPE=Release \
+ && sudo make uninstall \
+ && make clean \
+ && make \
+ && sudo make install
+
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup
 # //////////////////////////////////////////////////////////////////////////////

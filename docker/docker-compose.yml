@@ -416,7 +416,11 @@ services:
     extra_hosts:
       # Basestation
       - ${basestation_hostname}:${basestation_ip}
-      # UGV
+      # UGV (external)
+      - ${ugv1_hostname}:${ugv1_ip}
+      - ${ugv2_hostname}:${ugv2_ip}
+      - ${ugv3_hostname}:${ugv3_ip}
+      # UGV (internal)
       - ${ppc_hostname}:${ppc_ip}
       - ${nuc_hostname}:${nuc_ip}
       - ${xavier_hostname}:${xavier_ip}

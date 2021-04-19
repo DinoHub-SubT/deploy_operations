@@ -12,7 +12,7 @@
 - export REMOTE_DEPLOY_PATH=/home/$deploy_remote_username/$DEPLOYER_WS_NAME/
 
 # deployer, rsync exclude options
-- export copy_opts="-avzh --delete $deploy_rsync_opts"
+- export copy_opts="-avzh --delete $TRANSFER_EXCLUDE_TYPE"
 
 - to:
   # create the remote directory

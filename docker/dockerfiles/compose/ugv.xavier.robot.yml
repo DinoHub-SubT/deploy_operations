@@ -6,7 +6,7 @@ services:
 
   # @brief UGV, base, ROS
   ugv.xavier-ros:
-    image: ${DOCKER_IMAGE_NAME}
+    image: subt/perception-arm:ros # ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.base.ros.dockerfile
@@ -17,7 +17,7 @@ services:
     tty: true # keep container running
 
   # @brief UGV, planning-pc
-  ugv.xavier-perception:
+  ugv.xavier-core:
     image: ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
@@ -25,7 +25,7 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.perception.supplement.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: $ROBOT-perception-shell
+    container_name: $ROBOT-core-shell
     entrypoint: $entry_path/objdet-shell.bash
     privileged: true
     tty: true # keep container running

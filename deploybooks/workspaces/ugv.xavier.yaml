@@ -1,5 +1,4 @@
 - scenarios:
-  # common remote sync actions
   - +extend: workspaces/shared/melodic
   # TODO: chonky...
 
@@ -8,14 +7,11 @@
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-perception-shell
+    - +env:DOCKER_CONTAINER=${ROBOT}-core-shell
 
     # import the workspace environment setup
     - set_workspace_configuration
     - set_docker_compose_service
-
-    # override any default environment setups (not needed -- hardcoded in docker image for now)
-    # - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic
 
     # extend general actions
     - +extend: common/docker.registry
