@@ -166,25 +166,25 @@ ssh_config:
         proxy_jump: ugv3.ppc
 
       # UAVs
-      - host: uav.ds1
+      - host: uav1.ds
         hostname: ds1
         username: uav
         identity_file: ~/.ssh/deploy
         has_proxy_jump: false
 
-      - host: uav.ds2
+      - host: uav2.ds
         hostname: ds2
         username: uav
         identity_file: ~/.ssh/deploy
         has_proxy_jump: false
 
-      - host: uav.ds3
+      - host: uav3.ds
         hostname: ds3
         username: uav
         identity_file: ~/.ssh/deploy
         has_proxy_jump: false
 
-      - host: uav.ds4
+      - host: uav4.ds
         hostname: ds4
         username: uav
         identity_file: ~/.ssh/deploy
@@ -262,15 +262,15 @@ docker_context:
       desc: ugv3 xavier
     # UAVs
     - host: robot-uav-ds1
-      conn: uav.ds1
+      conn: uav1.ds
       desc: uav ds1
     - host: robot-uav-ds2
-      conn: uav.ds2
+      conn: uav2.ds
       desc: uav ds2
     - host: robot-uav-ds3
-      conn: uav.ds3
+      conn: uav3.ds
       desc: uav ds3
     - host: robot-uav-ds4
-      conn: uav.ds4
+      conn: uav4.ds
       desc: uav ds4
 
