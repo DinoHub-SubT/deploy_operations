@@ -450,10 +450,10 @@ services:
       - nuc_hostname
       - xavier_hostname
       # UAVs
-      - uav1_hostname
-      - uav2_hostname
-      - uav3_hostname
-      - uav4_hostname
+      - ds1_hostname
+      - ds2_hostname
+      - ds3_hostname
+      - ds4_hostname
       # John's laptops
       - john1_hostname
       - john2_hostname

@@ -25,7 +25,6 @@
       - +import:env/catkin.env
 
       - +extend: catkin/px4
-      - +extend: catkin/teensy
       - +extend: catkin/common
       - +extend: catkin/uav
       - +extend: catkin/simulation
