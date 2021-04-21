@@ -122,11 +122,13 @@
       path:  "~/.{{ project_name }}/user_config.bash"
     register: stat_result
 
+  # TODO: fix, sometimes errors
   # update the user config, for using nvidia driver
   - name: Set default subtrc user nvidia configuration (true)
     shell: sed -i 's/USE_NVIDIA_DRIVER=true/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' "~/.{{ project_name }}/user_config.bash"
     when: stat_result.stat.exists
 
+  # TODO: fix, sometimes errors
   # update the user config, for using nvidia driver
   - name: Set default subtrc user nvidia configuration (false)
     shell: sed -i 's/USE_NVIDIA_DRIVER=false/USE_NVIDIA_DRIVER={{ install_nvidia_docker }}/' "~/.{{ project_name }}/user_config.bash"
@@ -143,18 +145,6 @@
     when: >
       "localhost" in inventory_hostname
     ignore_errors: yes
-
-  - name: test docker with 'hello world' example
-    shell: docker network create -d bridge robots \
-            --subnet=10.3.0.0/16 \
-            --ip-range=10.3.0.0/24 \
-            --opt com.docker.network.bridge.default_bridge=true \
-            --opt com.docker.network.bridge.enable_icc=true \
-            --opt com.docker.network.bridge.enable_ip_masquerade=true \
-            --opt com.docker.network.bridge.host_binding_ipv4=0.0.0.0 \
-            --opt com.docker.network.driver.mtu=1500
-    when: >
-      "localhost" in inventory_hostname
 
   - name: Restart docker deamon is running
     service:

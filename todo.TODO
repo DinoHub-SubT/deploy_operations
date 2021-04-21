@@ -12,29 +12,15 @@ not-doing:
   ✘ docker-compose add 'hosts' as service @cancelled(21-03-25 02:11)
   ✘ make it a flag on which registry to push to... @cancelled(21-03-24 23:05)
   ✘ easily switch between versions @cancelled(21-03-26 14:58)
+  ✘ subt cloud terraform env needs to happen before cert??!? @cancelled(21-04-21 18:59)
 
 deploy:
-  ☐ subt cloud terraform env needs to happen before cert??!?
   ☐ add in the "deployer questions" in the readme
-  catkin build:
-    ☐ catkin build all workspaces on localhost
-        ☐ ugv sim not working
-        ☐ multi robot simulation working
-    ☐ catkin build all workspaces on azure
-    ☐ catkin build all workspaces on robots: ugv
-    ☐ catkin build all workspaces on robots: uav
-  ☐ finish docker update for the perception stack on arm...
   ☐ create the gpu docker images (non-perception ones)
-  ☐ build all cpu docker image types
-  ☐ push all cpu docker images
   ☐ build all gpu docker image types
   ☐ push all gpu docker images
-  ☐ push all catkin profiles to develop branches (its fine if they change later)
   ☐ compare old deployerbooks with new and make sure they are the same
-  ☐ make sure remote ssh works (azure, robots)
   ☐ ugv simulation is not running...
-  ☐ check uav multi simulation setup
-  ☐ add uav map sharing rviz?
   ☐ make sure compute stick is still working...
   ☐ message Ian about previous bin scripts moved to scripts
   ☐ copy over basestation_utils here
@@ -44,8 +30,6 @@ deploy:
     - add deployer config for that? -- no make the INSTALLER find it!!!
   ☐ deployer command to run installer on remote
   ☐ if ROBOT is env var on computer, deployerbooks gets messed up....
-  ☐ rename slam catkin profile from loam to slam
-  ☐ nuc bashrc on localhost needs to add missing paramets for new subt_launch....
 
 ansible:
   ☐ add hub (https://github.com/github/hub/releases/tag/v2.14.2) to the ansible install
@@ -53,6 +37,7 @@ ansible:
   ✔ add intel MYRIAD install on host @done(21-03-22 16:09)
   ☐ @low ansible auto-generate ip scripts. To be used by scenarios TOO. Make it in ~/.subt env vars...
   ☐ subt localhost [ansible, prereq, validate] : checks for prereq requirements, validate all stuff is installed
+  ☐ if ansible finds same network on host as docker network, then do not create the network configuration...
 
 readme:
   ☐ ansible failed with "password"
