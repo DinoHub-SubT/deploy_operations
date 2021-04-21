@@ -425,10 +425,10 @@ services:
       - ${nuc_hostname}:${nuc_ip}
       - ${xavier_hostname}:${xavier_ip}
       # UAVs
-      - ${uav1_hostname}:${uav1_ip}
-      - ${uav2_hostname}:${uav2_ip}
-      - ${uav3_hostname}:${uav3_ip}
-      - ${uav4_hostname}:${uav4_ip}
+      - ${ds1_hostname}:${ds1_ip}
+      - ${ds2_hostname}:${ds2_ip}
+      - ${ds3_hostname}:${ds3_ip}
+      - ${ds4_hostname}:${ds4_ip}
       # John's laptops
       - ${john1_hostname}:${john1_ip}
       - ${john2_hostname}:${john2_ip}
