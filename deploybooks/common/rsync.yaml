@@ -22,10 +22,10 @@
   - 'export copy_to="rsync $copy_opts $LOCAL_DEPLOY_PATH $deploy_ssh:$REMOTE_DEPLOY_PATH "'
   - 'export copy_cmd=$copy_to'
 
-- from:
-  # copy command
-  - 'export copy_from="rsync $copy_opts $deploy_ssh:$REMOTE_DEPLOY_PATH $LOCAL_DEPLOY_PATH"'
-  - 'export copy_cmd=$copy_from'
+# - from:
+#   # copy command
+#   - 'export copy_from="rsync $copy_opts $deploy_ssh:$REMOTE_DEPLOY_PATH $LOCAL_DEPLOY_PATH"'
+#   - 'export copy_cmd=$copy_from'
 
 # evaluate the copy command
 - echo -e "\n${YELLOW}\t copy command -> \t $copy_cmd \n"
