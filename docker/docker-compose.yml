@@ -415,7 +415,9 @@ services:
     # add hosts to /etc/hosts
     extra_hosts:
       # Basestation
-      - ${basestation_hostname}:${basestation_ip}
+      - ${basestation1_hostname}:${basestation1_ip}
+      - ${basestation2_hostname}:${basestation2_ip}
+      - ${basestation3_hostname}:${basestation3_ip}
       # UGV (external)
       - ${ugv1_hostname}:${ugv1_ip}
       - ${ugv2_hostname}:${ugv2_ip}
@@ -444,7 +446,9 @@ services:
       - ROS_HOSTNAME
       - ROS_MASTER_IP
       # Set the hostname of different systems
-      - basestation_hostname
+      - basestation1_hostname
+      - basestation2_hostname
+      - basestation3_hostname
       # UGV1
       - ppc_hostname
       - nuc_hostname
