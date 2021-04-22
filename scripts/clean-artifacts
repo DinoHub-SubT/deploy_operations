@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm -rf /home/explorer/deploy_ws/src/basestation/basestation_gui_python/data/artifacts/received/*.json
+rm -rf /home/explorer/deploy_ws/src/basestation/basestation_gui_python/data/artifacts/submitted/*.json
+
+

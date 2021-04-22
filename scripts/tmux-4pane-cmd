@@ -1,0 +1,20 @@
+#!/bin/sh
+
+tmux new-session -d "eval $1"
+tmux rename-session "tmux-4pane-cmd"
+# basestation doesn't need to be in docker container
+tmux split-window -h "eval $1"
+tmux split-window -v "eval $1"
+tmux select-pane -L
+tmux split-window -v "eval $1"
+
+if [ "$#" -eq 2 ]; then
+    _WINDOW_NAME=$2
+else
+    _WINDOW_NAME=`echo $1 | head -c 10`
+fi
+
+tmux rename-window "$_WINDOW_NAME"
+
+
+tmux -2 attach-session -d

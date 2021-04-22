@@ -1,0 +1,25 @@
+#!/bin/sh
+
+tmux new-session -d "docker-join.bash --name basestation-cpu-shell"
+tmux rename-session "dev-tmux"
+# basestation doesn't need to be in docker container
+tmux split-window -h
+tmux split-window -v
+tmux rename-window "BS"
+
+for robot in ugv1 ugv2 ugv3 uav1 uav2 uav3 uav4
+do
+# ssh -q $robot.ppc exit
+# if [ $? -eq 255 ]
+# then
+#     continue
+# fi
+
+tmux new-window "ssh -t $robot.ppc '/home/explorer/deploy_ws/src/operations/deploy/docker/scripts//docker-join.bash --name ppc-shell'"
+tmux rename-window "$robot.ppc.docker"
+tmux split-window -h "ssh -t $robot.ppc '/home/explorer/deploy_ws/src/operations/deploy/docker/scripts//docker-join.bash --name ppc-shell'"
+tmux split-window -v "ssh -t $robot.ppc '/home/explorer/deploy_ws/src/operations/deploy/docker/scripts//docker-join.bash --name ppc-shell'"
+
+done
+
+tmux -2 attach-session -d

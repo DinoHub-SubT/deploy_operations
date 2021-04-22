@@ -1,0 +1,8 @@
+#!/bin/sh
+
+pw=passme24
+robot=$1
+
+echo $pw | ssh -tt $robot.xavier "sudo shutdown -h now"
+echo $pw | ssh -tt $robot.nuc "sudo shutdown -h now"
+echo $pw | ssh -tt $robot.ppc "sudo shutdown -h now"
