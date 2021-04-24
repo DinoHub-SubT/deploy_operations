@@ -434,6 +434,8 @@ services:
       # John's laptops
       - ${john1_hostname}:${john1_ip}
       - ${john2_hostname}:${john2_ip}
+      # Roshan's laptop
+      - ${roshan_hostname}:${roshan_ip}
     # setup container env variables in the container
     environment:
       # Set environment params for GUI container passthrough
@@ -461,3 +463,5 @@ services:
       # John's laptops
       - john1_hostname
       - john2_hostname
+      # Roshan's laptop
+      - roshan_hostname
