@@ -30,6 +30,7 @@
       - +extend: catkin/subt_launch
 
   - perception:
+    - export SCENARIOS_PLATFORM=uav.perception
     - +extend: workspaces/shared/perception
 
   - wifi:

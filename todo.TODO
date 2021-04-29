@@ -16,16 +16,12 @@ not-doing:
 
 deploy:
   ☐ add in the "deployer questions" in the readme
-  ☐ create the gpu docker images (non-perception ones)
+  ☐ fix perception uav image -- missing ueye
   ☐ build all gpu docker image types
   ☐ push all gpu docker images
-  ☐ compare old deployerbooks with new and make sure they are the same
   ☐ ugv simulation is not running...
   ☐ make sure compute stick is still working...
-  ☐ message Ian about previous bin scripts moved to scripts
-  ☐ copy over basestation_utils here
   ☐ snapshot on skel_to, transfer remove snapshot
-  ☐ wrong IPs in robot containers
   ☐ nvidia gpu config in user_configs, needs to be automatically set on robots
     - add deployer config for that? -- no make the INSTALLER find it!!!
   ☐ deployer command to run installer on remote
