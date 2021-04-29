@@ -212,50 +212,47 @@ services:
         max-size: 50m
 
   # ////////////////////////////////////////////////////////////////////////////
-  # azure docker context
+  # host docker context
   # -- sets up azure context, mostly to setup ROS networking setup
   # ////////////////////////////////////////////////////////////////////////////
-  azure:
+  subt_hosts:
     # extend gpu or non-gpu
     extends:
       service: base
-    # use host network
-    network_mode: "host"
-    # networks:
-    #   driver: host
     # add hosts to /etc/hosts
     extra_hosts:
       # Basestation
       - ${basestation_hostname}:${basestation_ip}
+      - ${bs_hostname}:${bs_ip}
       # UGV
       - ${ugv1_hostname}:${ugv1_ip}
       - ${ugv2_hostname}:${ugv2_ip}
       - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (vdb)
-      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
-      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
-      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
       # UGV (perception)
       - ${ugv1_perception_hostname}:${ugv1_perception_ip}
       - ${ugv2_perception_hostname}:${ugv2_perception_ip}
       - ${ugv3_perception_hostname}:${ugv3_perception_ip}
+      # UGV (internal)
+      - ${ppc_hostname}:${ppc_ip}
+      - ${nuc_hostname}:${nuc_ip}
+      - ${xavier_hostname}:${xavier_ip}
       # UAVs
       - ${uav1_hostname}:${uav1_ip}
       - ${uav2_hostname}:${uav2_ip}
       - ${uav3_hostname}:${uav3_ip}
       - ${uav4_hostname}:${uav4_ip}
+      # UAVs (ds)
+      - ${ds1_hostname}:${ds1_ip}
+      - ${ds2_hostname}:${ds2_ip}
+      - ${ds3_hostname}:${ds3_ip}
+      - ${ds4_hostname}:${ds4_ip}
       # UAV (perception)
       - ${uav1_perception_hostname}:${uav1_perception_ip}
       - ${uav2_perception_hostname}:${uav2_perception_ip}
       - ${uav3_perception_hostname}:${uav3_perception_ip}
       - ${uav4_perception_hostname}:${uav4_perception_ip}
-
     # setup container env variables in the container
     environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
       # ros master computer name
       - COMPUTER
       # Set the ros master hostname
@@ -263,14 +260,15 @@ services:
       - ROS_MASTER_IP
       # Set the hostname of different systems
       - basestation_hostname
+      - bs_hostname
       # UGVs
       - ugv1_hostname
       - ugv2_hostname
       - ugv3_hostname
-      # UGVs (vdb)
-      - ugv1_vdb_hostname
-      - ugv2_vdb_hostname
-      - ugv3_vdb_hostname
+      # UGV (internal)
+      - ppc_hostname
+      - nuc_hostname
+      - xavier_hostname
       # UGVs (perception)
       - ugv1_perception_hostname
       - ugv2_perception_hostname
@@ -280,81 +278,34 @@ services:
       - uav2_hostname
       - uav3_hostname
       - uav4_hostname
+      # UAVs (ds)
+      - ds1_hostname
+      - ds2_hostname
+      - ds3_hostname
+      - ds4_hostname
       # UAV (perception)
       - uav1_perception_hostname
       - uav2_perception_hostname
       - uav3_perception_hostname
       - uav4_perception_hostname
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # azure docker context
+  # -- sets up azure context, mostly to setup ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    extends:
+      service: subt_hosts
+    # use host network
+    network_mode: "host"
 
   # ////////////////////////////////////////////////////////////////////////////
   # localhost docker context
   # -- sets up localhost context, mostly to setup ROS networking setup
   # ////////////////////////////////////////////////////////////////////////////
   local:
-    # extend gpu or non-gpu
     extends:
-      service: base
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation_hostname}:${basestation_ip}
-      # UGV
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (vdb)
-      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
-      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
-      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
-      # UGV (perception)
-      - ${ugv1_perception_hostname}:${ugv1_perception_ip}
-      - ${ugv2_perception_hostname}:${ugv2_perception_ip}
-      - ${ugv3_perception_hostname}:${ugv3_perception_ip}
-      # UAV
-      - ${uav1_hostname}:${uav1_ip}
-      - ${uav2_hostname}:${uav2_ip}
-      - ${uav3_hostname}:${uav3_ip}
-      - ${uav4_hostname}:${uav4_ip}
-      # UAV (perception)
-      - ${uav1_perception_hostname}:${uav1_perception_ip}
-      - ${uav2_perception_hostname}:${uav2_perception_ip}
-      - ${uav3_perception_hostname}:${uav3_perception_ip}
-      - ${uav4_perception_hostname}:${uav4_perception_ip}
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # ros master computer name
-      - COMPUTER
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostname of different systems
-      - basestation_hostname
-      # UGVs
-      - ugv1_hostname
-      - ugv2_hostname
-      - ugv3_hostname
-      # UGVs (vdb)
-      - ugv1_vdb_hostname
-      - ugv2_vdb_hostname
-      - ugv3_vdb_hostname
-      # UGVs (perception)
-      - ugv1_perception_hostname
-      - ugv2_perception_hostname
-      - ugv3_perception_hostname
-      # UAV
-      - uav1_hostname
-      - uav2_hostname
-      - uav3_hostname
-      - uav4_hostname
-      # UAV (perception)
-      - uav1_perception_hostname
-      - uav2_perception_hostname
-      - uav3_perception_hostname
-      - uav4_perception_hostname
+      service: subt_hosts
 
   # ////////////////////////////////////////////////////////////////////////////
   # basestation (robot) docker context
@@ -362,46 +313,9 @@ services:
   # ////////////////////////////////////////////////////////////////////////////
   basestation:
     extends:
-      service: base
+      service: subt_hosts
     # use host network
     network_mode: "host"
-    # networks:
-    #   driver: host
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation_hostname}:${basestation_ip}
-      # UGV
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UAVs
-      - ${uav1_hostname}:${uav1_ip}
-      - ${uav2_hostname}:${uav2_ip}
-      - ${uav3_hostname}:${uav3_ip}
-      - ${uav4_hostname}:${uav4_ip}
-
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostnames of different systems
-      # Basestation
-      - basestation_hostname
-      # UGVs
-      - ugv1_hostname
-      - ugv2_hostname
-      - ugv3_hostname
-      # UAVs
-      - uav1_hostname
-      - uav2_hostname
-      - uav3_hostname
-      - uav4_hostname
 
   # ////////////////////////////////////////////////////////////////////////////
   # robot docker context
@@ -409,61 +323,6 @@ services:
   # ////////////////////////////////////////////////////////////////////////////
   robot:
     extends:
-      service: base
+      service: subt_hosts
     # use host network
     network_mode: "host"
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation1_hostname}:${basestation1_ip}
-      - ${basestation2_hostname}:${basestation2_ip}
-      - ${basestation3_hostname}:${basestation3_ip}
-      # UGV (external)
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (internal)
-      - ${ppc_hostname}:${ppc_ip}
-      - ${nuc_hostname}:${nuc_ip}
-      - ${xavier_hostname}:${xavier_ip}
-      # UAVs
-      - ${ds1_hostname}:${ds1_ip}
-      - ${ds2_hostname}:${ds2_ip}
-      - ${ds3_hostname}:${ds3_ip}
-      - ${ds4_hostname}:${ds4_ip}
-      - ${canary1_hostname}:${canary1_ip}
-      # John's laptops
-      - ${john1_hostname}:${john1_ip}
-      - ${john2_hostname}:${john2_ip}
-      # Roshan's laptop
-      - ${roshan_hostname}:${roshan_ip}
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # ros master computer name
-      - COMPUTER
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostname of different systems
-      - basestation1_hostname
-      - basestation2_hostname
-      - basestation3_hostname
-      # UGV1
-      - ppc_hostname
-      - nuc_hostname
-      - xavier_hostname
-      # UAVs
-      - ds1_hostname
-      - ds2_hostname
-      - ds3_hostname
-      - ds4_hostname
-      - canary1_hostname
-      # John's laptops
-      - john1_hostname
-      - john2_hostname
-      # Roshan's laptop
-      - roshan_hostname
