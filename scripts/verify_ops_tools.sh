@@ -42,7 +42,7 @@ verify_operations_tool_warning() {
   newline
 }
 
-source ~/.subt/subtrc.bash
+source ~/.$DEPLOYER_PROJECT_NAME/subtrc.bash
 
 # verify docker ce
 verify_operations_tool_fail     "docker"                                docker --version
@@ -51,11 +51,11 @@ verify_operations_tool_warning  "nvidia docker"                         nvidia-d
 verify_operations_tool_fail     "ansible"                               ansible --version
 verify_operations_tool_warning  "terraform"                             terraform --version
 verify_operations_tool_warning  "azure cli"                             az --help
-verify_operations_tool_warning  "azure copy"                            azcopy -v
-verify_operations_tool_warning  "teamviewer"                    teamviewer --version
+verify_operations_tool_warning  "azure copy"                            azcopy --version
+verify_operations_tool_warning  "teamviewer"                            teamviewer --version
 verify_operations_tool_fail     "subt custom: docker compose wrapper"   docker-compose-wrapper --help
 verify_operations_tool_fail     "deployer"                              deployer --help
-verify_operations_tool_fail     "subt auto-complete"                    subt help
+verify_operations_tool_fail     "deploy auto-complete"                  subt help
 
 subtitle "All operations tools verified functional."
 

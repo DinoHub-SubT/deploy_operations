@@ -3,29 +3,26 @@
 # // /////////////////////////////////////////////////////////////////////////////
 
 # example
-operations/azurebooks/example/.terraform/
-operations/azurebooks/example/terraform.tfstate
-operations/azurebooks/example/terraform.tfstate.backup
-operations/azurebooks/example/.terraform.*
-operations/azurebooks/example/terraform.tfstate.d
+azurebooks/example/.terraform/
+azurebooks/example/terraform.tfstate
+azurebooks/example/terraform.tfstate.backup
+azurebooks/example/.terraform.*
+azurebooks/example/terraform.tfstate.d
 
 # subt
-operations/azurebooks/subt/main.tf
-operations/azurebooks/subt/.terraform/
-operations/azurebooks/subt/terraform.tfstate
-operations/azurebooks/subt/terraform.tfstate.backup
-operations/azurebooks/subt/.terraform.*
-operations/azurebooks/subt/terraform.tfstate.d
+azurebooks/subt/main.tf
+azurebooks/subt/.terraform/
+azurebooks/subt/terraform.tfstate
+azurebooks/subt/terraform.tfstate.backup
+azurebooks/subt/.terraform.*
+azurebooks/subt/terraform.tfstate.d
 
 # admin
-operations/azurebooks/admin/.terraform/
-operations/azurebooks/admin/terraform.tfstate
-operations/azurebooks/admin/terraform.tfstate.backup
-operations/azurebooks/admin/.terraform.*
-operations/azurebooks/admin/terraform.tfstate.d
-
-# example subt launch -- force adding any new catkin tools configs
-subt_launch/.catkin_tools/
+azurebooks/admin/.terraform/
+azurebooks/admin/terraform.tfstate
+azurebooks/admin/terraform.tfstate.backup
+azurebooks/admin/.terraform.*
+azurebooks/admin/terraform.tfstate.d
 
 # ignore all downloaded azure thirdparty libraries
 docker/dockerfiles/thirdparty-software/download/

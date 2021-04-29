@@ -33,29 +33,15 @@
         path: "~/{{ lookup('env','DEPLOYER_WS_NAME') }}/src"
         state: absent
 
-    - name: Clone The SubT Deploy Repository
+    - name: Clone The Deploy Repository
       git:
-        repo: git@bitbucket.org:cmusubt/deploy.git
+        repo: "{{ lookup('env','DEPLOYER_GIT_REPOSITORY_URL') }}"
         dest: "~/{{ lookup('env','DEPLOYER_WS_NAME') }}/src"
         accept_hostkey: yes
         recursive: no
         force: yes
         version: "{{ git.deploy.branch }}"
         key_file: ~/.ssh/bitbucket
-      when:
-        "{{ project_name }}" == "subt"
-
-    - name: Clone The DSTA Deploy Repository
-      git:
-        repo: git@bitbucket.org:castacks/dsta_deploy.git
-        dest: "~/{{ lookup('env','DEPLOYER_WS_NAME') }}/src"
-        accept_hostkey: yes
-        recursive: no
-        force: yes
-        version: "{{ git.deploy.branch }}"
-        key_file: ~/.ssh/bitbucket
-      when:
-        "{{ project_name }}" == "dsta"
 
     - name: Install Deployer Script
       shell:
