@@ -136,7 +136,7 @@ services:
   x86-gpu:
     build:
       context: ${SUBT_DOCKERFILE_PATH}/
-    # allow nvidia passthru
+    # allow nvidia passthrough
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -306,16 +306,6 @@ services:
   local:
     extends:
       service: subt_hosts
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # basestation (robot) docker context
-  # -- sets up robot docker context: sets up ROS networking setup
-  # ////////////////////////////////////////////////////////////////////////////
-  basestation:
-    extends:
-      service: subt_hosts
-    # use host network
-    network_mode: "host"
 
   # ////////////////////////////////////////////////////////////////////////////
   # robot docker context
