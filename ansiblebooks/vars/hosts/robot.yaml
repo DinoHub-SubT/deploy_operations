@@ -1,4 +1,4 @@
-- robot:
+robot:
   # //////////////////////////////////////////////////////////////////////////////
   # updating /etc/hosts on basestation and local laptop
   # //////////////////////////////////////////////////////////////////////////////
@@ -16,9 +16,9 @@
       name: ugv3
 
     # Spots
-    - ip: 10.3.5.11
-      name: spot1-nuc
     - ip: 10.3.1.29
+      name: spot1-nuc
+    - ip: 10.3.5.11
       name: spot1-xavier
 
     # UAVs
@@ -100,13 +100,13 @@
 
     # Spot1
     - host: spot1.nuc
-      hostname: spot-nuc-001
+      hostname: spot1-nuc
       username: subt
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false
 
     - host: spot1.xavier
-      hostname: spot-xavier-001
+      hostname: spot1-xavier
       username: capsa
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false

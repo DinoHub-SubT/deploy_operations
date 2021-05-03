@@ -6,7 +6,7 @@
 
   vars_files:
     - ../vars/main.yaml
-    - ../vars/hosts.yaml
+    - ../vars/hosts/robot.yaml
     - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # run playbook on the localhost
@@ -35,4 +35,4 @@
     - name: Add ssh key on remote hosts
       shell: ssh-copy-id -f -i ~/.ssh/{{ robot_ssh_keys }}.pub {{ item.host }}
       ignore_errors: yes
-      with_items: " {{ ssh_config.hosts }} "
+      with_items: " {{ robot.ssh_config }} "
