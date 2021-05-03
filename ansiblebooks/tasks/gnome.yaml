@@ -14,6 +14,7 @@
     - laptop
     - basestation
     - ugv
+    - spot
     - uav
     - perception
   become_method: sudo

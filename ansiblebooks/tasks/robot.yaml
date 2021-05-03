@@ -7,7 +7,8 @@
   # setup variables to be shared in tasks
   vars_files:
     - ../vars/main.yaml
-    - ../vars/hosts.yaml
+    - ../vars/hosts/azure.yaml
+    - ../vars/hosts/robot.yaml
     - ../vars/robot.yaml
     - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
@@ -16,6 +17,8 @@
     - laptop
     - basestation
     - ugv
+    - spot
+    - spot
     - uav
     - perception
   become_method: sudo

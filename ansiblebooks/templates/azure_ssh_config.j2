@@ -1,4 +1,4 @@
-{% for connection in ssh_config.azure.hosts %}
+{% for connection in azure.ssh_config %}
 Host {{ connection.host }}
   Hostname {{ connection.hostname }}
   User {{ connection.username }}

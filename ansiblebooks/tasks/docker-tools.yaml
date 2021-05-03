@@ -6,7 +6,8 @@
 
   vars_files:
     - ../vars/main.yaml
-    - ../vars/hosts.yaml
+    - ../vars/hosts/azure.yaml
+    - ../vars/hosts/robot.yaml
     - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # run playbook on the specified hosts
@@ -14,6 +15,7 @@
     - laptop
     - basestation
     - ugv
+    - spot
     - uav
     - perception
   become_method: sudo
@@ -80,7 +82,7 @@
   # localhost docker context
   - name: docker context remove
     shell: docker context rm {{ item.host }}
-    with_items: " {{ docker_context.azure }} "
+    with_items: " {{ azure.docker_context }} "
     ignore_errors: True
     when: >
       "azure-" in inventory_hostname or
@@ -88,7 +90,7 @@
 
   - name: docker context create
     shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
-    with_items: " {{ docker_context.azure }} "
+    with_items: " {{ azure.docker_context }} "
     when: >
       "azure-" in inventory_hostname or
       "localhost" in inventory_hostname
@@ -96,13 +98,13 @@
   # basestation docker context
   - name: docker context remove
     shell: docker context rm {{ item.host }}
-    with_items: " {{ docker_context.robots }} "
+    with_items: " {{ robot.docker_context }} "
     ignore_errors: True
     when: >
       "basestation" in inventory_hostname
 
   - name: docker context create
     shell:  docker context create {{ item.host }} --description "{{ item.desc }}" --docker "host=ssh://{{ item.conn }}"
-    with_items: " {{ docker_context.robots }} "
+    with_items: " {{ robot.docker_context }} "
     when: >
       "basestation" in inventory_hostname

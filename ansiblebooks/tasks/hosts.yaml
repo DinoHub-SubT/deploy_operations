@@ -1,0 +1,143 @@
+---
+# ////////////////////////////////////////////////////////////////////////
+# install & setup robot host system packages
+# ////////////////////////////////////////////////////////////////////////
+- name: robothost setup
+
+  # setup variables to be shared in tasks
+  vars_files:
+    - ../vars/main.yaml
+    - ../vars/hosts/azure.yaml
+    - ../vars/hosts/robot.yaml
+    - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
+
+  # setup hosts to run commands as
+  hosts:
+    - laptop
+    - basestation
+    - ugv
+    - spot
+    - uav
+    - perception
+  become_method: sudo
+  become_user: root
+
+  # ////////////////////////////////////////////////////////////////////////
+  # Tasks to execute
+  # ////////////////////////////////////////////////////////////////////////
+  tasks:
+
+    # ////////////////////////////////////////////////////////////////////////
+    # Install Base Packages
+    # ////////////////////////////////////////////////////////////////////////
+    - name: update apt packages
+      become: true
+      apt:
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+
+    # ////////////////////////////////////////////////////////////////////////
+    # /etc/hosts
+    # ////////////////////////////////////////////////////////////////////////
+    - name: remove any previous azure hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ azure.etc_hosts }} "
+
+    - name: remove any previous basestation robot hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "{{ item.name }}"
+        state: absent
+      with_items: " {{ robot.etc_hosts }} "
+
+    - name: update azure /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ azure.etc_hosts }} "
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: update robot /etc/hosts
+      become: yes
+      lineinfile:
+        dest: /etc/hosts
+        regexp: "^{{ item['ip'] }}.*$"
+        # line: "{{ item['ip'] }}\t\t{{ item['names'] | join(' ') }}"
+        line: "{{ item.ip}}\t\t{{ item.name}}"
+        state: present
+      with_items: " {{ robot.etc_hosts }} "
+      when: >
+        "basestation" in inventory_hostname
+
+    # ////////////////////////////////////////////////////////////////////////
+    # ~/.ssh/config
+    # ////////////////////////////////////////////////////////////////////////
+    - name: Create ~/.ssh/subt.d directory
+      file:
+        path: ~/.ssh/subt.d
+        state: directory
+
+    - name: Create the azure Jinja2 based template
+      template:
+        src: ../templates/azure_ssh_config.j2
+        dest: ~/.ssh/subt.d/azure.conf
+      when: >
+        "azure-" in inventory_hostname or
+        "localhost" in inventory_hostname
+
+    - name: Create the robot Jinja2 based template
+      template:
+        src: ../templates/robot_ssh_config.j2
+        dest: ~/.ssh/subt.d/robot.conf
+      when: >
+        "localhost" in inventory_hostname or
+        "basestation" in inventory_hostname
+
+    # add subt.d/robot.conf to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/robot.conf to ~/.ssh/config
+      shell: grep -c "^Include subt.d/robot.conf " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: Include subt.d/robot.conf
+        insertbefore: BOF
+      when: test_grep.stdout == "0"
+
+    # add subt.d/azure.conf to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/azure.conf to ~/.ssh/config
+      shell: grep -c "^Include subt.d/azure.conf " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: Include subt.d/azure.conf
+        insertbefore: BOF
+      when: test_grep.stdout == "0"
+
+    # add '### SubT ###' to ~/.ssh/config -- if does not exist
+    - name: Check subt.d/ to ~/.ssh/config
+      shell: grep -c "^'\#\#\# SubT \#\#\#' " ~/.ssh/config || true
+      register: test_grep
+
+    - name: Add subt.d/ to ~/.ssh/config
+      lineinfile:
+        dest: ~/.ssh/config
+        line: "### SubT ###"
+        insertbefore: BOF
+      when: test_grep.stdout == "0"

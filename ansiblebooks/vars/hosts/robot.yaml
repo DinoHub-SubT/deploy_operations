@@ -1,0 +1,203 @@
+- robot:
+  # //////////////////////////////////////////////////////////////////////////////
+  # updating /etc/hosts on basestation and local laptop
+  # //////////////////////////////////////////////////////////////////////////////
+  etc_hosts:
+    # Basestation
+    - ip: 10.3.1.1
+      name: system76-pc
+
+    # UGVs
+    - ip: 10.3.1.11
+      name: ugv1
+    - ip: 10.3.1.12
+      name: ugv2
+    - ip: 10.3.1.13
+      name: ugv3
+
+    # Spots
+    - ip: 10.3.5.11
+      name: spot1-nuc
+    - ip: 10.3.1.29
+      name: spot1-xavier
+
+    # UAVs
+    - ip: 10.3.1.51
+      name: ds1
+    - ip: 10.3.1.52
+      name: ds2
+    - ip: 10.3.1.53
+      name: ds3
+    - ip: 10.3.1.54
+      name: ds4
+
+  # //////////////////////////////////////////////////////////////////////////////
+  # updating ~/.ssh/config on basestation and local laptop
+  # //////////////////////////////////////////////////////////////////////////////
+  ssh_config:
+    # UGV1
+    - host: ugv1.ppc
+      hostname: ugv1
+      username: explorer
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: ugv1.nuc
+      hostname: nuc
+      username: nuc
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv1.ppc
+
+    - host: ugv1.xavier
+      hostname: xavier
+      username: nvidia
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv1.ppc
+
+    # UGV2
+    - host: ugv2.ppc
+      hostname: ugv2
+      username: explorer
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: ugv2.nuc
+      hostname: nuc
+      username: nuc
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv2.ppc
+
+    - host: ugv2.xavier
+      hostname: xavier
+      username: nvidia
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv2.ppc
+
+    # UGV3
+    - host: ugv3.ppc
+      hostname: ugv3
+      username: explorer
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: ugv3.nuc
+      hostname: nuc
+      username: nuc
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv3.ppc
+
+    - host: ugv3.xavier
+      hostname: xavier
+      username: nvidia
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: true
+      proxy_jump: ugv3.ppc
+
+    # Spot1
+    - host: spot1.nuc
+      hostname: spot-nuc-001
+      username: subt
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: spot1.xavier
+      hostname: spot-xavier-001
+      username: capsa
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    # UAVs
+    - host: uav1.ds
+      hostname: ds1
+      username: uav
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: uav2.ds
+      hostname: ds2
+      username: uav
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: uav3.ds
+      hostname: ds3
+      username: uav
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: uav4.ds
+      hostname: ds4
+      username: uav
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+  # //////////////////////////////////////////////////////////////////////////////
+  # updating docker context
+  # //////////////////////////////////////////////////////////////////////////////
+  docker_context:
+    # UGV1
+    - host: robot-ugv1-ppc
+      conn: ugv1.ppc
+      desc: ugv1 ppc
+    - host: robot-ugv1-nuc
+      conn: ugv1.nuc
+      desc: ugv1 nuc
+    - host: robot-ugv1-xavier
+      conn: ugv1.xavier
+      desc: ugv1 xavier
+
+    # UGV2
+    - host: robot-ugv2-ppc
+      conn: ugv2.ppc
+      desc: ugv2 ppc
+    - host: robot-ugv2-nuc
+      conn: ugv2.nuc
+      desc: ugv2 nuc
+    - host: robot-ugv2-xavier
+      conn: ugv2.xavier
+      desc: ugv2 xavier
+
+    # UGV3
+    - host: robot-ugv3-ppc
+      conn: ugv3.ppc
+      desc: ugv3 ppc
+    - host: robot-ugv3-nuc
+      conn: ugv3.nuc
+      desc: ugv3 nuc
+    - host: robot-ugv3-xavier
+      conn: ugv3.xavier
+      desc: ugv3 xavier
+
+    # Spot1
+    - host: robot-spot1-nuc
+      conn: spot1.nuc
+      desc: spot1 nuc
+    - host: robot-spot1-xavier
+      conn: spot1.xavier
+      desc: spot1 xavier
+
+    # DS1
+    - host: robot-uav-ds1
+      conn: uav1.ds
+      desc: uav ds1
+
+    # DS2
+    - host: robot-uav-ds2
+      conn: uav2.ds
+      desc: uav ds2
+
+    # DS3
+    - host: robot-uav-ds3
+      conn: uav3.ds
+      desc: uav ds3
+
+    # DS4
+    - host: robot-uav-ds4
+      conn: uav4.ds
+      desc: uav ds4
+

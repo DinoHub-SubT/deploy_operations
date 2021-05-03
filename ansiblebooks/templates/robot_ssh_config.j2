@@ -1,4 +1,4 @@
-{% for connection in ssh_config.robot.hosts %}
+{% for connection in robot.ssh_config %}
 Host {{ connection.host }}
     Hostname {{ connection.hostname }}
     User {{ connection.username }}
