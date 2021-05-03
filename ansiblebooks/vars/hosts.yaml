@@ -50,6 +50,12 @@ etc_hosts:
     - ip: 10.3.1.13
       name: ugv3
 
+    # Spot1
+    - ip: 10.3.5.11
+      name: spot1-nuc
+    - ip: 10.3.1.29
+      name: spot1-xavier
+
     # UAVs
     - ip: 10.3.1.51
       name: ds1
@@ -166,6 +172,19 @@ ssh_config:
         identity_file: ~/.ssh/deploy
         has_proxy_jump: true
         proxy_jump: ugv3.ppc
+
+      # Spot1
+      - host: spot1.nuc
+        hostname: spot-nuc-001
+        username: subt
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
+      - host: spot1.xavier
+        hostname: spot-xavier-001
+        username: capsa
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
 
       # UAVs
       - host: uav1.ds
