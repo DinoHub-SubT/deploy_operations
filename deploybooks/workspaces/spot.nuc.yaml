@@ -30,7 +30,8 @@
       - +import:env/catkin.env
 
       - +extend: catkin/common
-      - +extend: catkin/ugv
+      # - +extend: catkin/ugv
+      # - +extend: catkin/uav
       - +extend: catkin/subt_launch
 
   - wifi:
