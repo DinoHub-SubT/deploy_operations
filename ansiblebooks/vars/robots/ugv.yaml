@@ -1,5 +1,4 @@
 - ugv:
-    # ROS packages for ugv[nuc] install
     common:
       apt:
         - python2.7

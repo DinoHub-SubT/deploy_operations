@@ -1,0 +1,17 @@
+- xavier:
+  - export ROBOT_COMPUTER=xavier;
+  - +env:ROBOT_COMPUTER=xavier
+
+  # run on the remote server (except for any books that specific +local, to force local deployment)
+  - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
+
+  # setup the configurations for a 'robot ugv', for the robot computer split
+  - set_docker_context
+  - set_scenarios_configuration
+  - export COMPUTER_ARCH=arm
+
+  # extend remote rsync actions
+  - +extend: common/sync
+
+  # extend ugv nuc workspace
+  # - +extend: workspaces/ugv.nuc

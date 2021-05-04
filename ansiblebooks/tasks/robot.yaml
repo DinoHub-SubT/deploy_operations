@@ -9,18 +9,15 @@
     - ../vars/main.yaml
     - ../vars/hosts/azure.yaml
     - ../vars/hosts/robot.yaml
-    - ../vars/robot.yaml
+    - ../vars/robots/ugv.yaml
+    - ../vars/robots/spot.yaml
     - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # setup hosts to run commands as
   hosts:
-    - laptop
-    - basestation
     - ugv
-    - spot
-    - spot
     - uav
-    - perception
+    - spot
   become_method: sudo
   become_user: root
 
@@ -40,7 +37,7 @@
         install_recommends: yes
         update_cache: yes   # force apt-get update
 
-    - name: install ubuntu prerequisite packages
+    - name: install ugv common apt packages
       become: true
       apt:
         name: "{{ ugv.common.apt }}"
@@ -52,10 +49,64 @@
       when: >
         inventory_hostname is match("robot-ugv.*")
 
-    # note: can output segmentation fault.
-    # - name: install python prerequisite packages
-    #   pip:
-    #     name: "{{ ugv.common.pip_packages }}"
-    #     extra_args: --user
-    #   when: >
-    #     inventory_hostname is match("robot-ugv.*")
+    - name: install ugv common pip packages
+      pip:
+        name: "{{ ugv.common.pip }}"
+        extra_args: --user
+      when: >
+        inventory_hostname is match("robot-ugv.*")
+
+    - name: install spot common apt packages
+      become: true
+      apt:
+        name: "{{ spot.common.apt }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-spot.*")
+
+    - name: install spot common pip packages
+      pip:
+        name: "{{ spot.common.pip }}"
+        extra_args: --user
+      when: >
+        inventory_hostname is match("robot-spot.*")
+
+    - name: install ugv.ppc packages
+      become: true
+      apt:
+        name: "{{ ugv.ppc }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-ugv.*-ppc")
+
+    - name: install ugv.nuc packages
+      become: true
+      apt:
+        name: "{{ ugv.nuc }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-ugv.*-nuc")
+
+    - name: install spot.nuc packages
+      become: true
+      apt:
+        name: "{{ spot.nuc }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-spot.*-nuc")
