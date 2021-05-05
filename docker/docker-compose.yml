@@ -236,6 +236,9 @@ services:
       - ${ppc_hostname}:${ppc_ip}
       - ${nuc_hostname}:${nuc_ip}
       - ${xavier_hostname}:${xavier_ip}
+      # Spot
+      - ${spot1_nuc_hostname}:${spot1_nuc_ip}
+      - ${spot1_xavier_hostname}:${spot1_xavier_ip}
       # UAVs
       - ${uav1_hostname}:${uav1_ip}
       - ${uav2_hostname}:${uav2_ip}
@@ -269,6 +272,9 @@ services:
       - ppc_hostname
       - nuc_hostname
       - xavier_hostname
+      # Spot
+      - spot1_nuc_hostname
+      - spot1_xavier_hostname
       # UGVs (perception)
       - ugv1_perception_hostname
       - ugv2_perception_hostname

@@ -13,5 +13,5 @@
   # extend remote rsync actions
   - +extend: common/sync
 
-  # extend ugv nuc workspace
-  # - +extend: workspaces/ugv.nuc
+  # extend spot xavier workspace
+  - +extend: workspaces/spot.xavier

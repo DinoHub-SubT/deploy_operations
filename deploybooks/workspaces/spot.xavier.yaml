@@ -1,21 +1,17 @@
 - scenarios:
-  # common remote sync actions
   - +extend: workspaces/shared/melodic
-  - +extend: workspaces/shared/super
+  # TODO: chonky...
 
   - core:
     # setup docker service name
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=$ROBOT-core-shell
+    - +env:DOCKER_CONTAINER=${ROBOT}-core-shell
 
     # import the workspace environment setup
     - set_workspace_configuration
     - set_docker_compose_service
-
-    # override any default environment setups
-    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
 
     # extend general actions
     - docker:
@@ -26,13 +22,14 @@
       - +extend: common/docker/rm
 
     - catkin:
-      - export CATKIN_PROFILE=ugv.spot
+      - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
       - +import:env/catkin.env
 
+      - source /opt/ros/melodic/setup.bash
       - +extend: catkin/common
-      - +extend: catkin/ugv
-      - +extend: catkin/uav
+      - deps:
+        - export CATKIN_WORKSPACE=perception/deps/catkin
+        - +extend: catkin/build
+        - +extend: catkin/clean
+      - +extend: catkin/perception
       - +extend: catkin/subt_launch
-
-  - wifi:
-    - +extend: workspaces/shared/perception.wifi

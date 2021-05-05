@@ -1,0 +1,35 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief Spot, on Hardware Robots
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief Spot, base, ROS
+  spot.xavier-ros:
+    image: subt/perception-arm:ros # ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief Spot, planning-pc
+  spot.xavier-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.supplement.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: $ROBOT-core-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    privileged: true
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_XAVIER_WS_SOURCE
+    volumes:
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt
