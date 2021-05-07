@@ -1,7 +1,15 @@
 # //////////////////////////////////////////////////////////////////////////////
 # @brief subt perception gpu dockerfile
 # //////////////////////////////////////////////////////////////////////////////
-FROM subt/perception-arm:0.1
+
+# get the passed, deployerbooks environment variables (for maintaining the docker image names)
+ARG DOCKER_IMAGE_TAG=$DOCKER_IMAGE_TAG
+ARG DOCKER_BASE_IMAGE_ROS=$DOCKER_BASE_IMAGE_ROS
+ARG DOCKER_BASE_IMAGE_PROJECT=$DOCKER_BASE_IMAGE_PROJECT
+ARG DOCKER_IMAGE_ARCH=$DOCKER_IMAGE_ARCH
+
+# Get the base image
+FROM subt/arm.${DOCKER_BASE_IMAGE_PROJECT}.${DOCKER_IMAGE_ARCH}.perception:${DOCKER_IMAGE_TAG}
 
 # Change to root user, to install packages
 USER root
@@ -24,32 +32,32 @@ RUN chown root:root /usr/bin/sudo \
 # add user to groups
 RUN usermod -a -G dialout developer
 
-# ceras solver
-RUN mkdir -p /home/developer/thirdparty-software/ \
- && cd /home/developer/thirdparty-software/ \
- && git clone https://ceres-solver.googlesource.com/ceres-solver ceres-solver/src \
- && cd ceres-solver/src \
- && git checkout 1.14.0 \
- && cd /home/developer/thirdparty-software/ceres-solver \
- && mkdir build \
- && cd build \
- && cmake ../src \
- && make -j3 \
- # && make test \
- && sudo make install
-
-# realsenses
-RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense \
- && cd ~/librealsense \
- && git checkout v2.39.0 \
- && mkdir build \
- && cd build \
- && cmake .. -DCMAKE_BUILD_TYPE=Release \
- && sudo make uninstall \
- && make clean \
- && make \
- && sudo make install
-
+# # ceras solver
+# RUN mkdir -p /home/developer/thirdparty-software/ \
+#  && cd /home/developer/thirdparty-software/ \
+#  && git clone https://ceres-solver.googlesource.com/ceres-solver ceres-solver/src \
+#  && cd ceres-solver/src \
+#  && git checkout 1.14.0 \
+#  && cd /home/developer/thirdparty-software/ceres-solver \
+#  && mkdir build \
+#  && cd build \
+#  && cmake ../src \
+#  && make -j3 \
+#  # && make test \
+#  && sudo make install
+# 
+# # realsenses
+# RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense \
+#  && cd ~/librealsense \
+#  && git checkout v2.39.0 \
+#  && mkdir build \
+#  && cd build \
+#  && cmake .. -DCMAKE_BUILD_TYPE=Release \
+#  && sudo make uninstall \
+#  && make clean \
+#  && make \
+#  && sudo make install
+# 
 # Add developer user to groups to run drivers
 RUN sudo usermod -a -G dialout developer
 RUN sudo usermod -a -G tty developer

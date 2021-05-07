@@ -26,7 +26,7 @@
       - +extend: common/docker/rm
 
     - catkin:
-      - export CATKIN_PROFILE=ugv.spot
+      - export CATKIN_PROFILE=spot.nuc
       - +import:env/catkin.env
 
       - +extend: catkin/common
