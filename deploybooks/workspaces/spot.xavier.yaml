@@ -36,6 +36,34 @@
       - +extend: common/docker/registry
       - +extend: common/docker/make
 
+  - drivers:
+    # setup docker service name
+    - export SERVICE=drivers
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${ROBOT}-drivers-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+    - set_docker_compose_service
+
+    # extend general actions
+    - docker:
+      - +extend: common/docker/registry
+      - +extend: common/docker/make
+      - +extend: common/docker/start
+      - +extend: common/docker/stop
+      - +extend: common/docker/rm
+
+    - catkin:
+      - export CATKIN_PROFILE=spot.xavier
+      - +import:env/catkin.env
+
+      - source /opt/ros/melodic/setup.bash
+      - +extend: catkin/ugv
+      - +extend: catkin/subt_launch
+    
+
   - core:
     # setup docker service name
     - export SERVICE=core
@@ -67,32 +95,3 @@
         - +extend: catkin/clean
       - +extend: catkin/perception
       - +extend: catkin/subt_launch
-
-  - autonomy:
-    # setup docker service name
-    - export SERVICE=autonomy
-
-    # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=${ROBOT}-autonomy-shell
-
-    # import the workspace environment setup
-    - set_workspace_configuration
-    - set_docker_compose_service
-
-    # extend general actions
-    - docker:
-      - +extend: common/docker/registry
-      - +extend: common/docker/make
-      - +extend: common/docker/start
-      - +extend: common/docker/stop
-      - +extend: common/docker/rm
-
-    - catkin:
-      - export CATKIN_PROFILE=spot.xavier
-      - +import:env/catkin.env
-
-      - source /opt/ros/melodic/setup.bash
-      - +extend: catkin/common
-      - +extend: catkin/ugv
-      - +extend: catkin/subt_launch
-    
