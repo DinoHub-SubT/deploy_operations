@@ -101,7 +101,7 @@ robot:
     # Spot1
     - host: spot1.nuc
       hostname: spot1-nuc
-      username: subt
+      username: nuc
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false
 
