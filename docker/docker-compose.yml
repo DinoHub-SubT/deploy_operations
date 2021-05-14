@@ -431,6 +431,7 @@ services:
       - ${ds2_hostname}:${ds2_ip}
       - ${ds3_hostname}:${ds3_ip}
       - ${ds4_hostname}:${ds4_ip}
+      - ${canary1_hostname}:${canary1_ip}
       # John's laptops
       - ${john1_hostname}:${john1_ip}
       - ${john2_hostname}:${john2_ip}
@@ -460,6 +461,7 @@ services:
       - ds2_hostname
       - ds3_hostname
       - ds4_hostname
+      - canary1_hostname
       # John's laptops
       - john1_hostname
       - john2_hostname
