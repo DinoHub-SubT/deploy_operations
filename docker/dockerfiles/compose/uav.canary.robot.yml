@@ -1,0 +1,64 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief UAV
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+
+services:
+  # @brief UGV, ROS, simulation
+  uav.canary-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # @brief UAV, superodometry
+  uav.canary-superodometry:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.superodometry.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: super-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+    # TODO: base image as env variable
+
+  # @brief UAV, core
+  uav.canary-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.uav.canary.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ${ROBOT}-core-shell
+    entrypoint: $entry_path/${UAV_DOCKER_ENTRYPOINT}
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UAV_WS_SOURCE
+
+  # @brief UAV, perception
+  uav.canary-perception:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.perception.${DOCKER_IMAGE_ARCH}.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ${ROBOT}-perception-shell
+    entrypoint: $entry_path/uav-objdet-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$PERCEPTION_WS
+    volumes:
+      - /var/run/:/var/run/
+    ipc: "host"
+    pid: "host"
+

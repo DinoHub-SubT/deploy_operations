@@ -1,0 +1,71 @@
+- scenarios:
+  # extend common workspaces
+  - +extend: workspaces/shared/melodic
+  - +extend: workspaces/shared/super
+
+  - core:
+    # setup docker service name
+    - export SERVICE=core
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${UAV_COMPUTER}-core-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+    - set_docker_compose_service
+
+    # override any default environment setups
+    - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - catkin:
+      - export CATKIN_PROFILE=uav.core
+      - +import:env/catkin.env
+
+      - +extend: catkin/px4
+      - +extend: catkin/common
+      - +extend: catkin/uav
+      - +extend: catkin/simulation
+      - +extend: catkin/subt_launch
+
+  - perception:
+    - export SERVICE=perception
+    - set_docker_compose_service
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${UAV_COMPUTER}-perception-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+
+    # override any default environment setups?
+    - export DOCKER_BASE_IMAGE_PROJECT=${SCENARIOS_PLATFORM}
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+    - catkin:
+      - export CATKIN_PROFILE=uav.perception
+      - +import:env/catkin.env
+
+      - source /opt/ros/melodic/setup.bash
+      - +extend: catkin/common
+      - +extend: catkin/uav
+      - deps:
+        - export CATKIN_WORKSPACE=perception/deps/catkin
+        - +extend: catkin/build
+        - +extend: catkin/clean
+      - +extend: catkin/perception
+      - +extend: catkin/subt_launch
+
+
+  - wifi:
+    - catkin:
+      - +import:env/catkin.host.env
+      - export CATKIN_PROFILE=perception.wifi
+      - +extend: catkin/common
+      - +extend: catkin/perception
+      - +extend: catkin/subt_launch
+  

@@ -59,6 +59,8 @@ etc_hosts:
       name: ds3
     - ip: 10.3.1.54
       name: ds4
+    - ip: 10.3.1.55
+      name: canary1
 
 # //////////////////////////////////////////////////////////////////////////////
 # updating ~/.ssh/config on basestation and local laptop
@@ -190,6 +192,12 @@ ssh_config:
         identity_file: ~/.ssh/deploy
         has_proxy_jump: false
 
+      - host: uav5.canary
+        hostname: canary1
+        username: snuc
+        identity_file: ~/.ssh/deploy
+        has_proxy_jump: false
+
 # //////////////////////////////////////////////////////////////////////////////
 # updating docker context
 # //////////////////////////////////////////////////////////////////////////////
@@ -273,4 +281,8 @@ docker_context:
     - host: robot-uav-ds4
       conn: uav4.ds
       desc: uav ds4
+    - host: robot-uav-canary1
+      conn: uav5.canary
+      desc: uav canary1
+
 

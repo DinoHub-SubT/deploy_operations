@@ -1,0 +1,17 @@
+- canary:
+  - export ROBOT_COMPUTER=canary;
+  - +env:ROBOT_COMPUTER=canary
+
+  # run on the remote server (except for any books that specific +local, to force local deployment)
+  - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
+
+  # setup the configurations for a 'robot uav', for the robot computer split
+  - set_docker_context
+  - set_scenarios_configuration
+
+  # extend remote rsync actions
+  - +extend: common/sync
+
+  # extend uav canary workspace
+  - +extend: workspaces/uav.canary
+
