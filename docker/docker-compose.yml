@@ -223,7 +223,7 @@ services:
     extra_hosts:
       # Basestation
       - ${basestation_hostname}:${basestation_ip}
-      # - ${bs_hostname}:${bs_ip}
+      - ${bs_hostname}:${bs_ip}
       # UGV
       - ${ugv1_hostname}:${ugv1_ip}
       - ${ugv2_hostname}:${ugv2_ip}
@@ -262,8 +262,8 @@ services:
       - ROS_HOSTNAME
       - ROS_MASTER_IP
       # Set the hostname of different systems
-      - basestation_hostname
       - bs_hostname
+      - basestation_hostname
       # UGVs
       - ugv1_hostname
       - ugv2_hostname

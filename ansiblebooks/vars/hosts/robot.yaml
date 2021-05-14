@@ -101,13 +101,13 @@ robot:
     # Spot1
     - host: spot1.nuc
       hostname: spot1-nuc
-      username: nuc
+      username: explorer
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false
 
     - host: spot1.xavier
       hostname: spot1-xavier
-      username: capsa
+      username: nvidia
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false
 

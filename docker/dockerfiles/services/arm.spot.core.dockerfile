@@ -32,6 +32,28 @@ RUN chown root:root /usr/bin/sudo \
 # add user to groups
 RUN usermod -a -G dialout developer
 
+# general tools install
+RUN sudo apt-get update --no-install-recommends \
+ && sudo apt-get install -y \
+  # rosmon deps \
+  ros-melodic-rosfmt \
+  ros-melodic-rqt-gui \
+  ros-melodic-rqt-gui-cpp \
+  ros-melodic-catch-ros \
+  libncurses5-dev \
+  libpcap0.8-dev \
+  # superodometry \
+  libgoogle-glog-dev \
+  libatlas-base-dev \
+  libeigen3-dev  \
+  libsuitesparse-dev \
+  libparmetis-dev \
+  libmetis-dev \
+  sharutils \
+  # nodejs-dev node-gyp libssl1.0-dev npm \
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
+
 # # ceras solver
 RUN mkdir -p /home/developer/thirdparty-software/ \
  && cd /home/developer/thirdparty-software/ \
@@ -42,21 +64,52 @@ RUN mkdir -p /home/developer/thirdparty-software/ \
  && mkdir build \
  && cd build \
  && cmake ../src \
- && make -j3 \
+ && make -j4 \
  # && make test \
  && sudo make install
 
-# realsenses
-RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense \
- && cd ~/librealsense \
- && git checkout v2.39.0 \
+# gtsam
+RUN mkdir -p /home/developer/thirdparty-software/ \
+ && cd /home/developer/thirdparty-software/ \
+ && git clone https://github.com/borglab/gtsam.git gtsam/src \
+ && cd /home/developer/thirdparty-software/gtsam/src \
+ && git checkout 4.0.2 \
+ && cd /home/developer/thirdparty-software/gtsam/ \
  && mkdir build \
  && cd build \
- && cmake .. -DCMAKE_BUILD_TYPE=Release \
- && sudo make uninstall \
- && make clean \
- && make \
- && sudo make install
+ && cmake -DGTSAM_BUILD_WITH_MARCH_NATIVE=OFF ../src \
+ && sudo make install -j4
+
+# sophus
+RUN mkdir -p /home/developer/thirdparty-software/ \
+ && cd /home/developer/thirdparty-software/ \
+ && git clone http://github.com/strasdat/Sophus.git sophus/src \
+ && cd sophus/src \
+ # && git checkout a621ff \
+ # apply patch \
+ # && cd /home/developer/thirdparty-software/sophus/src \
+ # && cp /home/$USERNAME/thirdparty-software/sophus/sophus.patch sophus.patch \
+ # && git apply sophus.patch \
+ # cmake build \
+ && cd /home/developer/thirdparty-software/sophus/ \
+ && mkdir build \
+ && cd build \
+ && cmake ../src \
+ && make -j8 \
+ && sudo make install -j4 \
+ && export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/include/
+
+# # realsenses
+# RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense \
+#  && cd ~/librealsense \
+#  && git checkout v2.39.0 \
+#  && mkdir build \
+#  && cd build \
+#  && cmake .. -DCMAKE_BUILD_TYPE=Release \
+#  && sudo make uninstall \
+#  && make clean \
+#  && make \
+#  && sudo make install
 
 # Add developer user to groups to run drivers
 RUN sudo usermod -a -G dialout developer

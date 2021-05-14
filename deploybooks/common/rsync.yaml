@@ -43,3 +43,7 @@
 
 # output any post transfer commetns
 - echo -e "\e[33m$POST_TRANSFER_SETUPS_WARNINGS"
+
+# copy over scenario file from host to remote
+- echo -e "\e[33m...copy over basestation scenarios to remote."
+- rsync /home/$USER/.subt/scenario_config.yaml $deploy_ssh:/home/$deploy_remote_username/.subt/scenario_config.yaml
