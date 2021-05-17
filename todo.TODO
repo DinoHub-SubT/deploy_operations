@@ -13,27 +13,49 @@ not-doing:
   ✘ make it a flag on which registry to push to... @cancelled(21-03-24 23:05)
   ✘ easily switch between versions @cancelled(21-03-26 14:58)
   ✘ subt cloud terraform env needs to happen before cert??!? @cancelled(21-04-21 18:59)
+  ✘ deployer command to run installer on remote @cancelled(21-05-05 15:07)
 
 deploy:
   ☐ add in the "deployer questions" in the readme
   ☐ fix perception uav image -- missing ueye
-  ☐ build all gpu docker image types
-  ☐ push all gpu docker images
   ☐ ugv simulation is not running...
-  ☐ make sure compute stick is still working...
   ☐ snapshot on skel_to, transfer remove snapshot
   ☐ nvidia gpu config in user_configs, needs to be automatically set on robots
     - add deployer config for that? -- no make the INSTALLER find it!!!
-  ☐ deployer command to run installer on remote
   ☐ if ROBOT is env var on computer, deployerbooks gets messed up....
+  ☐ basestation hostname is wrong -- it sets this on the robot too, so compose has a duplicate...
+    - on transfer, register the basestation on payload user config scripts..., then just add bs1-10 numbers...
+  ☐ user_id issue, with ids
+  ☐ install-deployer should detect the nvidia version....
 
 ansible:
-  ☐ add hub (https://github.com/github/hub/releases/tag/v2.14.2) to the ansible install
+  ✘ add hub (https://github.com/github/hub/releases/tag/v2.14.2) to the ansible install @cancelled(21-05-06 14:30)
   ✔ add the intel realsense install in payload install? @done(21-03-22 16:09)
   ✔ add intel MYRIAD install on host @done(21-03-22 16:09)
   ☐ @low ansible auto-generate ip scripts. To be used by scenarios TOO. Make it in ~/.subt env vars...
   ☐ subt localhost [ansible, prereq, validate] : checks for prereq requirements, validate all stuff is installed
   ☐ if ansible finds same network on host as docker network, then do not create the network configuration...
+  ☐ new user setup on robot
+    - sudo useradd svn
+    - sudo passwd svn
+    - sudo mkhomedir_helper svn
+    - sudo usermod -s /bin/bash svn
+    - mkdir ~/.ssh
+    - chmod 700 ~/.ssh
+    - chmod 700 ~/.ssh
+    - chmod 600 ~/.ssh/authorized_keys
+    - sudo usermod -a -G sudo <username>
+  ☐ add user to docker group
+    - sudo groupadd docker
+    - sudo usermod -aG docker $USER
+    - newgrp docker
+  ☐ change usernames
+    - sudo usermod -l new old
+    - sudo groupmod -n new old
+    - mv /home/old/ /home/new
+    - sudo vim /etc/passwd <-- change the home directory
+    # - groupadd new
+    # - sudo usermod -d /home/new -m -g new -l new old
 
 readme:
   ☐ ansible failed with "password"

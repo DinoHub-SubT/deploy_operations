@@ -1,0 +1,24 @@
+- scenarios:
+  - +extend: workspaces/shared/melodic
+
+  - core:
+    # setup docker service name
+    - export SERVICE=core
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=utils-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+    - set_docker_compose_service
+
+    # extend general actions
+    - +extend: common/docker.registry
+    - +extend: common/docker
+
+    - catkin:
+      - export CATKIN_PROFILE=offline.core
+      - +import:env/catkin.env
+
+      - +extend: catkin/common
+      - +extend: catkin/offline
