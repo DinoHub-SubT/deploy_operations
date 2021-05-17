@@ -16,6 +16,7 @@
   # setup hosts to run commands as
   hosts:
     - ugv
+    - spot
     - uav
     - spot
   become_method: sudo
