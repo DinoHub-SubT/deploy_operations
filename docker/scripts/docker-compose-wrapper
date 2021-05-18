@@ -50,6 +50,7 @@ fi
 
 # print debug information
 warning "docker image name: ${DOCKER_IMAGE_NAME}"
+warning "basestation IP: ${bs_ip} and hostname: ${bs_hostname}"
 newline
 
 # go to the docker compose top path

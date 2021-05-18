@@ -54,7 +54,7 @@ RUN sudo apt-get update --no-install-recommends \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
-# # ceras solver
+# ceras solver
 RUN mkdir -p /home/developer/thirdparty-software/ \
  && cd /home/developer/thirdparty-software/ \
  && git clone https://ceres-solver.googlesource.com/ceres-solver ceres-solver/src \
@@ -85,6 +85,7 @@ RUN mkdir -p /home/developer/thirdparty-software/ \
  && cd /home/developer/thirdparty-software/ \
  && git clone http://github.com/strasdat/Sophus.git sophus/src \
  && cd sophus/src \
+ && git checkout 593db47 \
  # && git checkout a621ff \
  # apply patch \
  # && cd /home/developer/thirdparty-software/sophus/src \
