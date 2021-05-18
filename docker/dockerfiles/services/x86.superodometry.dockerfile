@@ -72,6 +72,7 @@ RUN mkdir -p /home/developer/thirdparty-software/ \
  && cd /home/developer/thirdparty-software/ \
  && git clone http://github.com/strasdat/Sophus.git sophus/src \
  && cd sophus/src \
+ && git checkout 593db47 \
  # && git checkout a621ff \
  # apply patch \
  # && cd /home/developer/thirdparty-software/sophus/src \
