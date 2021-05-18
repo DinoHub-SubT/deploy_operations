@@ -6,7 +6,7 @@
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=utils-shell
+    - +env:DOCKER_CONTAINER=offline-core-shell
 
     # import the workspace environment setup
     - set_workspace_configuration
@@ -21,8 +21,6 @@
       - +extend: common/docker/rm
 
     - catkin:
-      - export CATKIN_PROFILE=offline.core
+      - export CATKIN_PROFILE=default
       - +import:env/catkin.env
-
-      - +extend: catkin/common
       - +extend: catkin/offline

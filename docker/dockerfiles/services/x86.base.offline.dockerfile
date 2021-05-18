@@ -64,6 +64,7 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   libqt5xmlpatterns5-dev \
   libqt5xmlpatterns5 \
   libqt5opengl5-dev \
+  ros-melodic-rosbash \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
