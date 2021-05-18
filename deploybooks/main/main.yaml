@@ -15,6 +15,7 @@
 
   # extend simulation platforms
   - +extend: main/platforms/basestation.plt
+  - +extend: main/platforms/offline.plt
 
   - ugv:
     - export PLATFORM=ugv

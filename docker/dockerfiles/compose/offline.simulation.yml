@@ -13,6 +13,7 @@ services:
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
     container_name: ros_shell
+    network_mode: "host"
     entrypoint: $entry_path/ros-shell.bash
     tty: true # keep container running
 
@@ -24,7 +25,8 @@ services:
       dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.offline.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    hostname: ${simulation_hostname}
+    hostname: ${SUBT_DEPLOYER_BASESTATION_HOSTNAME}
+    network_mode: "host"
     container_name: offline-core-shell
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
