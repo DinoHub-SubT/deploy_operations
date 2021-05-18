@@ -48,6 +48,7 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   ros-melodic-teleop-twist-joy \
   ros-melodic-rosfmt \
   ros-melodic-jsk-rviz* \
+  ros-melodic-diagnostic-updater \
   #################### \
   # state est rosdeps  \
   #################### \

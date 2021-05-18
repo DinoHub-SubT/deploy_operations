@@ -65,7 +65,7 @@ services:
     privileged: true
     tty: true # keep container running
     environment:
-      - ws_devel_source=$UGV_XAVIER_WS_SOURCE
+      - ws_devel_source=$SPOT_XAVIER_DRIVERS_WS_SOURCE
     volumes:
       # Mount the flir and scd
       - /dev/subt:/dev/subt
@@ -83,7 +83,7 @@ services:
     privileged: true
     tty: true # keep container running
     environment:
-      - ws_devel_source=$UGV_XAVIER_WS_SOURCE
+      - ws_devel_source=$SPOT_XAVIER_CORE_WS_SOURCE
     volumes:
       # Mount the flir and scd
       - /dev/subt:/dev/subt

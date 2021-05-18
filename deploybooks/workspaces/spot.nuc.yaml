@@ -31,11 +31,15 @@
 
       - +extend: catkin/common
       # ugly hack...
-      - export CATKIN_PROFILE=spot.nuc.ppc
-      - +extend: catkin/ugv
+      - ppc:
+        - export CATKIN_PROFILE=spot.nuc.ppc
+        - +extend: catkin/ugv
+      # ugly hack...
+      - nuc:
+        - export CATKIN_PROFILE=spot.nuc.nuc
+        - +extend: catkin/ugv
       # ugly hack...
       - export CATKIN_PROFILE=spot.nuc.core
-      - +extend: catkin/ugv
       - +extend: catkin/uav
       - +extend: catkin/subt_launch
 

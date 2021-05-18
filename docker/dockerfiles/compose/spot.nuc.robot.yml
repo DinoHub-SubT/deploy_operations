@@ -41,4 +41,4 @@ services:
     entrypoint: $entry_path/ws-shell.bash
     tty: true # keep container running
     environment:
-      - ws_devel_source=$UGV_NUC_WS_SOURCE
+      - ws_devel_source=$SPOT_NUC_WS_SOURCE
