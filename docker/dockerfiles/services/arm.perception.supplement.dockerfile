@@ -49,6 +49,12 @@ RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense 
  && make \
  && sudo make install
 
+RUN sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends \
+  ros-melodic-image-proc \
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
+
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup
 # //////////////////////////////////////////////////////////////////////////////
