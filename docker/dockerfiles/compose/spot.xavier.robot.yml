@@ -36,14 +36,14 @@ services:
 
   # @brief Spot, cameras
   spot.xavier-perception:
-    image: ${DOCKER_IMAGE_NAME}
+    image: subt/arm.spot.xavier.cpu.core:${DOCKER_IMAGE_TAG} # ${DOCKER_IMAGE_NAME}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
-      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.dockerfile
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.core.dockerfile #arm.spot.perception.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
     container_name: $ROBOT-perception-shell
-    entrypoint: $entry_path/ros-shell.bash
+    entrypoint: $entry_path/objdet-shell.bash
     privileged: true
     tty: true # keep container running
     environment:

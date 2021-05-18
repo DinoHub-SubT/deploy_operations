@@ -26,10 +26,15 @@
       - +extend: common/docker/rm
 
     - catkin:
-      - export CATKIN_PROFILE=spot.nuc
+      - export CATKIN_PROFILE=spot.nuc.core
       - +import:env/catkin.env
 
       - +extend: catkin/common
+      # ugly hack...
+      - export CATKIN_PROFILE=spot.nuc.ppc
+      - +extend: catkin/ugv
+      # ugly hack...
+      - export CATKIN_PROFILE=spot.nuc.core
       - +extend: catkin/ugv
       - +extend: catkin/uav
       - +extend: catkin/subt_launch
