@@ -1,0 +1,35 @@
+TEst 2
+
+Backpack gas : 0.306
+Fire extinguisher: 0.45
+Gas: 1.69
+Backpack hallway: 0.55
+Survivor: 1.89
+Rope: none
+helmet nonedrill noene
+cell phone agent orange none
+cell phone gas : good but no ground truth
+vent: 1.56\
+
+overall: many decent localizations but redunancies many fall outside of map
+
+never in agent orange room
+
+did not land at home
+
+//////////////////////////////////////////////////////////
+
+TEst 3
+
+Backpack gas : 
+Fire extinguisher: 
+Gas: 
+Backpack hallway: 
+Survivor: 
+Rope: 
+helmet none
+drill none
+cell phone agent orang
+cell phone gas :  but no ground truth
+vent: 
+
