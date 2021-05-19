@@ -52,6 +52,7 @@ RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense 
 RUN sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   ros-melodic-image-proc \
+  ros-melodic-image-transport-plugins \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
