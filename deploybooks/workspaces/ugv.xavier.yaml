@@ -17,11 +17,12 @@
     - +extend: common/docker.registry
     - +extend: common/docker
     - catkin:
-      - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+      - export CATKIN_PROFILE=ugv.xavier.perception
       - +import:env/catkin.env
 
       - source /opt/ros/melodic/setup.bash
       - +extend: catkin/common
+      - +extend: catkin/uav
       - deps:
         - export CATKIN_WORKSPACE=perception/deps/catkin
         - +extend: catkin/build
