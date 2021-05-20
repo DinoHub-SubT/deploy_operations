@@ -1,0 +1,35 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief General Offline Utilities, for Simulation Setup
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief UGV, ROS, simulation
+  offline-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.ros.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros_shell
+    network_mode: "host"
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief UGV, ROS, simulation
+  offline-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/x86.base.offline.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    hostname: ${SUBT_DEPLOYER_BASESTATION_HOSTNAME}
+    network_mode: "host"
+    container_name: offline-core-shell
+    entrypoint: $entry_path/ws-shell.bash
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=/home/developer/$DEPLOYER_WS_NAME/devel/offline/setup.bash
+

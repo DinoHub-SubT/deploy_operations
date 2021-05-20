@@ -1,0 +1,3 @@
+- export CATKIN_WORKSPACE=offline_tools
+- +extend: catkin/build
+- +extend: catkin/clean

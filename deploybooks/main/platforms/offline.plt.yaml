@@ -1,0 +1,15 @@
+# ////////////////////////////////////////////////////////////////////////////
+- offline:
+# ////////////////////////////////////////////////////////////////////////////
+  # general platform type
+  - export PLATFORM=offline
+
+  # exact name of remote/local system
+  - +env:ROBOT=offline
+
+  # setup docker context
+  - export DCTX=default
+  - export SCENARIOS_PLATFORM=offline
+
+  # extend the basestation workspace
+  - +extend: workspaces/offline
