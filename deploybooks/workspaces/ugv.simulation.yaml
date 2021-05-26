@@ -49,4 +49,4 @@
 
   # only enable if debugging -- not needed for simulation
   # - wifi:
-  #   - +extend: workspaces/base/perception.wifi
+  #   - +extend: workspaces/base/wifi

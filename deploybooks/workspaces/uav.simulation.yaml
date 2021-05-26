@@ -23,4 +23,4 @@
     - +extend: workspaces/base/perception
 
   - wifi:
-    - +extend: workspaces/base/perception.wifi
+    - +extend: workspaces/base/wifi
