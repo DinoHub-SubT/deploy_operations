@@ -1,3 +1,0 @@
-- export CATKIN_WORKSPACE=common
-- +extend: catkin/build
-- +extend: catkin/clean

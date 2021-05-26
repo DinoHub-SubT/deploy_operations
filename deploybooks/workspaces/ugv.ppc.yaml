@@ -23,7 +23,7 @@
       - export CATKIN_PROFILE=ugv.ppc
       - +import:env/catkin.env
 
-      - +extend: catkin/common
-      - +extend: catkin/ugv
-      - +extend: catkin/uav
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/common
+      - +extend: workspaces/catkin/ugv
+      - +extend: workspaces/catkin/uav
+      - +extend: workspaces/catkin/subt_launch

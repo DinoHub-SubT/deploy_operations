@@ -16,11 +16,11 @@
     - +import:env/catkin.env
 
     - source /opt/ros/melodic/setup.bash
-    - +extend: catkin/common
-    - +extend: catkin/uav
+    - +extend: workspaces/catkin/common
+    - +extend: workspaces/catkin/uav
     - deps:
       - export CATKIN_WORKSPACE=perception/deps/catkin
-      - +extend: catkin/build
-      - +extend: catkin/clean
-    - +extend: catkin/perception
-    - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/build
+      - +extend: workspaces/catkin/clean
+    - +extend: workspaces/catkin/perception
+    - +extend: workspaces/catkin/subt_launch

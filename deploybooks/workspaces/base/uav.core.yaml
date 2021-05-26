@@ -16,8 +16,8 @@
     - export CATKIN_PROFILE=uav.core
     - +import:env/catkin.env
 
-    - +extend: catkin/px4
-    - +extend: catkin/common
-    - +extend: catkin/uav
-    - +extend: catkin/simulation
-    - +extend: catkin/subt_launch
+    - +extend: workspaces/catkin/px4
+    - +extend: workspaces/catkin/common
+    - +extend: workspaces/catkin/uav
+    - +extend: workspaces/catkin/simulation
+    - +extend: workspaces/catkin/subt_launch

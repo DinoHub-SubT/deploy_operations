@@ -24,9 +24,9 @@
       - export CATKIN_PROFILE=ugv.nuc
       - +import:env/catkin.env
 
-      - +extend: catkin/common
-      - +extend: catkin/ugv
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/common
+      - +extend: workspaces/catkin/ugv
+      - +extend: workspaces/catkin/subt_launch
 
   - slam:
     # setup pre-defined environment variables, for workspace env import
@@ -47,8 +47,8 @@
       - export CATKIN_PROFILE=ugv.nuc.slam
       - +import:env/catkin.host.env
 
-      - +extend: catkin/ugv
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/ugv
+      - +extend: workspaces/catkin/subt_launch
 
   - wifi:
     - +extend: workspaces/base/perception.wifi

@@ -19,5 +19,5 @@
     - catkin:
       - export CATKIN_PROFILE=offline.core
       - +import:env/catkin.env
-      - +extend: catkin/offline
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/offline
+      - +extend: workspaces/catkin/subt_launch

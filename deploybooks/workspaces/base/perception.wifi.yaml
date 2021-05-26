@@ -2,6 +2,6 @@
   - catkin:
     - +import:env/catkin.host.env
     - export CATKIN_PROFILE=perception.wifi
-    - +extend: catkin/common
-    - +extend: catkin/perception
-    - +extend: catkin/subt_launch
+    - +extend: workspaces/catkin/common
+    - +extend: workspaces/catkin/perception
+    - +extend: workspaces/catkin/subt_launch

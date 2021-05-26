@@ -20,6 +20,6 @@
       - export CATKIN_PROFILE=basestation
       - +import:env/catkin.env
 
-      - +extend: catkin/common
-      - +extend: catkin/basestation
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/common
+      - +extend: workspaces/catkin/basestation
+      - +extend: workspaces/catkin/subt_launch
