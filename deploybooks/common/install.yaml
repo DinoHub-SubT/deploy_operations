@@ -1,0 +1,2 @@
+- cd $SUBT_PATH
+- ./install-deployer.bash --install

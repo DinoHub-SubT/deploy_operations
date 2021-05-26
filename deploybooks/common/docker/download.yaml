@@ -1,0 +1,4 @@
+- cd $SUBT_OPERATIONS_PATH/docker/dockerfiles/thirdparty-software/
+- rm -rf download || true
+- mkdir download
+- az_docker_download.sh --down -p azure_download -c docker-image-thirdparty

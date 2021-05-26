@@ -1,0 +1,3 @@
+# - docker rm -f $(docker ps -a -q)
+- echo "removing... $(docker ps -a --format '{{.Names}}' | grep "^${DOCKER_CONTAINER}")"
+- docker ps -a --format '{{.Names}}' | grep "^${DOCKER_CONTAINER}" | awk '{print $1}' | xargs -I {} docker rm -f {}

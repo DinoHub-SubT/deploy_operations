@@ -1,0 +1,5 @@
+# start the docker image build service
+- docker-compose-wrapper build --force-rm ${DOCKER_COMPOSE_SERVICE}
+
+# ignore any build errors (in case there are no dangling images)
+- docker rmi -f $(docker images -f "dangling=true" -q) 2&1> /dev/null

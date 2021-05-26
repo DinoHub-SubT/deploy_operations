@@ -1,0 +1,15 @@
+- clean:
+  - docker rmi -f $(docker images -f "dangling=true" -q)  || true
+  - docker images
+# stopping containers
+- stop:
+  - docker stop $(docker ps -a -q) || true
+  - docker ps -a
+# removing containers
+- rm:
+  - docker rm -f $(docker ps -a -q) || true
+  - docker images
+# removes all subt docker images
+- prune:
+  - docker images --filter "reference=subt/*" | awk '{print $3}' | xargs -I {} docker rmi -f {} || true
+  - docker images

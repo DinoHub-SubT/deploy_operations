@@ -16,9 +16,15 @@
     # override any default environment setups
     - export DOCKER_BASE_IMAGE_PROJECT=ros.melodic
 
-    # extend general actions
-    - +extend: common/docker.registry
-    - +extend: common/docker
+    # extend docker actions
+    - docker:
+      - +extend: common/docker/registry
+      - +extend: common/docker/make
+      - +extend: common/docker/start
+      - +extend: common/docker/stop
+      - +extend: common/docker/rm
+
+    # extend catkin actions
     - catkin:
       - export CATKIN_PROFILE=ugv.ppc
       - +import:env/catkin.env

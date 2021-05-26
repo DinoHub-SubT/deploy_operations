@@ -1,0 +1,3 @@
+# - docker stop $(docker ps -a -q)
+- echo "stopping... $(docker ps --format '{{.Names}}' | grep "^${DOCKER_CONTAINER}")"
+- docker ps --format '{{.Names}}' | grep "^${DOCKER_CONTAINER}" | awk '{print $1}' | xargs -I {} docker stop {}
