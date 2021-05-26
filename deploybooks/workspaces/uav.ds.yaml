@@ -1,7 +1,7 @@
 - scenarios:
   # extend common workspaces
-  - +extend: workspaces/shared/melodic
-  - +extend: workspaces/shared/super
+  - +extend: workspaces/base/melodic
+  - +extend: workspaces/base/super
 
   - core:
     # setup docker service name
@@ -68,4 +68,4 @@
       - +extend: catkin/common
       - +extend: catkin/perception
       - +extend: catkin/subt_launch
-  
+

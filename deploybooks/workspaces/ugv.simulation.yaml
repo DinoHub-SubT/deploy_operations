@@ -1,8 +1,8 @@
 - scenarios:
 
   # extend common workspaces
-  - +extend: workspaces/shared/melodic
-  - +extend: workspaces/shared/super
+  - +extend: workspaces/base/melodic
+  - +extend: workspaces/base/super
 
   - core:
     # setup docker service name
@@ -32,8 +32,8 @@
       - +extend: catkin/subt_launch
 
   - perception:
-    - +extend: workspaces/shared/perception
+    - +extend: workspaces/base/perception
 
   # only enable if debugging -- not needed for simulation
   - wifi:
-    - +extend: workspaces/shared/perception.wifi
+    - +extend: workspaces/base/perception.wifi

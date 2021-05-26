@@ -20,6 +20,7 @@
 
     - source /opt/ros/melodic/setup.bash
     - +extend: catkin/common
+    - +extend: catkin/uav
     - deps:
       - export CATKIN_WORKSPACE=perception/deps/catkin
       - +extend: catkin/build

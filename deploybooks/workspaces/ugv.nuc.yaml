@@ -1,7 +1,7 @@
 - scenarios:
   # common remote sync actions
-  - +extend: workspaces/shared/melodic
-  - +extend: workspaces/shared/super
+  - +extend: workspaces/base/melodic
+  - +extend: workspaces/base/super
 
   - core:
     # setup docker service name
@@ -51,4 +51,4 @@
       - +extend: catkin/subt_launch
 
   - wifi:
-    - +extend: workspaces/shared/perception.wifi
+    - +extend: workspaces/base/perception.wifi

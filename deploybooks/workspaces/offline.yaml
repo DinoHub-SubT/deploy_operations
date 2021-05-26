@@ -1,5 +1,5 @@
 - scenarios:
-  - +extend: workspaces/shared/melodic
+  - +extend: workspaces/base/melodic
 
   - core:
     # setup docker service name
