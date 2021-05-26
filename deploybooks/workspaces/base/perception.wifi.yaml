@@ -1,4 +1,4 @@
-- scenarios.perception.wifi:
+- scenarios.wifi:
   - catkin:
     - +import:env/catkin.host.env
     - export CATKIN_PROFILE=perception.wifi

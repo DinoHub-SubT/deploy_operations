@@ -1,0 +1,23 @@
+- core:
+  # export the docker compose service name
+  - export SERVICE=core
+
+  # import the workspace environment setup
+  - set_workspace_configuration
+  - set_docker_compose_service
+
+  # override any default environment setups
+  - export DOCKER_BASE_IMAGE_PROJECT=superodometry
+
+  # extend general actions
+  - +extend: common/docker.registry
+  - +extend: common/docker
+  - catkin:
+    - export CATKIN_PROFILE=uav.core
+    - +import:env/catkin.env
+
+    - +extend: catkin/px4
+    - +extend: catkin/common
+    - +extend: catkin/uav
+    - +extend: catkin/simulation
+    - +extend: catkin/subt_launch

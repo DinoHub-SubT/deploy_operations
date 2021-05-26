@@ -1,9 +1,6 @@
 - scenarios.perception:
-  - export SERVICE=perception
+  # setup the full expanded, docker compose service
   - set_docker_compose_service
-
-  # setup pre-defined environment variables, for workspace env import
-  - +env:DOCKER_CONTAINER=${ROBOT}-perception-shell
 
   # import the workspace environment setup
   - set_workspace_configuration

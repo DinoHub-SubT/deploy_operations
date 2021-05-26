@@ -4,7 +4,7 @@
   - +extend: workspaces/base/super
 
   - core:
-    # setup docker service name
+    # export the docker compose service name
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import

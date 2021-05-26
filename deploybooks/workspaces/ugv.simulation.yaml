@@ -5,7 +5,7 @@
   - +extend: workspaces/base/super
 
   - core:
-    # setup docker service name
+    # export the docker compose service name
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
@@ -32,8 +32,15 @@
       - +extend: catkin/subt_launch
 
   - perception:
+    # export the docker compose service name
+    - export SERVICE=perception
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${ROBOT}-perception-shell
+
+    # extend the base perception workspace
     - +extend: workspaces/base/perception
 
   # only enable if debugging -- not needed for simulation
-  - wifi:
-    - +extend: workspaces/base/perception.wifi
+  # - wifi:
+  #   - +extend: workspaces/base/perception.wifi
