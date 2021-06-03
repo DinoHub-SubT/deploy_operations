@@ -1,10 +1,10 @@
 - scenarios:
   # common remote sync actions
-  - +extend: workspaces/shared/melodic
-  - +extend: workspaces/shared/super
+  - +extend: workspaces/base/melodic
+  - +extend: workspaces/base/super
 
   - core:
-    # setup docker service name
+    # export the docker compose service name
     - export SERVICE=core
 
     # setup pre-defined environment variables, for workspace env import
@@ -29,19 +29,19 @@
       - export CATKIN_PROFILE=spot.nuc.core
       - +import:env/catkin.env
 
-      - +extend: catkin/common
+      - +extend: workspaces/catkin/common
       # ugly hack...
       - ppc:
         - export CATKIN_PROFILE=spot.nuc.ppc
-        - +extend: catkin/ugv
+        - +extend: workspaces/catkin/ugv
       # ugly hack...
       - nuc:
         - export CATKIN_PROFILE=spot.nuc.nuc
-        - +extend: catkin/ugv
+        - +extend: workspaces/catkin/ugv
       # ugly hack...
       - export CATKIN_PROFILE=spot.nuc.core
-      - +extend: catkin/uav
-      - +extend: catkin/subt_launch
+      - +extend: workspaces/catkin/uav
+      - +extend: workspaces/catkin/subt_launch
 
   - wifi:
-    - +extend: workspaces/shared/perception.wifi
+    - +extend: workspaces/base/wifi

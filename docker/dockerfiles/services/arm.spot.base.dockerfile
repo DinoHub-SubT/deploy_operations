@@ -86,20 +86,11 @@ RUN sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
 
 # //////////////////////////////////////////////////////////////////////////////
 # ros install
-## https://github.com/osrf/gazebo/issues/2731
-## http://gazebosim.org/distributions/gazebo/releases/
-## Issues installing gazebo9-common :P
-RUN curl -Ol https://osrf-distributions.s3.us-east-1.amazonaws.com/gazebo/releases/gazebo9-common_9.13.1-1~bionic_all.deb
 
-RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
- && sudo /bin/sh -c 'wget -q http://packages.osrfoundation.org/gazebo.key -O - | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 sudo apt-key add -' \
- && sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
  && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
  && sudo apt-get update \
- && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  ./gazebo9-common_9.13.1-1~bionic_all.deb \
- && rm ./gazebo9-common_9.13.1-1~bionic_all.deb \
  && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   # general ros melodic dependencies \
   python-rosdep \
@@ -118,46 +109,36 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   liblog4cplus-dev \
   libsuitesparse-dev \
   libsdl1.2-dev \
-  # basic ros-melodic packages \
+  # general ros melodic packages \
+  ros-melodic-diagnostic-updater \
   ros-melodic-catch-ros \
   ros-melodic-smach-viewer \
   ros-melodic-tf-conversions \
-  ros-melodic-gazebo-* \
   ros-melodic-random-numbers \
   ros-melodic-cmake-modules \
   ros-melodic-rqt-gui-cpp \
   ros-melodic-rviz \
-  # common workspace dependencies \
   ros-melodic-geometry \
   ros-melodic-tf-conversions \
   ros-melodic-ros-type-introspection \
   ros-melodic-tf2-geometry-msgs \
   python-rosinstall \
-  ros-melodic-joystick-drivers \
   ros-melodic-pointcloud-to-laserscan \
   ros-melodic-robot-localization \
   ros-melodic-spacenav-node \
   ros-melodic-tf2-sensor-msgs \
   ros-melodic-twist-mux \
-  ros-melodic-velodyne-simulator \
-  libncurses5-dev \
   ros-melodic-velodyne-description \
   ros-melodic-hector-sensors-description \
   ros-melodic-joint-state-controller \
-  ros-melodic-octomap \
-  ros-melodic-octomap-server \
-  ros-melodic-octomap-ros \
-  ros-melodic-octomap-mapping \
-  ros-melodic-octomap-msgs \
   ros-melodic-velodyne-* \  
-  ros-melodic-multimaster-fkie \
   ros-melodic-mav-msgs \
-  ros-melodic-mavros-msgs \
   ros-melodic-rosserial \
-  ros-melodic-teleop-twist-joy \
   ros-melodic-rosfmt \
-  ros-melodic-jsk-rviz* \
-  # state estimation rosdeps  \
+  ros-melodic-rqt-gui \
+  ros-melodic-rqt-gui-cpp \
+  ros-melodic-catch-ros \
+  libncurses5-dev \
   festival \
   festvox-kallpc16k \
   python-gi \
@@ -167,9 +148,13 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
  && sudo rm -rf /var/lib/apt/lists/*
 
 # //////////////////////////////////////////////////////////////////////////////
-RUN pip install wheel setuptools pexpect --user
-# Needs wheel to properly install first
-RUN pip install PyYAML  tmuxp rospkg catkin_tools catkin_pkg
+# deployer dependencies
+RUN sudo -H pip install cython wheel setuptools pexpect --user
+RUN sudo -H pip install numpy PyYAML pyquaternion tmuxp rospkg catkin_tools catkin_pkg --user
+# python3 deps
+# RUN sudo -H pip3 install --upgrade pip
+# RUN sudo -H pip3 install wheel setuptools pexpect cython --user
+# RUN sudo -H pip3 install rosdep rospkg rosinstall_generator rosinstall wstool vcstools catkin_tools catkin_pkg
 
 # force a rosdep update
 RUN sudo rosdep init && rosdep update

@@ -20,58 +20,16 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
  && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
  && sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
-  python-rosdep \
-  python-rosinstall \
   ros-melodic-joystick-drivers \
-  ros-melodic-pointcloud-to-laserscan \
-  ros-melodic-robot-localization \
-  ros-melodic-spacenav-node \
-  ros-melodic-tf2-sensor-msgs \
-  ros-melodic-twist-mux \
-  libproj-dev \
-  libnlopt-dev \
-  libncurses5-dev \
-  ros-melodic-velodyne-* \
-  ros-melodic-velodyne-description \
-  ros-melodic-hector-sensors-description \
   ros-melodic-joint-state-controller \
-  ros-melodic-octomap \
-  ros-melodic-octomap-server \
-  ros-melodic-octomap-ros \
-  ros-melodic-octomap-mapping \
-  ros-melodic-octomap-msgs \
-  ros-melodic-smach-viewer \
-  ros-melodic-random-numbers \
+  ros-melodic-mavros \
+  ros-melodic-mavros-extras \
   ros-melodic-mav-msgs \
   ros-melodic-mavros-msgs \
-  ros-melodic-rosserial \
+  ros-melodic-joy \
   ros-melodic-teleop-twist-joy \
-  ros-melodic-rosfmt \
-  ros-melodic-jsk-rviz* \
-  ros-melodic-diagnostic-updater \
-  #################### \
-  # state est rosdeps  \
-  #################### \
-  gstreamer1.0-plugins-base \
-  gir1.2-gst-plugins-base-1.0 \
-  libgstreamer1.0-dev \
-  festival \
-  festvox-kallpc16k \
-  gstreamer1.0-plugins-ugly \
-  python-gi \
-  gstreamer1.0-plugins-good \
-  libgstreamer-plugins-base1.0-dev \
-  gstreamer1.0-tools \
-  gir1.2-gstreamer-1.0 \
-  chrony \
-  sharutils \
-  python-setuptools \
-  # rosmon deps \
-  ros-melodic-rosfmt \
-  ros-melodic-rqt-gui \
-  ros-melodic-rqt-gui-cpp \
-  ros-melodic-catch-ros \
-  libncurses5-dev \
+  libproj-dev \
+  libnlopt-dev \
   libpcap0.8-dev \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
@@ -79,8 +37,28 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
 # force a rosdep update
 RUN rosdep update
 
-RUN pip2 install wheel setuptools pexpect --user
-RUN pip2 install  --user genpy pyquaternion
+# Install deployer dependencies
+# RUN sudo -H pip2 install wheel setuptools pexpect
+# RUN sudo -H pip2 install genpy pyquaternion
+
+# Install boston dynamics spot api
+RUN rosdep update
+RUN sudo -H pip3 install wheel setuptools cython
+RUN sudo -H pip3 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core
+
+# install spot ros driver
+RUN sudo apt-get update
+RUN mkdir -p /tmp/spot_build_ws/src
+RUN git clone https://github.com/clearpathrobotics/spot_ros.git /tmp/spot_build_ws/src/spot_ros
+RUN sudo /bin/bash -c "cd /tmp/spot_build_ws/ && source /opt/ros/melodic/setup.bash && catkin_make && catkin_make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic && rosdep install --from-paths src --ignore-src -y"
+RUN sudo rm -rf /tmp/spod_build_ws/src
+RUN sudo -H pip uninstall -y pyyaml
+
+# Add developer user to groups to run drivers
+RUN sudo usermod -a -G dialout developer
+RUN sudo usermod -a -G tty developer
+RUN sudo usermod -a -G video developer
+RUN sudo usermod -a -G root developer
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup
