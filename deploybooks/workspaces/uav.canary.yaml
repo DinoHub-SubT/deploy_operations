@@ -8,6 +8,10 @@
     - +env:DOCKER_CONTAINER=${UAV_COMPUTER}-core-shell
 
     # extend the base uav core workspace
+    - catkin:
+      - export CATKIN_PROFILE=uav.core
+      - +import:env/catkin.env
+      - +extend: workspaces/catkin/teensy
     - +extend: workspaces/base/uav.core
 
   - perception:
