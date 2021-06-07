@@ -59,6 +59,7 @@
       - export CATKIN_PROFILE=ugv.nuc.slam
       - +import:env/catkin.host.env
 
+      - +extend: workspaces/catkin/common
       - +extend: workspaces/catkin/ugv
       - +extend: workspaces/catkin/subt_launch
 
