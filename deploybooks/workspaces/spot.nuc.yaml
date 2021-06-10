@@ -35,11 +35,9 @@
         - export CATKIN_PROFILE=spot.nuc.ppc
         - +extend: workspaces/catkin/ugv
       # ugly hack...
-      - nuc:
-        - export CATKIN_PROFILE=spot.nuc.nuc
-        - +extend: workspaces/catkin/ugv
-      # ugly hack...
       - export CATKIN_PROFILE=spot.nuc.core
+      - nuc:
+        - +extend: workspaces/catkin/ugv
       - +extend: workspaces/catkin/uav
       - +extend: workspaces/catkin/subt_launch
 
