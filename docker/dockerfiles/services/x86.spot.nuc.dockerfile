@@ -61,7 +61,7 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
  && sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
  && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
- && sudo /bin/sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" > /etc/apt/sources.list.d/realsense.list' \
+ # && sudo /bin/sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" > /etc/apt/sources.list.d/realsense.list' \
  && sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   ros-melodic-octomap-ros \
@@ -106,10 +106,10 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   #################### \
   # realsense  \
   #################### \
-  librealsense2-dkms \
-  librealsense2-utils \
-  librealsense2-dev \
-  librealsense2-dbg \
+  # librealsense2-dkms \
+  # librealsense2-utils \
+  # librealsense2-dev \
+  # librealsense2-dbg \
   #################### \
   # other \
   #################### \
@@ -205,26 +205,26 @@ RUN mkdir ~/labjack \
 
 # //////////////////////////////////////////////////////////////////////////////
 # Install librealsense for realsense 515 camera
-RUN mkdir -p ~/thirdparty/realsense \
- && cd ~/thirdparty/realsense \
- && git clone https://github.com/IntelRealSense/librealsense realsense_sdk \
- && cd realsense_sdk \
- && mkdir build \
- && cd build \
- && cmake ../ -DCMAKE_BUILD_TYPE=Release \
- && sudo make uninstall \
- && make clean \
- && make \
- && sudo make install
+#RUN mkdir -p ~/thirdparty/realsense \
+# && cd ~/thirdparty/realsense \
+# && git clone https://github.com/IntelRealSense/librealsense realsense_sdk \
+# && cd realsense_sdk \
+# && mkdir build \
+# && cd build \
+# && cmake ../ -DCMAKE_BUILD_TYPE=Release \
+# && sudo make uninstall \
+# && make clean \
+# && make \
+# && sudo make install
 
 # Install the librealsense ros driver
-RUN mkdir -p ~/thirdparty/realsense/ros/src \
- && cd ~/thirdparty/realsense/ros/src \
- && git clone https://github.com/IntelRealSense/realsense-ros \
- && cd ~/thirdparty/realsense/ros/ \
- && catkin config --extend /opt/ros/melodic/ \
- && catkin config -DCMAKE_BUILD_TYPE=Release \
- && catkin build
+#RUN mkdir -p ~/thirdparty/realsense/ros/src \
+# && cd ~/thirdparty/realsense/ros/src \
+# && git clone https://github.com/IntelRealSense/realsense-ros \
+# && cd ~/thirdparty/realsense/ros/ \
+# && catkin config --extend /opt/ros/melodic/ \
+# && catkin config -DCMAKE_BUILD_TYPE=Release \
+# && catkin build
 
 # install subt python packages
 RUN pip install --user wheel

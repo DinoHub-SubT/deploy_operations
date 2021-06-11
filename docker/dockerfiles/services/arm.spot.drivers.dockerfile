@@ -38,13 +38,13 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
 RUN rosdep update
 
 # Install deployer dependencies
-# RUN sudo -H pip2 install wheel setuptools pexpect
-# RUN sudo -H pip2 install genpy pyquaternion
+RUN sudo -H pip2 install wheel setuptools pexpect
+RUN sudo -H pip2 install genpy pyquaternion
 
 # Install boston dynamics spot api
 RUN rosdep update
-RUN sudo -H pip3 install wheel setuptools cython
-RUN sudo -H pip3 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core
+RUN sudo -H pip2 install wheel setuptools cython
+RUN sudo -H pip2 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core
 
 # install spot ros driver
 RUN sudo apt-get update
