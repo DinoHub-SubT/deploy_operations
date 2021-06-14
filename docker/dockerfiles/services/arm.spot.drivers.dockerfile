@@ -45,7 +45,7 @@ RUN rosdep update
 RUN sudo -H pip2 install wheel setuptools pexpect
 RUN sudo -H pip2 install genpy pyquaternion
 
-# Install boston dynamics spot api
+# Install boston dynamics spot ros dependencies
 RUN sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   python3-pip \
@@ -53,10 +53,12 @@ RUN sudo apt-get update \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
+# Install boston dynamics spot pip dependencies
 RUN sudo -H pip3 install wheel setuptools cython
 RUN sudo -H pip3 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core empy futures
 RUN pip2 uninstall -y pyyaml futures
 
+# Install boston dynamics spot driver
 RUN mkdir -p /home/developer/thirdparty/spot_driver/src \
  && cd /home/developer/thirdparty/spot_driver/src \
  && git clone https://github.com/clearpathrobotics/spot_ros.git \
@@ -68,18 +70,6 @@ RUN mkdir -p /home/developer/thirdparty/spot_driver/src \
   -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m \
   -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so \
  && catkin build
- # && catkin make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic
-
-# install spot ros driver
-# RUN sudo apt-get update
-# RUN mkdir -p /tmp/spot_build_ws/src
-# RUN git clone https://github.com/clearpathrobotics/spot_ros.git /tmp/spot_build_ws/src/spot_ros
-# RUN sudo /bin/bash -c "cd /tmp/spot_build_ws/ && source /opt/ros/melodic/setup.bash && catkin_make && catkin_make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic && rosdep install --from-paths src --ignore-src -y"
-# RUN sudo rm -rf /tmp/spod_build_ws/src
-# RUN sudo -H pip uninstall -y pyyaml
-#RUN sudo apt-get update \
-# && sudo apt-get install -y --no-install-recommends \
-#   \
 
 # Add developer user to groups to run drivers
 RUN sudo usermod -a -G dialout developer
