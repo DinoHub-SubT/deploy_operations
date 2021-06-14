@@ -31,6 +31,10 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   libproj-dev \
   libnlopt-dev \
   libpcap0.8-dev \
+  ros-melodic-interactive-marker-twist-server \
+  ros-melodic-robot-state-publisher \
+  ros-melodic-joint-state-publisher-gui \
+  ros-melodic-joint-state-publisher \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
@@ -42,17 +46,40 @@ RUN sudo -H pip2 install wheel setuptools pexpect
 RUN sudo -H pip2 install genpy pyquaternion
 
 # Install boston dynamics spot api
-RUN rosdep update
-RUN sudo -H pip2 install wheel setuptools cython
-RUN sudo -H pip2 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core
+RUN sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends \
+  python3-pip \
+  python3-rospkg-modules \
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+RUN sudo -H pip3 install wheel setuptools cython
+RUN sudo -H pip3 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core empy futures
+RUN pip2 uninstall -y pyyaml futures
+
+RUN mkdir -p /home/developer/thirdparty/spot_driver/src \
+ && cd /home/developer/thirdparty/spot_driver/src \
+ && git clone https://github.com/clearpathrobotics/spot_ros.git \
+ && git clone https://github.com/ros/geometry2 --branch 0.6.5 \
+ && cd /home/developer/thirdparty/spot_driver/ \
+ && catkin config --extend /opt/ros/melodic \
+ && catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release \
+  -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+  -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m \
+  -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so \
+ && catkin build
+ # && catkin make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic
 
 # install spot ros driver
-RUN sudo apt-get update
-RUN mkdir -p /tmp/spot_build_ws/src
-RUN git clone https://github.com/clearpathrobotics/spot_ros.git /tmp/spot_build_ws/src/spot_ros
-RUN sudo /bin/bash -c "cd /tmp/spot_build_ws/ && source /opt/ros/melodic/setup.bash && catkin_make && catkin_make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic && rosdep install --from-paths src --ignore-src -y"
-RUN sudo rm -rf /tmp/spod_build_ws/src
-RUN sudo -H pip uninstall -y pyyaml
+# RUN sudo apt-get update
+# RUN mkdir -p /tmp/spot_build_ws/src
+# RUN git clone https://github.com/clearpathrobotics/spot_ros.git /tmp/spot_build_ws/src/spot_ros
+# RUN sudo /bin/bash -c "cd /tmp/spot_build_ws/ && source /opt/ros/melodic/setup.bash && catkin_make && catkin_make install -DCMAKE_INSTALL_PREFIX=/opt/ros/melodic && rosdep install --from-paths src --ignore-src -y"
+# RUN sudo rm -rf /tmp/spod_build_ws/src
+# RUN sudo -H pip uninstall -y pyyaml
+#RUN sudo apt-get update \
+# && sudo apt-get install -y --no-install-recommends \
+#   \
 
 # Add developer user to groups to run drivers
 RUN sudo usermod -a -G dialout developer
