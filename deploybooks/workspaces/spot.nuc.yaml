@@ -38,6 +38,8 @@
       - export CATKIN_PROFILE=spot.nuc.core
       - nuc:
         - +extend: workspaces/catkin/ugv
+      # extend the perception gas sensor
+      - +extend: workspaces/catkin/perception
       - +extend: workspaces/catkin/uav
       - +extend: workspaces/catkin/subt_launch
 

@@ -253,7 +253,8 @@ RUN pip install --user \
  scikit-image \
  bresenham \
  pandas \
- python-resize-image
+ python-resize-image \
+ pymodbus
 
 # //////////////////////////////////////////////////////////////////////////////
 # Install any thirdparty libraries
