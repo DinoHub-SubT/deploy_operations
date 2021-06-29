@@ -1,5 +1,5 @@
 # //////////////////////////////////////////////////////////////////////////////
-# @brief subt perception gpu dockerfile
+# @brief subt perception cpu dockerfile
 # //////////////////////////////////////////////////////////////////////////////
 
 # get the passed, deployerbooks environment variables (for maintaining the docker image names)
@@ -9,28 +9,67 @@ ARG DOCKER_BASE_IMAGE_PROJECT=$DOCKER_BASE_IMAGE_PROJECT
 ARG DOCKER_IMAGE_ARCH=$DOCKER_IMAGE_ARCH
 
 # Get the base image
-FROM subt/arm.${DOCKER_BASE_IMAGE_PROJECT}.${DOCKER_IMAGE_ARCH}.perception:${DOCKER_IMAGE_TAG}
+FROM subt/arm.${DOCKER_BASE_IMAGE_PROJECT}.${DOCKER_IMAGE_ARCH}.ros.melodic:${DOCKER_IMAGE_TAG}
 
-# Change to root user, to install packages
-USER root
+# //////////////////////////////////////////////////////////////////////////////
+# ros install
+RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
+ && sudo /bin/sh -c 'wget -q http://packages.osrfoundation.org/gazebo.key -O - | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 sudo apt-key add -' \
+ && sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
+ && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
+ && sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends \
+  ros-melodic-joystick-drivers \
+  ros-melodic-joint-state-controller \
+  ros-melodic-mavros \
+  ros-melodic-mavros-extras \
+  ros-melodic-mav-msgs \
+  ros-melodic-mavros-msgs \
+  ros-melodic-joy \
+  ros-melodic-teleop-twist-joy \
+  libproj-dev \
+  libnlopt-dev \
+  libpcap0.8-dev \
+  ros-melodic-interactive-marker-twist-server \
+  ros-melodic-robot-state-publisher \
+  ros-melodic-joint-state-publisher-gui \
+  ros-melodic-joint-state-publisher \
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
 
-# There is an error in the previous images: 'sudo: /usr/lib/sudo/sudoers.so must be owned by uid 0'
-# For now, the below is a hack fix, until we can re-build the original images
-RUN chown root:root /usr/bin/sudo \
- && chmod 4755 /usr/bin/sudo \
- && chmod -R a=rx,u+ws /usr/bin/sudo \
- && chown -R root:root /usr/bin/sudo \
- && chmod -R a=rx,u+ws /etc/sudoers \
- && chown -R root:root /etc/sudoers \
- && chmod -R a=rx,u+ws /etc/sudoers.d/ \
- && chown -R root:root /etc/sudoers.d/ \
- && chmod -R a=rx,u+ws /etc/sudoers \
- && chown -R root:root /etc/sudoers \
- && chmod -R a=rx,u+ws /usr/lib/sudo/sudoers.so \
- && chown -R root:root /usr/lib/sudo/sudoers.so
+# force a rosdep update
+RUN rosdep update
 
-# add user to groups
-RUN usermod -a -G dialout developer
+# Install deployer dependencies
+RUN sudo -H pip2 install wheel setuptools pexpect
+RUN sudo -H pip2 install genpy pyquaternion
+
+# Install boston dynamics spot ros dependencies
+RUN sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends \
+  python3-pip \
+  python3-rospkg-modules \
+ && sudo apt-get clean \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+# Install boston dynamics spot pip dependencies
+RUN sudo -H pip3 install wheel setuptools cython
+RUN sudo -H pip3 install bosdyn-client bosdyn-mission bosdyn-api bosdyn-core empy futures 
+RUN pip2 uninstall -y pyyaml futures
+
+# Install boston dynamics spot driver
+RUN mkdir -p /home/developer/thirdparty/spot_driver/src \
+ && cd /home/developer/thirdparty/spot_driver/src \
+ && git clone https://github.com/clearpathrobotics/spot_ros.git \
+ && git clone https://github.com/ros/geometry2 --branch 0.6.5 \
+ && cd /home/developer/thirdparty/spot_driver/ \
+ && catkin config --extend /opt/ros/melodic \
+ && catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release \
+  -DPYTHON_EXECUTABLE=/usr/bin/python3 \
+  -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m \
+  -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so \
+ && catkin build
 
 # general tools install
 RUN sudo apt-get update --no-install-recommends \
@@ -92,31 +131,17 @@ RUN sudo usermod -a -G root developer
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup
-# //////////////////////////////////////////////////////////////////////////////
 
-# entrypoint path inside the docker container
-ENV entry_path /docker-entrypoint/
+# entrypoint env vars
+ARG arch=$arch
+ENV entrypoint_container_path /docker-entrypoint/
 
 # add entrypoint scripts (general & system specific)
-ADD entrypoints/ $entry_path/
+ADD entrypoints/ $entrypoint_container_path/
+ADD $arch/entrypoints/ $entrypoint_container_path/
 
 # execute entrypoint script
-RUN sudo chown -R $USERNAME:$USERNAME $entry_path/
-RUN sudo chmod +x -R $entry_path/
-
-# need to re-set the root permission error again
-RUN chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
-
-# switch to developer user
-
-# Commands below run as the developer user
-USER $USERNAME
-
-# When running a container start in the developer's home folder
-WORKDIR /home/$USERNAME
-
-# install pymodbus
-RUN pip3 install --user pymodbus
+RUN sudo chmod +x -R $entrypoint_container_path/
 
 # set image to run entrypoint script
-ENTRYPOINT $entry_path/docker-entrypoint.bash
+ENTRYPOINT $entrypoint_container_path/docker-entrypoint.bash

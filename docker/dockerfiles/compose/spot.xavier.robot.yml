@@ -52,24 +52,6 @@ services:
       # Mount the flir and scd
       - /dev/subt:/dev/subt
 
-  # @brief Spot, drivers
-  spot.xavier-drivers:
-    image: ${DOCKER_IMAGE_NAME}
-    build:
-      context:    ${SUBT_DOCKERFILE_PATH}/
-      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.drivers.dockerfile
-    extends:
-      service: ${DOCKER_COMPOSE_BASE_SERVICE}
-    container_name: $ROBOT-drivers-shell
-    entrypoint: $entry_path/objdet-shell.bash
-    privileged: true
-    tty: true # keep container running
-    environment:
-      - ws_devel_source=$SPOT_XAVIER_DRIVERS_WS_SOURCE
-    volumes:
-      # Mount the flir and scd
-      - /dev/subt:/dev/subt
-
   # @brief Spot, core perception
   spot.xavier-core:
     image: ${DOCKER_IMAGE_NAME}

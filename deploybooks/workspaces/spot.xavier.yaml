@@ -53,34 +53,6 @@
       - +extend: workspaces/catkin/perception
       - +extend: workspaces/catkin/subt_launch
 
-  - drivers:
-    # setup docker service name
-    - export SERVICE=drivers
-
-    # setup pre-defined environment variables, for workspace env import
-    - +env:DOCKER_CONTAINER=${ROBOT}-drivers-shell
-
-    # import the workspace environment setup
-    - set_workspace_configuration
-    - set_docker_compose_service
-
-    # extend general actions
-    - docker:
-      - +extend: common/docker/registry
-      - +extend: common/docker/make
-      - +extend: common/docker/start
-      - +extend: common/docker/stop
-      - +extend: common/docker/rm
-
-    - catkin:
-      - export CATKIN_PROFILE=spot.xavier.drivers
-      - +import:env/catkin.env
-
-      - source /opt/ros/melodic/setup.bash
-      - +extend: workspaces/catkin/common
-      - +extend: workspaces/catkin/ugv
-      - +extend: workspaces/catkin/subt_launch
-
   - core:
     # setup docker service name
     - export SERVICE=core
@@ -106,5 +78,12 @@
 
       - source /opt/ros/melodic/setup.bash
       - +extend: workspaces/catkin/common
-      - +extend: workspaces/catkin/ugv
+      # ugly hack...
+      - drivers:
+        - export CATKIN_PROFILE=spot.xavier.drivers
+        - +extend: workspaces/catkin/ugv
+      - slam:
+        # ugly hack...
+        - export CATKIN_PROFILE=spot.xavier.slam
+        - +extend: workspaces/catkin/ugv
       - +extend: workspaces/catkin/subt_launch
