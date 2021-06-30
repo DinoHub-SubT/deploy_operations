@@ -20,38 +20,27 @@
       - +extend: common/docker/stop
       - +extend: common/docker/rm
 
+    - catkin:
+      - export CATKIN_PROFILE=spot.xavier.cameras
+      - +import:env/catkin.env
+
+      - source /opt/ros/melodic/setup.bash
+      - +extend: workspaces/catkin/common
+      - +extend: workspaces/catkin/perception
+      - +extend: workspaces/catkin/subt_launch
+
   - perception:
-    # setup docker service name
+    # export the docker compose service name
     - export SERVICE=perception
 
     # setup pre-defined environment variables, for workspace env import
     - +env:DOCKER_CONTAINER=${ROBOT}-perception-shell
 
-    # import the workspace environment setup
-    - set_workspace_configuration
-    - set_docker_compose_service
+    # export the catkin workspace
+    - export CATKIN_PROFILE=spot.xavier.perception
 
-    # extend general actions
-    - docker:
-      - +extend: common/docker/registry
-      - +extend: common/docker/make
-      - +extend: common/docker/start
-      - +extend: common/docker/stop
-      - +extend: common/docker/rm
-
-    - catkin:
-      - export CATKIN_PROFILE=spot.xavier.perception
-      - +import:env/catkin.env
-
-      - source /opt/ros/melodic/setup.bash
-      - +extend: workspaces/catkin/common
-      - +extend: workspaces/catkin/uav
-      - deps:
-        - export CATKIN_WORKSPACE=perception/deps/catkin
-        - +extend: workspaces/catkin/build
-        - +extend: workspaces/catkin/clean
-      - +extend: workspaces/catkin/perception
-      - +extend: workspaces/catkin/subt_launch
+    # extend the base perception workspace
+    - +extend: workspaces/base/perception
 
   - core:
     # setup docker service name

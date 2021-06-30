@@ -19,6 +19,9 @@
     # export the scenarios platform -- for which scenarios to source
     - export SCENARIOS_PLATFORM=uav.perception
 
+    # export the catkin workspace
+    - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+
     # extend the base perception workspace
     - +extend: workspaces/base/perception
 

@@ -18,15 +18,10 @@
 
   # extend catkin actions
   - catkin:
-    - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
     - +import:env/catkin.env
 
     - source /opt/ros/melodic/setup.bash
     - +extend: workspaces/catkin/common
     - +extend: workspaces/catkin/uav
-    - deps:
-      - export CATKIN_WORKSPACE=perception/deps/catkin
-      - +extend: workspaces/catkin/build
-      - +extend: workspaces/catkin/clean
     - +extend: workspaces/catkin/perception
     - +extend: workspaces/catkin/subt_launch

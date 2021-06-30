@@ -29,10 +29,23 @@ services:
     privileged: true
     tty: true # keep container running
     environment:
-      - ws_devel_source=$UGV_XAVIER_WS_SOURCE
+      - ws_devel_source=$SPOT_XAVIER_CAMERAS_WS_SOURCE
     volumes:
+      # - /usr/lib/aarch64-linux-gnu/gstreamer-1.0/:/usr/lib/aarch64-linux-gnu/gstreamer-1.0/
+      - /usr/sbin/nvargus-daemon:/usr/sbin/nvargus-daemon
+      - /tmp/argus_socket:/tmp/argus_socket
+      # - /usr/lib/aarch64-linux-gnu/:/usr/lib/aarch64-linux-gnu/
       # Mount the flir and scd
       - /dev/subt:/dev/subt
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+      - /dev/video2:/dev/video2
+      - /dev/video3:/dev/video3
+      - /dev/video4:/dev/video4
+      - /dev/video5:/dev/video5
+      - /dev/video6:/dev/video6
+    ipc: "host"
 
   # @brief Spot, cameras
   spot.xavier-perception:

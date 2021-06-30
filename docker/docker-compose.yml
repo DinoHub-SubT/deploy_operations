@@ -137,7 +137,7 @@ services:
   arm-gpu-skinny-opencv3:
     build:
       # docker build context
-      context: ${MMPUG_DOCKER_PATH}/
+      context: ${SUBT_DOCKERFILE_PATH}/
       args:
         - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
         - INSTALL_JAXLIB=false
@@ -222,7 +222,7 @@ services:
   arm-gpu-skinny-opencv4:
     build:
       # docker build context
-      context: ${MMPUG_DOCKER_PATH}/
+      context: ${SUBT_DOCKERFILE_PATH}/
       args:
         - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
         - INSTALL_JAXLIB=false
@@ -319,7 +319,7 @@ services:
   arm-gpu-slim-opencv4:
     build:
       # docker build context
-      context: ${MMPUG_DOCKER_PATH}/
+      context: ${SUBT_DOCKERFILE_PATH}/
       args:
         - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
         - INSTALL_JAXLIB=false

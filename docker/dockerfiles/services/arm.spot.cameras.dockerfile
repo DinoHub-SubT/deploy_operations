@@ -1,5 +1,5 @@
 # //////////////////////////////////////////////////////////////////////////////
-# mmpug camera dockerfile -- version: 0.1
+# subt camera dockerfile -- version: 0.1
 # //////////////////////////////////////////////////////////////////////////////
 ARG ROS_VERSION=$ROS_VERSION
 FROM nvcr.io/nvidia/l4t-base:r32.4.3
@@ -123,6 +123,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
  && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
  && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
+ && sudo curl http://repo.ros2.org/repos.key | sudo apt-key add - \
  && sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   python-rosdep \
@@ -139,6 +140,15 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release 
   libcgal-qt5-dev \
   qtbase5-dev \
   libyaml-cpp-dev \
+  python3-pip \
+  python3-rospkg-modules \
+  python3-dbg \
+  python3-empy \
+  python3-numpy \
+  python3-pip \
+  python3-venv \
+  ros-melodic-diagnostics  \
+  ros-melodic-image-transport \
   # rosmon deps \
   ros-melodic-rosfmt \
   ros-melodic-rqt-gui \
@@ -146,6 +156,7 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release 
   ros-melodic-catch-ros \
   libncurses5-dev \
   libpcap0.8-dev \
+  libtbb-dev \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 RUN sudo rosdep init && rosdep update
