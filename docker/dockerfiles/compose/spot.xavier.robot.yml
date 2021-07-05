@@ -47,12 +47,12 @@ services:
       - /dev/video6:/dev/video6
     ipc: "host"
 
-  # @brief Spot, cameras
+  # @brief Spot, cameras -- DOCKER IMAGE DOES NOT BUILD...
   spot.xavier-perception:
-    image: subt/arm.spot.xavier.cpu.core:${DOCKER_IMAGE_TAG} # ${DOCKER_IMAGE_NAME}
+    image: subt/arm.spot.xavier.cpu.perception:${DOCKER_IMAGE_TAG}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
-      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.core.dockerfile #arm.spot.perception.dockerfile
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
     container_name: $ROBOT-perception-shell
