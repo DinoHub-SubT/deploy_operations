@@ -125,6 +125,13 @@
       - +extend: main/platforms/ugv.nuc.plt
       - +extend: main/platforms/ugv.xavier.plt
 
+  - spot:
+    - export PLATFORM=spot
+    - spot1:
+      - +env:ROBOT=spot1
+      - +extend: main/platforms/spot.nuc.plt
+      - +extend: main/platforms/spot.xavier.plt
+
   - uav:
     - export PLATFORM=uav
     - ds1:

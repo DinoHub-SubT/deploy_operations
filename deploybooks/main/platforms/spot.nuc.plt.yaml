@@ -1,0 +1,17 @@
+- nuc:
+  - export ROBOT_COMPUTER=nuc;
+  - +env:ROBOT_COMPUTER=nuc
+
+  # run on the remote server (except for any books that specific +local, to force local deployment)
+  - +ssh:{ $ROBOT.$ROBOT_COMPUTER }
+
+  # setup the configurations for a 'robot spot', for the robot computer split
+  - set_docker_context
+  - set_scenarios_configuration
+
+  # extend remote rsync actions
+  - +extend: common/sync
+  - +extend: common/install
+
+  # extend spot nuc workspace
+  - +extend: workspaces/spot.nuc

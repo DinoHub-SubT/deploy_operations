@@ -8,5 +8,8 @@
     # setup pre-defined environment variables, for workspace env import
     - +env:DOCKER_CONTAINER=${ROBOT}-core-shell
 
+    # export the catkin workspace
+    - export CATKIN_PROFILE=perception.${COMPUTER_ARCH}
+
     # extend the base perception workspace
     - +extend: workspaces/base/perception

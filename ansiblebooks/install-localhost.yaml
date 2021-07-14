@@ -1,6 +1,6 @@
 # Install basic dependencies on the remote VM
-# TODO: setup azure vpn keys?
 - include: tasks/robothost.yaml
+- include: tasks/hosts.yaml
 
 # Install docker & docker-tools on the remote VM
 - include: tasks/docker.yaml

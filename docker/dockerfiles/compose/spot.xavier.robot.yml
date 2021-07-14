@@ -1,0 +1,85 @@
+# //////////////////////////////////////////////////////////////////////////////
+# @brief Spot, on Hardware Robots
+# //////////////////////////////////////////////////////////////////////////////
+version: '2.3'
+services:
+
+  # @brief Spot, base, ROS
+  spot.xavier-ros:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.base.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: ros-shell
+    entrypoint: $entry_path/ros-shell.bash
+    tty: true # keep container running
+
+  # @brief Spot, cameras
+  spot.xavier-cameras:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.cameras.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: $ROBOT-cameras-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    privileged: true
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$SPOT_XAVIER_CAMERAS_WS_SOURCE
+    volumes:
+      # - /usr/lib/aarch64-linux-gnu/gstreamer-1.0/:/usr/lib/aarch64-linux-gnu/gstreamer-1.0/
+      - /usr/sbin/nvargus-daemon:/usr/sbin/nvargus-daemon
+      - /tmp/argus_socket:/tmp/argus_socket
+      # - /usr/lib/aarch64-linux-gnu/:/usr/lib/aarch64-linux-gnu/
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+      - /dev/video2:/dev/video2
+      - /dev/video3:/dev/video3
+      - /dev/video4:/dev/video4
+      - /dev/video5:/dev/video5
+      - /dev/video6:/dev/video6
+    ipc: "host"
+
+  # @brief Spot, cameras -- DOCKER IMAGE DOES NOT BUILD...
+  spot.xavier-perception:
+    image: subt/arm.spot.xavier.cpu.perception:${DOCKER_IMAGE_TAG}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: $ROBOT-perception-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    privileged: true
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$UGV_XAVIER_WS_SOURCE
+    volumes:
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt
+
+  # @brief Spot, core perception
+  spot.xavier-core:
+    image: ${DOCKER_IMAGE_NAME}
+    build:
+      context:    ${SUBT_DOCKERFILE_PATH}/
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.core.dockerfile
+    extends:
+      service: ${DOCKER_COMPOSE_BASE_SERVICE}
+    container_name: $ROBOT-core-shell
+    entrypoint: $entry_path/objdet-shell.bash
+    privileged: true
+    tty: true # keep container running
+    environment:
+      - ws_devel_source=$SPOT_XAVIER_CORE_WS_SOURCE
+    volumes:
+      # Mount the flir and scd
+      - /dev/subt:/dev/subt
+

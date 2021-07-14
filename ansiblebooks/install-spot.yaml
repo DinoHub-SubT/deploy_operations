@@ -4,8 +4,10 @@
 - include: tasks/hosts.yaml
 
 # Install docker & docker-tools on the remote VM
+# -- TODO: add if to ignore if spot.xavier -- do not run these tasks for xavier host
 - include: tasks/docker.yaml
 - include: tasks/docker-tools.yaml
 
-# install ros
+# install ros & robot host dependencies
 - include: tasks/ros.yaml
+- include: tasks/robot.yaml

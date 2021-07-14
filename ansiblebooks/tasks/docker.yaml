@@ -13,6 +13,7 @@
     - laptop
     - basestation
     - ugv
+    - spot
     - uav
     - perception
   become_method: sudo
@@ -105,7 +106,20 @@
       src: ../templates/daemon.x86.gpu.template
       dest: /etc/docker/daemon.json
     when: >
-      install_nvidia_docker
+      install_nvidia_docker and
+      inventory_hostname is not match("robot-ugv.*-xavier") and
+      inventory_hostname is not match("robot-spot.*-xavier")
+
+  # configure the default docker daemon
+  - name: Deploy Xavier Docker daemon.json.
+    become: true
+    copy:
+      src: ../templates/daemon.arm.gpu.template
+      dest: /etc/docker/daemon.json
+    when: >
+      install_nvidia_docker and
+      inventory_hostname is match("robot-ugv.*-xavier") and
+      inventory_hostname is match("robot-spot.*-xavier")
 
   # configure the default docker daemon
   - name: Deploy CPU Docker daemon.json.

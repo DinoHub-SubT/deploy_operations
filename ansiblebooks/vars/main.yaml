@@ -125,6 +125,9 @@ bitbucket_ssh_keys:
   - filepath: ~/.ssh/bitbucket
   - filepath: ~/.ssh/bitbucket.pub
 
+# Authorized SSH keys to add on the remote host
+robot_ssh_keys: deploy
+
 ros:
   version: melodic
   # ROS packages for base melodic install

@@ -14,6 +14,7 @@
     - laptop
     - basestation
     - ugv
+    - spot
     - uav
     - perception
   become_method: sudo
@@ -135,14 +136,3 @@
         install_ros and stat_result.stat.exists and
         inventory_hostname is not match("azure-*")
 
-    - name: install nuc prerequisite packages
-      become: true
-      apt:
-        name: "{{ ros.nuc.packages }}"
-        state: present
-        force: yes          # force yes
-        force_apt_get: yes
-        install_recommends: yes
-        update_cache: yes   # force apt-get update
-      when: >
-        inventory_hostname is match("robot-ugv.*-nuc")

@@ -13,6 +13,8 @@
     - laptop
     - basestation
     - perception
+    - ugv
+    - spot
     - uav
   become_method: sudo
   become_user: root

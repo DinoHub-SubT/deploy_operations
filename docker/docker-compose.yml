@@ -131,12 +131,278 @@ services:
       - /usr/lib/libopencv_ml.so:/usr/lib/aarch64-linux-gnu/libopencv_ml.so
 
   # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm (but with a skinny image that needs a lot passed in from the host)
+  # this is special to our xavier setup
+  # ////////////////////////////////////////////////////////////////////////////
+  arm-gpu-skinny-opencv3:
+    build:
+      # docker build context
+      context: ${SUBT_DOCKERFILE_PATH}/
+      args:
+        - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
+        - INSTALL_JAXLIB=false
+    # allow nvidia passthrough
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra
+      - /usr/local/cuda:/usr/local/cuda
+      - /usr/local/cuda/lib64:/usr/local/cuda/lib64
+      # mount the opencv version
+      - /usr/bin/opencv_version:/usr/bin/opencv_version
+      # other opencv libs need mounted in... but the docker base needs match the l4t install...
+      # This is disgusting but it works...
+      - /usr/lib/libopencv_imgproc.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.3.1
+      - /usr/lib/libopencv_core.so:/usr/lib/aarch64-linux-gnu/libopencv_core.so
+      - /usr/lib/libopencv_imgcodecs.so:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
+      - /usr/lib/libopencv_calib3d.so:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+      - /usr/lib/libopencv_calib3d.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.3
+      - /usr/lib/libopencv_stitching.so:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so
+      - /usr/lib/libopencv_shape.so:/usr/lib/aarch64-linux-gnu/libopencv_shape.so
+      - /usr/lib/libopencv_flann.so:/usr/lib/aarch64-linux-gnu/libopencv_flann.so
+      - /usr/lib/libopencv_features2d.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.3
+      - /usr/lib/libopencv_dnn.so:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so
+      - /usr/lib/libopencv_objdetect.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.3.3
+      - /usr/lib/libopencv_stitching.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.3.3
+      - /usr/lib/libopencv_imgcodecs.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.3
+      - /usr/lib/libopencv_superres.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_superres.so.3.3.1
+      - /usr/lib/libopencv_photo.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.3.3
+      - /usr/lib/libopencv_flann.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.3.1
+      - /usr/lib/libopencv_core.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.3.1
+      - /usr/lib/libopencv_videostab.so:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so
+      - /usr/lib/libopencv_video.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_video.so.3.3
+      - /usr/lib/libopencv_highgui.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.3.1
+      - /usr/lib/libopencv_objdetect.so:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so
+      - /usr/lib/libopencv_imgproc.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.3
+      - /usr/lib/libopencv_shape.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_shape.so.3.3
+      - /usr/lib/libopencv_superres.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_superres.so.3.3
+      - /usr/lib/libopencv_videostab.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so.3.3
+      - /usr/lib/libopencv_ml.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.3.1
+      - /usr/lib/libopencv_videoio.so:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so
+      - /usr/lib/libopencv_photo.so:/usr/lib/aarch64-linux-gnu/libopencv_photo.so
+      - /usr/lib/libopencv_videoio.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.3.1
+      - /usr/lib/libopencv_flann.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.3
+      - /usr/lib/libopencv_ml.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.3
+      - /usr/lib/libopencv_videoio.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.3
+      - /usr/lib/libopencv_video.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.3.3.1
+      - /usr/lib/libopencv_shape.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_shape.so.3.3.1
+      - /usr/lib/libopencv_core.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.3
+      - /usr/lib/libopencv_calib3d.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.3.1
+      - /usr/lib/libopencv_features2d.so:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so
+      - /usr/lib/libopencv_imgproc.so:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
+      - /usr/lib/libopencv_video.so:/usr/lib/aarch64-linux-gnu/libopencv_video.so
+      - /usr/lib/libopencv_photo.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.3.3.1
+      - /usr/lib/libopencv_objdetect.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.3.3.1
+      - /usr/lib/libopencv_videostab.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_videostab.so.3.3.1
+      - /usr/lib/libopencv_superres.so:/usr/lib/aarch64-linux-gnu/libopencv_superres.so
+      - /usr/lib/libopencv_imgcodecs.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.3.1
+      - /usr/lib/libopencv_highgui.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.3
+      - /usr/lib/libopencv_highgui.so:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so
+      - /usr/lib/libopencv_dnn.so.3.3:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.3.3
+      - /usr/lib/libopencv_features2d.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.3.1
+      - /usr/lib/libopencv_stitching.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.3.3.1
+      - /usr/lib/libopencv_dnn.so.3.3.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.3.3.1
+      - /usr/lib/libopencv_ml.so:/usr/lib/aarch64-linux-gnu/libopencv_ml.so
+    environment:
+      - CATKIN_PROFILE_ARCH=aarch64-linux-gnu
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # base gpu, for arm (but with a skinny image that needs a lot passed in from the host)
+  # this is special to our xavier setup
+  # ////////////////////////////////////////////////////////////////////////////
+  arm-gpu-skinny-opencv4:
+    build:
+      # docker build context
+      context: ${SUBT_DOCKERFILE_PATH}/
+      args:
+        - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
+        - INSTALL_JAXLIB=false
+    # allow nvidia passthrough
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra
+      - /usr/local/cuda:/usr/local/cuda
+      - /usr/local/cuda/lib64:/usr/local/cuda/lib64
+      # mount the opencv4 headers from host
+      - /usr/include/opencv4/:/usr/include/opencv4/
+      # mount the opencv version
+      - /usr/bin/opencv_version:/usr/bin/opencv_version
+      # mount the opencv4 libraries from host
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so:/usr/lib/aarch64-linux-gnu/libopencv_video.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so:/usr/lib/aarch64-linux-gnu/libopencv_core.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1
+      - /usr/lib/aarch64-linux-gnu/cmake/opencv4:/usr/lib/aarch64-linux-gnu/cmake/opencv4
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1
+      - /usr/lib/aarch64-linux-gnu/pkgconfig/opencv4.pc:/usr/lib/aarch64-linux-gnu/pkgconfig/opencv4.pc
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so:/usr/lib/aarch64-linux-gnu/libopencv_ml.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_core.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2.0:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.3.2.0
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so:/usr/lib/aarch64-linux-gnu/libopencv_photo.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so:/usr/lib/aarch64-linux-gnu/libopencv_flann.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
+    environment:
+      - CATKIN_PROFILE_ARCH=aarch64-linux-gnu
+    runtime: nvidia
+
+  arm-gpu-slim-opencv4:
+    build:
+      # docker build context
+      context: ${SUBT_DOCKERFILE_PATH}/
+      args:
+        - REC_BASE_DOCKER_IMAGE=arm64v8/ros:melodic-ros-core
+        - INSTALL_JAXLIB=false
+    # allow nvidia passthrough
+    devices:
+      - /dev/nvhost-ctrl
+      - /dev/nvhost-ctrl-gpu
+      - /dev/nvhost-prof-gpu
+      - /dev/nvmap
+      - /dev/nvhost-gpu
+      - /dev/nvhost-as-gpu
+    volumes:
+      # gui configurations
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/input:/dev/input
+      - /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra
+      - /usr/local/cuda:/usr/local/cuda
+      - /usr/local/cuda/lib64:/usr/local/cuda/lib64
+      # mount the opencv4 headers from host
+      - /usr/include/opencv4/:/usr/include/opencv4/
+      # mount the opencv version
+      - /usr/bin/opencv_version:/usr/bin/opencv_version
+      # mount the opencv4 libraries from host
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so:/usr/lib/aarch64-linux-gnu/libopencv_video.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so:/usr/lib/aarch64-linux-gnu/libopencv_core.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1
+      - /usr/lib/aarch64-linux-gnu/cmake/opencv4:/usr/lib/aarch64-linux-gnu/cmake/opencv4
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1
+      - /usr/lib/aarch64-linux-gnu/pkgconfig/opencv4.pc:/usr/lib/aarch64-linux-gnu/pkgconfig/opencv4.pc
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_features2d.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_core.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_ml.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_flann.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_ml.so:/usr/lib/aarch64-linux-gnu/libopencv_ml.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_highgui.so:/usr/lib/aarch64-linux-gnu/libopencv_highgui.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_objdetect.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_video.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1.1:/usr/lib/aarch64-linux-gnu/libopencv_photo.so.4.1.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_photo.so:/usr/lib/aarch64-linux-gnu/libopencv_photo.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_videoio.so:/usr/lib/aarch64-linux-gnu/libopencv_videoio.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_flann.so:/usr/lib/aarch64-linux-gnu/libopencv_flann.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so:/usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so
+      - /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1:/usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.1
+      - /usr/lib/aarch64-linux-gnu/libopencv_imgproc.so:/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so
+    environment:
+      - CATKIN_PROFILE_ARCH=aarch64-linux-gnu
+    runtime: nvidia
+
+
+  # ////////////////////////////////////////////////////////////////////////////
   # base ros, x86, gpu workspace setup
   # ////////////////////////////////////////////////////////////////////////////
   x86-gpu:
     build:
       context: ${SUBT_DOCKERFILE_PATH}/
-    # allow nvidia passthru
+    # allow nvidia passthrough
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -212,65 +478,69 @@ services:
         max-size: 50m
 
   # ////////////////////////////////////////////////////////////////////////////
-  # azure docker context
+  # host docker context
   # -- sets up azure context, mostly to setup ROS networking setup
   # ////////////////////////////////////////////////////////////////////////////
-  azure:
+  subt_hosts:
     # extend gpu or non-gpu
     extends:
       service: base
-    # use host network
-    network_mode: "host"
-    # networks:
-    #   driver: host
     # add hosts to /etc/hosts
     extra_hosts:
       # Basestation
       - ${basestation_hostname}:${basestation_ip}
+      - ${bs_hostname}:${bs_ip}
       # UGV
       - ${ugv1_hostname}:${ugv1_ip}
       - ${ugv2_hostname}:${ugv2_ip}
       - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (vdb)
-      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
-      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
-      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
       # UGV (perception)
       - ${ugv1_perception_hostname}:${ugv1_perception_ip}
       - ${ugv2_perception_hostname}:${ugv2_perception_ip}
       - ${ugv3_perception_hostname}:${ugv3_perception_ip}
+      # UGV (internal)
+      - ${ppc_hostname}:${ppc_ip}
+      - ${nuc_hostname}:${nuc_ip}
+      - ${xavier_hostname}:${xavier_ip}
+      # Spot
+      - ${spot1_nuc_hostname}:${spot1_nuc_ip}
+      - ${spot1_xavier_hostname}:${spot1_xavier_ip}
       # UAVs
       - ${uav1_hostname}:${uav1_ip}
       - ${uav2_hostname}:${uav2_ip}
       - ${uav3_hostname}:${uav3_ip}
       - ${uav4_hostname}:${uav4_ip}
+      # UAVs (ds)
+      - ${ds1_hostname}:${ds1_ip}
+      - ${ds2_hostname}:${ds2_ip}
+      - ${ds3_hostname}:${ds3_ip}
+      - ${ds4_hostname}:${ds4_ip}
       # UAV (perception)
       - ${uav1_perception_hostname}:${uav1_perception_ip}
       - ${uav2_perception_hostname}:${uav2_perception_ip}
       - ${uav3_perception_hostname}:${uav3_perception_ip}
       - ${uav4_perception_hostname}:${uav4_perception_ip}
-
     # setup container env variables in the container
     environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
       # ros master computer name
       - COMPUTER
       # Set the ros master hostname
       - ROS_HOSTNAME
       - ROS_MASTER_IP
       # Set the hostname of different systems
+      - bs_hostname
       - basestation_hostname
       # UGVs
       - ugv1_hostname
       - ugv2_hostname
       - ugv3_hostname
-      # UGVs (vdb)
-      - ugv1_vdb_hostname
-      - ugv2_vdb_hostname
-      - ugv3_vdb_hostname
+      # UGV (internal)
+      - ppc_hostname
+      - nuc_hostname
+      - xavier_hostname
+      # Spot
+      - spot1_nuc_hostname
+      - spot1_xavier_hostname
       # UGVs (perception)
       - ugv1_perception_hostname
       - ugv2_perception_hostname
@@ -280,128 +550,34 @@ services:
       - uav2_hostname
       - uav3_hostname
       - uav4_hostname
+      # UAVs (ds)
+      - ds1_hostname
+      - ds2_hostname
+      - ds3_hostname
+      - ds4_hostname
       # UAV (perception)
       - uav1_perception_hostname
       - uav2_perception_hostname
       - uav3_perception_hostname
       - uav4_perception_hostname
+
+  # ////////////////////////////////////////////////////////////////////////////
+  # azure docker context
+  # -- sets up azure context, mostly to setup ROS networking setup
+  # ////////////////////////////////////////////////////////////////////////////
+  azure:
+    extends:
+      service: subt_hosts
+    # use host network
+    network_mode: "host"
 
   # ////////////////////////////////////////////////////////////////////////////
   # localhost docker context
   # -- sets up localhost context, mostly to setup ROS networking setup
   # ////////////////////////////////////////////////////////////////////////////
   local:
-    # extend gpu or non-gpu
     extends:
-      service: base
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation_hostname}:${basestation_ip}
-      # UGV
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (vdb)
-      - ${ugv1_vdb_hostname}:${ugv1_vdb_ip}
-      - ${ugv2_vdb_hostname}:${ugv2_vdb_ip}
-      - ${ugv3_vdb_hostname}:${ugv3_vdb_ip}
-      # UGV (perception)
-      - ${ugv1_perception_hostname}:${ugv1_perception_ip}
-      - ${ugv2_perception_hostname}:${ugv2_perception_ip}
-      - ${ugv3_perception_hostname}:${ugv3_perception_ip}
-      # UAV
-      - ${uav1_hostname}:${uav1_ip}
-      - ${uav2_hostname}:${uav2_ip}
-      - ${uav3_hostname}:${uav3_ip}
-      - ${uav4_hostname}:${uav4_ip}
-      # UAV (perception)
-      - ${uav1_perception_hostname}:${uav1_perception_ip}
-      - ${uav2_perception_hostname}:${uav2_perception_ip}
-      - ${uav3_perception_hostname}:${uav3_perception_ip}
-      - ${uav4_perception_hostname}:${uav4_perception_ip}
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # ros master computer name
-      - COMPUTER
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostname of different systems
-      - basestation_hostname
-      # UGVs
-      - ugv1_hostname
-      - ugv2_hostname
-      - ugv3_hostname
-      # UGVs (vdb)
-      - ugv1_vdb_hostname
-      - ugv2_vdb_hostname
-      - ugv3_vdb_hostname
-      # UGVs (perception)
-      - ugv1_perception_hostname
-      - ugv2_perception_hostname
-      - ugv3_perception_hostname
-      # UAV
-      - uav1_hostname
-      - uav2_hostname
-      - uav3_hostname
-      - uav4_hostname
-      # UAV (perception)
-      - uav1_perception_hostname
-      - uav2_perception_hostname
-      - uav3_perception_hostname
-      - uav4_perception_hostname
-
-  # ////////////////////////////////////////////////////////////////////////////
-  # basestation (robot) docker context
-  # -- sets up robot docker context: sets up ROS networking setup
-  # ////////////////////////////////////////////////////////////////////////////
-  basestation:
-    extends:
-      service: base
-    # use host network
-    network_mode: "host"
-    # networks:
-    #   driver: host
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation_hostname}:${basestation_ip}
-      # UGV
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UAVs
-      - ${uav1_hostname}:${uav1_ip}
-      - ${uav2_hostname}:${uav2_ip}
-      - ${uav3_hostname}:${uav3_ip}
-      - ${uav4_hostname}:${uav4_ip}
-
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostnames of different systems
-      # Basestation
-      - basestation_hostname
-      # UGVs
-      - ugv1_hostname
-      - ugv2_hostname
-      - ugv3_hostname
-      # UAVs
-      - uav1_hostname
-      - uav2_hostname
-      - uav3_hostname
-      - uav4_hostname
+      service: subt_hosts
 
   # ////////////////////////////////////////////////////////////////////////////
   # robot docker context
@@ -409,61 +585,6 @@ services:
   # ////////////////////////////////////////////////////////////////////////////
   robot:
     extends:
-      service: base
+      service: subt_hosts
     # use host network
     network_mode: "host"
-    # add hosts to /etc/hosts
-    extra_hosts:
-      # Basestation
-      - ${basestation1_hostname}:${basestation1_ip}
-      - ${basestation2_hostname}:${basestation2_ip}
-      - ${basestation3_hostname}:${basestation3_ip}
-      # UGV (external)
-      - ${ugv1_hostname}:${ugv1_ip}
-      - ${ugv2_hostname}:${ugv2_ip}
-      - ${ugv3_hostname}:${ugv3_ip}
-      # UGV (internal)
-      - ${ppc_hostname}:${ppc_ip}
-      - ${nuc_hostname}:${nuc_ip}
-      - ${xavier_hostname}:${xavier_ip}
-      # UAVs
-      - ${ds1_hostname}:${ds1_ip}
-      - ${ds2_hostname}:${ds2_ip}
-      - ${ds3_hostname}:${ds3_ip}
-      - ${ds4_hostname}:${ds4_ip}
-      - ${canary1_hostname}:${canary1_ip}
-      # John's laptops
-      - ${john1_hostname}:${john1_ip}
-      - ${john2_hostname}:${john2_ip}
-      # Roshan's laptop
-      - ${roshan_hostname}:${roshan_ip}
-    # setup container env variables in the container
-    environment:
-      # Set environment params for GUI container passthrough
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - XAUTHORITY=/tmp/.docker.xauth
-      # ros master computer name
-      - COMPUTER
-      # Set the ros master hostname
-      - ROS_HOSTNAME
-      - ROS_MASTER_IP
-      # Set the hostname of different systems
-      - basestation1_hostname
-      - basestation2_hostname
-      - basestation3_hostname
-      # UGV1
-      - ppc_hostname
-      - nuc_hostname
-      - xavier_hostname
-      # UAVs
-      - ds1_hostname
-      - ds2_hostname
-      - ds3_hostname
-      - ds4_hostname
-      - canary1_hostname
-      # John's laptops
-      - john1_hostname
-      - john2_hostname
-      # Roshan's laptop
-      - roshan_hostname

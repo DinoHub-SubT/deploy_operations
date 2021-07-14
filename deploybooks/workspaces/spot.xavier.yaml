@@ -1,0 +1,78 @@
+- scenarios:
+  - +extend: workspaces/base/melodic
+  
+  - cameras:
+    # setup docker service name
+    - export SERVICE=cameras
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${ROBOT}-cameras-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+    - set_docker_compose_service
+
+    # extend general actions
+    - docker:
+      - +extend: common/docker/registry
+      - +extend: common/docker/make
+      - +extend: common/docker/start
+      - +extend: common/docker/stop
+      - +extend: common/docker/rm
+
+    - catkin:
+      - export CATKIN_PROFILE=spot.xavier.cameras
+      - +import:env/catkin.env
+
+      - source /opt/ros/melodic/setup.bash
+      - +extend: workspaces/catkin/common
+      - +extend: workspaces/catkin/perception
+      - +extend: workspaces/catkin/subt_launch
+
+  - perception:
+    # export the docker compose service name
+    - export SERVICE=perception
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${ROBOT}-perception-shell
+
+    # export the catkin workspace
+    - export CATKIN_PROFILE=spot.xavier.perception
+
+    # extend the base perception workspace
+    - +extend: workspaces/base/perception
+
+  - core:
+    # setup docker service name
+    - export SERVICE=core
+
+    # setup pre-defined environment variables, for workspace env import
+    - +env:DOCKER_CONTAINER=${ROBOT}-core-shell
+
+    # import the workspace environment setup
+    - set_workspace_configuration
+    - set_docker_compose_service
+
+    # extend general actions
+    - docker:
+      - +extend: common/docker/registry
+      - +extend: common/docker/make
+      - +extend: common/docker/start
+      - +extend: common/docker/stop
+      - +extend: common/docker/rm
+    
+    - catkin:
+      - export CATKIN_PROFILE=spot.xavier.core
+      - +import:env/catkin.env
+
+      - source /opt/ros/melodic/setup.bash
+      - +extend: workspaces/catkin/common
+      # ugly hack...
+      - drivers:
+        - export CATKIN_PROFILE=spot.xavier.drivers
+        - +extend: workspaces/catkin/ugv
+      - slam:
+        # ugly hack...
+        - export CATKIN_PROFILE=spot.xavier.slam
+        - +extend: workspaces/catkin/ugv
+      - +extend: workspaces/catkin/subt_launch

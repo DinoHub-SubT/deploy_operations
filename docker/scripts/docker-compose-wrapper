@@ -29,6 +29,7 @@ DOCKER_COMPOSE_OPTIONS=${@}
 warning "robot: ${ROBOT}"
 warning "scenario: ${ROBOT_SCENARIO_FILE}"
 warning "compose file: ${CHILD_DOCKER_COMPOSE}"
+warning "compse base service: ${GPU_ENABLE_TYPE}"
 warning "compose service: ${DOCKER_COMPOSE_SERVICE}"
 
 # source the base scenario file (verify the file exists)
@@ -50,6 +51,7 @@ fi
 
 # print debug information
 warning "docker image name: ${DOCKER_IMAGE_NAME}"
+warning "basestation IP: ${bs_ip} and hostname: ${bs_hostname}"
 newline
 
 # go to the docker compose top path
