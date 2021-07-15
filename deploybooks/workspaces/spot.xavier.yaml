@@ -73,6 +73,6 @@
         - +extend: workspaces/catkin/ugv
       - slam:
         # ugly hack...
-        - export CATKIN_PROFILE=spot.xavier.slam
+        - export CATKIN_PROFILE=spot.xavier.core
         - +extend: workspaces/catkin/ugv
       - +extend: workspaces/catkin/subt_launch

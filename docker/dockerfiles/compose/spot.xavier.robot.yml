@@ -49,10 +49,10 @@ services:
 
   # @brief Spot, cameras -- DOCKER IMAGE DOES NOT BUILD...
   spot.xavier-perception:
-    image: subt/arm.spot.xavier.cpu.perception:${DOCKER_IMAGE_TAG}
+    image: subt/arm.spot.xavier.cpu.perception.suppliment:${DOCKER_IMAGE_TAG}
     build:
       context:    ${SUBT_DOCKERFILE_PATH}/
-      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.dockerfile
+      dockerfile: ${SUBT_DOCKERFILE_PATH}/services/arm.spot.perception.supplement.dockerfile
     extends:
       service: ${DOCKER_COMPOSE_BASE_SERVICE}
     container_name: $ROBOT-perception-shell
