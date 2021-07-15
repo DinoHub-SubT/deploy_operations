@@ -520,6 +520,8 @@ services:
       - ${uav2_perception_hostname}:${uav2_perception_ip}
       - ${uav3_perception_hostname}:${uav3_perception_ip}
       - ${uav4_perception_hostname}:${uav4_perception_ip}
+      # Canary
+      - ${canary1_hostname}:${canary1_ip}
     # setup container env variables in the container
     environment:
       # ros master computer name
