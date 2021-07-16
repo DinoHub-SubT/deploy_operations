@@ -502,7 +502,7 @@ services:
       - ${ppc_hostname}:${ppc_ip}
       - ${nuc_hostname}:${nuc_ip}
       - ${xavier_hostname}:${xavier_ip}
-      # Spot
+      # # Spot
       - ${spot1_nuc_hostname}:${spot1_nuc_ip}
       - ${spot1_xavier_hostname}:${spot1_xavier_ip}
       # UAVs
@@ -540,7 +540,7 @@ services:
       - ppc_hostname
       - nuc_hostname
       - xavier_hostname
-      # Spot
+      # # Spot
       - spot1_nuc_hostname
       - spot1_xavier_hostname
       # UGVs (perception)
