@@ -35,6 +35,8 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   ros-melodic-robot-state-publisher \
   ros-melodic-joint-state-publisher-gui \
   ros-melodic-joint-state-publisher \
+  ros-melodic-image-proc \
+  ros-melodic-image-transport-plugins \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
