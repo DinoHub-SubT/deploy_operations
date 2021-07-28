@@ -47,14 +47,20 @@ RUN sudo apt-get update --no-install-recommends \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
+RUN sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+
 # //////////////////////////////////////////////////////////////////////////////
 # ros install
 RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' \
  && sudo /bin/sh -c 'wget -q http://packages.osrfoundation.org/gazebo.key -O - | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 sudo apt-key add -' \
  && sudo /bin/sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' \
- && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
- && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
- && sudo /bin/sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" > /etc/apt/sources.list.d/realsense.list' \
+ && sudo /bin/sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -' \
+ # && sudo /bin/sh -c 'apt-key adv --keyserver  hkp://keyserver.ubuntu.com:80 --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' \
+ # && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE' \
+ # && sudo /bin/sh -c 'echo "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" > /etc/apt/sources.list.d/realsense.list' \
+ # && sudo /bin/sh -c 'apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE ' \
+ # && sudo /bin/sh -c 'apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE' \
+ && sudo /bin/sh -c 'add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u' \
  && sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   ros-melodic-octomap-ros \
@@ -228,7 +234,32 @@ RUN pip install --user \
  scikit-image \
  bresenham \
  pandas \
- python-resize-image
+ python-resize-image \
+ unzip \
+ gfortran \
+ texlive-latex-base \
+ libnlopt-dev \
+ libf2c2-dev \
+ libarmadillo-dev \
+ glpk-utils libglpk-dev \
+ libcdd-dev
+
+# Install Mosek & OOQP
+RUN cp -r ~/thirdparty-software/ugv/mosek ~/mosek \
+ # install ma27 \
+ && cd ~/thirdparty-software/ugv \
+ && unzip ma27-1.0.0.zip \
+ && cd ma27-1.0.0 \
+ && ./configure \
+ && make \
+ && sudo make install \
+ # install OOQP
+ && cd ~/thirdparty-software/ugv \
+ && unzip OOQP.zip \
+ && OOQP \
+ && ./configure \
+ && make \
+ && sudo make install
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup
