@@ -39,7 +39,7 @@
     - name: install ubuntu prerequisite packages
       become: true
       apt:
-        name: "{{ localhost.apt }}"
+        name: "{{ localhost.common.apt }}"
         state: present
         force: yes          # force yes
         force_apt_get: yes
@@ -49,10 +49,32 @@
     # note: can output segmentation fault on localhost
     - name: install python prerequisite packages
       pip:
-        name: "{{ localhost.pip_packages }}"
+        name: "{{ localhost.common.pip }}"
         extra_args: --user
       when: >
         "azure-" in inventory_hostname
+
+    - name: install ubuntu 18.04 prerequisite packages
+      become: true
+      apt:
+        name: "{{ localhost.ubuntu_1804 }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        "{{ ansible_distribution_major_version }}" == "18"
+
+    - name: install gstreamer packages
+      become: true
+      apt:
+        name: "{{ localhost.gstreamer }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
 
     # ////////////////////////////////////////////////////////////////////////
     # Install Remote Desktop

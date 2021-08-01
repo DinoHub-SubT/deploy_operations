@@ -1,59 +1,71 @@
 # == System Packages ==
-
-# Prerequisites Ubuntu Packages
 localhost:
-  apt:
-    - python2.7
-    - python-setuptools
+  common:
+    apt:
+      - python2.7
+      - python-setuptools
+      - build-essential
+      - cmake
+      - cppcheck
+      - gdb
+      - git
+      - lsb-release
+      - software-properties-common
+      - sudo
+      - vim
+      - nano
+      - emacs
+      - wget
+      - curl
+      - less
+      - net-tools
+      - tmux
+      - byobu
+      - iputils-ping
+      - locales
+      - xvfb
+      - tzdata
+      - debian-archive-keyring
+      - apt-transport-https
+      - git-lfs
+      - traceroute
+      - zsh
+      - lm-sensors
+      - tmuxp
+      # azure vpn
+      - strongswan
+      - strongswan-pki
+      - libstrongswan-extra-plugins
+      - network-manager-strongswan
+      # azure rdp
+      - rdesktop
+      # azure cli
+      - ca-certificates
+      - curl
+      - gnupg
+      - bash-completion
+      - libssl-dev
+      - libffi-dev
+      # - python-backports.ssl-match-hostname
+    pip:
+      - wheel
+      - setuptools
+      - PyYAML
+      - pexpect
+      - python-dotenv
+      - Jinja2
+
+  gstreamer:
+    - libgstreamer1.0-0
+    # - gstreamer1.0-dev
+    - gstreamer1.0-tools
+    - gstreamer1.0-doc
+    - gstreamer1.0-libav
+
+  ubuntu_1804:
     - python-pip
     - python-requests
-    - build-essential
-    - cmake
-    - cppcheck
-    - gdb
-    - git
-    - lsb-release
-    - software-properties-common
-    - sudo
-    - vim
-    - nano
-    - emacs
-    - wget
-    - curl
-    - less
-    - net-tools
-    - tmux
-    - byobu
-    - iputils-ping
-    - locales
-    - xvfb
-    - tzdata
-    - debian-archive-keyring
-    - apt-transport-https
-    - git-lfs
     - freerdp-x11
-    - traceroute
-    - zsh
-    - lm-sensors
-    - tmuxp
-    # azure vpn
-    - strongswan
-    - strongswan-pki
-    - libstrongswan-extra-plugins
-    - network-manager-strongswan
-    # azure rdp
-    - rdesktop
-    # azure cli
-    - ca-certificates
-    - curl
-    - gnupg
-
-  # Prerequisites Ubuntu Packages
-  pip_packages:
-    - wheel
-    - setuptools
-    - PyYAML
-    - pexpect
 
 # Prerequisites Docker Packages
 docker_dependency_packages:
@@ -129,7 +141,6 @@ bitbucket_ssh_keys:
 robot_ssh_keys: deploy
 
 ros:
-  version: melodic
   # ROS packages for base melodic install
   melodic:
     key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
@@ -150,3 +161,25 @@ ros:
         - ros-melodic-rqt-gui-cpp
         - ros-melodic-rqt-gui-py
         - ros-melodic-catch-ros
+
+  noetic:
+    key: C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+    packages:
+      prereq:
+        - python
+        - python3-rosdep
+        - python3-rosinstall
+        - python3-rosinstall-generator
+        - python3-wstool
+        - build-essential
+        - python3-catkin-pkg
+        - python3-catkin-tools
+      extra:
+        - ros-noetic-cmake-modules
+        - ros-noetic-rqt-gui-cpp
+        - ros-noetic-rviz
+        - ros-noetic-gazebo-*
+        - ros-noetic-rqt-gui
+        - ros-noetic-rqt-gui-cpp
+        - ros-noetic-rqt-gui-py
+        - ros-noetic-catch-ros
