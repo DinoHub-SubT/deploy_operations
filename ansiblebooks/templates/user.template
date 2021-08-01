@@ -2,8 +2,11 @@
 # General Configurations (on local, azure or robot systems)
 # //////////////////////////////////////////////////////////////////////////////
 
-# enable if you wish to install ROS [melodic] on your localhost
-install_ros: false
+# enable to to install ROS [melodic] on your localhost
+ros_install: false
+
+# specify ROS version to install: [melodic, noetic]
+ros_version: melodic
 
 # enable if you wish to install teamviewer
 install_teamviewer: true
