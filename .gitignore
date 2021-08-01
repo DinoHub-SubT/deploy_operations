@@ -25,8 +25,7 @@ azurebooks/admin/.terraform.*
 azurebooks/admin/terraform.tfstate.d
 
 # ignore all downloaded azure thirdparty libraries
-docker/dockerfiles/thirdparty-software/download/
-docker/dockerfiles/thirdparty-software/azure_download/
+docker/dockerfiles/thirdparty-software/
 
 # // /////////////////////////////////////////////////////////////////////////////
 # // other

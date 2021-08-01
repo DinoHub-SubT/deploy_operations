@@ -99,19 +99,18 @@ RUN mkdir -p ~/thirdparty/realsense/ros/src \
 # install subt python packages
 RUN pip install --user wheel
 RUN pip install --user \
- hurry.filesize \
- graphviz \
- serial \
- pyserial \
- shapely \
- empy \
- pybluez \
- pyyaml \
- rospkg \
- shapely \
- protobuf \
- matplotlib \
- psutil
+ hurry.filesize==0.9 \
+ graphviz==0.16 \
+ serial==0.0.97 \
+ pyserial==3.5 \
+ shapely==1.7.1 \
+ empy==3.3.4 \
+ pybluez==0.23 \
+ pyyaml==5.4.1 \
+ rospkg==1.3.0 \
+ protobuf==3.15.8 \
+ matplotlib==2.2.5 \
+ psutil==5.8.0
 
 # //////////////////////////////////////////////////////////////////////////////
 # Install any thirdparty libraries

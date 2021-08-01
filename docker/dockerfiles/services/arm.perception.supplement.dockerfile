@@ -53,6 +53,7 @@ RUN sudo apt-get update \
  && sudo apt-get install -y --no-install-recommends \
   ros-melodic-image-proc \
   ros-melodic-image-transport-plugins \
+  ros-melodic-rosmon \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
