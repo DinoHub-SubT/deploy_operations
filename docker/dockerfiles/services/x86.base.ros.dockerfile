@@ -42,6 +42,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   xvfb \
   tzdata \
   emacs \
+  unzip \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -172,6 +173,13 @@ ENV PATH=${PATH}:/home/$USERNAME/.local/bin/
 # //////////////////////////////////////////////////////////////////////////////
 # copy any thirdparty data
 COPY --chown=developer:developer thirdparty-software/ /home/$USERNAME/thirdparty-software/
+
+# unzip docker image data into home thirdparty directory
+RUN cd /home/$USERNAME/thirdparty-software/ \
+ && unzip docker-image-thirdparty-data.zip \
+ && mv docker-image-thirdparty-data/* /home/$USERNAME/thirdparty-software/ \
+ && rm -rf docker-image-thirdparty-data \
+ && rm -rf docker-image-thirdparty-data.zip
 
 # //////////////////////////////////////////////////////////////////////////////
 # entrypoint startup

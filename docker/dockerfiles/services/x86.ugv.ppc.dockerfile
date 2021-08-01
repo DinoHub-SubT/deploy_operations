@@ -175,6 +175,16 @@ RUN sudo /bin/sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-s
   liblog4cplus-dev \
   python3-tk \
   python-tk \
+  # wifi loc \
+  # python-resize-image \
+  gfortran \
+  texlive-latex-base \
+  libnlopt-dev \
+  libf2c2-dev \
+  libarmadillo-dev \
+  glpk-utils \
+  libglpk-dev \
+  libcdd-dev \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
@@ -206,45 +216,34 @@ RUN mkdir ~/labjack \
 # install subt python packages
 RUN pip install --user wheel
 RUN pip install --user \
- fping \
- hurry.filesize \
- graphviz \
- serial \
- pyserial \
- multiping \
- shapely \
- empy \
- pybluez \
- pyyaml \
- rospkg \
- fping \
- shapely \
- protobuf \
- matplotlib \
- labjack-ljm \
- psutil \
- # comms planner \
- numpy \
- matplotlib \
- Pillow \
- torch \
- torchvision \
- sympy \
- shapely \
- scikit-image \
- bresenham \
- pandas \
- python-resize-image \
- unzip \
- gfortran \
- texlive-latex-base \
- libnlopt-dev \
- libf2c2-dev \
- libarmadillo-dev \
- glpk-utils libglpk-dev \
- libcdd-dev
-
-# Install Mosek & OOQP
+ fping==0.0.1a2 \
+ hurry.filesize==0.9 \
+ graphviz==0.16 \
+ serial==0.0.97 \
+ pyserial==3.5 \
+ multiping==1.1.2 \
+ shapely==1.7.1 \
+ empy==3.3.4 \
+ pybluez==0.23 \
+ pyyaml==5.4.1 \
+ rospkg==1.3.0 \
+ fping==0.0.1a2 \
+ protobuf==3.15.8 \
+ matplotlib==2.2.5 \
+ labjack-ljm==1.21.0 \
+ psutil==5.8.0 \
+ numpy==1.16.6 \
+ Pillow==6.2.2 \
+ torch==1.4.0 \
+ torchvision==0.5.0 \
+ sympy==1.5.1 \
+ shapely==1.7.1 \
+ scikit-image==0.14.5 \
+ bresenham==0.2 \
+ pandas==0.24.2 \
+ python-resize-image==1.1.19
+ 
+# # Install Mosek & OOQP
 RUN cp -r ~/thirdparty-software/ugv/mosek ~/mosek \
  # install ma27 \
  && cd ~/thirdparty-software/ugv \
@@ -256,7 +255,7 @@ RUN cp -r ~/thirdparty-software/ugv/mosek ~/mosek \
  # install OOQP
  && cd ~/thirdparty-software/ugv \
  && unzip OOQP.zip \
- && OOQP \
+ && cd OOQP \
  && ./configure \
  && make \
  && sudo make install
