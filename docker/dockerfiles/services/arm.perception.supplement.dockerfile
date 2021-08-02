@@ -49,9 +49,9 @@ RUN git clone https://github.com/IntelRealSense/librealsense.git ~/librealsense 
  && make \
  && sudo make install
 
-RUN sudo apt-get update \
- && sudo apt-get install -y --no-install-recommends \
- && sudo /bin/sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -' \
+RUN sudo /bin/sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -' \
+ && sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends \ 
   ros-melodic-image-proc \
   ros-melodic-image-transport-plugins \
   ros-melodic-rosmon \
