@@ -3,7 +3,7 @@
 pw=passme24
 robot=$1
 
-echo $pw | ssh -tt $robot.xavier "rm -rf /logging/bags/*bag*"
+echo $pw | ssh -tt $robot.xavier "rm -rf /logging/bags/*"
 echo $pw | ssh -tt $robot.xavier "rm -rf /logging/20*"
 echo $pw | ssh -tt $robot.nuc "rm -rf /home/explorer/logging/20*"
 echo $pw | ssh -tt $robot.nuc "rm -rf /home/nuc/logging/20*"
