@@ -433,6 +433,8 @@ services:
     # shm_size: 2560m
     # extend gpu or non-gpu
     privileged: true
+    ulimits:
+      nice: 40
     security_opt:
       - seccomp:unconfined
     volumes:
