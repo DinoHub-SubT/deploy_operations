@@ -22,6 +22,7 @@ cd $output_dir
 
 output_filename="recording_${current_time}"
 filenames_filename="filenames.ffconcat"
+display_idx=$(echo $DISPLAY)
 
 handler() {
     wait
@@ -90,7 +91,7 @@ ffmpeg \
     -f x11grab \
     -r 15 \
     -video_size $screen_size \
-    -i :0.0 \
+    -i ${display_idx}.0 \
     -c:a libmp3lame \
     -b:a 192k \
     -c:v libx264 \
