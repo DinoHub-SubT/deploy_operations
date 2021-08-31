@@ -154,3 +154,11 @@
       - +env:ROBOT=uav5
       - +env:UAV_COMPUTER=canary1
       - +extend: main/platforms/uav.canary.plt
+    - canary2:
+      - +env:ROBOT=uav5
+      - +env:UAV_COMPUTER=canary2
+      - +extend: main/platforms/uav.canary.plt
+    - canary3:
+      - +env:ROBOT=uav6
+      - +env:UAV_COMPUTER=canary3
+      - +extend: main/platforms/uav.canary.plt
