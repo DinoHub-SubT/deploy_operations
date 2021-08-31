@@ -55,6 +55,7 @@ RUN sudo /bin/sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/mas
   ros-melodic-image-proc \
   ros-melodic-image-transport-plugins \
   ros-melodic-rosmon \
+  python-psutil \
  && sudo apt-get clean \
  && sudo rm -rf /var/lib/apt/lists/*
 
@@ -85,6 +86,8 @@ WORKDIR /home/$USERNAME
 
 # install pymodbus
 RUN pip3 install --user pymodbus
+# uninstall py3 psutil -- conflict for central_health_monitor
+RUN pip uninstall psutil -y
 
 # set image to run entrypoint script
 ENTRYPOINT $entry_path/docker-entrypoint.bash
