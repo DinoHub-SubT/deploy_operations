@@ -32,6 +32,10 @@ robot:
       name: ds4
     - ip: 10.3.1.55
       name: canary1
+    - ip: 10.3.1.56
+      name: canary2
+    - ip: 10.3.1.57
+      name: canary3
 
   # //////////////////////////////////////////////////////////////////////////////
   # updating ~/.ssh/config on basestation and local laptop
