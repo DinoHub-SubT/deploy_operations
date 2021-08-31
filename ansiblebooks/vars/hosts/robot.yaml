@@ -213,4 +213,11 @@ robot:
       conn: uav5.canary
       desc: uav canary1
 
+    - host: robot-uav-canary2
+      conn: uav6.canary
+      desc: uav canary2
+
+    - host: robot-uav-canary3
+      conn: uav6.canary
+      desc: uav canary3
 
