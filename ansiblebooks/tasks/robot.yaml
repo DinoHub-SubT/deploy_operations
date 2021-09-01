@@ -11,6 +11,7 @@
     - ../vars/hosts/robot.yaml
     - ../vars/robots/ugv.yaml
     - ../vars/robots/spot.yaml
+    - ../vars/robots/uav.yaml
     - "{{ lookup('env','SUBT_CONFIGURATION_PATH') }}/ansible_config.yaml"
 
   # setup hosts to run commands as
@@ -111,3 +112,15 @@
         update_cache: yes   # force apt-get update
       when: >
         inventory_hostname is match("robot-spot.*-nuc")
+
+    - name: install canary packages
+      become: true
+      apt:
+        name: "{{ uav.canary }}"
+        state: present
+        force: yes          # force yes
+        force_apt_get: yes
+        install_recommends: yes
+        update_cache: yes   # force apt-get update
+      when: >
+        inventory_hostname is match("robot-uav-canary*")

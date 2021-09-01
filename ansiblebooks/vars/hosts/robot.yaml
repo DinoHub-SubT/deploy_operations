@@ -148,6 +148,18 @@ robot:
       identity_file: ~/.ssh/deploy
       has_proxy_jump: false
 
+    - host: uav6.canary
+      hostname: canary2
+      username: snuc
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
+    - host: uav7.canary
+      hostname: canary3
+      username: snuc
+      identity_file: ~/.ssh/deploy
+      has_proxy_jump: false
+
   # //////////////////////////////////////////////////////////////////////////////
   # updating docker context
   # //////////////////////////////////////////////////////////////////////////////
@@ -222,6 +234,6 @@ robot:
       desc: uav canary2
 
     - host: robot-uav-canary3
-      conn: uav6.canary
+      conn: uav7.canary
       desc: uav canary3
 

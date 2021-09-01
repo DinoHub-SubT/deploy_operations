@@ -1,0 +1,24 @@
+- uav:
+    canary:
+      - python-wstool
+      - python-catkin-tools
+      - libglfw3-dev
+      - libblosc-dev
+      - libopenexr-dev
+      - liblog4cplus-dev
+      - libsuitesparse-dev
+      - libsdl1.2-dev
+      - libncurses5-dev
+      - libpcap-dev
+      - graphviz
+      - doxygen
+      - sharutils
+      - ethtool
+      - ros-melodic-smach-viewer
+      - ros-melodic-tf-conversions
+      - ros-melodic-random-numbers
+      - ros-melodic-ros-type-introspection
+      - ros-melodic-pcl-ros
+      - ros-melodic-rosfmt
+      - ros-melodic-rosserial
+      - ros-melodic-serial
