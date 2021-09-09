@@ -566,6 +566,10 @@ services:
       - uav2_perception_hostname
       - uav3_perception_hostname
       - uav4_perception_hostname
+      # UAV (canary)
+      - canary1_hostname
+      - canary2_hostname
+      - canary3_hostname
 
   # ////////////////////////////////////////////////////////////////////////////
   # azure docker context
