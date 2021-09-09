@@ -1,0 +1,48 @@
+# !! not good practice !!  not enough time to add into ansible correctly.
+# canary extras install:
+
+# install 0. libs
+
+sudo apt-get install wireshark ethtool
+
+# 1. add network config to network manager
+eno1: <-- ouster
+enxe8ea6a12630e: <-- velodyne
+enxe8ea6a12630f: <-- rajent
+
+a. check wireshark for velodyne NIC
+b. check PTP
+sudo ethtool -T eno1
+sudo ethtool -T enxe8ea6a1261c5
+
+2. install thirdparty -- outside of docker deps
+
+mkdir ~/thirdparty/
+
+# ouster
+mkdir ~/thirdparty/ros/src
+cd ~/thirdparty/ros/src
+git clone https://github.com/ouster-lidar/ouster_example.git
+sudo apt install build-essential cmake libglfw3-dev libglew-dev libeigen3-dev libjsoncpp-dev libtclap-dev
+cd ~/thirdparty/ros
+catkin config -DCMAKE_BUILD_TYPE=Release
+catkin build
+
+# compute stick
+mkdir ~/thirdparty/intel
+cd ~/thirdparty/intel
+wget http://registrationcenter-download.intel.com/akdlm/irc_nas/15944/l_openvino_toolkit_p_2019.3.334.tgz
+tar xf l_openvino_toolkit*.tgz
+cd l_openvino_toolkit*
+sed -i 's/decline/accept/g' silent.cfg
+sudo ./install.sh -s silent.cfg
+cd /opt/intel/openvino
+cd install_dependencies/
+./install_openvino_dependencies.sh
+cd /opt/intel/openvino/install_dependencies
+./install_NCS_udev_rules.sh
+
+3. install dnsmasq
+sudo apt install dnsmasq dnsmasq-utils
+sudo systemctl start dnsmasq.service
+https://data.ouster.io/downloads/software-user-manual/software-user-manual-v2.1.x.pdf?__hstc=34987006.dcca73ca26f132b35322718807c27823.1630540008580.1630540008580.1630540008580.1&__hssc=34987006.1.1630540008581&__hsfp=1545690561

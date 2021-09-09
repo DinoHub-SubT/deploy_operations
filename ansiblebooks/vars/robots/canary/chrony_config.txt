@@ -1,0 +1,113 @@
+timedatectl status
+                      Local time: Wed 2021-09-08 00:18:18 CDT
+                  Universal time: Wed 2021-09-08 05:18:18 UTC
+                        RTC time: Wed 2021-09-08 05:18:18
+                       Time zone: America/Chicago (CDT, -0500)
+       System clock synchronized: yes
+systemd-timesyncd.service active: yes
+                 RTC in local TZ: no
+snuc@canary1:~$ cat /etc/systemd/timesyncd.conf
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+#NTP=
+#FallbackNTP=ntp.ubuntu.com
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048
+snuc@canary1:~$ chronyc tracking
+Reference ID    : 4E4D4541 (NMEA)
+Stratum         : 1
+Ref time (UTC)  : Wed Sep 08 05:22:44 2021
+System time     : 0.000007746 seconds slow of NTP time
+Last offset     : -0.000018057 seconds
+RMS offset      : 0.000680572 seconds
+Frequency       : 0.341 ppm fast
+Residual freq   : -1.317 ppm
+Skew            : 10.237 ppm
+Root delay      : 0.000000001 seconds
+Root dispersion : 0.000016397 seconds
+Update interval : 1.0 seconds
+Leap status     : Normal
+snuc@canary1:~$ chronyc sources -v
+210 Number of sources = 1
+
+  .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+ / .- Source state '*' = current synced, '+' = combined , '-' = not combined,
+| /   '?' = unreachable, 'x' = time may be in error, '~' = time too variable.
+||                                                 .- xxxx [ yyyy ] +/- zzzz
+||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+||                                \     |          |  zzzz = estimated error.
+||                                 |    |           \
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+#* NMEA                          0   0   377     1     -4ns[+5003ns] +/-   75ns
+snuc@canary1:~$ chronyc sources 
+210 Number of sources = 1
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+#* NMEA                          0   0   377     0    +64ns[  -18us] +/-  222ns
+snuc@canary1:~$ 
+snuc@canary1:~$ 
+snuc@canary1:~$  chronyc sourcestats -v
+210 Number of sources = 1
+                             .- Number of sample points in measurement set.
+                            /    .- Number of residual runs with same sign.
+                           |    /    .- Length of measurement set (time).
+                           |   |    /      .- Est. clock freq error (ppm).
+                           |   |   |      /           .- Est. error in freq.
+                           |   |   |     |           /         .- Est. offset.
+                           |   |   |     |          |          |   On the -.
+                           |   |   |     |          |          |   samples. \
+                           |   |   |     |          |          |             |
+Name/IP Address            NP  NR  Span  Frequency  Freq Skew  Offset  Std Dev
+==============================================================================
+NMEA                        7   3     6     -1.361     57.348   -100ns  1093ns
+snuc@canary1:~$ cat /var/lib/chrony/chrony.drift
+            0.543245             6.555646
+
+---------------
+
+chronyc sources -v
+210 Number of sources = 1
+
+  .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+ / .- Source state '*' = current synced, '+' = combined , '-' = not combined,
+| /   '?' = unreachable, 'x' = time may be in error, '~' = time too variable.
+||                                                 .- xxxx [ yyyy ] +/- zzzz
+||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+||                                \     |          |  zzzz = estimated error.
+||                                 |    |           \
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+#? NMEA                          0   0     0     -     +0ns[   +0ns] +/-    0ns
+snuc@canary2:~$ chronyc tracking
+Reference ID    : 00000000 ()
+Stratum         : 0
+Ref time (UTC)  : Thu Jan 01 00:00:00 1970
+System time     : 0.000000001 seconds slow of NTP time
+Last offset     : +0.000000000 seconds
+RMS offset      : 0.000000000 seconds
+Frequency       : 24.822 ppm slow
+Residual freq   : +0.000 ppm
+Skew            : 0.000 ppm
+Root delay      : 1.000000000 seconds
+Root dispersion : 1.000000000 seconds
+Update interval : 0.0 seconds
+Leap status     : Not synchronised
+snuc@canary2:~$ 
+
+
