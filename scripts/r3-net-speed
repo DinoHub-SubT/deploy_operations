@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pw=passme24
+
+echo $pw | ssh -tt ugv3.nuc "sudo ethtool -s eno1 speed 1000 duplex full autoneg off"
