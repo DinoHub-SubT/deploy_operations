@@ -1,6 +1,14 @@
 - scenarios:
   - +extend: workspaces/base/melodic
 
+  - service:
+    - start:
+      # stop xavier startup service
+      - sudo service ugv_xavier_objdet start
+    - stop:
+      # stop xavier startup service
+      - sudo service ugv_xavier_objdet stop
+
   - core:
     # export the docker compose service name
     - export SERVICE=core
